@@ -1,0 +1,20 @@
+{
+  "type": "vita-theme-preset",
+  "contract": "vcc-v1",
+  "name": "Тёплая терракота (пример)",
+  "themeVersion": "1.10.0",
+  "mode": "light",
+  "tokens": {
+    "theme_vita_color_primary": "#C07856",
+    "theme_vita_color_catalog_btn": "#C07856",
+    "theme_vita_color_catalog_btn_hover": "#A86446",
+    "theme_vita_color_link": "#C07856",
+    "theme_vita_color_link_hover": "#A86446",
+    "theme_vita_color_buy_btn_bg": "#C07856",
+    "theme_vita_color_buy_btn_hover_bg": "#A86446",
+    "theme_vita_color_text_main": "#3E2F2A",
+    "theme_vita_color_text_muted": "#8A7A72",
+    "theme_vita_color_price_old": "#B0A49C",
+    "theme_vita_border_radius": "6"
+  }
+}

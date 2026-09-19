@@ -1,0 +1,9 @@
+# Все текстовые файлы — LF (гигиена как в релизном репо темы)
+* text=auto eol=lf
+
+# Binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary

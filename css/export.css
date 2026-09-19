@@ -1,0 +1,175 @@
+/* ============================================================
+Вита — Конструктор контента · Экспортные стили vcc-v1
+Этот файл — ЕДИНСТВЕННЫЙ источник стилей экспорта: билдер вшивает
+его в редактор (окно предпросмотра) и отдаёт кнопкой «Скачать CSS».
+Тема Вита поставляет этот же файл как
+catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
+Правила: только var(--mp-*, fallback) — ни одного литерального
+цвета в правилах. Контракт vcc-v1 эволюционирует аддитивно.
+============================================================ */
+
+.vcc-content {
+	color: var(--mp-text-body, #2D3748);
+	font-family: var(--mp-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+	font-size: 16px;
+	line-height: 1.65;
+	overflow-wrap: break-word;
+}
+.vcc-content > *:first-child { margin-top: 0; }
+.vcc-content > *:last-child { margin-bottom: 0; }
+
+/* --- Заголовки --- */
+.vcc-heading {
+	color: var(--mp-text-main, #2D3748);
+	font-weight: 700;
+	line-height: 1.3;
+	margin: 28px 0 12px;
+}
+.vcc-heading--h2 { font-size: 26px; }
+.vcc-heading--h3 { font-size: 21px; }
+.vcc-heading--h4 { font-size: 18px; }
+
+/* --- Абзацы --- */
+.vcc-paragraph { margin: 0 0 14px; }
+.vcc-paragraph p { margin: 0 0 14px; }
+
+/* --- Ссылки и инлайн --- */
+.vcc-content a { color: var(--mp-primary, #8C9D93); text-decoration: none; }
+.vcc-content a:hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }
+.vcc-code {
+	background: var(--mp-bg-subtle, #f8fafc);
+	border: 1px solid var(--mp-border-divider, #F1F5F9);
+	border-radius: var(--mp-radius-sm, 2px);
+	color: var(--mp-text-main, #2D3748);
+	font-size: 0.9em;
+	padding: 1px 6px;
+}
+
+/* --- Списки --- */
+.vcc-list { margin: 0 0 14px; padding-left: 22px; }
+.vcc-list li { margin-bottom: 6px; }
+
+/* --- Цитата --- */
+.vcc-quote {
+	border-left: 3px solid var(--mp-primary, #8C9D93);
+	color: var(--mp-text-muted, #64748B);
+	font-style: italic;
+	margin: 18px 0;
+	padding: 10px 18px;
+}
+.vcc-quote__author {
+	color: var(--mp-text-light, #94A3B8);
+	font-size: 14px;
+	font-style: normal;
+	margin-top: 8px;
+}
+
+/* --- Врезки (alert) --- */
+.vcc-alert {
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-left-width: 3px;
+	border-radius: var(--mp-radius-md, 4px);
+	margin: 18px 0;
+	padding: 14px 18px;
+}
+.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-left-color: var(--mp-primary, #8C9D93); }
+.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-express-bg, #059669); }
+.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-hit-bg, #d97706); }
+.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-discount-bg, #dc2626); }
+/* Тёмная тема магазина: primary-light не переопределяется темой — врезке info нужен тёмный фон (аддитивное правило) */
+[data-theme="dark"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }
+.vcc-alert p:last-child { margin-bottom: 0; }
+
+/* --- Спойлер --- */
+.vcc-spoiler {
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-md, 4px);
+	margin: 14px 0;
+}
+.vcc-spoiler__summary {
+	cursor: pointer;
+	font-weight: 600;
+	padding: 12px 16px;
+	color: var(--mp-text-main, #2D3748);
+}
+.vcc-spoiler__summary:hover { color: var(--mp-primary, #8C9D93); }
+.vcc-spoiler__body {
+	border-top: 1px solid var(--mp-border-divider, #F1F5F9);
+	padding: 12px 16px;
+}
+.vcc-spoiler__body p:last-child { margin-bottom: 0; }
+
+/* --- Табы --- */
+.vcc-tabs { margin: 18px 0; }
+.vcc-tabs__nav {
+	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+.vcc-tabs__btn {
+	background: none;
+	border: none;
+	border-bottom: 2px solid transparent;
+	color: var(--mp-text-muted, #64748B);
+	cursor: pointer;
+	font-size: 15px;
+	margin-bottom: -1px;
+	padding: 10px 14px;
+}
+.vcc-tabs__btn.is-active {
+	border-bottom-color: var(--mp-primary, #8C9D93);
+	color: var(--mp-primary, #8C9D93);
+	font-weight: 600;
+}
+.vcc-tabs__panel { display: none; padding-top: 14px; }
+.vcc-tabs__panel.is-active { display: block; }
+
+/* --- Таблица --- */
+.vcc-table-wrap { margin: 18px 0; overflow-x: auto; }
+.vcc-table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.vcc-table th,
+.vcc-table td {
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	padding: 9px 12px;
+	text-align: left;
+}
+.vcc-table th {
+	background: var(--mp-bg-subtle, #f8fafc);
+	color: var(--mp-text-main, #2D3748);
+	font-weight: 600;
+}
+.vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }
+
+/* --- Картинка --- */
+.vcc-figure { margin: 18px 0; }
+.vcc-figure__img {
+	border-radius: var(--mp-radius-md, 4px);
+	height: auto;
+	max-width: 100%;
+}
+.vcc-figure__caption {
+	color: var(--mp-text-light, #94A3B8);
+	font-size: 13px;
+	margin-top: 6px;
+	text-align: center;
+}
+
+/* --- Оглавление --- */
+.vcc-toc {
+	background: var(--mp-bg-subtle, #f8fafc);
+	border: 1px solid var(--mp-border-divider, #F1F5F9);
+	border-radius: var(--mp-radius-lg, 6px);
+	margin: 18px 0;
+	padding: 14px 20px;
+}
+.vcc-toc__title {
+	color: var(--mp-text-main, #2D3748);
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+.vcc-toc__list { margin: 0; padding-left: 20px; }
+.vcc-toc__list li { margin-bottom: 4px; }

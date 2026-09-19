@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вита — Конструктор контента</title>
+<meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные блоки контента».">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/app.css">
+<style>
+/* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
+:root {
+	--mp-primary: #8C9D93;
+	--mp-primary-hover: #7A8B81;
+	--mp-primary-light: #F2F6F4;
+	--mp-accent: #8C9D93;
+	--mp-accent-hover: #7A8B81;
+	--mp-secondary: #5A8F76;
+	--mp-bg-body: #f8fafc;
+	--mp-bg-surface: #ffffff;
+	--mp-bg-hover: #f1f5f9;
+	--mp-bg-subtle: #f8fafc;
+	--mp-card-bg: #ffffff;
+	--mp-text-main: #2D3748;
+	--mp-text-body: #2D3748;
+	--mp-text-muted: #64748B;
+	--mp-text-light: #94A3B8;
+	--mp-text-inverse: #ffffff;
+	--mp-border-color: #E2E8F0;
+	--mp-border-hover: #CBD5E1;
+	--mp-border-divider: #F1F5F9;
+	--mp-badge-discount-bg: #dc2626;
+	--mp-badge-express-bg: #059669;
+	--mp-badge-hit-bg: #d97706;
+	--mp-radius-sm: 2px;
+	--mp-radius-md: 4px;
+	--mp-radius-lg: 6px;
+	--mp-radius-pill: 9999px;
+	--mp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+	--mp-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+	--mp-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+	--mp-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--mp-transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+</style>
+</head>
+<body>
+
+<!-- ============ Первый экран ============ -->
+<div class="vcc-welcome" id="vcc-welcome">
+	<div class="vcc-welcome__brand">
+		<div class="vcc-welcome__logo"><i class="fa fa-leaf"></i></div>
+		<h1 class="vcc-welcome__title">Вита — Конструктор контента</h1>
+	</div>
+	<p class="vcc-welcome__subtitle">Собирайте описания товаров, статьи и посадочные блоками — и переносите готовый контент в модуль «Вита — Универсальные блоки контента».</p>
+
+	<div class="vcc-welcome__grid">
+		<div class="vcc-card">
+			<h2 class="vcc-card__title"><i class="fa fa-paint-brush"></i> Шаг 1 · Цветовая схема магазина</h2>
+			<p class="vcc-card__desc">Скачайте пресет в админке: <strong>Расширения → Вита → Дизайн и стили → Экспорт пресета</strong>, и загрузите его сюда — предпросмотр покажет ваши цвета и тёмную тему. Шаг необязателен: без пресета используется палитра Виты по умолчанию.</p>
+			<div class="vcc-drop" id="vcc-welcome-drop" tabindex="0">
+				<i class="fa fa-upload"></i> Перетащите vita-preset.json сюда или нажмите для выбора
+			</div>
+			<input type="file" id="vcc-welcome-file" accept=".json" style="display:none">
+			<div class="vcc-mode-row">
+				<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-start-empty">
+					<i class="fa fa-pencil-square-o"></i> Начать с пустой страницы
+				</button>
+				<button type="button" class="vcc-btn" id="vcc-resume" style="display:none">
+					<i class="fa fa-history"></i> Продолжить прошлую работу
+				</button>
+			</div>
+		</div>
+
+		<div class="vcc-card">
+			<h2 class="vcc-card__title"><i class="fa fa-th-large"></i> Шаг 2 · Готовый макет</h2>
+			<p class="vcc-card__desc">Загрузите макет из галереи — примеры структур: обзор товара, статья с оглавлением, FAQ. Макет можно править как угодно после загрузки.</p>
+			<div class="vcc-drop" id="vcc-layouts-drop" tabindex="0" onclick="alert('Галерея макетов появится в M3. Пока: скачайте макет из presets/layouts и загрузите его в шаге 1 или в редакторе.');">
+				<i class="fa fa-download"></i> Галерея макетов — скоро (M3), файлы уже в репозитории
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ============ Редактор ============ -->
+<div class="vcc-app" id="vcc-app">
+	<header class="vcc-header">
+		<span class="vcc-header__brand"><i class="fa fa-leaf"></i> Вита · Конструктор</span>
+		<input class="vcc-header__title-input" id="vcc-title-input" type="text" placeholder="Название страницы" aria-label="Название страницы">
+		<div class="vcc-mode-switch" id="vcc-mode-switch">
+			<button type="button" data-mode="light"><i class="fa fa-sun-o"></i> Светлая</button>
+			<button type="button" data-mode="dark"><i class="fa fa-moon-o"></i> Тёмная</button>
+		</div>
+		<span class="vcc-header__spacer"></span>
+		<span class="vcc-header__label" id="vcc-slug-label">content.html</span>
+		<label class="vcc-btn vcc-btn--sm" id="vcc-header-file-label" title="Загрузить проект или пресет темы (.json)">
+			<i class="fa fa-upload"></i> Импорт
+			<input type="file" id="vcc-header-file" accept=".json" style="display:none" multiple>
+		</label>
+		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-undo" title="Отменить последнее действие"><i class="fa fa-undo"></i></button>
+		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-preview-toggle"><i class="fa fa-eye"></i> Предпросмотр</button>
+		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-copy-html" title="Скопировать HTML для вставки в редактор магазина"><i class="fa fa-clipboard"></i> Копировать HTML</button>
+		<button type="button" class="vcc-btn vcc-btn--primary vcc-btn--sm" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль"><i class="fa fa-download"></i> Скачать</button>
+		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-dl-json" title="Скачать проект JSON">JSON</button>
+		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-dl-css" title="Скачать CSS (обычно не нужен — стили подключает тема)">CSS</button>
+		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-home" title="На первый экран"><i class="fa fa-home"></i></button>
+	</header>
+
+	<div class="vcc-workspace">
+		<aside class="vcc-sidebar" id="vcc-palette"></aside>
+		<main class="vcc-canvas" id="vcc-canvas"></main>
+	</div>
+</div>
+
+<div class="vcc-toasts" id="vcc-toasts"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

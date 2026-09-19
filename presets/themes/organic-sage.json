@@ -1,0 +1,20 @@
+{
+  "type": "vita-theme-preset",
+  "contract": "vcc-v1",
+  "name": "Органик шалфей (Вита по умолчанию)",
+  "themeVersion": "1.10.0",
+  "mode": "light",
+  "tokens": {
+    "theme_vita_color_primary": "#8C9D93",
+    "theme_vita_color_catalog_btn": "#8C9D93",
+    "theme_vita_color_catalog_btn_hover": "#7A8B81",
+    "theme_vita_color_link": "#8C9D93",
+    "theme_vita_color_link_hover": "#7A8B81",
+    "theme_vita_color_buy_btn_bg": "#8C9D93",
+    "theme_vita_color_buy_btn_hover_bg": "#7A8B81",
+    "theme_vita_color_text_main": "#2D3748",
+    "theme_vita_color_text_muted": "#64748B",
+    "theme_vita_color_price_old": "#94a3b8",
+    "theme_vita_border_radius": "4"
+  }
+}
