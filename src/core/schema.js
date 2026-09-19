@@ -26,7 +26,9 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'tabs', data_schema: { tabs: 'Array of { title: String, content: String (markdown) }' } },
 		{ type: 'table', data_schema: { headers: 'Array of String', rows: 'Array of Array of String' } },
 		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)' } },
-		{ type: 'toc', data_schema: { title: 'String (опционально)' } }
+		{ type: 'toc', data_schema: { title: 'String (опционально)' } },
+		{ type: 'vita_faq', data_schema: { faqId: 'Integer ≥ 0 — ID группы FAQ (0 — все активные)', title: 'String (опционально, переопределяет заголовок)' }, export: '[vita_faq id title] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_form', data_schema: { formId: 'Integer ≥ 1 — ID формы модуля «Вита — Формы» (0 = блок не экспортируется)' }, export: '[vita_form id] литерально в <div class="vcc-shortcode">' }
 	]
 };
 

@@ -17,7 +17,11 @@ var VccExport = (function () {
 		for (var i = 0; i < blocks.length; i++) {
 			var def = BlockRegistry.get(blocks[i].type);
 			if (!def) continue;
-			var html = def.toHTML(blocks[i].data || {});
+			/* Блоки-шорткоды: toExportHTML (литеральный [vita_*] в vcc-shortcode)
+			 * приоритетнее мока toHTML — в файл/буфер моки не попадают */
+			var html = typeof def.toExportHTML === 'function'
+				? def.toExportHTML(blocks[i].data || {})
+				: def.toHTML(blocks[i].data || {});
 			if (html) parts.push(html);
 		}
 		return parts.join('\n');

@@ -2,7 +2,7 @@
 
 'use strict';
 
-window.VCC_APP_VERSION = '0.1.0';
+window.VCC_APP_VERSION = '0.2.0';
 
 window.VCC_EXPORT_CSS = "/* ============================================================\n\u0412\u0438\u0442\u0430 \u2014 \u041a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0442\u043e\u0440 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u00b7 \u042d\u043a\u0441\u043f\u043e\u0440\u0442\u043d\u044b\u0435 \u0441\u0442\u0438\u043b\u0438 vcc-v1\n\u042d\u0442\u043e\u0442 \u0444\u0430\u0439\u043b \u2014 \u0415\u0414\u0418\u041d\u0421\u0422\u0412\u0415\u041d\u041d\u042b\u0419 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u0441\u0442\u0438\u043b\u0435\u0439 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430: \u0431\u0438\u043b\u0434\u0435\u0440 \u0432\u0448\u0438\u0432\u0430\u0435\u0442\n\u0435\u0433\u043e \u0432 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440 (\u043e\u043a\u043d\u043e \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430) \u0438 \u043e\u0442\u0434\u0430\u0451\u0442 \u043a\u043d\u043e\u043f\u043a\u043e\u0439 \u00ab\u0421\u043a\u0430\u0447\u0430\u0442\u044c CSS\u00bb.\n\u0422\u0435\u043c\u0430 \u0412\u0438\u0442\u0430 \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u044d\u0442\u043e\u0442 \u0436\u0435 \u0444\u0430\u0439\u043b \u043a\u0430\u043a\ncatalog/view/theme/vita/stylesheet/vita-content-constructor.css.\n\u041f\u0440\u0430\u0432\u0438\u043b\u0430: \u0442\u043e\u043b\u044c\u043a\u043e var(--mp-*, fallback) \u2014 \u043d\u0438 \u043e\u0434\u043d\u043e\u0433\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u043b\u044c\u043d\u043e\u0433\u043e\n\u0446\u0432\u0435\u0442\u0430 \u0432 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u0445. \u041a\u043e\u043d\u0442\u0440\u0430\u043a\u0442 vcc-v1 \u044d\u0432\u043e\u043b\u044e\u0446\u0438\u043e\u043d\u0438\u0440\u0443\u0435\u0442 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e.\n============================================================ */\n\n.vcc-content {\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-family: var(--mp-font-family, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif);\n\tfont-size: 16px;\n\tline-height: 1.65;\n\toverflow-wrap: break-word;\n}\n.vcc-content > *:first-child { margin-top: 0; }\n.vcc-content > *:last-child { margin-bottom: 0; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0438 --- */\n.vcc-heading {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 700;\n\tline-height: 1.3;\n\tmargin: 28px 0 12px;\n}\n.vcc-heading--h2 { font-size: 26px; }\n.vcc-heading--h3 { font-size: 21px; }\n.vcc-heading--h4 { font-size: 18px; }\n\n/* --- \u0410\u0431\u0437\u0430\u0446\u044b --- */\n.vcc-paragraph { margin: 0 0 14px; }\n.vcc-paragraph p { margin: 0 0 14px; }\n\n/* --- \u0421\u0441\u044b\u043b\u043a\u0438 \u0438 \u0438\u043d\u043b\u0430\u0439\u043d --- */\n.vcc-content a { color: var(--mp-primary, #8C9D93); text-decoration: none; }\n.vcc-content a:hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }\n.vcc-code {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-sm, 2px);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-size: 0.9em;\n\tpadding: 1px 6px;\n}\n\n/* --- \u0421\u043f\u0438\u0441\u043a\u0438 --- */\n.vcc-list { margin: 0 0 14px; padding-left: 22px; }\n.vcc-list li { margin-bottom: 6px; }\n\n/* --- \u0426\u0438\u0442\u0430\u0442\u0430 --- */\n.vcc-quote {\n\tborder-left: 3px solid var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-text-muted, #64748B);\n\tfont-style: italic;\n\tmargin: 18px 0;\n\tpadding: 10px 18px;\n}\n.vcc-quote__author {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 14px;\n\tfont-style: normal;\n\tmargin-top: 8px;\n}\n\n/* --- \u0412\u0440\u0435\u0437\u043a\u0438 (alert) --- */\n.vcc-alert {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-left-width: 3px;\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-left-color: var(--mp-primary, #8C9D93); }\n.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-express-bg, #059669); }\n.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-hit-bg, #d97706); }\n.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-discount-bg, #dc2626); }\n/* \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430: primary-light \u043d\u0435 \u043f\u0435\u0440\u0435\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u0435\u043c\u043e\u0439 \u2014 \u0432\u0440\u0435\u0437\u043a\u0435 info \u043d\u0443\u0436\u0435\u043d \u0442\u0451\u043c\u043d\u044b\u0439 \u0444\u043e\u043d (\u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e) */\n[data-theme=\"dark\"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }\n.vcc-alert p:last-child { margin-bottom: 0; }\n\n/* --- \u0421\u043f\u043e\u0439\u043b\u0435\u0440 --- */\n.vcc-spoiler {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 14px 0;\n}\n.vcc-spoiler__summary {\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 12px 16px;\n\tcolor: var(--mp-text-main, #2D3748);\n}\n.vcc-spoiler__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-spoiler__body {\n\tborder-top: 1px solid var(--mp-border-divider, #F1F5F9);\n\tpadding: 12px 16px;\n}\n.vcc-spoiler__body p:last-child { margin-bottom: 0; }\n\n/* --- \u0422\u0430\u0431\u044b --- */\n.vcc-tabs { margin: 18px 0; }\n.vcc-tabs__nav {\n\tborder-bottom: 1px solid var(--mp-border-color, #E2E8F0);\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tgap: 4px;\n}\n.vcc-tabs__btn {\n\tbackground: none;\n\tborder: none;\n\tborder-bottom: 2px solid transparent;\n\tcolor: var(--mp-text-muted, #64748B);\n\tcursor: pointer;\n\tfont-size: 15px;\n\tmargin-bottom: -1px;\n\tpadding: 10px 14px;\n}\n.vcc-tabs__btn.is-active {\n\tborder-bottom-color: var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-primary, #8C9D93);\n\tfont-weight: 600;\n}\n.vcc-tabs__panel { display: none; padding-top: 14px; }\n.vcc-tabs__panel.is-active { display: block; }\n\n/* --- \u0422\u0430\u0431\u043b\u0438\u0446\u0430 --- */\n.vcc-table-wrap { margin: 18px 0; overflow-x: auto; }\n.vcc-table {\n\tborder-collapse: collapse;\n\twidth: 100%;\n}\n.vcc-table th,\n.vcc-table td {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tpadding: 9px 12px;\n\ttext-align: left;\n}\n.vcc-table th {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n}\n.vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }\n\n/* --- \u041a\u0430\u0440\u0442\u0438\u043d\u043a\u0430 --- */\n.vcc-figure { margin: 18px 0; }\n.vcc-figure__img {\n\tborder-radius: var(--mp-radius-md, 4px);\n\theight: auto;\n\tmax-width: 100%;\n}\n.vcc-figure__caption {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 13px;\n\tmargin-top: 6px;\n\ttext-align: center;\n}\n\n/* --- \u041e\u0433\u043b\u0430\u0432\u043b\u0435\u043d\u0438\u0435 --- */\n.vcc-toc {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tmargin: 18px 0;\n\tpadding: 14px 20px;\n}\n.vcc-toc__title {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n\tmargin-bottom: 8px;\n}\n.vcc-toc__list { margin: 0; padding-left: 20px; }\n.vcc-toc__list li { margin-bottom: 4px; }";
 
@@ -17,7 +17,7 @@ window.VCC_LAYOUT_PRESETS = [{"type": "vita-constructor-project", "contract": "v
 'use strict';
 
 var VCC_CONTRACT = 'vcc-v1';
-var VCC_APP_VERSION = '0.1.0';
+var VCC_APP_VERSION = '0.2.0';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {
@@ -190,7 +190,9 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'tabs', data_schema: { tabs: 'Array of { title: String, content: String (markdown) }' } },
 		{ type: 'table', data_schema: { headers: 'Array of String', rows: 'Array of Array of String' } },
 		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)' } },
-		{ type: 'toc', data_schema: { title: 'String (опционально)' } }
+		{ type: 'toc', data_schema: { title: 'String (опционально)' } },
+		{ type: 'vita_faq', data_schema: { faqId: 'Integer ≥ 0 — ID группы FAQ (0 — все активные)', title: 'String (опционально, переопределяет заголовок)' }, export: '[vita_faq id title] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_form', data_schema: { formId: 'Integer ≥ 1 — ID формы модуля «Вита — Формы» (0 = блок не экспортируется)' }, export: '[vita_form id] литерально в <div class="vcc-shortcode">' }
 	]
 };
 
@@ -786,6 +788,93 @@ var VccStore = (function () {
 })();
 
 /* ============================================================
+Вита — Конструктор контента · blocks/shortcodes.js
+Блоки-шорткоды (M5): вставка живых модулей темы в контент.
+  [vita_faq]  — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
+  [vita_form] — форма модуля «Вита — Формы» (атрибут: id, обязателен)
+Контракт vcc-v1:
+  • в редакторе — некликабельный мок-плейсхолдер (стили app.css);
+  • в экспорт идёт ТОЛЬКО литеральный шорткод в обёртке
+    div.vcc-shortcode: движок шорткодов темы, событие
+    catalog view after, заменяет vita-шорткоды на витрине;
+    санитайзер модуля пропускает div, span и текст как есть;
+  • id подставляются как числа — инъекция атрибутов невозможна.
+Плейсхолдеры id:
+  • faqId=0    → все активные группы (валидный вызов renderFaq)
+  • formId=0   → форма не выбрана; экспорт этого блока = ''
+============================================================ */
+'use strict';
+
+(function () {
+	/* Общая часть: обёртка экспорта + чип в моке */
+	function shortcodeWrap(shortcode) {
+		return '<div class="vcc-shortcode">' + shortcode + '</div>';
+	}
+
+	function shortcodeChip(modules, hint) {
+		var html = '<div class="vcc-shortcode-mock" aria-hidden="true">' +
+			'<div class="vcc-shortcode-mock__head">' +
+			'<i class="fa fa-magic"></i><span class="vcc-shortcode-mock__tag">' + vccEscapeHtml(modules) + '</span>' +
+			'<span class="vcc-shortcode-mock__badge">шорткод темы</span></div>' +
+			'<div class="vcc-shortcode-mock__body">' + vccEscapeHtml(hint) + '</div>' +
+			'<div class="vcc-shortcode-mock__note">На витрине здесь выведется живой модуль — содержимое задаётся в админке магазина</div>' +
+			'</div>';
+		return html;
+	}
+
+	/* --- FAQ-группы темы ([vita_faq]) --- */
+	BlockRegistry.register({
+		type: 'vita_faq',
+		label: 'FAQ-группы (шорткод)',
+		icon: 'fa-question-circle-o',
+		group: 'modules',
+		defaults: { faqId: 0, title: '' },
+		fields: [
+			{ key: 'faqId', label: 'ID группы FAQ (0 — все активные)', type: 'number' },
+			{ key: 'title', label: 'Заголовок блока (опционально)', type: 'text', placeholder: 'Оставьте пустым — возьмётся из группы' }
+		],
+		/* Экспорт: литеральный шорткод — на витрине тема рендерит FAQ */
+		toExportHTML: function (data) {
+			var id = Math.max(0, parseInt(data.faqId, 10) || 0);
+			var title = String(data.title || '').trim();
+			var sc = '[vita_faq' + (id ? ' id="' + id + '"' : '') + (title ? ' title="' + vccEscapeHtml(title) + '"' : '') + ']';
+			return sc ? shortcodeWrap(sc) : '';
+		},
+		/* Редактор/галерея: некликабельный мок */
+		toHTML: function (data) {
+			var id = Math.max(0, parseInt(data.faqId, 10) || 0);
+			var title = String(data.title || '').trim();
+			var where = id ? 'группа #' + id : 'все активные группы';
+			var head = title ? '«' + title + '» · ' : '';
+			return shortcodeChip('FAQ-группы темы', head + where);
+		}
+	});
+
+	/* --- Формы темы ([vita_form]) --- */
+	BlockRegistry.register({
+		type: 'vita_form',
+		label: 'Форма (шорткод)',
+		icon: 'fa-wpforms',
+		group: 'modules',
+		defaults: { formId: 0 },
+		fields: [
+			{ key: 'formId', label: 'ID формы (обязателен)', type: 'number', placeholder: 'Например, 26' }
+		],
+		/* Без формы шорткод ничего не выведет — не экспортируем блок вовсе */
+		toExportHTML: function (data) {
+			var id = Math.max(0, parseInt(data.formId, 10) || 0);
+			if (!id) return '';
+			return shortcodeWrap('[vita_form id="' + id + '"]');
+		},
+		toHTML: function (data) {
+			var id = Math.max(0, parseInt(data.formId, 10) || 0);
+			var hint = id ? 'форма #' + id : 'форма не выбрана — укажите ID формы';
+			return shortcodeChip('Форма темы', hint);
+		}
+	});
+})();
+
+/* ============================================================
 Вита — Конструктор контента · export/export.js
 Экспорт vcc-v1:
   - HTML статьи: маркер контракта в комментарии + разметка vcc-*;
@@ -804,7 +893,11 @@ var VccExport = (function () {
 		for (var i = 0; i < blocks.length; i++) {
 			var def = BlockRegistry.get(blocks[i].type);
 			if (!def) continue;
-			var html = def.toHTML(blocks[i].data || {});
+			/* Блоки-шорткоды: toExportHTML (литеральный [vita_*] в vcc-shortcode)
+			 * приоритетнее мока toHTML — в файл/буфер моки не попадают */
+			var html = typeof def.toExportHTML === 'function'
+				? def.toExportHTML(blocks[i].data || {})
+				: def.toHTML(blocks[i].data || {});
 			if (html) parts.push(html);
 		}
 		return parts.join('\n');
@@ -1048,7 +1141,7 @@ var VccImport = (function () {
 		var box = $('#vcc-palette');
 		if (!box) return;
 		box.innerHTML = '';
-		var groups = { text: 'Текст', media: 'Медиа' };
+		var groups = { text: 'Текст', media: 'Медиа', modules: 'Модули магазина' };
 		var defs = BlockRegistry.getList();
 		Object.keys(groups).forEach(function (group) {
 			var defsInGroup = defs.filter(function (d) { return (d.group || 'text') === group; });
@@ -1104,6 +1197,8 @@ var VccImport = (function () {
 		}
 		var input = def.type === 'textarea' ? el('textarea', 'vcc-textarea') : el('input', 'vcc-input');
 		if (def.type === 'textarea') input.rows = def.rows || 4;
+		if (def.type === 'number') { input.type = 'number'; input.min = 0; input.step = 1; }
+		if (def.placeholder) input.placeholder = def.placeholder;
 		input.value = block.data[def.key] == null ? '' : block.data[def.key];
 		input.addEventListener('input', function () { onChange(def.key, input.value); });
 		wrap.appendChild(input);
@@ -1402,6 +1497,7 @@ var VccImport = (function () {
 	}
 
 	function copyHtml() {
+		/* Моки шорткодов (toHTML) в буфер не попадают — только экспортный вид */
 		var html = VccExport.buildHtml(VccStore.currentProject());
 		if (navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(html).then(function () {

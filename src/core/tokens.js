@@ -7,7 +7,7 @@
 'use strict';
 
 var VCC_CONTRACT = 'vcc-v1';
-var VCC_APP_VERSION = '0.1.0';
+var VCC_APP_VERSION = '0.2.0';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {

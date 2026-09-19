@@ -88,7 +88,7 @@
 		var box = $('#vcc-palette');
 		if (!box) return;
 		box.innerHTML = '';
-		var groups = { text: 'Текст', media: 'Медиа' };
+		var groups = { text: 'Текст', media: 'Медиа', modules: 'Модули магазина' };
 		var defs = BlockRegistry.getList();
 		Object.keys(groups).forEach(function (group) {
 			var defsInGroup = defs.filter(function (d) { return (d.group || 'text') === group; });
@@ -144,6 +144,8 @@
 		}
 		var input = def.type === 'textarea' ? el('textarea', 'vcc-textarea') : el('input', 'vcc-input');
 		if (def.type === 'textarea') input.rows = def.rows || 4;
+		if (def.type === 'number') { input.type = 'number'; input.min = 0; input.step = 1; }
+		if (def.placeholder) input.placeholder = def.placeholder;
 		input.value = block.data[def.key] == null ? '' : block.data[def.key];
 		input.addEventListener('input', function () { onChange(def.key, input.value); });
 		wrap.appendChild(input);
@@ -442,6 +444,7 @@
 	}
 
 	function copyHtml() {
+		/* Моки шорткодов (toHTML) в буфер не попадают — только экспортный вид */
 		var html = VccExport.buildHtml(VccStore.currentProject());
 		if (navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(html).then(function () {
