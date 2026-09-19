@@ -904,14 +904,22 @@ var VccImport = (function () {
 		return data;
 	}
 
-	/* Пресет темы: type=vita-theme-preset, tokens = { theme_vita_color_*: value } */
+	/* Пресет темы: type=vita-theme-preset, tokens = { theme_vita_color_*: value }.
+	 * Совместимость: ранние экспорты темы несли schema=vita-theme-preset-v1 без type
+	 * и title вместо name — принимаем оба формата. */
+	function isThemePreset(data) {
+		if (!data || typeof data !== 'object' || !data.tokens || typeof data.tokens !== 'object') return false;
+		if (data.type === 'vita-theme-preset') return true;
+		return data.type === undefined && data.schema === 'vita-theme-preset-v1';
+	}
+
 	function importThemePreset(text) {
 		var data = JSON.parse(text);
-		if (!data || data.type !== 'vita-theme-preset' || !data.tokens || typeof data.tokens !== 'object') {
+		if (!isThemePreset(data)) {
 			throw new Error('Это не файл пресета темы Вита (экспорт из «Дизайна и стилей»).');
 		}
 		var tokens = vccApplyPreset(data.tokens);
-		VccStore.setPalette(tokens, data.name || 'Пресет магазина');
+		VccStore.setPalette(tokens, data.name || data.title || 'Пресет магазина');
 		return tokens;
 	}
 
@@ -926,9 +934,9 @@ var VccImport = (function () {
 				readFile(file, function (text) {
 					try {
 						var parsed = JSON.parse(text);
-						if (parsed && parsed.type === 'vita-theme-preset') {
+						if (isThemePreset(parsed)) {
 							importThemePreset(text);
-							showToast('Палитра магазина применена: ' + (parsed.name || 'пресет'), 'success');
+							showToast('Палитра магазина применена: ' + (parsed.name || parsed.title || 'пресет'), 'success');
 						} else if (parsed && parsed.type === 'vita-constructor-project') {
 							importProject(text);
 							showToast('Проект загружен: ' + (parsed.title || 'без названия'), 'success');
