@@ -1,6 +1,9 @@
 {
   "type": "vita-constructor-project",
   "contract": "vcc-v1",
+  "layoutTitle": "Статья-гид",
+  "layoutDesc": "Гид покупателя: оглавление, нумерованный список, цитата, табы сравнения материалов и финальная врезка со ссылкой-соглашением.",
+  "layoutIcon": "fa-file-text-o",
   "title": "Статья: как выбрать товар",
   "slug": "guide",
   "themeMode": "light",

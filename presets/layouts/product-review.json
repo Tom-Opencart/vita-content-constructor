@@ -1,6 +1,9 @@
 {
   "type": "vita-constructor-project",
   "contract": "vcc-v1",
+  "layoutTitle": "Обзор товара",
+  "layoutDesc": "Структура обзора: вступление, оглавление, секции с подзаголовками, таблица характеристик, совет-врезка и блок частых вопросов со ссылками-соглашениями.",
+  "layoutIcon": "fa-star-o",
   "title": "Обзор товара",
   "slug": "product-review",
   "themeMode": "light",

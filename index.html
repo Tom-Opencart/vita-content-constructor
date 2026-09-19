@@ -72,12 +72,14 @@
 			</div>
 		</div>
 
-		<div class="vcc-card">
+		<div class="vcc-card vcc-card--layouts">
 			<h2 class="vcc-card__title"><i class="fa fa-th-large"></i> Шаг 2 · Готовый макет</h2>
-			<p class="vcc-card__desc">Загрузите макет из галереи — примеры структур: обзор товара, статья с оглавлением, FAQ. Макет можно править как угодно после загрузки.</p>
-			<div class="vcc-drop" id="vcc-layouts-drop" tabindex="0" onclick="alert('Галерея макетов появится в M3. Пока: скачайте макет из presets/layouts и загрузите его в шаге 1 или в редакторе.');">
-				<i class="fa fa-download"></i> Галерея макетов — скоро (M3), файлы уже в репозитории
+			<p class="vcc-card__desc">Выберите структуру — макет загрузится в редактор целиком, дальше правьте его как свои. Это обычные JSON-файлы из <code>presets/layouts</code>: свои макеты можно добавлять в репозиторий.</p>
+			<div class="vcc-layouts-grid" id="vcc-layouts-grid"></div>
+			<div class="vcc-drop vcc-drop--compact" id="vcc-layouts-drop" tabindex="0" title="Загрузить макет или проект файлом">
+				<i class="fa fa-upload"></i> Или загрузите макет/проект файлом .json
 			</div>
+			<input type="file" id="vcc-layouts-file" accept=".json" style="display:none">
 		</div>
 	</div>
 </div>

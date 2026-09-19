@@ -1,6 +1,9 @@
 {
   "type": "vita-constructor-project",
   "contract": "vcc-v1",
+  "layoutTitle": "Страница FAQ",
+  "layoutDesc": "Готовая страница вопросов и ответов: вступление, четыре спойлера (первый раскрыт) и контактная врезка. Ставится на отдельную страницу или в модуль на главной.",
+  "layoutIcon": "fa-question-circle-o",
   "title": "Частые вопросы",
   "slug": "faq",
   "themeMode": "light",

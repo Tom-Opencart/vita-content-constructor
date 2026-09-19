@@ -317,6 +317,9 @@
 
 	/* ---------- Рендер ---------- */
 	function render(src, force) {
+		/* Токены применяются всегда — пресет загружают и с первого экрана,
+		   и палитра обязана перекрашивать welcome до входа в редактор. */
+		applyTokensToDom();
 		if (welcomeActive) return;
 		var canvas = $('#vcc-canvas');
 		if (!canvas) return;
@@ -330,12 +333,6 @@
 		var slugLabel = $('#vcc-slug-label');
 		if (slugLabel) slugLabel.textContent = project.slug ? ('content-' + project.slug + '.html') : 'content.html';
 
-		document.querySelectorAll('#vcc-mode-switch button').forEach(function (btn) {
-			btn.classList.toggle('is-active', btn.dataset.mode === project.themeMode);
-		});
-
-		applyTokensToDom();
-
 		/* Ввод в поле редактируемого блока: DOM уже актуален, перестройка
 		   канваса убивала бы фокус. Структурные изменения идут через
 		   refreshEditor() и всегда перестраивают. */
@@ -343,6 +340,10 @@
 			var host = document.activeElement.closest('.vcc-block.is-editing');
 			if (host) return;
 		}
+
+		document.querySelectorAll('#vcc-mode-switch button').forEach(function (btn) {
+			btn.classList.toggle('is-active', btn.dataset.mode === project.themeMode);
+		});
 
 		if (previewMode) {
 			var parts = [mockHeader()];
@@ -362,6 +363,52 @@
 		}
 		project.blocks.forEach(function (block, i) {
 			canvas.appendChild(renderBlockCard(block, i, project.blocks.length));
+		});
+	}
+
+	/* ---------- Галерея макетов (первый экран) ---------- */
+	/* Миниатюра карточки: НАСТОЯЩИЙ экспортный рендер первых блоков
+	   (те же toHTML + vcc-*), урезанный до заголовков и коротких строк —
+	   превью = то, что пользователь получит (WYSIWYG). */
+	function layoutPreviewHtml(layout) {
+		var def;
+		var parts = [];
+		for (var i = 0; i < layout.blocks.length && parts.length < 4; i++) {
+			def = BlockRegistry.get(layout.blocks[i].type);
+			if (!def) continue;
+			parts.push(def.toHTML(layout.blocks[i].data || {}));
+		}
+		return parts.join('');
+	}
+
+	function renderLayoutGallery() {
+		var box = $('#vcc-layouts-grid');
+		if (!box) return;
+		box.innerHTML = '';
+		var presets = window.VCC_LAYOUT_PRESETS || [];
+		if (!presets.length) {
+			box.appendChild(el('div', 'vcc-layout-empty', 'Макеты не найдены — запустите build/build.py'));
+			return;
+		}
+		presets.forEach(function (layout) {
+			var card = el('button', 'vcc-layout-card');
+			card.type = 'button';
+			var icon = el('span', 'vcc-layout-card__icon', '<i class="fa ' + (layout.layoutIcon || 'fa-file-text-o') + '"></i>');
+			card.appendChild(icon);
+			card.appendChild(el('span', 'vcc-layout-card__title', layout.layoutTitle || layout.title || 'Макет'));
+			card.appendChild(el('span', 'vcc-layout-card__desc', layout.layoutDesc || ''));
+			card.appendChild(el('span', 'vcc-layout-card__meta',
+				'<i class="fa fa-cube"></i> блоков: ' + layout.blocks.length +
+				' · контракт: ' + layout.contract));
+			var preview = el('span', 'vcc-layout-card__preview vcc-content', layoutPreviewHtml(layout));
+			card.appendChild(preview);
+			card.appendChild(el('span', 'vcc-layout-card__cta', '<i class="fa fa-download"></i> Загрузить макет'));
+			card.addEventListener('click', function () {
+				VccStore.setProject(layout);
+				showApp();
+				showToast('Макет «' + (layout.layoutTitle || layout.title) + '» загружен — правьте свободно', 'success');
+			});
+			box.appendChild(card);
 		});
 	}
 
@@ -431,6 +478,8 @@
 			resume.addEventListener('click', showApp);
 		}
 		bindDropZone($('#vcc-welcome-drop'), $('#vcc-welcome-file'));
+		bindDropZone($('#vcc-layouts-drop'), $('#vcc-layouts-file'));
+		renderLayoutGallery();
 		bindDropZone($('#vcc-header-file-label'), $('#vcc-header-file'));
 
 		/* Шапка редактора */
