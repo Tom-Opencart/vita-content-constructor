@@ -1,9 +1,12 @@
 /* ============================================================
 Вита — Конструктор контента · blocks/shortcodes.js
-Блоки-шорткоды (M5): вставка живых модулей темы в контент.
-  [vita_faq]  — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
-  [vita_form] — форма модуля «Вита — Формы» (атрибут: id, обязателен)
-Пикер ID (0.4.0): поля типа select со списком РЕАЛЬНЫХ групп/форм
+Блоки-шорткоды (M5, 0.5.0): вставка живых модулей темы в контент.
+  [vita_faq]        — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
+  [vita_form]       — форма модуля «Вита — Формы» (атрибут: id, обязателен)
+  [vita_visual]     — инстанс «Вита — Визуальные блоки» (слайдер/баннер/LookBook)
+  [vita_all_in_one] — инстанс «Вита — Универсальные блоки товаров»
+  [vita_extra_wall] — инстанс «Вита — Стена категорий, брендов и кастомных ссылок»
+Пикер ID (0.4.0): поля типа select со списком РЕАЛЬНЫХ групп/форм/блоков
 из каталога пресета темы (store.catalog). Пустой каталог (пресет не
 загружен или старый пресет) — то же поле превращается в ручной ввод
 числа, ничего не ломается.
@@ -17,6 +20,8 @@
 Плейсхолдеры id:
   • faqId=0    → все активные группы (валидный вызов renderFaq)
   • formId=0   → форма не выбрана; экспорт этого блока = ''
+  • blockId=0  → блок не выбран; экспорт этого блока = '' (vita_visual/
+    vita_all_in_one/vita_extra_wall рендерят конкретный инстанс)
 ============================================================ */
 'use strict';
 
@@ -43,8 +48,9 @@
 		return options;
 	}
 
-	function hasCatalog() {
+	function hasCatalog(key) {
 		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		if (key) return (catalog[key] || []).length > 0;
 		return catalog.faqGroups.length > 0 || catalog.forms.length > 0;
 	}
 
@@ -98,6 +104,61 @@
 		}
 		return 'форма #' + id;
 	}
+
+	/* --- Инстансы модулей темы ([vita_visual], [vita_all_in_one],
+	 * [vita_extra_wall]): каталог ключа = список инстансов oc_module --- */
+	function moduleOptions(listKey, emptyLabel) {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		var list = catalog[listKey] || [];
+		var options = [[String(0), emptyLabel]];
+		for (var i = 0; i < list.length; i++) {
+			var m = list[i];
+			options.push([String(m.id), 'Блок #' + m.id + ' · ' + (m.title || 'Без названия') + (!m.status ? ' (выключен)' : '')]);
+		}
+		return options;
+	}
+
+	function moduleLabel(listKey, id) {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		var list = catalog[listKey] || [];
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].id === id) {
+				return list[i].title || ('блок #' + id);
+			}
+		}
+		return 'блок #' + id;
+	}
+
+	/* Общие поля/экспорт/мок для блоков-инстансов: id обязателен */
+	function moduleBlock(type, label, icon, listKey, fieldLabel) {
+		BlockRegistry.register({
+			type: type,
+			label: label,
+			icon: icon,
+			group: 'modules',
+			defaults: { blockId: 0 },
+			fields: function () {
+				return [
+					catalogHint(),
+					{ key: 'blockId', label: fieldLabel, type: hasCatalog(listKey) ? 'select' : 'number', options: moduleOptions(listKey, '— Выберите блок —'), picker: true }
+				];
+			},
+			/* Без ID шорткод ничего не выведет — не экспортируем блок вовсе */
+			toExportHTML: function (data) {
+				var id = Math.max(0, parseInt(data.blockId, 10) || 0);
+				if (!id) return '';
+				return shortcodeWrap('[' + type + ' id="' + id + '"]');
+			},
+			toHTML: function (data) {
+				var id = Math.max(0, parseInt(data.blockId, 10) || 0);
+				return shortcodeChip(label.replace(' (шорткод)', ' темы'), id ? moduleLabel(listKey, id) : 'блок не выбран — выберите из списка или укажите ID');
+			}
+		});
+	}
+
+	moduleBlock('vita_visual', 'Визуальные блоки (шорткод)', 'fa-picture-o', 'visualBlocks', 'Слайдер / Баннер / LookBook');
+	moduleBlock('vita_all_in_one', 'Универсальные блоки товаров (шорткод)', 'fa-th-large', 'productBlocks', 'Товарный блок магазина');
+	moduleBlock('vita_extra_wall', 'Стена категорий и брендов (шорткод)', 'fa-th', 'walls', 'Стена магазина');
 
 	/* --- FAQ-группы темы ([vita_faq]) --- */
 	BlockRegistry.register({

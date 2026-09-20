@@ -2,7 +2,7 @@
 
 'use strict';
 
-window.VCC_APP_VERSION = '0.4.0';
+window.VCC_APP_VERSION = '0.5.0';
 
 window.VCC_EXPORT_CSS = "/* ============================================================\n\u0412\u0438\u0442\u0430 \u2014 \u041a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0442\u043e\u0440 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u00b7 \u042d\u043a\u0441\u043f\u043e\u0440\u0442\u043d\u044b\u0435 \u0441\u0442\u0438\u043b\u0438 vcc-v1\n\u042d\u0442\u043e\u0442 \u0444\u0430\u0439\u043b \u2014 \u0415\u0414\u0418\u041d\u0421\u0422\u0412\u0415\u041d\u041d\u042b\u0419 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u0441\u0442\u0438\u043b\u0435\u0439 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430: \u0431\u0438\u043b\u0434\u0435\u0440 \u0432\u0448\u0438\u0432\u0430\u0435\u0442\n\u0435\u0433\u043e \u0432 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440 (\u043e\u043a\u043d\u043e \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430) \u0438 \u043e\u0442\u0434\u0430\u0451\u0442 \u043a\u043d\u043e\u043f\u043a\u043e\u0439 \u00ab\u0421\u043a\u0430\u0447\u0430\u0442\u044c CSS\u00bb.\n\u0422\u0435\u043c\u0430 \u0412\u0438\u0442\u0430 \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u044d\u0442\u043e\u0442 \u0436\u0435 \u0444\u0430\u0439\u043b \u043a\u0430\u043a\ncatalog/view/theme/vita/stylesheet/vita-content-constructor.css.\n\u041f\u0440\u0430\u0432\u0438\u043b\u0430: \u0442\u043e\u043b\u044c\u043a\u043e var(--mp-*, fallback) \u2014 \u043d\u0438 \u043e\u0434\u043d\u043e\u0433\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u043b\u044c\u043d\u043e\u0433\u043e\n\u0446\u0432\u0435\u0442\u0430 \u0432 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u0445. \u041a\u043e\u043d\u0442\u0440\u0430\u043a\u0442 vcc-v1 \u044d\u0432\u043e\u043b\u044e\u0446\u0438\u043e\u043d\u0438\u0440\u0443\u0435\u0442 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e.\n============================================================ */\n\n.vcc-content {\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-family: var(--mp-font-family, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif);\n\tfont-size: 16px;\n\tline-height: 1.65;\n\toverflow-wrap: break-word;\n}\n.vcc-content > *:first-child { margin-top: 0; }\n.vcc-content > *:last-child { margin-bottom: 0; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0438 --- */\n.vcc-heading {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 700;\n\tline-height: 1.3;\n\tmargin: 28px 0 12px;\n}\n.vcc-heading--h2 { font-size: 26px; }\n.vcc-heading--h3 { font-size: 21px; }\n.vcc-heading--h4 { font-size: 18px; }\n\n/* --- \u0410\u0431\u0437\u0430\u0446\u044b --- */\n.vcc-paragraph { margin: 0 0 14px; }\n.vcc-paragraph p { margin: 0 0 14px; }\n\n/* --- \u0421\u0441\u044b\u043b\u043a\u0438 \u0438 \u0438\u043d\u043b\u0430\u0439\u043d --- */\n.vcc-content a { color: var(--mp-primary, #8C9D93); text-decoration: none; }\n.vcc-content a:hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }\n.vcc-code {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-sm, 2px);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-size: 0.9em;\n\tpadding: 1px 6px;\n}\n\n/* --- \u0421\u043f\u0438\u0441\u043a\u0438 --- */\n.vcc-list { margin: 0 0 14px; padding-left: 22px; }\n.vcc-list li { margin-bottom: 6px; }\n\n/* --- \u0426\u0438\u0442\u0430\u0442\u0430 --- */\n.vcc-quote {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-muted, #64748B);\n\tfont-style: italic;\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-quote__author {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 14px;\n\tfont-style: normal;\n\tmargin-top: 8px;\n}\n\n/* --- \u0412\u0440\u0435\u0437\u043a\u0438 (alert): \u0432\u0430\u0440\u0438\u0430\u043d\u0442 \u0437\u0430\u0434\u0430\u0451\u0442\u0441\u044f \u0446\u0432\u0435\u0442\u043d\u043e\u0439 \u043c\u0435\u0442\u043a\u043e\u0439 \u0441\u0432\u0435\u0440\u0445\u0443, \u0431\u0435\u0437 \u0431\u043e\u0440\u0434\u0435\u0440\u043e\u0432 \u0441\u043b\u0435\u0432\u0430 --- */\n.vcc-alert {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }\n.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-express-bg, #059669); }\n.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-hit-bg, #d97706); }\n.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-discount-bg, #dc2626); }\n/* \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430: primary-light \u043d\u0435 \u043f\u0435\u0440\u0435\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u0435\u043c\u043e\u0439 \u2014 \u0432\u0440\u0435\u0437\u043a\u0435 info \u043d\u0443\u0436\u0435\u043d \u0442\u0451\u043c\u043d\u044b\u0439 \u0444\u043e\u043d (\u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e) */\n[data-theme=\"dark\"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }\n.vcc-alert p:last-child { margin-bottom: 0; }\n\n/* --- \u0421\u043f\u043e\u0439\u043b\u0435\u0440 --- */\n.vcc-spoiler {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 14px 0;\n}\n.vcc-spoiler__summary {\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 12px 16px;\n\tcolor: var(--mp-text-main, #2D3748);\n}\n.vcc-spoiler__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-spoiler__body {\n\tborder-top: 1px solid var(--mp-border-divider, #F1F5F9);\n\tpadding: 12px 16px;\n}\n.vcc-spoiler__body p:last-child { margin-bottom: 0; }\n\n/* --- \u0422\u0430\u0431\u044b --- */\n.vcc-tabs { margin: 18px 0; }\n.vcc-tabs__nav {\n\tborder-bottom: 1px solid var(--mp-border-color, #E2E8F0);\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tgap: 4px;\n}\n.vcc-tabs__btn {\n\tbackground: none;\n\tborder: none;\n\tborder-bottom: 2px solid transparent;\n\tcolor: var(--mp-text-muted, #64748B);\n\tcursor: pointer;\n\tfont-size: 15px;\n\tmargin-bottom: -1px;\n\tpadding: 10px 14px;\n}\n.vcc-tabs__btn.is-active {\n\tborder-bottom-color: var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-primary, #8C9D93);\n\tfont-weight: 600;\n}\n.vcc-tabs__panel { display: none; padding-top: 14px; }\n.vcc-tabs__panel.is-active { display: block; }\n\n/* --- \u0422\u0430\u0431\u043b\u0438\u0446\u0430 --- */\n.vcc-table-wrap { margin: 18px 0; overflow-x: auto; }\n.vcc-table {\n\tborder-collapse: collapse;\n\twidth: 100%;\n}\n.vcc-table th,\n.vcc-table td {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tpadding: 9px 12px;\n\ttext-align: left;\n}\n.vcc-table th {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n}\n.vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }\n\n/* --- \u041a\u0430\u0440\u0442\u0438\u043d\u043a\u0430 --- */\n.vcc-figure { margin: 18px 0; }\n.vcc-figure__img {\n\tborder-radius: var(--mp-radius-md, 4px);\n\theight: auto;\n\tmax-width: 100%;\n}\n.vcc-figure__caption {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 13px;\n\tmargin-top: 6px;\n\ttext-align: center;\n}\n\n/* --- \u041e\u0433\u043b\u0430\u0432\u043b\u0435\u043d\u0438\u0435 --- */\n.vcc-toc {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tmargin: 18px 0;\n\tpadding: 14px 20px;\n}\n.vcc-toc__title {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n\tmargin-bottom: 8px;\n}\n.vcc-toc__list { margin: 0; padding-left: 20px; }\n.vcc-toc__list li { margin-bottom: 4px; }";
 
@@ -17,7 +17,7 @@ window.VCC_LAYOUT_PRESETS = [{"type": "vita-constructor-project", "contract": "v
 'use strict';
 
 var VCC_CONTRACT = 'vcc-v1';
-var VCC_APP_VERSION = '0.4.0';
+var VCC_APP_VERSION = '0.5.0';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {
@@ -103,10 +103,10 @@ var VCC_PRESET_MAP = {
  * FAQ-группы и формы — пикеры блоков-шорткодов вместо ручного ввода ID.
  * Старые пресеты поля не несут — каталог пуст, блоки дают ручной ввод.
  */
-var VCC_CATALOG_DEFAULT = { faqGroups: [], forms: [] };
+var VCC_CATALOG_DEFAULT = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [] };
 
 function vccNormalizeCatalog(raw) {
-	var out = { faqGroups: [], forms: [] };
+	var out = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [] };
 	if (!raw || typeof raw !== 'object') return out;
 	function clean(list, nameKey) {
 		var res = [];
@@ -127,6 +127,11 @@ function vccNormalizeCatalog(raw) {
 	}
 	out.faqGroups = clean(raw.faqGroups);
 	out.forms = clean(raw.forms);
+	/* Инстансы модулей-шорткодов (0.5.0): слайдеры/баннеры/LookBook,
+	 * товарные блоки, стены. Старые пресеты поля не несут — списки пусты. */
+	out.visualBlocks = clean(raw.visualBlocks);
+	out.productBlocks = clean(raw.productBlocks);
+	out.walls = clean(raw.walls);
 	return out;
 }
 
@@ -223,7 +228,10 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)' } },
 		{ type: 'toc', data_schema: { title: 'String (опционально)' } },
 		{ type: 'vita_faq', data_schema: { faqId: 'Integer ≥ 0 — ID группы FAQ (0 — все активные)', title: 'String (опционально, переопределяет заголовок)' }, export: '[vita_faq id title] литерально в <div class="vcc-shortcode">' },
-		{ type: 'vita_form', data_schema: { formId: 'Integer ≥ 1 — ID формы модуля «Вита — Формы» (0 = блок не экспортируется)' }, export: '[vita_form id] литерально в <div class="vcc-shortcode">' }
+		{ type: 'vita_form', data_schema: { formId: 'Integer ≥ 1 — ID формы модуля «Вита — Формы» (0 = блок не экспортируется)' }, export: '[vita_form id] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_visual', data_schema: { blockId: 'Integer ≥ 1 — ID инстанса модуля «Вита — Визуальные блоки» (0 = блок не экспортируется)' }, export: '[vita_visual id] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_all_in_one', data_schema: { blockId: 'Integer ≥ 1 — ID блока модуля «Вита — Универсальные блоки товаров» (0 = блок не экспортируется)' }, export: '[vita_all_in_one id] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_extra_wall', data_schema: { blockId: 'Integer ≥ 1 — ID стены модуля «Вита — Стена категорий, брендов и кастомных ссылок» (0 = блок не экспортируется)' }, export: '[vita_extra_wall id] литерально в <div class="vcc-shortcode">' }
 	]
 };
 
@@ -820,10 +828,13 @@ var VccStore = (function () {
 
 /* ============================================================
 Вита — Конструктор контента · blocks/shortcodes.js
-Блоки-шорткоды (M5): вставка живых модулей темы в контент.
-  [vita_faq]  — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
-  [vita_form] — форма модуля «Вита — Формы» (атрибут: id, обязателен)
-Пикер ID (0.4.0): поля типа select со списком РЕАЛЬНЫХ групп/форм
+Блоки-шорткоды (M5, 0.5.0): вставка живых модулей темы в контент.
+  [vita_faq]        — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
+  [vita_form]       — форма модуля «Вита — Формы» (атрибут: id, обязателен)
+  [vita_visual]     — инстанс «Вита — Визуальные блоки» (слайдер/баннер/LookBook)
+  [vita_all_in_one] — инстанс «Вита — Универсальные блоки товаров»
+  [vita_extra_wall] — инстанс «Вита — Стена категорий, брендов и кастомных ссылок»
+Пикер ID (0.4.0): поля типа select со списком РЕАЛЬНЫХ групп/форм/блоков
 из каталога пресета темы (store.catalog). Пустой каталог (пресет не
 загружен или старый пресет) — то же поле превращается в ручной ввод
 числа, ничего не ломается.
@@ -837,6 +848,8 @@ var VccStore = (function () {
 Плейсхолдеры id:
   • faqId=0    → все активные группы (валидный вызов renderFaq)
   • formId=0   → форма не выбрана; экспорт этого блока = ''
+  • blockId=0  → блок не выбран; экспорт этого блока = '' (vita_visual/
+    vita_all_in_one/vita_extra_wall рендерят конкретный инстанс)
 ============================================================ */
 'use strict';
 
@@ -863,8 +876,9 @@ var VccStore = (function () {
 		return options;
 	}
 
-	function hasCatalog() {
+	function hasCatalog(key) {
 		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		if (key) return (catalog[key] || []).length > 0;
 		return catalog.faqGroups.length > 0 || catalog.forms.length > 0;
 	}
 
@@ -918,6 +932,61 @@ var VccStore = (function () {
 		}
 		return 'форма #' + id;
 	}
+
+	/* --- Инстансы модулей темы ([vita_visual], [vita_all_in_one],
+	 * [vita_extra_wall]): каталог ключа = список инстансов oc_module --- */
+	function moduleOptions(listKey, emptyLabel) {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		var list = catalog[listKey] || [];
+		var options = [[String(0), emptyLabel]];
+		for (var i = 0; i < list.length; i++) {
+			var m = list[i];
+			options.push([String(m.id), 'Блок #' + m.id + ' · ' + (m.title || 'Без названия') + (!m.status ? ' (выключен)' : '')]);
+		}
+		return options;
+	}
+
+	function moduleLabel(listKey, id) {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		var list = catalog[listKey] || [];
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].id === id) {
+				return list[i].title || ('блок #' + id);
+			}
+		}
+		return 'блок #' + id;
+	}
+
+	/* Общие поля/экспорт/мок для блоков-инстансов: id обязателен */
+	function moduleBlock(type, label, icon, listKey, fieldLabel) {
+		BlockRegistry.register({
+			type: type,
+			label: label,
+			icon: icon,
+			group: 'modules',
+			defaults: { blockId: 0 },
+			fields: function () {
+				return [
+					catalogHint(),
+					{ key: 'blockId', label: fieldLabel, type: hasCatalog(listKey) ? 'select' : 'number', options: moduleOptions(listKey, '— Выберите блок —'), picker: true }
+				];
+			},
+			/* Без ID шорткод ничего не выведет — не экспортируем блок вовсе */
+			toExportHTML: function (data) {
+				var id = Math.max(0, parseInt(data.blockId, 10) || 0);
+				if (!id) return '';
+				return shortcodeWrap('[' + type + ' id="' + id + '"]');
+			},
+			toHTML: function (data) {
+				var id = Math.max(0, parseInt(data.blockId, 10) || 0);
+				return shortcodeChip(label.replace(' (шорткод)', ' темы'), id ? moduleLabel(listKey, id) : 'блок не выбран — выберите из списка или укажите ID');
+			}
+		});
+	}
+
+	moduleBlock('vita_visual', 'Визуальные блоки (шорткод)', 'fa-picture-o', 'visualBlocks', 'Слайдер / Баннер / LookBook');
+	moduleBlock('vita_all_in_one', 'Универсальные блоки товаров (шорткод)', 'fa-th-large', 'productBlocks', 'Товарный блок магазина');
+	moduleBlock('vita_extra_wall', 'Стена категорий и брендов (шорткод)', 'fa-th', 'walls', 'Стена магазина');
 
 	/* --- FAQ-группы темы ([vita_faq]) --- */
 	BlockRegistry.register({
@@ -1523,15 +1592,19 @@ var VccImport = (function () {
 			return;
 		}
 
-		canvas.innerHTML = '';
+		/* Канвас всегда в контексте страницы: сверху и снизу — некликабельные
+		 * моки шапки/подвала Виты (на палитре магазина) — то, что просил
+		 * владелец: «чтобы было визуально понятно, что получится». */
+		canvas.innerHTML = mockHeader();
 		if (!project.blocks.length) {
 			canvas.appendChild(el('div', 'vcc-canvas__empty',
 				'<i class="fa fa-cube" style="font-size:26px; margin-bottom:10px; display:block;"></i>Добавьте первый блок из палитры слева'));
-			return;
+		} else {
+			project.blocks.forEach(function (block, i) {
+				canvas.appendChild(renderBlockCard(block, i, project.blocks.length));
+			});
 		}
-		project.blocks.forEach(function (block, i) {
-			canvas.appendChild(renderBlockCard(block, i, project.blocks.length));
-		});
+		canvas.insertAdjacentHTML('beforeend', mockFooter());
 	}
 
 	/* ---------- Галерея макетов (первый экран) ---------- */

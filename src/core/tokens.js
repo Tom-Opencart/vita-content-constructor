@@ -7,7 +7,7 @@
 'use strict';
 
 var VCC_CONTRACT = 'vcc-v1';
-var VCC_APP_VERSION = '0.4.0';
+var VCC_APP_VERSION = '0.5.0';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {
@@ -93,10 +93,10 @@ var VCC_PRESET_MAP = {
  * FAQ-группы и формы — пикеры блоков-шорткодов вместо ручного ввода ID.
  * Старые пресеты поля не несут — каталог пуст, блоки дают ручной ввод.
  */
-var VCC_CATALOG_DEFAULT = { faqGroups: [], forms: [] };
+var VCC_CATALOG_DEFAULT = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [] };
 
 function vccNormalizeCatalog(raw) {
-	var out = { faqGroups: [], forms: [] };
+	var out = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [] };
 	if (!raw || typeof raw !== 'object') return out;
 	function clean(list, nameKey) {
 		var res = [];
@@ -117,6 +117,11 @@ function vccNormalizeCatalog(raw) {
 	}
 	out.faqGroups = clean(raw.faqGroups);
 	out.forms = clean(raw.forms);
+	/* Инстансы модулей-шорткодов (0.5.0): слайдеры/баннеры/LookBook,
+	 * товарные блоки, стены. Старые пресеты поля не несут — списки пусты. */
+	out.visualBlocks = clean(raw.visualBlocks);
+	out.productBlocks = clean(raw.productBlocks);
+	out.walls = clean(raw.walls);
 	return out;
 }
 
