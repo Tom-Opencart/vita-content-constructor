@@ -128,32 +128,61 @@
 		}
 	});
 
-	/* --- Таблица --- */
+	/* --- Таблица (0.7.0: конструктор строк/колонок вместо « | »-списка).
+	 * Каждая ячейка — отдельное markdown-поле: ссылки, кнопки форм [текст](form:ID),
+	 * акцент, соглашения. Модель: headers: [String], rows: [[String,…]] — плоская. */
 	BlockRegistry.register({
 		type: 'table',
 		label: 'Таблица',
 		icon: 'fa-table',
 		group: 'text',
-		defaults: { headers: 'Параметр\nЗначение', rows: 'Гарантия\n12 месяцев' },
-		fields: [
-			{ key: 'headers', label: 'Заголовки (каждый с новой строки)', type: 'textarea', rows: 3 },
-			{ key: 'rows', label: 'Строки (столбцы через « | », строки с новой строки)', type: 'textarea', rows: 5, markdown: false }
-		],
+		defaults: {
+			cols: '2',
+			headers: ['Параметр', 'Значение'],
+			rows: [
+				['Гарантия', '12 месяцев'],
+				['Доставка', '[Рассчитать](form:0)']
+			]
+		},
+		fields: function (block) {
+			var cols = Math.max(1, Math.min(4, parseInt(block && block.data && block.data.cols, 10) || 2));
+			var headerFields = [];
+			for (var c = 0; c < cols; c++) {
+				headerFields.push({ key: 'h' + c, label: 'Заголовок ' + (c + 1), type: 'text', mark: 'hcol', idx: c });
+			}
+			var colFields = [];
+			for (var k = 0; k < cols; k++) {
+				colFields.push({ key: 'c' + k, label: 'Колонка ' + (k + 1), type: 'textarea', rows: 2, markdown: true, mark: 'rcol', idx: k });
+			}
+			return [
+				{ key: 'cols', label: 'Колонок', type: 'select', options: [['2', '2'], ['3', '3'], ['4', '4']] },
+				{ key: '_hh', label: 'Заголовки', type: 'group-label' }
+			].concat(headerFields).concat([
+				{
+					key: 'rows', label: 'Строки', type: 'rows-editor', addLabel: 'Добавить строку', max: 30,
+					itemFields: colFields,
+					itemTitle: function (item, i) { return 'Строка ' + (i + 1) + (item && item.c0 ? ' — ' + String(item.c0).slice(0, 24) : ''); }
+				},
+				{ key: '_hint', label: 'В каждой ячейке работает markdown: [ссылка](https://…), [кнопка формы](form:ID), ==акцент==, **жирный**.', type: 'hint' }
+			]);
+		},
 		toHTML: function (data) {
-			var headers = String(data.headers || '').split(/\r?\n/).filter(function (h) { return h.trim() !== ''; });
-			var rowLines = String(data.rows || '').split(/\r?\n/).filter(function (r) { return r.trim() !== ''; });
-			if (!headers.length && !rowLines.length) return '';
+			var cols = Math.max(1, Math.min(4, parseInt(data.cols, 10) || 2));
+			var headers = Array.isArray(data.headers) ? data.headers : [];
+			var rows = Array.isArray(data.rows) ? data.rows : [];
+			if (!headers.length && !rows.length) return '';
 			var html = '<div class="vcc-table-wrap"><table class="vcc-table">';
-			if (headers.length) {
+			var hasHeaders = headers.some(function (h) { return String(h || '').trim() !== ''; });
+			if (hasHeaders) {
 				html += '<thead><tr>';
-				for (var i = 0; i < headers.length; i++) html += '<th>' + vccInline(headers[i]) + '</th>';
+				for (var i = 0; i < cols; i++) html += '<th>' + vccInline(headers[i] || '') + '</th>';
 				html += '</tr></thead>';
 			}
 			html += '<tbody>';
-			for (var r = 0; r < rowLines.length; r++) {
-				var cells = rowLines[r].split('|');
+			for (var r = 0; r < rows.length; r++) {
+				var cells = Array.isArray(rows[r]) ? rows[r] : [];
 				html += '<tr>';
-				for (var c = 0; c < cells.length; c++) html += '<td>' + vccInline(cells[c].trim()) + '</td>';
+				for (var cc = 0; cc < cols; cc++) html += '<td>' + vccInline(String(cells[cc] || '')) + '</td>';
 				html += '</tr>';
 			}
 			return html + '</tbody></table></div>';

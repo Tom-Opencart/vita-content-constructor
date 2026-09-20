@@ -699,3 +699,13 @@ body.is-vcc-fs { overflow: hidden; }
 	padding: 40px 34px 90px;
 	width: 100%;
 }
+
+/* ---------- Разделитель группы полей (таблица: «Заголовки») ---------- */
+.vcc-field__group {
+	color: var(--mp-text-main, #2D3748);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	margin: 6px 0 8px;
+	text-transform: uppercase;
+}

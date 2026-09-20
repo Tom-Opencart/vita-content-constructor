@@ -784,32 +784,61 @@ var VccStore = (function () {
 		}
 	});
 
-	/* --- Таблица --- */
+	/* --- Таблица (0.7.0: конструктор строк/колонок вместо « | »-списка).
+	 * Каждая ячейка — отдельное markdown-поле: ссылки, кнопки форм [текст](form:ID),
+	 * акцент, соглашения. Модель: headers: [String], rows: [[String,…]] — плоская. */
 	BlockRegistry.register({
 		type: 'table',
 		label: 'Таблица',
 		icon: 'fa-table',
 		group: 'text',
-		defaults: { headers: 'Параметр\nЗначение', rows: 'Гарантия\n12 месяцев' },
-		fields: [
-			{ key: 'headers', label: 'Заголовки (каждый с новой строки)', type: 'textarea', rows: 3 },
-			{ key: 'rows', label: 'Строки (столбцы через « | », строки с новой строки)', type: 'textarea', rows: 5, markdown: false }
-		],
+		defaults: {
+			cols: '2',
+			headers: ['Параметр', 'Значение'],
+			rows: [
+				['Гарантия', '12 месяцев'],
+				['Доставка', '[Рассчитать](form:0)']
+			]
+		},
+		fields: function (block) {
+			var cols = Math.max(1, Math.min(4, parseInt(block && block.data && block.data.cols, 10) || 2));
+			var headerFields = [];
+			for (var c = 0; c < cols; c++) {
+				headerFields.push({ key: 'h' + c, label: 'Заголовок ' + (c + 1), type: 'text', mark: 'hcol', idx: c });
+			}
+			var colFields = [];
+			for (var k = 0; k < cols; k++) {
+				colFields.push({ key: 'c' + k, label: 'Колонка ' + (k + 1), type: 'textarea', rows: 2, markdown: true, mark: 'rcol', idx: k });
+			}
+			return [
+				{ key: 'cols', label: 'Колонок', type: 'select', options: [['2', '2'], ['3', '3'], ['4', '4']] },
+				{ key: '_hh', label: 'Заголовки', type: 'group-label' }
+			].concat(headerFields).concat([
+				{
+					key: 'rows', label: 'Строки', type: 'rows-editor', addLabel: 'Добавить строку', max: 30,
+					itemFields: colFields,
+					itemTitle: function (item, i) { return 'Строка ' + (i + 1) + (item && item.c0 ? ' — ' + String(item.c0).slice(0, 24) : ''); }
+				},
+				{ key: '_hint', label: 'В каждой ячейке работает markdown: [ссылка](https://…), [кнопка формы](form:ID), ==акцент==, **жирный**.', type: 'hint' }
+			]);
+		},
 		toHTML: function (data) {
-			var headers = String(data.headers || '').split(/\r?\n/).filter(function (h) { return h.trim() !== ''; });
-			var rowLines = String(data.rows || '').split(/\r?\n/).filter(function (r) { return r.trim() !== ''; });
-			if (!headers.length && !rowLines.length) return '';
+			var cols = Math.max(1, Math.min(4, parseInt(data.cols, 10) || 2));
+			var headers = Array.isArray(data.headers) ? data.headers : [];
+			var rows = Array.isArray(data.rows) ? data.rows : [];
+			if (!headers.length && !rows.length) return '';
 			var html = '<div class="vcc-table-wrap"><table class="vcc-table">';
-			if (headers.length) {
+			var hasHeaders = headers.some(function (h) { return String(h || '').trim() !== ''; });
+			if (hasHeaders) {
 				html += '<thead><tr>';
-				for (var i = 0; i < headers.length; i++) html += '<th>' + vccInline(headers[i]) + '</th>';
+				for (var i = 0; i < cols; i++) html += '<th>' + vccInline(headers[i] || '') + '</th>';
 				html += '</tr></thead>';
 			}
 			html += '<tbody>';
-			for (var r = 0; r < rowLines.length; r++) {
-				var cells = rowLines[r].split('|');
+			for (var r = 0; r < rows.length; r++) {
+				var cells = Array.isArray(rows[r]) ? rows[r] : [];
 				html += '<tr>';
-				for (var c = 0; c < cells.length; c++) html += '<td>' + vccInline(cells[c].trim()) + '</td>';
+				for (var cc = 0; cc < cols; cc++) html += '<td>' + vccInline(String(cells[cc] || '')) + '</td>';
 				html += '</tr>';
 			}
 			return html + '</tbody></table></div>';
@@ -2411,10 +2440,11 @@ var VccImport = (function () {
 				var btn = el('button', 'vcc-palette-btn',
 					'<i class="fa ' + def.icon + '"></i><span>' + def.label + '</span>');
 				btn.type = 'button';
-				btn.addEventListener('click', function () {
-					VccStore.addBlock(def.type);
-					previewMode = false;
-				});
+			btn.addEventListener('click', function () {
+				VccStore.addBlock(def.type);
+				previewMode = false;
+				refreshEditor();
+			});
 				grid.appendChild(btn);
 			});
 			box.appendChild(grid);
@@ -2425,14 +2455,24 @@ var VccImport = (function () {
 	function fieldValue(key) { return function (block) { return block.data[key]; }; }
 
 	/* Значение поля: обычные ключи лежат в data напрямую, ключи с меткой
-	 * mark:'sec' — вложенным объектом data.sec (общие поля секции лендинга). */
+	 * mark:'sec' — вложенным объектом data.sec (общие поля секции лендинга);
+	 * mark:'hcol' — элемент массива data.headers[idx] (таблица);
+	 * mark:'rcol' — элемент массива rows[idx][idx] ячейки строки таблицы
+	 * (используется ВНУТРИ rows-editor, block = { data: item }). */
 	function valOf(block, def) {
 		if (def.mark === 'sec') return (block.data.sec || {})[def.key.slice(4)];
+		if (def.mark === 'hcol') return (block.data.headers || [])[def.idx];
+		if (def.mark === 'rcol') return block.data[def.key];
 		return block.data[def.key];
 	}
 
 	function makeField(def, block, onChange) {
 		var wrap = el('div', 'vcc-field');
+		/* Разделитель группы полей без ввода */
+		if (def.type === 'group-label') {
+			wrap.appendChild(el('div', 'vcc-field__group', def.label));
+			return wrap;
+		}
 		/* Пояснительная строка без ввода (например, откуда список пикера) */
 		if (def.type === 'hint') {
 			wrap.appendChild(el('div', 'vcc-hint', def.label));
@@ -2581,13 +2621,23 @@ var VccImport = (function () {
 				VccStore.updateBlockSilent(block.id, { sec: sec });
 				return;
 			}
+			/* Таблица: заголовок-колонка — элемент массива data.headers */
+			if (def.mark === 'hcol') {
+				var heads = JSON.parse(JSON.stringify(block.data.headers || []));
+				heads[def.idx] = value;
+				VccStore.updateBlockSilent(block.id, { headers: heads });
+				return;
+			}
 			var patch = {};
 			patch[key] = value;
 			VccStore.updateBlockSilent(block.id, patch);
+			/* Смена числа колонок таблицы перестраивает набор полей-ячеек */
+			if (block.type === 'table' && key === 'cols') setTimeout(refreshEditor, 0);
 		};
 		/* Поля могут быть функцией (пикеры шорткодов зависят от каталога
-		   пресета — он может появиться/обновиться в любой момент) */
-		var fields = typeof def.fields === 'function' ? def.fields() : (def.fields || []);
+		   пресета — он может появиться/обновиться в любой момент; таблица
+		   читает из block число колонок для набора ячеек) */
+		var fields = typeof def.fields === 'function' ? def.fields(block) : (def.fields || []);
 		fields.forEach(function (fieldDef) {
 			body.appendChild(makeField(fieldDef, block, onChange));
 		});
@@ -2611,15 +2661,18 @@ var VccImport = (function () {
 		var bar = el('div', 'vcc-block__bar');
 		bar.appendChild(el('span', 'vcc-block__label', BlockRegistry.get(block.type).label));
 		if (!previewMode) {
-			bar.appendChild(iconBtn('fa-arrow-up', 'Выше', function () { VccStore.moveBlock(block.id, -1); }, index === 0));
-			bar.appendChild(iconBtn('fa-arrow-down', 'Ниже', function () { VccStore.moveBlock(block.id, 1); }, index === total - 1));
+			bar.appendChild(iconBtn('fa-arrow-up', 'Выше', function () { VccStore.moveBlock(block.id, -1); refreshEditor(); }, index === 0));
+			bar.appendChild(iconBtn('fa-arrow-down', 'Ниже', function () { VccStore.moveBlock(block.id, 1); refreshEditor(); }, index === total - 1));
 			bar.appendChild(iconBtn(isEditing ? 'fa-compress' : 'fa-pencil', isEditing ? 'Свернуть' : 'Редактировать', function () {
 				if (!isEditing) VccStore.checkpoint();
 				editingId = isEditing ? null : block.id;
 				refreshEditor();
 			}));
 			bar.appendChild(iconBtn('fa-trash', 'Удалить', function () {
-				if (confirm('Удалить блок?')) VccStore.removeBlock(block.id);
+				if (confirm('Удалить блок?')) {
+					VccStore.removeBlock(block.id);
+					refreshEditor();
+				}
 			}, false, true));
 		}
 		card.appendChild(bar);
@@ -2727,9 +2780,11 @@ var VccImport = (function () {
 		if (slugLabel) slugLabel.textContent = project.slug ? ('content-' + project.slug + '.html') : 'content.html';
 
 		/* Ввод в поле редактируемого блока: DOM уже актуален, перестройка
-		   канваса убивала бы фокус. Структурные изменения идут через
-		   refreshEditor() и всегда перестраивают. */
-		if (!previewMode && document.activeElement) {
+		   канваса убивала бы фокус. Структурные изменения (add/delete/move
+		   строк, вкладок, блоков) идут через refreshEditor() с force —
+		   guard не должен их блокировать, иначе клик «Добавить» кажется
+		   мёртвым: фокус остаётся на кнопке внутри .is-editing. */
+		if (!previewMode && !force && document.activeElement) {
 			var host = document.activeElement.closest('.vcc-block.is-editing');
 			if (host) return;
 		}

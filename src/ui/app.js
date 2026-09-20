@@ -100,10 +100,11 @@
 				var btn = el('button', 'vcc-palette-btn',
 					'<i class="fa ' + def.icon + '"></i><span>' + def.label + '</span>');
 				btn.type = 'button';
-				btn.addEventListener('click', function () {
-					VccStore.addBlock(def.type);
-					previewMode = false;
-				});
+			btn.addEventListener('click', function () {
+				VccStore.addBlock(def.type);
+				previewMode = false;
+				refreshEditor();
+			});
 				grid.appendChild(btn);
 			});
 			box.appendChild(grid);
@@ -114,14 +115,24 @@
 	function fieldValue(key) { return function (block) { return block.data[key]; }; }
 
 	/* Значение поля: обычные ключи лежат в data напрямую, ключи с меткой
-	 * mark:'sec' — вложенным объектом data.sec (общие поля секции лендинга). */
+	 * mark:'sec' — вложенным объектом data.sec (общие поля секции лендинга);
+	 * mark:'hcol' — элемент массива data.headers[idx] (таблица);
+	 * mark:'rcol' — элемент массива rows[idx][idx] ячейки строки таблицы
+	 * (используется ВНУТРИ rows-editor, block = { data: item }). */
 	function valOf(block, def) {
 		if (def.mark === 'sec') return (block.data.sec || {})[def.key.slice(4)];
+		if (def.mark === 'hcol') return (block.data.headers || [])[def.idx];
+		if (def.mark === 'rcol') return block.data[def.key];
 		return block.data[def.key];
 	}
 
 	function makeField(def, block, onChange) {
 		var wrap = el('div', 'vcc-field');
+		/* Разделитель группы полей без ввода */
+		if (def.type === 'group-label') {
+			wrap.appendChild(el('div', 'vcc-field__group', def.label));
+			return wrap;
+		}
 		/* Пояснительная строка без ввода (например, откуда список пикера) */
 		if (def.type === 'hint') {
 			wrap.appendChild(el('div', 'vcc-hint', def.label));
@@ -270,13 +281,23 @@
 				VccStore.updateBlockSilent(block.id, { sec: sec });
 				return;
 			}
+			/* Таблица: заголовок-колонка — элемент массива data.headers */
+			if (def.mark === 'hcol') {
+				var heads = JSON.parse(JSON.stringify(block.data.headers || []));
+				heads[def.idx] = value;
+				VccStore.updateBlockSilent(block.id, { headers: heads });
+				return;
+			}
 			var patch = {};
 			patch[key] = value;
 			VccStore.updateBlockSilent(block.id, patch);
+			/* Смена числа колонок таблицы перестраивает набор полей-ячеек */
+			if (block.type === 'table' && key === 'cols') setTimeout(refreshEditor, 0);
 		};
 		/* Поля могут быть функцией (пикеры шорткодов зависят от каталога
-		   пресета — он может появиться/обновиться в любой момент) */
-		var fields = typeof def.fields === 'function' ? def.fields() : (def.fields || []);
+		   пресета — он может появиться/обновиться в любой момент; таблица
+		   читает из block число колонок для набора ячеек) */
+		var fields = typeof def.fields === 'function' ? def.fields(block) : (def.fields || []);
 		fields.forEach(function (fieldDef) {
 			body.appendChild(makeField(fieldDef, block, onChange));
 		});
@@ -300,15 +321,18 @@
 		var bar = el('div', 'vcc-block__bar');
 		bar.appendChild(el('span', 'vcc-block__label', BlockRegistry.get(block.type).label));
 		if (!previewMode) {
-			bar.appendChild(iconBtn('fa-arrow-up', 'Выше', function () { VccStore.moveBlock(block.id, -1); }, index === 0));
-			bar.appendChild(iconBtn('fa-arrow-down', 'Ниже', function () { VccStore.moveBlock(block.id, 1); }, index === total - 1));
+			bar.appendChild(iconBtn('fa-arrow-up', 'Выше', function () { VccStore.moveBlock(block.id, -1); refreshEditor(); }, index === 0));
+			bar.appendChild(iconBtn('fa-arrow-down', 'Ниже', function () { VccStore.moveBlock(block.id, 1); refreshEditor(); }, index === total - 1));
 			bar.appendChild(iconBtn(isEditing ? 'fa-compress' : 'fa-pencil', isEditing ? 'Свернуть' : 'Редактировать', function () {
 				if (!isEditing) VccStore.checkpoint();
 				editingId = isEditing ? null : block.id;
 				refreshEditor();
 			}));
 			bar.appendChild(iconBtn('fa-trash', 'Удалить', function () {
-				if (confirm('Удалить блок?')) VccStore.removeBlock(block.id);
+				if (confirm('Удалить блок?')) {
+					VccStore.removeBlock(block.id);
+					refreshEditor();
+				}
 			}, false, true));
 		}
 		card.appendChild(bar);
@@ -416,9 +440,11 @@
 		if (slugLabel) slugLabel.textContent = project.slug ? ('content-' + project.slug + '.html') : 'content.html';
 
 		/* Ввод в поле редактируемого блока: DOM уже актуален, перестройка
-		   канваса убивала бы фокус. Структурные изменения идут через
-		   refreshEditor() и всегда перестраивают. */
-		if (!previewMode && document.activeElement) {
+		   канваса убивала бы фокус. Структурные изменения (add/delete/move
+		   строк, вкладок, блоков) идут через refreshEditor() с force —
+		   guard не должен их блокировать, иначе клик «Добавить» кажется
+		   мёртвым: фокус остаётся на кнопке внутри .is-editing. */
+		if (!previewMode && !force && document.activeElement) {
 			var host = document.activeElement.closest('.vcc-block.is-editing');
 			if (host) return;
 		}
