@@ -497,6 +497,63 @@ button { font-family: inherit; }
 .vcc-checkbox-row { align-items: center; display: flex; gap: 8px; }
 .vcc-hint { color: var(--mp-text-light, #94A3B8); font-size: 12px; margin-top: 4px; }
 
+/* ---------- Smart-подсказка шорткодов (0.7.2): появляется под textarea,
+ * когда пользователь вводит [vita_…] руками; кнопка раскрывает справку ---------- */
+.vcc-sc-help { margin-top: 6px; }
+.vcc-sc-help__toggle {
+	align-items: center;
+	background: none;
+	border: 1px dashed var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-md, 4px);
+	color: var(--mp-text-muted, #64748B);
+	cursor: pointer;
+	display: inline-flex;
+	font-size: 12px;
+	gap: 6px;
+	padding: 4px 10px;
+	transition: var(--mp-transition, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease);
+}
+.vcc-sc-help__toggle:hover {
+	border-color: var(--mp-primary, #8C9D93);
+	color: var(--mp-primary, #8C9D93);
+}
+.vcc-sc-help--detected .vcc-sc-help__toggle {
+	border-color: var(--mp-primary, #8C9D93);
+	border-style: solid;
+	color: var(--mp-primary, #8C9D93);
+	font-weight: 600;
+}
+.vcc-sc-help__body {
+	background: var(--mp-bg-subtle, #F8FAFC);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-md, 4px);
+	color: var(--mp-text-body, #2D3748);
+	font-size: 12px;
+	line-height: 1.5;
+	margin-top: 6px;
+	padding: 10px 12px;
+}
+.vcc-sc-help__body strong { display: block; margin-bottom: 6px; }
+.vcc-sc-help__table { border-collapse: collapse; width: 100%; }
+.vcc-sc-help__table td {
+	border: none;
+	padding: 2px 8px 2px 0;
+	vertical-align: top;
+}
+.vcc-sc-help__table td:first-child { white-space: nowrap; }
+.vcc-sc-help__table code {
+	background: var(--mp-card-bg, #fff);
+	border: 1px solid var(--mp-border-divider, #F1F5F9);
+	border-radius: var(--mp-radius-sm, 2px);
+	font-size: 11.5px;
+	padding: 1px 5px;
+}
+.vcc-sc-help__note {
+	color: var(--mp-text-muted, #64748B);
+	display: block;
+	margin-top: 7px;
+}
+
 /* ---------- rows-editor: повторяющиеся элементы (0.7.0) ---------- */
 .vcc-rows-item {
 	background: var(--mp-bg-subtle, #f8fafc);
@@ -526,6 +583,17 @@ button { font-family: inherit; }
 /* ---------- Лендинг-секции в канвасе: card-контекст для светлых фонов ---------- */
 .vcc-canvas .vcc-section { margin: 0 0 18px; }
 .vcc-canvas .vcc-section:last-child { margin-bottom: 0; }
+
+/* В фуллскрине — как на витрине: секции на всю ширину окна, без
+ * рамок-карточек; внутренний .vcc-container держит 1140px контента.
+ * Моки шапки/подвала магазина тоже без карточных рамок. */
+.vcc-fullscreen__page .vcc-section { margin: 0; }
+.vcc-fullscreen__page .vcc-mock { border-left: none; border-radius: 0; border-right: none; }
+.vcc-fullscreen__page .vcc-mock--footer { margin-top: auto; }
+/* Контент — во всю ширину окна: секции лендинга тянутся на 100%,
+   как lp-* секции реальной витрины; ограничение ширины задаёт
+   только .vcc-container внутри секций. */
+.vcc-fullscreen__page > .vcc-content { display: block; width: 100%; }
 
 /* ---------- Тосты ---------- */
 .vcc-toasts {
@@ -665,25 +733,34 @@ button { font-family: inherit; }
 	padding: 8px 14px;
 }
 
-/* ---------- Фуллскрин: только сгенерированная страница ---------- */
-/* body.is-vcc-fs — на случай прокрутки страницы при скрытом .vcc-app */
-body.is-vcc-fs { overflow: hidden; }
+/* ---------- Фуллскрин: «демка Виты» с контентом конструктора ----------
+ * Впечатление открытой витрины: скроллится ВСЯ страница окном браузера
+ * (один документ, никакого внутреннего скролла и его полосы справа),
+ * шапка конструктора прилипает сверху (position: sticky), мок-шапка
+ * магазина прокручивается вместе с контентом — как на настоящем сайте. */
+body.is-vcc-fs { overflow-y: auto; }
 .vcc-fullscreen {
 	display: none;
 	flex-direction: column;
-	height: 100vh;
-	height: 100dvh;
+	min-height: 100vh;
+	min-height: 100dvh;
+	width: 100%;
 }
 .vcc-fullscreen.is-active { display: flex; }
 .vcc-fullscreen__bar {
 	align-items: center;
 	background: var(--mp-card-bg, #fff);
 	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	box-shadow: 0 2px 14px rgba(15, 23, 42, 0.08);
 	display: flex;
-	flex-shrink: 0;
 	gap: 10px;
 	justify-content: space-between;
+	left: 0;
 	padding: 8px 18px;
+	position: sticky;
+	right: 0;
+	top: 0;
+	z-index: 50;
 }
 .vcc-fullscreen__label {
 	color: var(--mp-text-muted, #64748B);
@@ -691,12 +768,10 @@ body.is-vcc-fs { overflow: hidden; }
 }
 .vcc-fullscreen__label .fa { color: var(--mp-primary, #8C9D93); margin-right: 4px; }
 .vcc-fullscreen__page {
+	display: flex;
 	flex: 1;
-	margin: 0 auto;
-	max-width: 1180px;
+	flex-direction: column;
 	outline: none;
-	overflow-y: auto;
-	padding: 40px 34px 90px;
 	width: 100%;
 }
 

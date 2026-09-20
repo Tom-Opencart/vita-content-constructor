@@ -126,6 +126,52 @@
 		return block.data[def.key];
 	}
 
+	/* ---------- Smart-подсказка шорткодов Виты (0.7.2) ----------
+	 * Пользователь начал вводить [vita_…] руками — под полем появляется
+	 * сворачиваемая мини-справка: реестр тегов темы (сверен с контроллером
+	 * vita_theme.php 1.10.1), пример и правило (не вкладывать в [vita_html]).
+	 * Прячется, когда шорткода в тексте больше нет. */
+	var SHORTCODE_HELP = [
+		{ tag: 'vita_visual', args: 'id', what: 'слайдер / баннер / LookBook' },
+		{ tag: 'vita_all_in_one', args: 'id', what: 'универсальный блок товаров' },
+		{ tag: 'vita_extra_wall', args: 'id', what: 'стена категорий и брендов' },
+		{ tag: 'vita_faq', args: 'id, title', what: 'FAQ-группа (без id — все активные)' },
+		{ tag: 'vita_form', args: 'id', what: 'форма магазина' },
+		{ tag: 'vita_news', args: 'id', what: 'статья блога (без id — лента)' },
+		{ tag: 'vita_testimonial', args: 'id', what: 'отзывы о магазине' },
+		{ tag: 'vita_news_gallery', args: 'id', what: 'галерея из блога' },
+		{ tag: 'vita_gallery', args: 'id', what: 'галерея изображений' },
+		{ tag: 'vita_html', args: 'обёртка', what: '[vita_html]ваш HTML[/vita_html] — точечная вёрстка' }
+	];
+
+	function shortcodeHtml() {
+		var rows = SHORTCODE_HELP.map(function (h) {
+			return '<tr><td><code>[vita_' + h.tag.replace(/^vita_/, '') + ' id=N]</code></td><td>' + vccEscapeHtml(h.what) + '</td></tr>';
+		});
+		return '<strong>Шорткоды Виты — рендерятся на витрине живыми блоками</strong>' +
+			'<table class="vcc-sc-help__table"><tbody>' + rows.join('') + '</tbody></table>' +
+			'<span class="vcc-sc-help__note">ID — номер модуля/группы в админке (в палитре есть блоки-шорткоды с выбором из каталога). Шорткоды не вкладывайте внутрь [vita_html]…[/vita_html].</span>';
+	}
+
+	function attachShortcodeHint(wrap, input) {
+		var box = el('div', 'vcc-sc-help');
+		box.innerHTML = '<button type="button" class="vcc-sc-help__toggle"><i class="fa fa-magic"></i> Справка по шорткодам Виты</button>' +
+			'<div class="vcc-sc-help__body" hidden>' + shortcodeHtml() + '</div>';
+		var body = box.querySelector('.vcc-sc-help__body');
+		box.querySelector('.vcc-sc-help__toggle').addEventListener('click', function () {
+			body.hidden = !body.hidden;
+			box.classList.toggle('vcc-sc-help--open', !body.hidden);
+		});
+		/* Детект в вводе: подсветка кнопки справки, пока в тексте есть [vita_…] */
+		input.addEventListener('input', function () {
+			box.classList.toggle('vcc-sc-help--detected', /\[vita_[a-z0-9_]/i.test(input.value));
+		});
+		if (/\[vita_[a-z0-9_]/i.test(input.value || '')) {
+			box.classList.add('vcc-sc-help--detected');
+		}
+		wrap.appendChild(box);
+	}
+
 	function makeField(def, block, onChange) {
 		var wrap = el('div', 'vcc-field');
 		/* Разделитель группы полей без ввода */
@@ -178,6 +224,11 @@
 		wrap.appendChild(input);
 		if (def.markdown) {
 			wrap.appendChild(el('div', 'vcc-hint', 'Markdown: **жирный**, *курсив*, ==акцент==, `код`, [текст](url), [соглашение](agree:ID), [кнопка формы](form:ID), списки через «- »'));
+		}
+		/* Smart-подсказка шорткодов (0.7.2): пользователь начал вводить
+		 * [vita_…] руками — показываем мини-справку по синтаксису. */
+		if (def.markdown || def.type === 'textarea') {
+			attachShortcodeHint(wrap, input);
 		}
 		return wrap;
 	}
@@ -413,13 +464,16 @@
 		var page = $('#vcc-fullscreen-page');
 		if (!fs || !page) return;
 		bindTabsDelegate(page);
-		/* Страница как на витрине: некликабельные шапка/подвал Виты
-		   вокруг сгенерированного контента (тестовые данные) */
+		/* Страница как на витрине Виты: некликабельные шапка/подвал магазина
+		   и лендинг-секции на всю ширину окна. Скроллится весь документ —
+		   скроллбара справа у страницы нет (см. css .vcc-fullscreen__page). */
 		page.innerHTML = mockHeader() +
+			'<div class="vcc-content">' +
 			(project.blocks.map(blockPreviewHtml).join('\n') ||
 				'<p style="text-align:center;color:var(--mp-text-light,#94A3B8);padding:60px 20px">Страница пока пуста — вернитесь в редактирование и добавьте блоки из палитры</p>') +
+			'</div>' +
 			mockFooter();
-		page.scrollTop = 0;
+		window.scrollTo(0, 0);
 	}
 
 	/* ---------- Рендер ---------- */
