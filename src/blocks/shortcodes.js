@@ -74,7 +74,7 @@
 		var html = '<div class="vcc-shortcode-mock" aria-hidden="true">' +
 			'<div class="vcc-shortcode-mock__head">' +
 			'<i class="fa fa-magic"></i><span class="vcc-shortcode-mock__tag">' + vccEscapeHtml(modules) + '</span>' +
-			'<span class="vcc-shortcode-mock__badge">шорткод темы</span></div>' +
+			'<span class="vcc-shortcode-mock__badge">спец-метка темы</span></div>' +
 			'<div class="vcc-shortcode-mock__body">' + vccEscapeHtml(hint) + '</div>' +
 			'<div class="vcc-shortcode-mock__note">На витрине здесь выведется живой модуль — содержимое задаётся в админке магазина</div>' +
 			'</div>';
@@ -151,7 +151,7 @@
 			},
 			toHTML: function (data) {
 				var id = Math.max(0, parseInt(data.blockId, 10) || 0);
-				return shortcodeChip(label.replace(' (шорткод)', ' темы'), id ? moduleLabel(listKey, id) : 'блок не выбран — выберите из списка или укажите ID');
+				return shortcodeChip(label.replace(' (спец-метка)', ' магазина'), id ? moduleLabel(listKey, id) : 'блок не выбран — выберите из списка или укажите ID');
 			}
 		});
 	}
@@ -162,7 +162,7 @@
 	 * файл выживал и при импорте через кнопку (путь B). --- */
 	BlockRegistry.register({
 		type: 'vita_html',
-		label: 'HTML темы (шорткод)',
+		label: 'HTML темы (спец-метка)',
 		icon: 'fa-code',
 		group: 'modules',
 		defaults: { content: '<div class="vcc-paragraph">Ваш HTML…</div>' },
@@ -184,14 +184,14 @@
 		}
 	});
 
-	moduleBlock('vita_visual', 'Визуальные блоки (шорткод)', 'fa-picture-o', 'visualBlocks', 'Слайдер / Баннер / LookBook');
-	moduleBlock('vita_all_in_one', 'Универсальные блоки товаров (шорткод)', 'fa-th-large', 'productBlocks', 'Товарный блок магазина');
-	moduleBlock('vita_extra_wall', 'Стена категорий и брендов (шорткод)', 'fa-th', 'walls', 'Стена магазина');
+	moduleBlock('vita_visual', 'Визуальные блоки (спец-метка)', 'fa-picture-o', 'visualBlocks', 'Слайдер / Баннер / LookBook');
+	moduleBlock('vita_all_in_one', 'Универсальные блоки товаров (спец-метка)', 'fa-th-large', 'productBlocks', 'Товарный блок магазина');
+	moduleBlock('vita_extra_wall', 'Стена категорий и брендов (спец-метка)', 'fa-th', 'walls', 'Стена магазина');
 
 	/* --- FAQ-группы темы ([vita_faq]) --- */
 	BlockRegistry.register({
 		type: 'vita_faq',
-		label: 'FAQ-группы (шорткод)',
+		label: 'FAQ-группы (спец-метка)',
 		icon: 'fa-question-circle-o',
 		group: 'modules',
 		defaults: { faqId: 0, title: '' },
@@ -220,7 +220,7 @@
 	/* --- Формы темы ([vita_form]) --- */
 	BlockRegistry.register({
 		type: 'vita_form',
-		label: 'Форма (шорткод)',
+		label: 'Форма (спец-метка)',
 		icon: 'fa-wpforms',
 		group: 'modules',
 		defaults: { formId: 0 },

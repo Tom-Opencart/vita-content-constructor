@@ -43,7 +43,7 @@
 	--mp-transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Подсказка у панели экспорта: шорткоды Виты — текстовым блоком или «HTML темы» */
+/* Подсказка у панели экспорта: спец-метки модулей Виты — текстовым блоком или «HTML темы» */
 .vcc-export-hint {
 	position: relative;
 	display: inline-flex;
@@ -130,11 +130,11 @@
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-undo" title="Отменить последнее действие"><i class="fa fa-undo"></i></button>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-toggle" title="Страница на всю ширину: только сгенерированный контент, без палитры и шапки конструктора"><i class="fa fa-arrows-alt"></i> <span class="vcc-hide-narrow">На весь экран</span></button>
 		<button type="button" class="vcc-btn vcc-btn--primary vcc-btn--sm" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать</span></button>
-		<span class="vcc-export-hint" tabindex="0" aria-label="Подсказка: как вставлять шорткоды Виты, чтобы они пережили экспорт и импорт">
+		<span class="vcc-export-hint" tabindex="0" aria-label="Подсказка: как вставлять спец-метки модулей Виты, чтобы они пережили экспорт и импорт">
 			<i class="fa fa-question-circle-o"></i>
 			<span class="vcc-export-hint__bubble" role="tooltip">
-				<strong>Шорткоды Виты — вставляйте текстовым блоком или через «HTML темы»</strong>
-				Теги вида <code>[vita_visual id=78]</code>, <code>[vita_faq id=3]</code>, <code>[vita_form id=5]</code> переживают экспорт файла и импорт в модуль, а на витрине превращаются в живые блоки. В палитре есть и готовые блоки-шорткоды с выбором ID из каталога магазина — они надёжнее ручного ввода.
+				<strong>Спец-метки модулей Виты — вставляйте текстовым блоком или через «HTML темы»</strong>
+				Теги вида <code>[vita_visual id=78]</code>, <code>[vita_faq id=3]</code>, <code>[vita_form id=5]</code> переживают экспорт файла и импорт в модуль, а на витрине превращаются в живые блоки. В палитре есть и готовые блоки спец-меток с выбором ID из каталога магазина — они надёжнее ручного ввода.
 			</span>
 		</span>
 		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm vcc-hide-narrow" id="vcc-dl-json" title="Скачать проект JSON">JSON</button>
@@ -185,7 +185,7 @@
 			<div class="vcc-onboard__step-num">2</div>
 			<div class="vcc-onboard__step-body">
 				<h2>Соберите страницу</h2>
-				<p>Добавляйте блоки из палитры слева: заголовки, текст с разметкой, врезки, табы, таблицы, картинки — и живые модули магазина (FAQ и формы) через шорткоды. Предпросмотр покажет страницу в контексте магазина.</p>
+				<p>Добавляйте блоки из палитры слева: заголовки, текст с разметкой, врезки, табы, таблицы, картинки — и живые модули магазина (FAQ и формы) через спец-метки. Предпросмотр покажет страницу в контексте магазина.</p>
 			</div>
 		</div>
 
