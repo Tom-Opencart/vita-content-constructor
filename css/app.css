@@ -591,6 +591,8 @@ button { font-family: inherit; }
  * Моки шапки/подвала магазина тоже без карточных рамок. */
 .vcc-fullscreen__page .vcc-section { margin: 0; }
 .vcc-fullscreen__page .vcc-mock--footer { margin-top: auto; }
+/* На витрине футер отступает от контента на 4rem = 40px (root 10px). */
+.vcc-fullscreen__page .vcc-mock--footer { padding-top: 40px; }
 /* Контент — во всю ширину окна: секции лендинга тянутся на 100%,
    как lp-* секции реальной витрины; ограничение ширины задаёт
    только .vcc-container внутри секций. */
@@ -726,14 +728,15 @@ button { font-family: inherit; }
 	padding-right: 20px;
 	width: 100%;
 }
-/* Подвал: .tech-footer Виты. Светлые фолбэки — дефолты vars_css.php
-   (этот блок генерируется на каждом живом сайте): #fafafa/#6b7280/#111827. */
+/* Подвал: .tech-footer Виты. Отступы Виты заданы в rem при root 10px
+   (наследие Bootstrap 3 в OpenCart): 3.5rem = 35px, 2rem = 20px.
+   Светлые фолбэки — дефолты vars_css.php: #fafafa/#6b7280/#111827. */
 .vcc-mock .tech-footer {
 	background-color: var(--vita-footer-bg, #fafafa);
 	border-top: 1px solid var(--vita-footer-border, #e5e7eb);
 	color: var(--vita-footer-text, #6b7280);
-	padding-bottom: 2rem;
-	padding-top: 3.5rem;
+	padding-bottom: 20px;
+	padding-top: 35px;
 }
 .vcc-mock .tech-footer-grid {
 	display: grid;
@@ -745,7 +748,7 @@ button { font-family: inherit; }
 	font-size: 15px;
 	font-weight: 700;
 	letter-spacing: -0.01em;
-	margin-bottom: 1.25rem;
+	margin-bottom: 12.5px;
 	margin-top: 0;
 }
 .vcc-mock .tech-footer-desc { font-size: 13.5px; line-height: 1.6; }
@@ -761,17 +764,20 @@ button { font-family: inherit; }
 	font-size: 13.5px;
 	text-decoration: none;
 }
-.vcc-mock .tech-footer-bottom {
-	border-top: 1px solid var(--vita-footer-border, #e5e7eb);
-	color: var(--vita-footer-bottom-text, #9ca3af);
+/* Нижняя строка — .mp-footer-bottom vita.css (5369): паддинг 2rem = 20px,
+   копирайт слева (.mp-footer-copyright, --mp-text-muted), цвет строки
+   #64748b не меняется в тёмной теме (dark-override трогает только рамку). */
+.vcc-mock .mp-footer-bottom {
+	align-items: center;
+	border-top: 1px solid var(--mp-border-color, #e2e8f0);
+	color: var(--vita-footer-bottom-text, #64748b);
 	display: flex;
 	flex-wrap: wrap;
 	font-size: 13px;
-	gap: 16px;
 	justify-content: space-between;
-	margin-top: 1.75rem;
-	padding-top: 1.75rem;
+	padding-top: 20px;
 }
+.vcc-mock .mp-footer-copyright { color: var(--vita-footer-bottom-text, #64748b); }
 /* Тёмные значения шапки/подвала Виты — из [data-theme="dark"] vita.css.
    Конструктор ставит этот же атрибут на <html> (applyTokensToDom). */
 [data-theme="dark"] .vcc-mock .mp-header-top {
@@ -802,9 +808,8 @@ button { font-family: inherit; }
 [data-theme="dark"] .vcc-mock .tech-footer-title { color: #FFFFFF; }
 [data-theme="dark"] .vcc-mock .tech-footer-list li a,
 [data-theme="dark"] .vcc-mock .tech-footer-list li span { color: #9E99A6; }
-[data-theme="dark"] .vcc-mock .tech-footer-bottom {
+[data-theme="dark"] .vcc-mock .mp-footer-bottom {
 	border-top-color: #2C2930;
-	color: #9E99A6;
 }
 .vcc-mock__note {
 	border-top: 1px dashed var(--mp-border-color, #E2E8F0);

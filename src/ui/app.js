@@ -126,11 +126,11 @@
 		return block.data[def.key];
 	}
 
-	/* ---------- Smart-подсказка шорткодов Виты (0.7.2) ----------
+	/* ---------- Smart-подсказка спец-меток Виты (0.7.2) ----------
 	 * Пользователь начал вводить [vita_…] руками — под полем появляется
 	 * сворачиваемая мини-справка: реестр тегов темы (сверен с контроллером
 	 * vita_theme.php 1.10.1), пример и правило (не вкладывать в [vita_html]).
-	 * Прячется, когда шорткода в тексте больше нет. */
+	 * Прячется, когда спец-метки в тексте больше нет. */
 	var SHORTCODE_HELP = [
 		{ tag: 'vita_visual', args: 'id', what: 'слайдер / баннер / LookBook' },
 		{ tag: 'vita_all_in_one', args: 'id', what: 'универсальный блок товаров' },
@@ -148,14 +148,14 @@
 		var rows = SHORTCODE_HELP.map(function (h) {
 			return '<tr><td><code>[vita_' + h.tag.replace(/^vita_/, '') + ' id=N]</code></td><td>' + vccEscapeHtml(h.what) + '</td></tr>';
 		});
-		return '<strong>Шорткоды Виты — рендерятся на витрине живыми блоками</strong>' +
+		return '<strong>Спец-метки модулей Виты — рендерятся на витрине живыми блоками</strong>' +
 			'<table class="vcc-sc-help__table"><tbody>' + rows.join('') + '</tbody></table>' +
-			'<span class="vcc-sc-help__note">ID — номер модуля/группы в админке (в палитре есть блоки-шорткоды с выбором из каталога). Шорткоды не вкладывайте внутрь [vita_html]…[/vita_html].</span>';
+			'<span class="vcc-sc-help__note">ID — номер модуля/группы в админке (в палитре есть блоки спец-меток с выбором из каталога). Спец-метки не вкладывайте внутрь [vita_html]…[/vita_html].</span>';
 	}
 
 	function attachShortcodeHint(wrap, input) {
 		var box = el('div', 'vcc-sc-help');
-		box.innerHTML = '<button type="button" class="vcc-sc-help__toggle"><i class="fa fa-magic"></i> Справка по шорткодам Виты</button>' +
+		box.innerHTML = '<button type="button" class="vcc-sc-help__toggle"><i class="fa fa-magic"></i> Справка по спец-меткам Виты</button>' +
 			'<div class="vcc-sc-help__body" hidden>' + shortcodeHtml() + '</div>';
 		var body = box.querySelector('.vcc-sc-help__body');
 		box.querySelector('.vcc-sc-help__toggle').addEventListener('click', function () {
@@ -225,7 +225,7 @@
 		if (def.markdown) {
 			wrap.appendChild(el('div', 'vcc-hint', 'Markdown: **жирный**, *курсив*, ==акцент==, `код`, [текст](url), [соглашение](agree:ID), [кнопка формы](form:ID), списки через «- »'));
 		}
-		/* Smart-подсказка шорткодов (0.7.2): пользователь начал вводить
+		/* Smart-подсказка спец-меток (0.7.2): пользователь начал вводить
 		 * [vita_…] руками — показываем мини-справку по синтаксису. */
 		if (def.markdown || def.type === 'textarea') {
 			attachShortcodeHint(wrap, input);
@@ -475,7 +475,7 @@
 			'<div class="tech-footer-col"><h5 class="tech-footer-title">Контакты</h5>' +
 			'<ul class="tech-footer-list"><li><span>+7 (900) 000-00-00</span></li><li><span>sale@example.com</span></li></ul></div>' +
 			'</div>' +
-			'<div class="tech-footer-bottom"><span>© 2026 Магазин «Вита»</span><span>Работает на Вита</span></div>' +
+			'<div class="mp-footer-bottom"><div class="mp-footer-copyright">© 2026 Магазин «Вита». Все права защищены.</div></div>' +
 			'</div>' +
 			'</div>' +
 			'</div>';
@@ -698,9 +698,9 @@
 			if (seen[id]) continue;
 			seen[id] = true;
 			if (id === '0') {
-				warned.push('form:0 — задайте ID формы в блоке «Форма (шорткод)» или замените ссылку');
+				warned.push('form:0 — задайте ID формы в блоке «Форма (спец-метка)» или замените ссылку');
 			} else if (!formIds[id]) {
-				warned.push('form:' + id + ' — на странице нет блока «Форма (шорткод)» с этой формой, кнопка ничего не откроет');
+				warned.push('form:' + id + ' — на странице нет блока «Форма (спец-метка)» с этой формой, кнопка ничего не откроет');
 			}
 		}
 		project.blocks.forEach(function (b) {
