@@ -198,7 +198,9 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	width: 100%;
 	z-index: 0;
 }
-.vcc-section--overlay .vcc-section__inner::before {
+/* Оверлей — слой СЕКЦИИ (z1): под контентом (inner z2), над фоном/видео
+ * (video z0). На __inner он затемнял бы сам текст. */
+.vcc-section--overlay::before {
 	background: rgba(0, 0, 0, 0.45);
 	bottom: 0;
 	content: '';
@@ -581,4 +583,4 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 
 /* --- Тёмная тема: ровно два аддитивных оверрая (спека §4.4) --- */
 [data-theme="dark"] .vcc-plan--featured { background: var(--mp-bg-hover, #38343E); }
-[data-theme="dark"] .vcc-section--overlay .vcc-section__inner::before { background: rgba(0, 0, 0, 0.65); }
+[data-theme="dark"] .vcc-section--overlay::before { background: rgba(0, 0, 0, 0.65); }

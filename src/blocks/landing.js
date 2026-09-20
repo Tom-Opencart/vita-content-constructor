@@ -620,7 +620,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 					],
 					itemTitle: function (item, i) { return (item.label || 'Контакт') + ': ' + (item.value || ''); }
 				},
-				{ key: '_hint', label: 'Ссылки tel: и mailto: в кнопках и значениях контактов пропускаются санитайзером темы; без них значение выводится текстом.', type: 'hint' }
+				{ key: '_hint', label: 'Значение выводится текстом; кликабельные tel:/mailto: добавьте кнопкой через markdown [текст](https://…) или ссылками на страницу контактов магазина.', type: 'hint' }
 			]);
 		},
 		toHTML: function (data) {
@@ -964,7 +964,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var resolved = resolveVideoUrl(v.src);
 			if (!resolved.url && !String(v.title || '').trim()) return '';
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
-			var attrs = resolved.url ? ' data-vcc-video="' + vccEscapeHtml(resolved.url) + '"' : '';
+			var attrs = resolved.url
+				? ' data-vcc-video="' + vccEscapeHtml(resolved.url) + '"' +
+					(String(v.title || '').trim() ? ' data-vcc-video-title="' + vccEscapeHtml(v.title) + '"' : '')
+				: '';
 			var inner = resolved.url
 				? '<a class="vcc-video__link" href="' + vccEscapeHtml(resolved.url) + '">' + vccEscapeHtml(v.title || resolved.url) + '</a>'
 				: '<span class="vcc-video__link">' + vccEscapeHtml(v.title || '') + '</span>';
