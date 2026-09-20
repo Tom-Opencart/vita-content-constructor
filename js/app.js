@@ -833,7 +833,7 @@ var VccStore = (function () {
 				? data.rows
 				: (String(data.rows || '').trim() ? String(data.rows).split(/\r?\n/) : []);
 			var rows = rowList.map(function (r) {
-				return Array.isArray(r) ? r : String(r || '').split('|');
+				return Array.isArray(r) ? r : String(r || '').split('|').map(function (cell) { return cell.trim(); });
 			});
 			if (!headers.length && !rows.length) return '';
 			var html = '<div class="vcc-table-wrap"><table class="vcc-table">';
