@@ -153,7 +153,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 			sec: { bg: 'image', image: '', overlay: true, padding: 'xl', width: 'default', anchor: '' }
 		},
 		fields: function () {
-			return sectionFields().concat([
+			return [
+				{ key: '_hint', label: 'H1 на странице должен быть один — не дублируйте его с заголовком статьи (спека §6.1).', type: 'hint' }
+			].concat(sectionFields()).concat([
 				{ key: 'title', label: 'Заголовок H1 (на странице он должен быть один)', type: 'textarea', rows: 2, markdown: true },
 				{ key: 'sub', label: 'Подзаголовок', type: 'textarea', rows: 3, markdown: true },
 				{ key: 'btn1_label', label: 'Кнопка 1 — текст', type: 'text' },

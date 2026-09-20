@@ -209,6 +209,8 @@
 			card.appendChild(head);
 			var body = el('div', 'vcc-rows-item__body');
 			(def.itemFields || []).forEach(function (fd) {
+				/* §5.3 спеки: вложенные rows-editor запрещены (плоская модель данных) */
+				if (fd.type === 'rows-editor' || fd.type === 'tabs-editor') return;
 				body.appendChild(makeField(fd, { data: item }, function (ikey, value) {
 					item[ikey] = value;
 					commit();
@@ -574,6 +576,40 @@
 		});
 	}
 
+	/* Валидация перед экспортом (спека §5.5/§6.19/§6.20): предупреждения
+	 * показываются, но экспорт не блокируется. */
+	function validateExport(project) {
+		var html = VccExport.buildHtml(project);
+		var formIds = {};
+		project.blocks.forEach(function (b) {
+			if (b.type === 'vita_form') {
+				var fid = Math.max(0, parseInt(b.data.formId, 10) || 0);
+				if (fid) formIds[fid] = true;
+			}
+		});
+		var warned = [];
+		var seen = {};
+		var m;
+		var re = /href="form:(\d+)"/g;
+		while ((m = re.exec(html)) !== null) {
+			var id = m[1];
+			if (seen[id]) continue;
+			seen[id] = true;
+			if (id === '0') {
+				warned.push('form:0 — задайте ID формы в блоке «Форма (шорткод)» или замените ссылку');
+			} else if (!formIds[id]) {
+				warned.push('form:' + id + ' — на странице нет блока «Форма (шорткод)» с этой формой, кнопка ничего не откроет');
+			}
+		}
+		project.blocks.forEach(function (b) {
+			if (b.type === 'video' && window.VccVideo && String(b.data.src || '').trim()) {
+				var r = window.VccVideo.resolve(b.data.src);
+				if (r.warn) warned.push('видео: ' + r.warn);
+			}
+		});
+		if (warned.length) showToast(warned.slice(0, 3).join(' · '), 'warning');
+	}
+
 	function init() {
 		VccStore.load();
 		renderPalette();
@@ -608,7 +644,10 @@
 			if (btn) VccStore.setMode(btn.dataset.mode);
 		});
 		$('#vcc-undo').addEventListener('click', function () { VccStore.undo(); });
-		$('#vcc-dl-html').addEventListener('click', function () { VccExport.downloadHtml(VccStore.currentProject()); });
+		$('#vcc-dl-html').addEventListener('click', function () {
+			validateExport(VccStore.currentProject());
+			VccExport.downloadHtml(VccStore.currentProject());
+		});
 		$('#vcc-dl-json').addEventListener('click', function () { VccExport.downloadJson(VccStore.currentProject()); });
 		$('#vcc-dl-css').addEventListener('click', function () {
 			ensureExportCss().then(function () {
