@@ -90,7 +90,7 @@ def sha256(path):
 
 def css_commits(repo, rel_path, limit=40):
     """Последние коммиты, меняющие файл (hash + subject) — информационная сверка пары."""
-    rc, out = git(repo, "log", "-n%d" % limit, "--format=%h%x09%s", "--follow", "--", rel_path)
+    rc, out = git(repo, "log", "-n%d" % limit, "--format=%h%x09%s", "--", rel_path)
     commits = []
     for line in out.splitlines():
         if "\t" not in line:
@@ -225,6 +225,13 @@ def do_check(limit=40):
     print("=" * 64)
     print("COMMIT-PAIR CHECK")
     print("=" * 64)
+
+    # -- Свежие remote-ссылки: без fetch гейт 3 сравнивает с устаревшим origin --
+    for label, repo in (("constructor", CONSTRUCTOR_ROOT), ("theme", THEME_DIR)):
+        if is_repo(repo):
+            rc, _ = git(repo, "fetch", "--quiet", "origin")
+            if rc != 0:
+                print("[info] fetch %s не удался (офлайн?) — сверка по локальным remote-ссылкам" % label)
 
     # -- Гейт 1: идентичность файлов --------------------------------------
     g1 = os.path.isfile(SOURCE_CSS) and os.path.isfile(THEME_CSS) and files_equal(SOURCE_CSS, THEME_CSS)
