@@ -3,6 +3,10 @@
 Блоки-шорткоды (M5): вставка живых модулей темы в контент.
   [vita_faq]  — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
   [vita_form] — форма модуля «Вита — Формы» (атрибут: id, обязателен)
+Пикер ID (0.4.0): поля типа select со списком РЕАЛЬНЫХ групп/форм
+из каталога пресета темы (store.catalog). Пустой каталог (пресет не
+загружен или старый пресет) — то же поле превращается в ручной ввод
+числа, ничего не ломается.
 Контракт vcc-v1:
   • в редакторе — некликабельный мок-плейсхолдер (стили app.css);
   • в экспорт идёт ТОЛЬКО литеральный шорткод в обёртке
@@ -17,6 +21,44 @@
 'use strict';
 
 (function () {
+	/* Каталог из store: [] или готовые options для select.
+	 * Подпись: название из магазина + счётчик (вопросы/тип формы). */
+	function faqOptions() {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		var options = [['0', 'Все активные группы']];
+		for (var i = 0; i < catalog.faqGroups.length; i++) {
+			var g = catalog.faqGroups[i];
+			options.push([String(g.id), 'Группа #' + g.id + ' · ' + (g.title || 'Без названия') + ' (' + g.count + ')']);
+		}
+		return options;
+	}
+
+	function formOptions() {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		var options = [['0', '— Выберите форму —']];
+		for (var i = 0; i < catalog.forms.length; i++) {
+			var f = catalog.forms[i];
+			options.push([String(f.id), 'Форма #' + f.id + ' · ' + (f.title || 'Без названия')]);
+		}
+		return options;
+	}
+
+	function hasCatalog() {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		return catalog.faqGroups.length > 0 || catalog.forms.length > 0;
+	}
+
+	/* Подсказка над полями: откуда берётся список */
+	function catalogHint() {
+		var hint = {
+			key: '_catalog_hint', label: hasCatalog()
+				? 'Список из пресета вашего магазина — пересоздайте пресет, если добавили новые группы/формы'
+				: 'Список появится после загрузки пресета магазина (шаг 1 онбординга) — пока введите ID вручную',
+			type: 'hint'
+		};
+		return hint;
+	}
+
 	/* Общая часть: обёртка экспорта + чип в моке */
 	function shortcodeWrap(shortcode) {
 		return '<div class="vcc-shortcode">' + shortcode + '</div>';
@@ -33,6 +75,30 @@
 		return html;
 	}
 
+	/* Подпись мока: имя из каталога, если ID там есть */
+	function faqLabel(id, title) {
+		var head = title ? '«' + title + '» · ' : '';
+		if (!id) return head + 'все активные группы';
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		for (var i = 0; i < catalog.faqGroups.length; i++) {
+			if (catalog.faqGroups[i].id === id) {
+				return head + (catalog.faqGroups[i].title || ('группа #' + id));
+			}
+		}
+		return head + 'группа #' + id;
+	}
+
+	function formLabel(id) {
+		if (!id) return 'форма не выбрана — выберите из списка или укажите ID';
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		for (var i = 0; i < catalog.forms.length; i++) {
+			if (catalog.forms[i].id === id) {
+				return catalog.forms[i].title || ('форма #' + id);
+			}
+		}
+		return 'форма #' + id;
+	}
+
 	/* --- FAQ-группы темы ([vita_faq]) --- */
 	BlockRegistry.register({
 		type: 'vita_faq',
@@ -40,10 +106,13 @@
 		icon: 'fa-question-circle-o',
 		group: 'modules',
 		defaults: { faqId: 0, title: '' },
-		fields: [
-			{ key: 'faqId', label: 'ID группы FAQ (0 — все активные)', type: 'number' },
-			{ key: 'title', label: 'Заголовок блока (опционально)', type: 'text', placeholder: 'Оставьте пустым — возьмётся из группы' }
-		],
+		fields: function () {
+			return [
+				catalogHint(),
+				{ key: 'faqId', label: 'Группа FAQ', type: hasCatalog() ? 'select' : 'number', options: faqOptions(), picker: true },
+				{ key: 'title', label: 'Заголовок блока (опционально)', type: 'text', placeholder: 'Оставьте пустым — возьмётся из группы' }
+			];
+		},
 		/* Экспорт: литеральный шорткод — на витрине тема рендерит FAQ */
 		toExportHTML: function (data) {
 			var id = Math.max(0, parseInt(data.faqId, 10) || 0);
@@ -55,9 +124,7 @@
 		toHTML: function (data) {
 			var id = Math.max(0, parseInt(data.faqId, 10) || 0);
 			var title = String(data.title || '').trim();
-			var where = id ? 'группа #' + id : 'все активные группы';
-			var head = title ? '«' + title + '» · ' : '';
-			return shortcodeChip('FAQ-группы темы', head + where);
+			return shortcodeChip('FAQ-группы темы', faqLabel(id, title));
 		}
 	});
 
@@ -68,9 +135,12 @@
 		icon: 'fa-wpforms',
 		group: 'modules',
 		defaults: { formId: 0 },
-		fields: [
-			{ key: 'formId', label: 'ID формы (обязателен)', type: 'number', placeholder: 'Например, 26' }
-		],
+		fields: function () {
+			return [
+				catalogHint(),
+				{ key: 'formId', label: 'Форма магазина', type: hasCatalog() ? 'select' : 'number', options: formOptions(), picker: true }
+			];
+		},
 		/* Без формы шорткод ничего не выведет — не экспортируем блок вовсе */
 		toExportHTML: function (data) {
 			var id = Math.max(0, parseInt(data.formId, 10) || 0);
@@ -79,8 +149,7 @@
 		},
 		toHTML: function (data) {
 			var id = Math.max(0, parseInt(data.formId, 10) || 0);
-			var hint = id ? 'форма #' + id : 'форма не выбрана — укажите ID формы';
-			return shortcodeChip('Форма темы', hint);
+			return shortcodeChip('Форма темы', formLabel(id));
 		}
 	});
 })();

@@ -8,10 +8,12 @@ localStorage, подписки, undo в пределах сессии.
 
 var VccStore = (function () {
 	var LS_KEY = 'vcc_project_v1';
+	var LS_CATALOG_KEY = 'vcc_catalog_v1';
 	var state = {
 		project: { title: '', slug: '', themeMode: 'light', theme: { preset: null, tokens: null }, blocks: [] },
 		palette: VCC_DEFAULT_TOKENS,
 		paletteName: '',
+		catalog: VCC_CATALOG_DEFAULT,
 		undoStack: []
 	};
 	var listeners = [];
@@ -53,6 +55,7 @@ var VccStore = (function () {
 			var normalized = vccNormalizeProject(JSON.parse(raw));
 			if (normalized) state.project = normalized;
 		} catch (e) { /* битый кэш — начинаем с пустого */ }
+		loadCatalog();
 	}
 
 	function setProject(project) {
@@ -143,6 +146,23 @@ var VccStore = (function () {
 		emit();
 	}
 
+	/* Каталог модулей магазина: из пресета темы, живёт в localStorage —
+	 * блоки-шорткоды строят по нему пикеры ID */
+	function setCatalog(catalog) {
+		state.catalog = vccNormalizeCatalog(catalog);
+		try {
+			localStorage.setItem(LS_CATALOG_KEY, JSON.stringify(state.catalog));
+		} catch (e) { /* приватный режим — молча */ }
+		emit();
+	}
+
+	function loadCatalog() {
+		try {
+			var raw = localStorage.getItem(LS_CATALOG_KEY);
+			if (raw) state.catalog = vccNormalizeCatalog(JSON.parse(raw));
+		} catch (e) { /* битый кэш — пустой каталог */ }
+	}
+
 	function setMode(mode) {
 		mutate(function (p) { p.themeMode = mode === 'dark' ? 'dark' : 'light'; });
 	}
@@ -171,6 +191,8 @@ var VccStore = (function () {
 		moveBlock: moveBlock,
 		setMeta: setMeta,
 		setPalette: setPalette,
+		setCatalog: setCatalog,
+		getCatalog: function () { return state.catalog; },
 		setMode: setMode,
 		undo: undo,
 		getPalette: function () { return state.palette; },

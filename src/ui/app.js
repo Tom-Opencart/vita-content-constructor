@@ -114,6 +114,11 @@
 
 	function makeField(def, block, onChange) {
 		var wrap = el('div', 'vcc-field');
+		/* Пояснительная строка без ввода (например, откуда список пикера) */
+		if (def.type === 'hint') {
+			wrap.appendChild(el('div', 'vcc-hint', def.label));
+			return wrap;
+		}
 		if (def.type === 'checkbox') {
 			var row = el('label', 'vcc-checkbox-row');
 			var cb = el('input');
@@ -210,7 +215,10 @@
 			patch[key] = value;
 			VccStore.updateBlockSilent(block.id, patch);
 		};
-		(def.fields || []).forEach(function (fieldDef) {
+		/* Поля могут быть функцией (пикеры шорткодов зависят от каталога
+		   пресета — он может появиться/обновиться в любой момент) */
+		var fields = typeof def.fields === 'function' ? def.fields() : (def.fields || []);
+		fields.forEach(function (fieldDef) {
 			body.appendChild(makeField(fieldDef, block, onChange));
 		});
 		return body;

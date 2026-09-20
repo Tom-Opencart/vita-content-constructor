@@ -137,6 +137,12 @@ var VccImport = (function () {
 		}
 		var tokens = vccApplyPreset(data.tokens);
 		VccStore.setPalette(tokens, data.name || data.title || 'Пресет магазина');
+		/* Каталог модулей магазина (0.4.0): реальные FAQ-группы и формы —
+		 * пикеры блоков-шорткодов. Старые пресеты поля не несут — каталог
+		 * остаётся прежним (обычно пустым, блоки дают ручной ввод ID). */
+		if (data.catalog && typeof data.catalog === 'object') {
+			VccStore.setCatalog(data.catalog);
+		}
 		return tokens;
 	}
 

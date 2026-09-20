@@ -7,7 +7,7 @@
 'use strict';
 
 var VCC_CONTRACT = 'vcc-v1';
-var VCC_APP_VERSION = '0.3.0';
+var VCC_APP_VERSION = '0.4.0';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {
@@ -87,6 +87,38 @@ var VCC_PRESET_MAP = {
 	'theme_vita_color_link_hover': '--mp-primary-hover',
 	'theme_vita_border_radius': '--mp-radius-md'
 };
+
+/*
+ * Каталог модулей магазина (пресет темы, поле catalog): реальные
+ * FAQ-группы и формы — пикеры блоков-шорткодов вместо ручного ввода ID.
+ * Старые пресеты поля не несут — каталог пуст, блоки дают ручной ввод.
+ */
+var VCC_CATALOG_DEFAULT = { faqGroups: [], forms: [] };
+
+function vccNormalizeCatalog(raw) {
+	var out = { faqGroups: [], forms: [] };
+	if (!raw || typeof raw !== 'object') return out;
+	function clean(list, nameKey) {
+		var res = [];
+		if (!Array.isArray(list)) return res;
+		for (var i = 0; i < list.length; i++) {
+			var it = list[i];
+			if (!it || typeof it !== 'object') continue;
+			var id = parseInt(it.id, 10);
+			if (isNaN(id) || id < 1) continue;
+			res.push({
+				id: id,
+				title: String(it.title != null ? it.title : (it.name != null ? it.name : '')),
+				count: parseInt(it.count, 10) || 0,
+				status: parseInt(it.status, 10) || 0
+			});
+		}
+		return res;
+	}
+	out.faqGroups = clean(raw.faqGroups);
+	out.forms = clean(raw.forms);
+	return out;
+}
 
 /*
  * Палитра доступных акцентов для блоков: имена токенов, а не hex.
