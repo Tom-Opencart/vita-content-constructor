@@ -1,16 +1,15 @@
 /* ============================================================
 Вита — Конструктор контента · ui/app.js
-Сборка интерфейса: первый экран (схема магазина + файлы),
-редактор (палитра блоков + карточки), предпросмотр в контексте
-магазина (мок шапки/подвала, некликабельные тестовые данные),
-тосты, экспорт/импорт.
+Сборка интерфейса: онбординг-модалка (принцип работы + пресет
+магазина) поверх сразу открытого редактора, палитра блоков,
+карточки, предпросмотр в контексте магазина (мок шапки/подвала,
+некликабельные тестовые данные), тосты, экспорт/импорт.
 ============================================================ */
 'use strict';
 
 (function () {
 	var editingId = null;
 	var previewMode = false;
-	var welcomeActive = true;
 
 	/* ---------- Утилиты ---------- */
 	function $(sel, root) { return (root || document).querySelector(sel); }
@@ -88,7 +87,8 @@
 		var box = $('#vcc-palette');
 		if (!box) return;
 		box.innerHTML = '';
-		var groups = { text: 'Текст', media: 'Медиа', modules: 'Модули магазина' };
+		/* Картинка в группе «Текст» — отдельной группы из одного блока нет */
+		var groups = { text: 'Блоки контента', modules: 'Модули магазина' };
 		var defs = BlockRegistry.getList();
 		Object.keys(groups).forEach(function (group) {
 			var defsInGroup = defs.filter(function (d) { return (d.group || 'text') === group; });
@@ -319,10 +319,9 @@
 
 	/* ---------- Рендер ---------- */
 	function render(src, force) {
-		/* Токены применяются всегда — пресет загружают и с первого экрана,
-		   и палитра обязана перекрашивать welcome до входа в редактор. */
+		/* Токены применяются всегда: пресет можно загрузить прямо в
+		   онбординге — модалка и редактор под ней красятся сразу. */
 		applyTokensToDom();
-		if (welcomeActive) return;
 		var canvas = $('#vcc-canvas');
 		if (!canvas) return;
 		/* render вызывают и с state (subscribe), и с project напрямую */
@@ -414,18 +413,29 @@
 		});
 	}
 
-	/* ---------- Первый экран / навигация ---------- */
+	/* ---------- Онбординг-модалка ---------- */
+	/* Редактор открыт всегда: модалка — ненавязчивый слой поверх,
+	   который можно закрыть кликом в фон или Escape. */
+	function openOnboard() {
+		var modal = $('#vcc-onboard');
+		if (!modal) return;
+		modal.classList.add('is-open');
+		renderLayoutGallery();
+		var resume = $('#vcc-resume');
+		if (resume) resume.style.display = VccStore.currentProject().blocks.length ? '' : 'none';
+	}
+
+	function closeOnboard() {
+		var modal = $('#vcc-onboard');
+		if (modal) modal.classList.remove('is-open');
+	}
+
 	function showApp() {
-		welcomeActive = false;
-		$('#vcc-welcome').style.display = 'none';
-		$('#vcc-app').classList.add('is-visible');
-		refreshEditor();
+		closeOnboard();
 	}
 
 	function showWelcome() {
-		welcomeActive = true;
-		$('#vcc-app').classList.remove('is-visible');
-		$('#vcc-welcome').style.display = '';
+		openOnboard();
 	}
 
 	function bindDropZone(zone, input) {
@@ -473,17 +483,22 @@
 		renderPalette();
 		ensureExportCss();
 
-		/* Первый экран */
-		$('#vcc-start-empty').addEventListener('click', showApp);
+		/* Онбординг: редактор уже открыт, модалка поверх */
+		$('#vcc-start-empty').addEventListener('click', closeOnboard);
 		var resume = $('#vcc-resume');
-		if (VccStore.currentProject().blocks.length) {
-			resume.style.display = '';
-			resume.addEventListener('click', showApp);
-		}
+		if (resume && VccStore.currentProject().blocks.length) resume.style.display = '';
+		if (resume) resume.addEventListener('click', closeOnboard);
+		$('#vcc-onboard-backdrop').addEventListener('click', closeOnboard);
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' || e.keyCode === 27) closeOnboard();
+		});
 		bindDropZone($('#vcc-welcome-drop'), $('#vcc-welcome-file'));
 		bindDropZone($('#vcc-layouts-drop'), $('#vcc-layouts-file'));
 		renderLayoutGallery();
 		bindDropZone($('#vcc-header-file-label'), $('#vcc-header-file'));
+		/* Первое открытие (проект пуст) — модалка онбординга поверх редактора;
+		   у вернувшегося с черновиком открыта просто палитра */
+		if (!VccStore.currentProject().blocks.length) openOnboard();
 
 		/* Шапка редактора */
 		$('#vcc-title-input').addEventListener('input', function () {

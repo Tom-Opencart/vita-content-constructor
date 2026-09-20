@@ -102,28 +102,6 @@
 		}
 	});
 
-	/* --- Спойлер (FAQ) --- */
-	BlockRegistry.register({
-		type: 'spoiler',
-		label: 'Спойлер',
-		icon: 'fa-chevron-down',
-		group: 'text',
-		defaults: { title: 'Вопрос', text: 'Ответ.', opened: false },
-		fields: [
-			{ key: 'title', label: 'Заголовок (вопрос)', type: 'text' },
-			{ key: 'text', label: 'Текст (ответ)', type: 'textarea', rows: 4, markdown: true },
-			{ key: 'opened', label: 'Раскрыт по умолчанию', type: 'checkbox' }
-		],
-		toHTML: function (data) {
-			var open = data.opened ? ' open' : '';
-			var inner = vccBlock(data.text || '');
-			return '<details class="vcc-spoiler"' + open + '>' +
-				'<summary class="vcc-spoiler__summary">' + vccInline(data.title || '') + '</summary>' +
-				'<div class="vcc-spoiler__body">' + inner + '</div>' +
-				'</details>';
-		}
-	});
-
 	/* --- Табы --- */
 	BlockRegistry.register({
 		type: 'tabs',
@@ -187,7 +165,7 @@
 		type: 'image',
 		label: 'Картинка',
 		icon: 'fa-picture-o',
-		group: 'media',
+		group: 'text',
 		defaults: { path: '', caption: '' },
 		fields: [
 			{ key: 'path', label: 'Путь или URL (image/catalog/... или https://)', type: 'text' },

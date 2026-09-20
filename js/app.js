@@ -2,11 +2,11 @@
 
 'use strict';
 
-window.VCC_APP_VERSION = '0.2.0';
+window.VCC_APP_VERSION = '0.3.0';
 
-window.VCC_EXPORT_CSS = "/* ============================================================\n\u0412\u0438\u0442\u0430 \u2014 \u041a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0442\u043e\u0440 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u00b7 \u042d\u043a\u0441\u043f\u043e\u0440\u0442\u043d\u044b\u0435 \u0441\u0442\u0438\u043b\u0438 vcc-v1\n\u042d\u0442\u043e\u0442 \u0444\u0430\u0439\u043b \u2014 \u0415\u0414\u0418\u041d\u0421\u0422\u0412\u0415\u041d\u041d\u042b\u0419 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u0441\u0442\u0438\u043b\u0435\u0439 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430: \u0431\u0438\u043b\u0434\u0435\u0440 \u0432\u0448\u0438\u0432\u0430\u0435\u0442\n\u0435\u0433\u043e \u0432 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440 (\u043e\u043a\u043d\u043e \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430) \u0438 \u043e\u0442\u0434\u0430\u0451\u0442 \u043a\u043d\u043e\u043f\u043a\u043e\u0439 \u00ab\u0421\u043a\u0430\u0447\u0430\u0442\u044c CSS\u00bb.\n\u0422\u0435\u043c\u0430 \u0412\u0438\u0442\u0430 \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u044d\u0442\u043e\u0442 \u0436\u0435 \u0444\u0430\u0439\u043b \u043a\u0430\u043a\ncatalog/view/theme/vita/stylesheet/vita-content-constructor.css.\n\u041f\u0440\u0430\u0432\u0438\u043b\u0430: \u0442\u043e\u043b\u044c\u043a\u043e var(--mp-*, fallback) \u2014 \u043d\u0438 \u043e\u0434\u043d\u043e\u0433\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u043b\u044c\u043d\u043e\u0433\u043e\n\u0446\u0432\u0435\u0442\u0430 \u0432 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u0445. \u041a\u043e\u043d\u0442\u0440\u0430\u043a\u0442 vcc-v1 \u044d\u0432\u043e\u043b\u044e\u0446\u0438\u043e\u043d\u0438\u0440\u0443\u0435\u0442 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e.\n============================================================ */\n\n.vcc-content {\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-family: var(--mp-font-family, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif);\n\tfont-size: 16px;\n\tline-height: 1.65;\n\toverflow-wrap: break-word;\n}\n.vcc-content > *:first-child { margin-top: 0; }\n.vcc-content > *:last-child { margin-bottom: 0; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0438 --- */\n.vcc-heading {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 700;\n\tline-height: 1.3;\n\tmargin: 28px 0 12px;\n}\n.vcc-heading--h2 { font-size: 26px; }\n.vcc-heading--h3 { font-size: 21px; }\n.vcc-heading--h4 { font-size: 18px; }\n\n/* --- \u0410\u0431\u0437\u0430\u0446\u044b --- */\n.vcc-paragraph { margin: 0 0 14px; }\n.vcc-paragraph p { margin: 0 0 14px; }\n\n/* --- \u0421\u0441\u044b\u043b\u043a\u0438 \u0438 \u0438\u043d\u043b\u0430\u0439\u043d --- */\n.vcc-content a { color: var(--mp-primary, #8C9D93); text-decoration: none; }\n.vcc-content a:hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }\n.vcc-code {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-sm, 2px);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-size: 0.9em;\n\tpadding: 1px 6px;\n}\n\n/* --- \u0421\u043f\u0438\u0441\u043a\u0438 --- */\n.vcc-list { margin: 0 0 14px; padding-left: 22px; }\n.vcc-list li { margin-bottom: 6px; }\n\n/* --- \u0426\u0438\u0442\u0430\u0442\u0430 --- */\n.vcc-quote {\n\tborder-left: 3px solid var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-text-muted, #64748B);\n\tfont-style: italic;\n\tmargin: 18px 0;\n\tpadding: 10px 18px;\n}\n.vcc-quote__author {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 14px;\n\tfont-style: normal;\n\tmargin-top: 8px;\n}\n\n/* --- \u0412\u0440\u0435\u0437\u043a\u0438 (alert) --- */\n.vcc-alert {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-left-width: 3px;\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-left-color: var(--mp-primary, #8C9D93); }\n.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-express-bg, #059669); }\n.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-hit-bg, #d97706); }\n.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-discount-bg, #dc2626); }\n/* \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430: primary-light \u043d\u0435 \u043f\u0435\u0440\u0435\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u0435\u043c\u043e\u0439 \u2014 \u0432\u0440\u0435\u0437\u043a\u0435 info \u043d\u0443\u0436\u0435\u043d \u0442\u0451\u043c\u043d\u044b\u0439 \u0444\u043e\u043d (\u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e) */\n[data-theme=\"dark\"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }\n.vcc-alert p:last-child { margin-bottom: 0; }\n\n/* --- \u0421\u043f\u043e\u0439\u043b\u0435\u0440 --- */\n.vcc-spoiler {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 14px 0;\n}\n.vcc-spoiler__summary {\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 12px 16px;\n\tcolor: var(--mp-text-main, #2D3748);\n}\n.vcc-spoiler__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-spoiler__body {\n\tborder-top: 1px solid var(--mp-border-divider, #F1F5F9);\n\tpadding: 12px 16px;\n}\n.vcc-spoiler__body p:last-child { margin-bottom: 0; }\n\n/* --- \u0422\u0430\u0431\u044b --- */\n.vcc-tabs { margin: 18px 0; }\n.vcc-tabs__nav {\n\tborder-bottom: 1px solid var(--mp-border-color, #E2E8F0);\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tgap: 4px;\n}\n.vcc-tabs__btn {\n\tbackground: none;\n\tborder: none;\n\tborder-bottom: 2px solid transparent;\n\tcolor: var(--mp-text-muted, #64748B);\n\tcursor: pointer;\n\tfont-size: 15px;\n\tmargin-bottom: -1px;\n\tpadding: 10px 14px;\n}\n.vcc-tabs__btn.is-active {\n\tborder-bottom-color: var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-primary, #8C9D93);\n\tfont-weight: 600;\n}\n.vcc-tabs__panel { display: none; padding-top: 14px; }\n.vcc-tabs__panel.is-active { display: block; }\n\n/* --- \u0422\u0430\u0431\u043b\u0438\u0446\u0430 --- */\n.vcc-table-wrap { margin: 18px 0; overflow-x: auto; }\n.vcc-table {\n\tborder-collapse: collapse;\n\twidth: 100%;\n}\n.vcc-table th,\n.vcc-table td {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tpadding: 9px 12px;\n\ttext-align: left;\n}\n.vcc-table th {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n}\n.vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }\n\n/* --- \u041a\u0430\u0440\u0442\u0438\u043d\u043a\u0430 --- */\n.vcc-figure { margin: 18px 0; }\n.vcc-figure__img {\n\tborder-radius: var(--mp-radius-md, 4px);\n\theight: auto;\n\tmax-width: 100%;\n}\n.vcc-figure__caption {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 13px;\n\tmargin-top: 6px;\n\ttext-align: center;\n}\n\n/* --- \u041e\u0433\u043b\u0430\u0432\u043b\u0435\u043d\u0438\u0435 --- */\n.vcc-toc {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tmargin: 18px 0;\n\tpadding: 14px 20px;\n}\n.vcc-toc__title {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n\tmargin-bottom: 8px;\n}\n.vcc-toc__list { margin: 0; padding-left: 20px; }\n.vcc-toc__list li { margin-bottom: 4px; }";
+window.VCC_EXPORT_CSS = "/* ============================================================\n\u0412\u0438\u0442\u0430 \u2014 \u041a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0442\u043e\u0440 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u00b7 \u042d\u043a\u0441\u043f\u043e\u0440\u0442\u043d\u044b\u0435 \u0441\u0442\u0438\u043b\u0438 vcc-v1\n\u042d\u0442\u043e\u0442 \u0444\u0430\u0439\u043b \u2014 \u0415\u0414\u0418\u041d\u0421\u0422\u0412\u0415\u041d\u041d\u042b\u0419 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u0441\u0442\u0438\u043b\u0435\u0439 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430: \u0431\u0438\u043b\u0434\u0435\u0440 \u0432\u0448\u0438\u0432\u0430\u0435\u0442\n\u0435\u0433\u043e \u0432 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440 (\u043e\u043a\u043d\u043e \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430) \u0438 \u043e\u0442\u0434\u0430\u0451\u0442 \u043a\u043d\u043e\u043f\u043a\u043e\u0439 \u00ab\u0421\u043a\u0430\u0447\u0430\u0442\u044c CSS\u00bb.\n\u0422\u0435\u043c\u0430 \u0412\u0438\u0442\u0430 \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u044d\u0442\u043e\u0442 \u0436\u0435 \u0444\u0430\u0439\u043b \u043a\u0430\u043a\ncatalog/view/theme/vita/stylesheet/vita-content-constructor.css.\n\u041f\u0440\u0430\u0432\u0438\u043b\u0430: \u0442\u043e\u043b\u044c\u043a\u043e var(--mp-*, fallback) \u2014 \u043d\u0438 \u043e\u0434\u043d\u043e\u0433\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u043b\u044c\u043d\u043e\u0433\u043e\n\u0446\u0432\u0435\u0442\u0430 \u0432 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u0445. \u041a\u043e\u043d\u0442\u0440\u0430\u043a\u0442 vcc-v1 \u044d\u0432\u043e\u043b\u044e\u0446\u0438\u043e\u043d\u0438\u0440\u0443\u0435\u0442 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e.\n============================================================ */\n\n.vcc-content {\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-family: var(--mp-font-family, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif);\n\tfont-size: 16px;\n\tline-height: 1.65;\n\toverflow-wrap: break-word;\n}\n.vcc-content > *:first-child { margin-top: 0; }\n.vcc-content > *:last-child { margin-bottom: 0; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0438 --- */\n.vcc-heading {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 700;\n\tline-height: 1.3;\n\tmargin: 28px 0 12px;\n}\n.vcc-heading--h2 { font-size: 26px; }\n.vcc-heading--h3 { font-size: 21px; }\n.vcc-heading--h4 { font-size: 18px; }\n\n/* --- \u0410\u0431\u0437\u0430\u0446\u044b --- */\n.vcc-paragraph { margin: 0 0 14px; }\n.vcc-paragraph p { margin: 0 0 14px; }\n\n/* --- \u0421\u0441\u044b\u043b\u043a\u0438 \u0438 \u0438\u043d\u043b\u0430\u0439\u043d --- */\n.vcc-content a { color: var(--mp-primary, #8C9D93); text-decoration: none; }\n.vcc-content a:hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }\n.vcc-code {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-sm, 2px);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-size: 0.9em;\n\tpadding: 1px 6px;\n}\n\n/* --- \u0421\u043f\u0438\u0441\u043a\u0438 --- */\n.vcc-list { margin: 0 0 14px; padding-left: 22px; }\n.vcc-list li { margin-bottom: 6px; }\n\n/* --- \u0426\u0438\u0442\u0430\u0442\u0430 --- */\n.vcc-quote {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-muted, #64748B);\n\tfont-style: italic;\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-quote__author {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 14px;\n\tfont-style: normal;\n\tmargin-top: 8px;\n}\n\n/* --- \u0412\u0440\u0435\u0437\u043a\u0438 (alert): \u0432\u0430\u0440\u0438\u0430\u043d\u0442 \u0437\u0430\u0434\u0430\u0451\u0442\u0441\u044f \u0446\u0432\u0435\u0442\u043d\u043e\u0439 \u043c\u0435\u0442\u043a\u043e\u0439 \u0441\u0432\u0435\u0440\u0445\u0443, \u0431\u0435\u0437 \u0431\u043e\u0440\u0434\u0435\u0440\u043e\u0432 \u0441\u043b\u0435\u0432\u0430 --- */\n.vcc-alert {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }\n.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-express-bg, #059669); }\n.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-hit-bg, #d97706); }\n.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-discount-bg, #dc2626); }\n/* \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430: primary-light \u043d\u0435 \u043f\u0435\u0440\u0435\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u0435\u043c\u043e\u0439 \u2014 \u0432\u0440\u0435\u0437\u043a\u0435 info \u043d\u0443\u0436\u0435\u043d \u0442\u0451\u043c\u043d\u044b\u0439 \u0444\u043e\u043d (\u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e) */\n[data-theme=\"dark\"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }\n.vcc-alert p:last-child { margin-bottom: 0; }\n\n/* --- \u0421\u043f\u043e\u0439\u043b\u0435\u0440 --- */\n.vcc-spoiler {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 14px 0;\n}\n.vcc-spoiler__summary {\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 12px 16px;\n\tcolor: var(--mp-text-main, #2D3748);\n}\n.vcc-spoiler__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-spoiler__body {\n\tborder-top: 1px solid var(--mp-border-divider, #F1F5F9);\n\tpadding: 12px 16px;\n}\n.vcc-spoiler__body p:last-child { margin-bottom: 0; }\n\n/* --- \u0422\u0430\u0431\u044b --- */\n.vcc-tabs { margin: 18px 0; }\n.vcc-tabs__nav {\n\tborder-bottom: 1px solid var(--mp-border-color, #E2E8F0);\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tgap: 4px;\n}\n.vcc-tabs__btn {\n\tbackground: none;\n\tborder: none;\n\tborder-bottom: 2px solid transparent;\n\tcolor: var(--mp-text-muted, #64748B);\n\tcursor: pointer;\n\tfont-size: 15px;\n\tmargin-bottom: -1px;\n\tpadding: 10px 14px;\n}\n.vcc-tabs__btn.is-active {\n\tborder-bottom-color: var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-primary, #8C9D93);\n\tfont-weight: 600;\n}\n.vcc-tabs__panel { display: none; padding-top: 14px; }\n.vcc-tabs__panel.is-active { display: block; }\n\n/* --- \u0422\u0430\u0431\u043b\u0438\u0446\u0430 --- */\n.vcc-table-wrap { margin: 18px 0; overflow-x: auto; }\n.vcc-table {\n\tborder-collapse: collapse;\n\twidth: 100%;\n}\n.vcc-table th,\n.vcc-table td {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tpadding: 9px 12px;\n\ttext-align: left;\n}\n.vcc-table th {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n}\n.vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }\n\n/* --- \u041a\u0430\u0440\u0442\u0438\u043d\u043a\u0430 --- */\n.vcc-figure { margin: 18px 0; }\n.vcc-figure__img {\n\tborder-radius: var(--mp-radius-md, 4px);\n\theight: auto;\n\tmax-width: 100%;\n}\n.vcc-figure__caption {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 13px;\n\tmargin-top: 6px;\n\ttext-align: center;\n}\n\n/* --- \u041e\u0433\u043b\u0430\u0432\u043b\u0435\u043d\u0438\u0435 --- */\n.vcc-toc {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tmargin: 18px 0;\n\tpadding: 14px 20px;\n}\n.vcc-toc__title {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n\tmargin-bottom: 8px;\n}\n.vcc-toc__list { margin: 0; padding-left: 20px; }\n.vcc-toc__list li { margin-bottom: 4px; }";
 
-window.VCC_LAYOUT_PRESETS = [{"type": "vita-constructor-project", "contract": "vcc-v1", "layoutTitle": "Статья-гид", "layoutDesc": "Гид покупателя: оглавление, нумерованный список, цитата, табы сравнения материалов и финальная врезка со ссылкой-соглашением.", "layoutIcon": "fa-file-text-o", "title": "Статья: как выбрать товар", "slug": "guide", "themeMode": "light", "theme": {"preset": null, "tokens": null}, "blocks": [{"id": "a1", "type": "heading", "data": {"level": "2", "text": "Как выбрать первый товар для дома: гид покупателя"}}, {"id": "a2", "type": "paragraph", "data": {"text": "Разбираемся, на что смотреть при выборе, чем отличаются материалы и почему цена не всегда показатель качества. Гид подойдёт и новичкам, и тем, кто уже сталкивался с неудачной покупкой."}}, {"id": "a3", "type": "toc", "data": {"title": "В этом гиде"}}, {"id": "a4", "type": "heading", "data": {"level": "3", "text": "Три признака качественного товара"}}, {"id": "a5", "type": "list", "data": {"ordered": true, "items": "Материал: смотрите плотность и состав на ярлыке\nФурнитура: швы, молнии и крепления без люфта\nДокументы: гарантийный талон и сертификат в комплекте"}}, {"id": "a6", "type": "quote", "data": {"text": "Дешёвый товар часто оказывается дорогим: его приходится менять каждый сезон.", "author": "Команда магазина «Вита»"}}, {"id": "a7", "type": "heading", "data": {"level": "3", "text": "Материалы: сравнение"}}, {"id": "a8", "type": "tabs", "data": {"tabs": [{"title": "Хлопок", "content": "Дышащий и гипоаллергенный. Минус — мнётся, требует глажки.\n\n- плотность от 200 г/м²\n- сатин прочнее бязи"}, {"title": "Лён", "content": "Прочный, становится мягче после стирок. Дороже хлопка, служит годами."}, {"title": "Микрофибра", "content": "Недорого и практично, не мнётся. Хуже пропускает воздух — не для жарких спален."}]}}, {"id": "a9", "type": "alert", "data": {"style": "success", "text": "Готовы к покупке? Откройте **каталог** и фильтруйте товары по материалу — [к правилам возврата](agree:3)."}}]}, {"type": "vita-constructor-project", "contract": "vcc-v1", "layoutTitle": "Страница FAQ", "layoutDesc": "Готовая страница вопросов и ответов: вступление, четыре спойлера (первый раскрыт) и контактная врезка. Ставится на отдельную страницу или в модуль на главной.", "layoutIcon": "fa-question-circle-o", "title": "Частые вопросы", "slug": "faq", "themeMode": "light", "theme": {"preset": null, "tokens": null}, "blocks": [{"id": "f1", "type": "heading", "data": {"level": "2", "text": "Частые вопросы и ответы"}}, {"id": "f2", "type": "paragraph", "data": {"text": "Собрали ответы на то, что спрашивают чаще всего. Не нашли свой вопрос — напишите нам, контакты в конце страницы."}}, {"id": "f3", "type": "spoiler", "data": {"title": "Сколько идёт доставка?", "text": "По городу — 1-2 дня, по России — 2-7 дней службами СДЭК и Почтой России. Трек-номер приходит в SMS.", "opened": true}}, {"id": "f4", "type": "spoiler", "data": {"title": "Можно ли вернуть товар?", "text": "Да, в течение 14 дней без объяснения причин, если сохранён вид и упаковка. Подробно: [политика возврата](agree:3)."}}, {"id": "f5", "type": "spoiler", "data": {"title": "Есть ли гарантия?", "text": "На всю технику — 12 месяцев, на остальной товар — по производителю. Гарантийный отдел работает пн-пт с 10 до 18."}}, {"id": "f6", "type": "spoiler", "data": {"title": "Как оплатить?", "text": "Картой онлайн, при получении или по счёту для юридических лиц. Чек приходит на e-mail автоматически."}}, {"id": "f7", "type": "alert", "data": {"style": "info", "text": "Не нашли ответ? Позвоните: **+7 (900) 000-00-00** — или напишите на sale@example.com."}}]}, {"type": "vita-constructor-project", "contract": "vcc-v1", "layoutTitle": "Обзор товара", "layoutDesc": "Структура обзора: вступление, оглавление, секции с подзаголовками, таблица характеристик, совет-врезка и блок частых вопросов со ссылками-соглашениями.", "layoutIcon": "fa-star-o", "title": "Обзор товара", "slug": "product-review", "themeMode": "light", "theme": {"preset": null, "tokens": null}, "blocks": [{"id": "p1", "type": "heading", "data": {"level": "2", "text": "Обзор: умные часы **Vita Watch 2**"}}, {"id": "p2", "type": "paragraph", "data": {"text": "Vita Watch 2 — обновлённая модель с автономностью до 14 дней и корпусом из медицинской стали. В этом обзоре разбираем экран, датчики и время работы, сравниваем с прошлым поколением и отвечаем на частые вопросы.\n\nПроект создан в **конструкторе Виты** и собран из готового макета — отредактируйте его под свой товар."}}, {"id": "p3", "type": "toc", "data": {"title": "Содержание"}}, {"id": "p4", "type": "heading", "data": {"level": "3", "text": "Экран и корпус"}}, {"id": "p5", "type": "paragraph", "data": {"text": "AMOLED-экран 1,43\" с яркостью до 1000 нит читается на солнце. Корпус защищён по стандарту *5 ATM* — плавать в часах можно, душ и бассейн им не страшны."}}, {"id": "p6", "type": "image", "data": {"path": "image/catalog/watch-angle.jpg", "caption": "Vita Watch 2, вид сбоку — толщина 10,9 мм"}}, {"id": "p7", "type": "heading", "data": {"level": "3", "text": "Характеристики"}}, {"id": "p8", "type": "table", "data": {"headers": "Параметр\nЗначение", "rows": "Экран\nAMOLED 1,43\", 466×466\nАвтономность\nдо 14 дней\nЗащита\n5 ATM\nВес\n38 г"}}, {"id": "p9", "type": "alert", "data": {"style": "info", "text": "Совет: для уведомлений на русском включите шрифт таблиц в настройках приложения часов."}}, {"id": "p10", "type": "heading", "data": {"level": "3", "text": "Частые вопросы"}}, {"id": "p11", "type": "spoiler", "data": {"title": "Совместим ли с iPhone?", "text": "Да, приложение доступно для iOS 14+ и Android 8+. Звонки через часы работают на обеих платформах.", "opened": true}}, {"id": "p12", "type": "spoiler", "data": {"title": "Какая гарантия?", "text": "Официальная гарантия производителя — 12 месяцев. Подробности: [условия доставки и гарантии](agree:5)."}}]}];
+window.VCC_LAYOUT_PRESETS = [{"type": "vita-constructor-project", "contract": "vcc-v1", "layoutTitle": "Статья-гид", "layoutDesc": "Гид покупателя: оглавление, нумерованный список, цитата, табы сравнения материалов и финальная врезка со ссылкой-соглашением.", "layoutIcon": "fa-file-text-o", "title": "Статья: как выбрать товар", "slug": "guide", "themeMode": "light", "theme": {"preset": null, "tokens": null}, "blocks": [{"id": "a1", "type": "heading", "data": {"level": "2", "text": "Как выбрать первый товар для дома: гид покупателя"}}, {"id": "a2", "type": "paragraph", "data": {"text": "Разбираемся, на что смотреть при выборе, чем отличаются материалы и почему цена не всегда показатель качества. Гид подойдёт и новичкам, и тем, кто уже сталкивался с неудачной покупкой."}}, {"id": "a3", "type": "toc", "data": {"title": "В этом гиде"}}, {"id": "a4", "type": "heading", "data": {"level": "3", "text": "Три признака качественного товара"}}, {"id": "a5", "type": "list", "data": {"ordered": true, "items": "Материал: смотрите плотность и состав на ярлыке\nФурнитура: швы, молнии и крепления без люфта\nДокументы: гарантийный талон и сертификат в комплекте"}}, {"id": "a6", "type": "quote", "data": {"text": "Дешёвый товар часто оказывается дорогим: его приходится менять каждый сезон.", "author": "Команда магазина «Вита»"}}, {"id": "a7", "type": "heading", "data": {"level": "3", "text": "Материалы: сравнение"}}, {"id": "a8", "type": "tabs", "data": {"tabs": [{"title": "Хлопок", "content": "Дышащий и гипоаллергенный. Минус — мнётся, требует глажки.\n\n- плотность от 200 г/м²\n- сатин прочнее бязи"}, {"title": "Лён", "content": "Прочный, становится мягче после стирок. Дороже хлопка, служит годами."}, {"title": "Микрофибра", "content": "Недорого и практично, не мнётся. Хуже пропускает воздух — не для жарких спален."}]}}, {"id": "a9", "type": "alert", "data": {"style": "success", "text": "Готовы к покупке? Откройте **каталог** и фильтруйте товары по материалу — [к правилам возврата](agree:3)."}}]}, {"type": "vita-constructor-project", "contract": "vcc-v1", "layoutTitle": "Страница FAQ", "layoutDesc": "Готовая страница вопросов и ответов: живой FAQ-модуль магазина по шорткоду [vita_faq] и контактная врезка. Вопросы и ответы редактируются в админке, страница их просто выводит.", "layoutIcon": "fa-question-circle-o", "title": "Частые вопросы", "slug": "faq", "themeMode": "light", "theme": {"preset": null, "tokens": null}, "blocks": [{"id": "f1", "type": "heading", "data": {"level": "2", "text": "Частые вопросы и ответы"}}, {"id": "f2", "type": "paragraph", "data": {"text": "Собрали ответы на то, что спрашивают чаще всего. Не нашли свой вопрос — напишите нам, контакты в конце страницы."}}, {"id": "f3", "type": "vita_faq", "data": {"faqId": 0, "title": ""}}, {"id": "f4", "type": "alert", "data": {"style": "info", "text": "Не нашли ответ? Позвоните: **+7 (900) 000-00-00** — или напишите на sale@example.com."}}]}, {"type": "vita-constructor-project", "contract": "vcc-v1", "layoutTitle": "Обзор товара", "layoutDesc": "Структура обзора: вступление, оглавление, секции с подзаголовками, таблица характеристик, совет-врезка и живой FAQ-модуль магазина по шорткоду.", "layoutIcon": "fa-star-o", "title": "Обзор товара", "slug": "product-review", "themeMode": "light", "theme": {"preset": null, "tokens": null}, "blocks": [{"id": "p1", "type": "heading", "data": {"level": "2", "text": "Обзор: умные часы **Vita Watch 2**"}}, {"id": "p2", "type": "paragraph", "data": {"text": "Vita Watch 2 — обновлённая модель с автономностью до 14 дней и корпусом из медицинской стали. В этом обзоре разбираем экран, датчики и время работы, сравниваем с прошлым поколением и отвечаем на частые вопросы.\n\nПроект создан в **конструкторе Виты** и собран из готового макета — отредактируйте его под свой товар."}}, {"id": "p3", "type": "toc", "data": {"title": "Содержание"}}, {"id": "p4", "type": "heading", "data": {"level": "3", "text": "Экран и корпус"}}, {"id": "p5", "type": "paragraph", "data": {"text": "AMOLED-экран 1,43\" с яркостью до 1000 нит читается на солнце. Корпус защищён по стандарту *5 ATM* — плавать в часах можно, душ и бассейн им не страшны."}}, {"id": "p6", "type": "image", "data": {"path": "image/catalog/watch-angle.jpg", "caption": "Vita Watch 2, вид сбоку — толщина 10,9 мм"}}, {"id": "p7", "type": "heading", "data": {"level": "3", "text": "Характеристики"}}, {"id": "p8", "type": "table", "data": {"headers": "Параметр\nЗначение", "rows": "Экран\nAMOLED 1,43\", 466×466\nАвтономность\nдо 14 дней\nЗащита\n5 ATM\nВес\n38 г"}}, {"id": "p9", "type": "alert", "data": {"style": "info", "text": "Совет: для уведомлений на русском включите шрифт таблиц в настройках приложения часов."}}, {"id": "p10", "type": "heading", "data": {"level": "3", "text": "Частые вопросы"}}, {"id": "p11", "type": "vita_faq", "data": {"faqId": 0, "title": ""}}]}];
 
 /* ============================================================
 Вита — Конструктор контента · core/tokens.js
@@ -17,7 +17,7 @@ window.VCC_LAYOUT_PRESETS = [{"type": "vita-constructor-project", "contract": "v
 'use strict';
 
 var VCC_CONTRACT = 'vcc-v1';
-var VCC_APP_VERSION = '0.2.0';
+var VCC_APP_VERSION = '0.3.0';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {
@@ -186,7 +186,6 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'list', data_schema: { ordered: 'Boolean', items: 'Array of String (markdown)' } },
 		{ type: 'quote', data_schema: { text: 'String (markdown)', author: 'String (опционально)' } },
 		{ type: 'alert', data_schema: { style: 'info|success|warning|danger', text: 'String (markdown)' } },
-		{ type: 'spoiler', data_schema: { title: 'String (вопрос)', text: 'String (markdown, ответ)', opened: 'Boolean' } },
 		{ type: 'tabs', data_schema: { tabs: 'Array of { title: String, content: String (markdown) }' } },
 		{ type: 'table', data_schema: { headers: 'Array of String', rows: 'Array of Array of String' } },
 		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)' } },
@@ -664,28 +663,6 @@ var VccStore = (function () {
 		}
 	});
 
-	/* --- Спойлер (FAQ) --- */
-	BlockRegistry.register({
-		type: 'spoiler',
-		label: 'Спойлер',
-		icon: 'fa-chevron-down',
-		group: 'text',
-		defaults: { title: 'Вопрос', text: 'Ответ.', opened: false },
-		fields: [
-			{ key: 'title', label: 'Заголовок (вопрос)', type: 'text' },
-			{ key: 'text', label: 'Текст (ответ)', type: 'textarea', rows: 4, markdown: true },
-			{ key: 'opened', label: 'Раскрыт по умолчанию', type: 'checkbox' }
-		],
-		toHTML: function (data) {
-			var open = data.opened ? ' open' : '';
-			var inner = vccBlock(data.text || '');
-			return '<details class="vcc-spoiler"' + open + '>' +
-				'<summary class="vcc-spoiler__summary">' + vccInline(data.title || '') + '</summary>' +
-				'<div class="vcc-spoiler__body">' + inner + '</div>' +
-				'</details>';
-		}
-	});
-
 	/* --- Табы --- */
 	BlockRegistry.register({
 		type: 'tabs',
@@ -749,7 +726,7 @@ var VccStore = (function () {
 		type: 'image',
 		label: 'Картинка',
 		icon: 'fa-picture-o',
-		group: 'media',
+		group: 'text',
 		defaults: { path: '', caption: '' },
 		fields: [
 			{ key: 'path', label: 'Путь или URL (image/catalog/... или https://)', type: 'text' },
@@ -1053,17 +1030,16 @@ var VccImport = (function () {
 
 /* ============================================================
 Вита — Конструктор контента · ui/app.js
-Сборка интерфейса: первый экран (схема магазина + файлы),
-редактор (палитра блоков + карточки), предпросмотр в контексте
-магазина (мок шапки/подвала, некликабельные тестовые данные),
-тосты, экспорт/импорт.
+Сборка интерфейса: онбординг-модалка (принцип работы + пресет
+магазина) поверх сразу открытого редактора, палитра блоков,
+карточки, предпросмотр в контексте магазина (мок шапки/подвала,
+некликабельные тестовые данные), тосты, экспорт/импорт.
 ============================================================ */
 'use strict';
 
 (function () {
 	var editingId = null;
 	var previewMode = false;
-	var welcomeActive = true;
 
 	/* ---------- Утилиты ---------- */
 	function $(sel, root) { return (root || document).querySelector(sel); }
@@ -1141,7 +1117,8 @@ var VccImport = (function () {
 		var box = $('#vcc-palette');
 		if (!box) return;
 		box.innerHTML = '';
-		var groups = { text: 'Текст', media: 'Медиа', modules: 'Модули магазина' };
+		/* Картинка в группе «Текст» — отдельной группы из одного блока нет */
+		var groups = { text: 'Блоки контента', modules: 'Модули магазина' };
 		var defs = BlockRegistry.getList();
 		Object.keys(groups).forEach(function (group) {
 			var defsInGroup = defs.filter(function (d) { return (d.group || 'text') === group; });
@@ -1372,10 +1349,9 @@ var VccImport = (function () {
 
 	/* ---------- Рендер ---------- */
 	function render(src, force) {
-		/* Токены применяются всегда — пресет загружают и с первого экрана,
-		   и палитра обязана перекрашивать welcome до входа в редактор. */
+		/* Токены применяются всегда: пресет можно загрузить прямо в
+		   онбординге — модалка и редактор под ней красятся сразу. */
 		applyTokensToDom();
-		if (welcomeActive) return;
 		var canvas = $('#vcc-canvas');
 		if (!canvas) return;
 		/* render вызывают и с state (subscribe), и с project напрямую */
@@ -1467,18 +1443,29 @@ var VccImport = (function () {
 		});
 	}
 
-	/* ---------- Первый экран / навигация ---------- */
+	/* ---------- Онбординг-модалка ---------- */
+	/* Редактор открыт всегда: модалка — ненавязчивый слой поверх,
+	   который можно закрыть кликом в фон или Escape. */
+	function openOnboard() {
+		var modal = $('#vcc-onboard');
+		if (!modal) return;
+		modal.classList.add('is-open');
+		renderLayoutGallery();
+		var resume = $('#vcc-resume');
+		if (resume) resume.style.display = VccStore.currentProject().blocks.length ? '' : 'none';
+	}
+
+	function closeOnboard() {
+		var modal = $('#vcc-onboard');
+		if (modal) modal.classList.remove('is-open');
+	}
+
 	function showApp() {
-		welcomeActive = false;
-		$('#vcc-welcome').style.display = 'none';
-		$('#vcc-app').classList.add('is-visible');
-		refreshEditor();
+		closeOnboard();
 	}
 
 	function showWelcome() {
-		welcomeActive = true;
-		$('#vcc-app').classList.remove('is-visible');
-		$('#vcc-welcome').style.display = '';
+		openOnboard();
 	}
 
 	function bindDropZone(zone, input) {
@@ -1526,17 +1513,22 @@ var VccImport = (function () {
 		renderPalette();
 		ensureExportCss();
 
-		/* Первый экран */
-		$('#vcc-start-empty').addEventListener('click', showApp);
+		/* Онбординг: редактор уже открыт, модалка поверх */
+		$('#vcc-start-empty').addEventListener('click', closeOnboard);
 		var resume = $('#vcc-resume');
-		if (VccStore.currentProject().blocks.length) {
-			resume.style.display = '';
-			resume.addEventListener('click', showApp);
-		}
+		if (resume && VccStore.currentProject().blocks.length) resume.style.display = '';
+		if (resume) resume.addEventListener('click', closeOnboard);
+		$('#vcc-onboard-backdrop').addEventListener('click', closeOnboard);
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' || e.keyCode === 27) closeOnboard();
+		});
 		bindDropZone($('#vcc-welcome-drop'), $('#vcc-welcome-file'));
 		bindDropZone($('#vcc-layouts-drop'), $('#vcc-layouts-file'));
 		renderLayoutGallery();
 		bindDropZone($('#vcc-header-file-label'), $('#vcc-header-file'));
+		/* Первое открытие (проект пуст) — модалка онбординга поверх редактора;
+		   у вернувшегося с черновиком открыта просто палитра */
+		if (!VccStore.currentProject().blocks.length) openOnboard();
 
 		/* Шапка редактора */
 		$('#vcc-title-input').addEventListener('input', function () {

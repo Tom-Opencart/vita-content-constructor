@@ -46,45 +46,7 @@
 </head>
 <body>
 
-<!-- ============ Первый экран ============ -->
-<div class="vcc-welcome" id="vcc-welcome">
-	<div class="vcc-welcome__brand">
-		<div class="vcc-welcome__logo"><i class="fa fa-leaf"></i></div>
-		<h1 class="vcc-welcome__title">Вита — Конструктор контента</h1>
-	</div>
-	<p class="vcc-welcome__subtitle">Собирайте описания товаров, статьи и посадочные блоками — и переносите готовый контент в модуль «Вита — Универсальные блоки контента».</p>
-
-	<div class="vcc-welcome__grid">
-		<div class="vcc-card">
-			<h2 class="vcc-card__title"><i class="fa fa-paint-brush"></i> Шаг 1 · Цветовая схема магазина</h2>
-			<p class="vcc-card__desc">Скачайте пресет в админке: <strong>Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора</strong> (тема 1.10.1+), и загрузите его сюда — предпросмотр покажет ваши цвета и тёмную тему. Шаг необязателен: без пресета используется палитра Виты по умолчанию.</p>
-			<div class="vcc-drop" id="vcc-welcome-drop" tabindex="0">
-				<i class="fa fa-upload"></i> Перетащите vita-preset.json сюда или нажмите для выбора
-			</div>
-			<input type="file" id="vcc-welcome-file" accept=".json" style="display:none">
-			<div class="vcc-mode-row">
-				<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-start-empty">
-					<i class="fa fa-pencil-square-o"></i> Начать с пустой страницы
-				</button>
-				<button type="button" class="vcc-btn" id="vcc-resume" style="display:none">
-					<i class="fa fa-history"></i> Продолжить прошлую работу
-				</button>
-			</div>
-		</div>
-
-		<div class="vcc-card vcc-card--layouts">
-			<h2 class="vcc-card__title"><i class="fa fa-th-large"></i> Шаг 2 · Готовый макет</h2>
-			<p class="vcc-card__desc">Выберите структуру — макет загрузится в редактор целиком, дальше правьте его как свои. Это обычные JSON-файлы из <code>presets/layouts</code>: свои макеты можно добавлять в репозиторий.</p>
-			<div class="vcc-layouts-grid" id="vcc-layouts-grid"></div>
-			<div class="vcc-drop vcc-drop--compact" id="vcc-layouts-drop" tabindex="0" title="Загрузить макет или проект файлом">
-				<i class="fa fa-upload"></i> Или загрузите макет/проект файлом .json
-			</div>
-			<input type="file" id="vcc-layouts-file" accept=".json" style="display:none">
-		</div>
-	</div>
-</div>
-
-<!-- ============ Редактор ============ -->
+<!-- ============ Редактор: открыт всегда, онбординг — поверх ============ -->
 <div class="vcc-app" id="vcc-app">
 	<header class="vcc-header">
 		<span class="vcc-header__brand"><i class="fa fa-leaf"></i> Вита · Конструктор</span>
@@ -105,12 +67,70 @@
 		<button type="button" class="vcc-btn vcc-btn--primary vcc-btn--sm" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль"><i class="fa fa-download"></i> Скачать</button>
 		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-dl-json" title="Скачать проект JSON">JSON</button>
 		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-dl-css" title="Скачать CSS (обычно не нужен — стили подключает тема)">CSS</button>
-		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-home" title="На первый экран"><i class="fa fa-home"></i></button>
+		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-home" title="Как это работает — справка и загрузка пресета"><i class="fa fa-home"></i></button>
 	</header>
 
 	<div class="vcc-workspace">
 		<aside class="vcc-sidebar" id="vcc-palette"></aside>
 		<main class="vcc-canvas" id="vcc-canvas"></main>
+	</div>
+</div>
+
+<!-- ============ Онбординг: принцип работы + пресет магазина ============ -->
+<div class="vcc-onboard" id="vcc-onboard">
+	<div class="vcc-onboard__backdrop" id="vcc-onboard-backdrop"></div>
+	<div class="vcc-onboard__modal" role="dialog" aria-modal="true" aria-labelledby="vcc-onboard-title">
+		<div class="vcc-onboard__brand">
+			<div class="vcc-onboard__logo"><i class="fa fa-leaf"></i></div>
+			<h1 class="vcc-onboard__title" id="vcc-onboard-title">Вита — Конструктор контента</h1>
+		</div>
+		<p class="vcc-onboard__lead">Собирайте описания товаров, статьи и посадочные блоками — и переносите готовый контент в модуль «Вита — Универсальные блоки контента». Полный редактор уже открыт под этим окном.</p>
+
+		<div class="vcc-onboard__step">
+			<div class="vcc-onboard__step-num">1</div>
+			<div class="vcc-onboard__step-body">
+				<h2>Загрузите палитру магазина</h2>
+				<p>Скачайте пресет в админке: <strong>Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора</strong> (тема 1.10.1+) — и загрузите его сюда. Конструктор окрасится в цвета магазина, включая тёмную тему. Шаг необязателен: без пресета используется палитра Виты по умолчанию.</p>
+				<div class="vcc-drop" id="vcc-welcome-drop" tabindex="0">
+					<i class="fa fa-upload"></i> Перетащите vita-preset.json сюда или нажмите для выбора
+				</div>
+				<input type="file" id="vcc-welcome-file" accept=".json" style="display:none">
+			</div>
+		</div>
+
+		<div class="vcc-onboard__step">
+			<div class="vcc-onboard__step-num">2</div>
+			<div class="vcc-onboard__step-body">
+				<h2>Соберите страницу</h2>
+				<p>Добавляйте блоки из палитры слева: заголовки, текст с разметкой, врезки, табы, таблицы, картинки — и живые модули магазина (FAQ и формы) через шорткоды. Предпросмотр покажет страницу в контексте магазина.</p>
+			</div>
+		</div>
+
+		<div class="vcc-onboard__step">
+			<div class="vcc-onboard__step-num">3</div>
+			<div class="vcc-onboard__step-body">
+				<h2>Перенесите в магазин</h2>
+				<p>Кнопка «Скачать» сохранит HTML-файл. В админке модуля «Универсальные блоки контента» нажмите «Импорт из Конструктора» и выберите файл — содержимое пройдёт серверную проверку и появится в блоке.</p>
+			</div>
+		</div>
+
+		<div class="vcc-onboard__actions">
+			<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-start-empty">
+				<i class="fa fa-pencil-square-o"></i> Начать работу
+			</button>
+			<button type="button" class="vcc-btn" id="vcc-resume" style="display:none">
+				<i class="fa fa-history"></i> Продолжить прошлую работу
+			</button>
+		</div>
+
+		<div class="vcc-onboard__layouts">
+			<div class="vcc-onboard__layouts-title">Или начните с готового макета</div>
+			<div class="vcc-layouts-grid" id="vcc-layouts-grid"></div>
+			<div class="vcc-drop vcc-drop--compact" id="vcc-layouts-drop" tabindex="0" title="Загрузить макет или проект файлом">
+				<i class="fa fa-upload"></i> Или загрузите макет/проект файлом .json
+			</div>
+			<input type="file" id="vcc-layouts-file" accept=".json" style="display:none">
+		</div>
 	</div>
 </div>
 

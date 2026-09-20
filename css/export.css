@@ -51,11 +51,14 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 
 /* --- Цитата --- */
 .vcc-quote {
-	border-left: 3px solid var(--mp-primary, #8C9D93);
+	background: var(--mp-bg-subtle, #f8fafc);
+	border: 1px solid var(--mp-border-divider, #F1F5F9);
+	border-radius: var(--mp-radius-md, 4px);
+	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
 	color: var(--mp-text-muted, #64748B);
 	font-style: italic;
 	margin: 18px 0;
-	padding: 10px 18px;
+	padding: 14px 18px;
 }
 .vcc-quote__author {
 	color: var(--mp-text-light, #94A3B8);
@@ -64,18 +67,18 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	margin-top: 8px;
 }
 
-/* --- Врезки (alert) --- */
+/* --- Врезки (alert): вариант задаётся цветной меткой сверху, без бордеров слева --- */
 .vcc-alert {
 	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-left-width: 3px;
 	border-radius: var(--mp-radius-md, 4px);
+	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
 	margin: 18px 0;
 	padding: 14px 18px;
 }
-.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-left-color: var(--mp-primary, #8C9D93); }
-.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-express-bg, #059669); }
-.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-hit-bg, #d97706); }
-.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-left-color: var(--mp-badge-discount-bg, #dc2626); }
+.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }
+.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-express-bg, #059669); }
+.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-hit-bg, #d97706); }
+.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-discount-bg, #dc2626); }
 /* Тёмная тема магазина: primary-light не переопределяется темой — врезке info нужен тёмный фон (аддитивное правило) */
 [data-theme="dark"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }
 .vcc-alert p:last-child { margin-bottom: 0; }

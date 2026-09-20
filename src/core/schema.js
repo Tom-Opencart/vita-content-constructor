@@ -22,7 +22,6 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'list', data_schema: { ordered: 'Boolean', items: 'Array of String (markdown)' } },
 		{ type: 'quote', data_schema: { text: 'String (markdown)', author: 'String (опционально)' } },
 		{ type: 'alert', data_schema: { style: 'info|success|warning|danger', text: 'String (markdown)' } },
-		{ type: 'spoiler', data_schema: { title: 'String (вопрос)', text: 'String (markdown, ответ)', opened: 'Boolean' } },
 		{ type: 'tabs', data_schema: { tabs: 'Array of { title: String, content: String (markdown) }' } },
 		{ type: 'table', data_schema: { headers: 'Array of String', rows: 'Array of Array of String' } },
 		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)' } },
