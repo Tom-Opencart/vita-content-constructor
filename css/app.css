@@ -583,12 +583,13 @@ button { font-family: inherit; }
 /* ---------- Лендинг-секции в канвасе: card-контекст для светлых фонов ---------- */
 .vcc-canvas .vcc-section { margin: 0 0 18px; }
 .vcc-canvas .vcc-section:last-child { margin-bottom: 0; }
+.vcc-canvas .vcc-mock { margin-bottom: 20px; }
+.vcc-canvas .vcc-mock--footer { margin-top: 20px; }
 
 /* В фуллскрине — как на витрине: секции на всю ширину окна, без
  * рамок-карточек; внутренний .vcc-container держит 1140px контента.
  * Моки шапки/подвала магазина тоже без карточных рамок. */
 .vcc-fullscreen__page .vcc-section { margin: 0; }
-.vcc-fullscreen__page .vcc-mock { border-left: none; border-radius: 0; border-right: none; }
 .vcc-fullscreen__page .vcc-mock--footer { margin-top: auto; }
 /* Контент — во всю ширину окна: секции лендинга тянутся на 100%,
    как lp-* секции реальной витрины; ограничение ширины задаёт
@@ -606,83 +607,184 @@ button { font-family: inherit; }
 	z-index: 100;
 }
 
-/* ---------- Мок магазина (только предпросмотр, некликабельный) ---------- */
+/* ---------- Мок магазина (предпросмотр, некликабельный).
+ * Точное воспроизведение шапки/подвала Виты из vita.css: те же
+ * классы-тёзки (.mp-header-top, .mp-header, .tech-footer), те же
+ * отступы/размеры и переменные --vita-* с реальными значениями
+ * темы (светлые из :root, тёмные из [data-theme="dark"]).
+ * Область видимости ограничена .vcc-mock — интерфейс конструктора
+ * не затронут, а мок выглядит 1:1 с витриной. ---------- */
 .vcc-mock {
-	background: var(--mp-card-bg, #fff);
-	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-radius: var(--mp-radius-lg, 6px);
 	color: var(--mp-text-muted, #64748B);
-	font-size: 13px;
-	margin-bottom: 26px;
 	pointer-events: none;
 	user-select: none;
 }
-.vcc-mock__topbar {
-	background: var(--mp-bg-subtle, #f8fafc);
-	border-bottom: 1px solid var(--mp-border-divider, #F1F5F9);
-	display: flex;
+/* Топбар: .mp-header-top Виты */
+.vcc-mock .mp-header-top {
+	background: var(--vita-topbar-bg, #f8fafc);
+	border-bottom: 1px solid var(--vita-topbar-border, #e2e8f0);
+	color: var(--vita-topbar-text, #475569);
 	font-size: 12px;
-	justify-content: space-between;
-	padding: 6px 16px;
+	padding: 6px 0;
 }
-.vcc-mock__header {
+.vcc-mock .mp-header-top-nav {
 	align-items: center;
 	display: flex;
-	gap: 14px;
-	padding: 12px 16px;
+	justify-content: space-between;
 }
-.vcc-mock__logo {
-	color: var(--mp-text-main, #2D3748);
-	font-size: 16px;
-	font-weight: 700;
+/* Шапка: .mp-header / .mp-header-main Виты */
+.vcc-mock .mp-header {
+	background: var(--vita-header-bg, #ffffff);
+	border-bottom: 1px solid var(--vita-header-border, #e2e8f0);
+	color: var(--vita-header-text, #2d3748);
 }
-.vcc-mock__logo .fa { color: var(--mp-primary, #8C9D93); }
-.vcc-mock__catalog {
-	background: var(--mp-primary, #8C9D93);
-	border-radius: var(--mp-radius-md, 4px);
-	color: var(--mp-text-inverse, #fff);
-	padding: 8px 14px;
+.vcc-mock .mp-header-main {
+	align-items: center;
+	display: flex;
+	gap: 16px;
+	padding: 10px 0;
+}
+.vcc-mock .mp-logo {
+	text-decoration: none;
 	white-space: nowrap;
 }
-.vcc-mock__search {
-	background: var(--mp-bg-hover, #f1f5f9);
-	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-radius: var(--mp-radius-pill, 9999px);
-	flex: 1;
-	padding: 8px 16px;
+.vcc-mock .mp-logo-text-icon { color: var(--vita-header-catalog-bg, #8c9d93); font-size: 26px; }
+.vcc-mock .mp-logo-text-title {
+	color: var(--vita-logo-text, var(--mp-text-main, #2D3748));
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.5px;
 }
-.vcc-mock__actions {
-	color: var(--mp-text-muted, #64748B);
-	display: flex;
+.vcc-mock .mp-logo-tagline { color: var(--vita-header-muted, #64748b); font-size: 12px; }
+.vcc-mock .btn-catalog-toggle {
+	background: var(--vita-header-catalog-bg, #8c9d93);
+	border: 1px solid transparent;
+	border-radius: var(--mp-radius-md, 4px);
+	color: var(--vita-header-catalog-text, #ffffff);
+	display: inline-flex;
 	font-size: 17px;
-	gap: 12px;
+	height: 44px;
+	justify-content: center;
+	width: 44px;
+}
+.vcc-mock .mp-search-form {
+	background: var(--vita-header-search-bg, #f1f5f9);
+	border-radius: 8px;
+	flex: 1;
+	height: 44px;
+	position: relative;
+}
+.vcc-mock .mp-search-input {
+	background: transparent;
+	border: none;
+	color: var(--vita-header-search-text, #2d3748);
+	font-size: 14px;
+	height: 44px;
+	padding: 0 16px 0 42px;
+	width: 100%;
+}
+.vcc-mock .mp-search-input::placeholder { color: #94a3b8; }
+.vcc-mock .mp-search-icon-inside {
+	color: var(--vita-header-search-placeholder, #64748b);
+	position: absolute;
+}
+.vcc-mock .mp-header-actions {
+	color: var(--vita-header-action-text, #2d3748);
+	display: flex;
+	font-size: 18px;
+	gap: 10px;
+}
+/* Контейнер Виты внутри мока (1640px, как на витрине) */
+.vcc-mock .mp-container {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: var(--vita-container-max, 1640px);
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 100%;
+}
+/* Подвал: .tech-footer Виты */
+.vcc-mock .tech-footer {
+	background-color: var(--vita-footer-bg, var(--mp-bg-surface, #ffffff));
+	border-top: 1px solid var(--vita-footer-border, var(--mp-border-color, #e2e8f0));
+	color: var(--vita-footer-text, var(--mp-text-muted, #64748B));
+	padding-bottom: 2rem;
+	padding-top: 3.5rem;
+}
+.vcc-mock .tech-footer-grid {
+	display: grid;
+	gap: 36px 48px;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.vcc-mock .tech-footer-title {
+	color: var(--vita-footer-title, var(--mp-text-main, #2D3748));
+	font-size: 15px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	margin-bottom: 1.25rem;
+	margin-top: 0;
+}
+.vcc-mock .tech-footer-desc { font-size: 13.5px; line-height: 1.6; }
+.vcc-mock .tech-footer-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.vcc-mock .tech-footer-list li { margin-bottom: 10px; }
+.vcc-mock .tech-footer-list li a,
+.vcc-mock .tech-footer-list li span {
+	color: var(--vita-footer-text, var(--mp-text-muted, #64748B));
+	font-size: 13.5px;
+	text-decoration: none;
+}
+.vcc-mock .tech-footer-bottom {
+	border-top: 1px solid var(--vita-footer-border, var(--mp-border-color, #e2e8f0));
+	color: var(--vita-footer-bottom-text, var(--mp-text-muted, #64748B));
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 13px;
+	gap: 16px;
+	justify-content: space-between;
+	margin-top: 1.75rem;
+	padding-top: 1.75rem;
+}
+/* Тёмные значения шапки/подвала Виты — из [data-theme="dark"] vita.css.
+   Конструктор ставит этот же атрибут на <html> (applyTokensToDom). */
+[data-theme="dark"] .vcc-mock .mp-header-top {
+	background: #1D1A20;
+	border-bottom-color: #2C2930;
+	color: #9E99A6;
+}
+[data-theme="dark"] .vcc-mock .mp-header {
+	background: #2C2930;
+	border-bottom-color: #3D3844;
+	color: #FFFFFF;
+}
+[data-theme="dark"] .vcc-mock .mp-logo-text-title { color: #FFFFFF; }
+[data-theme="dark"] .vcc-mock .mp-logo-tagline { color: #9E99A6; }
+[data-theme="dark"] .vcc-mock .mp-search-input { color: #FFFFFF; }
+[data-theme="dark"] .vcc-mock .mp-search-input::placeholder { color: #9E99A6; }
+[data-theme="dark"] .vcc-mock .mp-search-icon-inside { color: #9E99A6; }
+[data-theme="dark"] .vcc-mock .mp-header-actions { color: #E5E2E8; }
+[data-theme="dark"] .vcc-mock .tech-footer {
+	background-color: var(--mp-bg-surface, #2C2930);
+	border-top-color: #3D3844;
+	color: #9E99A6;
+}
+[data-theme="dark"] .vcc-mock .tech-footer-title { color: #FFFFFF; }
+[data-theme="dark"] .vcc-mock .tech-footer-list li a,
+[data-theme="dark"] .vcc-mock .tech-footer-list li span { color: #9E99A6; }
+[data-theme="dark"] .vcc-mock .tech-footer-bottom {
+	border-top-color: #3D3844;
+	color: #9E99A6;
 }
 .vcc-mock__note {
 	border-top: 1px dashed var(--mp-border-color, #E2E8F0);
 	color: var(--mp-text-light, #94A3B8);
 	font-size: 11.5px;
-	padding: 6px 16px;
+	padding: 6px 0;
 }
-.vcc-mock--footer {
-	color: var(--mp-text-muted, #64748B);
-	margin-bottom: 0;
-	margin-top: 34px;
-	padding: 20px 16px 12px;
-}
-.vcc-mock__cols {
-	display: flex;
-	font-size: 13px;
-	gap: 40px;
-	line-height: 1.9;
-}
-.vcc-mock__cols strong { color: var(--mp-text-main, #2D3748); }
-.vcc-mock__copy {
-	border-top: 1px solid var(--mp-border-divider, #F1F5F9);
-	color: var(--mp-text-light, #94A3B8);
-	font-size: 12px;
-	margin-top: 16px;
-	padding-top: 10px;
-}
+.vcc-fullscreen__page .vcc-mock__note { display: none; }
 .vcc-toast {
 	background: var(--mp-text-main, #2D3748);
 	border-radius: var(--mp-radius-md, 4px);

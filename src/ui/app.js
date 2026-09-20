@@ -437,25 +437,43 @@
 
 	/* ---------- Мок магазина (некликабельные данные — в канвасе редактора и предпросмотре) ---------- */
 	function mockHeader() {
+		/* Разметка = структура шапки Виты (header_topbar.twig + header_main.twig):
+		   .mp-header-top → .mp-header > .mp-container > .mp-header-main.
+		   Стили — точные из vita.css (см. блок .vcc-mock в app.css). */
 		return '<div class="vcc-mock" aria-hidden="true">' +
-			'<div class="vcc-mock__topbar"><span>Бесплатная доставка от 3 000 ₽</span><span>+7 (900) 000-00-00</span></div>' +
-			'<div class="vcc-mock__header">' +
-			'<span class="vcc-mock__logo"><i class="fa fa-leaf"></i> Магазин «Вита»</span>' +
-			'<span class="vcc-mock__catalog"><i class="fa fa-bars"></i> Каталог</span>' +
-			'<span class="vcc-mock__search">Поиск по магазину…</span>' +
-			'<span class="vcc-mock__actions"><i class="fa fa-heart-o"></i><i class="fa fa-shopping-cart"></i></span>' +
-			'</div>' +
-			'<div class="vcc-mock__note">Предпросмотр в контексте магазина — тестовые данные не кликабельны</div>' +
+			'<div class="mp-header-top"><div class="mp-container"><div class="mp-header-top-nav">' +
+			'<span>Бесплатная доставка от 3 000 ₽</span>' +
+			'<span>+7 (900) 000-00-00</span>' +
+			'</div></div></div>' +
+			'<div class="mp-header"><div class="mp-container"><div class="mp-header-main">' +
+			'<a class="mp-logo" href="javascript:void(0)"><span class="mp-logo-text-col">' +
+			'<i class="fa fa-leaf mp-logo-text-icon" aria-hidden="true"></i> ' +
+			'<span class="mp-logo-text-title">Магазин «Вита»</span></span></a>' +
+			'<button class="btn-catalog-toggle" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>' +
+			'<div class="mp-search-form"><i class="fa fa-search mp-search-icon-inside" aria-hidden="true"></i>' +
+			'<input type="text" class="mp-search-input" placeholder="Поиск по магазину…" tabindex="-1"></div>' +
+			'<span class="mp-header-actions"><i class="fa fa-heart-o" aria-hidden="true"></i><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>' +
+			'</div></div></div>' +
+			'<div class="mp-container"><div class="vcc-mock__note">Предпросмотр в контексте магазина — тестовые данные не кликабельны</div></div>' +
 			'</div>';
 	}
 	function mockFooter() {
+		/* Разметка = структура tech-footer Виты (footer.twig):
+		   .tech-footer > .mp-container > .tech-footer-grid + .tech-footer-bottom. */
 		return '<div class="vcc-mock vcc-mock--footer" aria-hidden="true">' +
-			'<div class="vcc-mock__cols">' +
-			'<span><strong>Магазин «Вита»</strong><br>О магазине<br>Доставка</span>' +
-			'<span><strong>Покупателям</strong><br>Оплата<br>Гарантия</span>' +
-			'<span><strong>Контакты</strong><br>+7 (900) 000-00-00<br>sale@example.com</span>' +
+			'<div class="tech-footer">' +
+			'<div class="mp-container">' +
+			'<div class="tech-footer-grid">' +
+			'<div class="tech-footer-col"><h5 class="tech-footer-title">Магазин «Вита»</h5>' +
+			'<div class="tech-footer-desc">Демонстрационные данные конструктора — здесь будет описание вашего магазина.</div></div>' +
+			'<div class="tech-footer-col"><h5 class="tech-footer-title">Покупателям</h5>' +
+			'<ul class="tech-footer-list"><li><a href="javascript:void(0)">О магазине</a></li><li><a href="javascript:void(0)">Доставка и оплата</a></li><li><a href="javascript:void(0)">Гарантия</a></li></ul></div>' +
+			'<div class="tech-footer-col"><h5 class="tech-footer-title">Контакты</h5>' +
+			'<ul class="tech-footer-list"><li><span>+7 (900) 000-00-00</span></li><li><span>sale@example.com</span></li></ul></div>' +
 			'</div>' +
-			'<div class="vcc-mock__copy">© 2026 Магазин «Вита». Демонстрационные данные конструктора.</div>' +
+			'<div class="tech-footer-bottom"><span>© 2026 Магазин «Вита»</span><span>Работает на Вита</span></div>' +
+			'</div>' +
+			'</div>' +
 			'</div>';
 	}
 
