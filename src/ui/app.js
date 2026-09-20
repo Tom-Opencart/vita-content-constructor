@@ -709,6 +709,19 @@
 				if (r.warn) warned.push('видео: ' + r.warn);
 			}
 		});
+		/* Чек-лист: проект без спец-меток — мягкое напоминание (не предупреждение):
+		 * живые модули добавляются блоками группы «Модули магазина». */
+		var hasModule = false;
+		for (var i = 0; i < project.blocks.length; i++) {
+			if (BlockRegistry.get(project.blocks[i].type) &&
+				BlockRegistry.get(project.blocks[i].type).group === 'modules') {
+				hasModule = true;
+				break;
+			}
+		}
+		if (!hasModule && project.blocks.length) {
+			showToast('Совет: в проекте нет живых модулей магазина. Добавить слайдер, FAQ, форму или товары можно блоками из группы «Модули магазина» — на витрине они превращаются в живые блоки.', 'info');
+		}
 		if (warned.length) showToast(warned.slice(0, 3).join(' · '), 'warning');
 	}
 
