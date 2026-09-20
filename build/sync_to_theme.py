@@ -112,10 +112,17 @@ def repo_dirty(repo):
 
 
 def repo_unpushed(repo):
-    """(True, '?') если remote нет; (True, branch) если HEAD != origin/branch; иначе (False, branch)."""
+    """(True, '?') если remote нет; (True, branch) если HEAD != origin/branch; иначе (False, branch).
+
+    Detached HEAD (checkout в CI) не считается «не запушенным»: сравнение
+    HEAD <-> origin/<branch> в этом состоянии бессмысленно, а реальный
+    незапушенный коммит ловится на обычной рабочей копии разработчика.
+    """
     branch, ok = repo_branch(repo)
-    if not ok or branch in ("?", "HEAD"):
+    if not ok:
         return True, "?"
+    if branch == "HEAD":
+        return False, "HEAD (detached)"
     rc, out = git(repo, "rev-parse", "origin/%s" % branch)
     if rc != 0:
         return True, branch  # нет remote-ветки

@@ -1,0 +1,48 @@
+name: sync-check
+
+# Гейт «один файл в двух репозиториях»: копия стилей конструктора в теме
+# обязана быть идентична css/export.css, а оба репозитория — закоммичены
+# и запушены. Расхождение = красный билд.
+#
+# Тема (Tom-Opencart/main_vita) приватная: клонируется токеном из секрета
+# GH_THEME_TOKEN (fine-grained PAT с правом чтения main_vita). Без секрета
+# шаг помечается ::warning:: и проверка пропускается — добавьте секрет,
+# чтобы гейт стал жёстким.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sync-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout constructor
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Clone theme (private)
+        id: theme
+        env:
+          GH_THEME_TOKEN: ${{ secrets.GH_THEME_TOKEN }}
+        run: |
+          if [ -z "$GH_THEME_TOKEN" ]; then
+            echo "::warning::Секрет GH_THEME_TOKEN не задан (fine-grained PAT с чтением Tom-Opencart/main_vita). Sync-check пропущен."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git clone --depth 1 --branch unify-1.7.0 \
+            "https://x-access-token:${GH_THEME_TOKEN}@github.com/Tom-Opencart/main_vita.git" \
+            "${{ github.workspace }}/../vita-theme"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Sync check
+        if: steps.theme.outputs.skip != 'true'
+        env:
+          VITA_THEME_DIR: ${{ github.workspace }}/../vita-theme
+        run: python build/sync_to_theme.py check
