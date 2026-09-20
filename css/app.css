@@ -665,12 +665,22 @@ button { font-family: inherit; }
 	font-size: 17px;
 	height: 44px;
 	justify-content: center;
-	width: 44px;
+	min-width: 44px;
 }
+.vcc-mock .btn-catalog-toggle.has-label {
+	font-size: 15px;
+	font-weight: 700;
+	gap: 10px;
+	letter-spacing: 0.2px;
+	padding: 0 22px;
+	width: auto;
+}
+.vcc-mock .btn-catalog-label { white-space: nowrap; }
 .vcc-mock .mp-search-form {
 	background: var(--vita-header-search-bg, #f1f5f9);
-	border-radius: 8px;
-	flex: 1;
+	border: 1px solid var(--vita-header-search-border, transparent);
+	border-radius: var(--mp-radius-md, 4px);
+	flex: 1 1 auto;
 	height: 44px;
 	position: relative;
 }
@@ -689,11 +699,24 @@ button { font-family: inherit; }
 	position: absolute;
 }
 .vcc-mock .mp-header-actions {
-	color: var(--vita-header-action-text, #2d3748);
+	align-items: center;
 	display: flex;
-	font-size: 18px;
-	gap: 10px;
+	gap: 16px;
 }
+.vcc-mock .mp-action-item {
+	align-items: center;
+	border-radius: 6px;
+	color: var(--vita-header-action-text, #64748b);
+	display: inline-flex;
+	flex-direction: column;
+	font-size: 11px;
+	font-weight: 500;
+	justify-content: center;
+	min-width: 48px;
+	padding: 4px 6px;
+	text-align: center;
+}
+.vcc-mock .mp-action-icon { font-size: 20px; line-height: 1; margin-bottom: 3px; }
 /* Контейнер Виты внутри мока (1640px, как на витрине) */
 .vcc-mock .mp-container {
 	margin-left: auto;
@@ -703,11 +726,12 @@ button { font-family: inherit; }
 	padding-right: 20px;
 	width: 100%;
 }
-/* Подвал: .tech-footer Виты */
+/* Подвал: .tech-footer Виты. Светлые фолбэки — дефолты vars_css.php
+   (этот блок генерируется на каждом живом сайте): #fafafa/#6b7280/#111827. */
 .vcc-mock .tech-footer {
-	background-color: var(--vita-footer-bg, var(--mp-bg-surface, #ffffff));
-	border-top: 1px solid var(--vita-footer-border, var(--mp-border-color, #e2e8f0));
-	color: var(--vita-footer-text, var(--mp-text-muted, #64748B));
+	background-color: var(--vita-footer-bg, #fafafa);
+	border-top: 1px solid var(--vita-footer-border, #e5e7eb);
+	color: var(--vita-footer-text, #6b7280);
 	padding-bottom: 2rem;
 	padding-top: 3.5rem;
 }
@@ -717,7 +741,7 @@ button { font-family: inherit; }
 	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 .vcc-mock .tech-footer-title {
-	color: var(--vita-footer-title, var(--mp-text-main, #2D3748));
+	color: var(--vita-footer-title, #111827);
 	font-size: 15px;
 	font-weight: 700;
 	letter-spacing: -0.01em;
@@ -733,13 +757,13 @@ button { font-family: inherit; }
 .vcc-mock .tech-footer-list li { margin-bottom: 10px; }
 .vcc-mock .tech-footer-list li a,
 .vcc-mock .tech-footer-list li span {
-	color: var(--vita-footer-text, var(--mp-text-muted, #64748B));
+	color: var(--vita-footer-text, #6b7280);
 	font-size: 13.5px;
 	text-decoration: none;
 }
 .vcc-mock .tech-footer-bottom {
-	border-top: 1px solid var(--vita-footer-border, var(--mp-border-color, #e2e8f0));
-	color: var(--vita-footer-bottom-text, var(--mp-text-muted, #64748B));
+	border-top: 1px solid var(--vita-footer-border, #e5e7eb);
+	color: var(--vita-footer-bottom-text, #9ca3af);
 	display: flex;
 	flex-wrap: wrap;
 	font-size: 13px;
@@ -756,8 +780,8 @@ button { font-family: inherit; }
 	color: #9E99A6;
 }
 [data-theme="dark"] .vcc-mock .mp-header {
-	background: #2C2930;
-	border-bottom-color: #3D3844;
+	background: #221F24;
+	border-bottom-color: #332F38;
 	color: #FFFFFF;
 }
 [data-theme="dark"] .vcc-mock .mp-logo-text-title { color: #FFFFFF; }
@@ -765,17 +789,21 @@ button { font-family: inherit; }
 [data-theme="dark"] .vcc-mock .mp-search-input { color: #FFFFFF; }
 [data-theme="dark"] .vcc-mock .mp-search-input::placeholder { color: #9E99A6; }
 [data-theme="dark"] .vcc-mock .mp-search-icon-inside { color: #9E99A6; }
-[data-theme="dark"] .vcc-mock .mp-header-actions { color: #E5E2E8; }
+[data-theme="dark"] .vcc-mock .mp-search-form {
+	background: #2C2930;
+	border-color: #3D3844;
+}
+[data-theme="dark"] .vcc-mock .mp-action-item { color: #E5E2E8; }
 [data-theme="dark"] .vcc-mock .tech-footer {
-	background-color: var(--mp-bg-surface, #2C2930);
-	border-top-color: #3D3844;
+	background-color: #1D1A20;
+	border-top-color: #2C2930;
 	color: #9E99A6;
 }
 [data-theme="dark"] .vcc-mock .tech-footer-title { color: #FFFFFF; }
 [data-theme="dark"] .vcc-mock .tech-footer-list li a,
 [data-theme="dark"] .vcc-mock .tech-footer-list li span { color: #9E99A6; }
 [data-theme="dark"] .vcc-mock .tech-footer-bottom {
-	border-top-color: #3D3844;
+	border-top-color: #2C2930;
 	color: #9E99A6;
 }
 .vcc-mock__note {

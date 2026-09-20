@@ -449,10 +449,14 @@
 			'<a class="mp-logo" href="javascript:void(0)"><span class="mp-logo-text-col">' +
 			'<i class="fa fa-leaf mp-logo-text-icon" aria-hidden="true"></i> ' +
 			'<span class="mp-logo-text-title">Магазин «Вита»</span></span></a>' +
-			'<button class="btn-catalog-toggle" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>' +
+			'<button class="btn-catalog-toggle has-label" type="button"><i class="fa fa-bars" aria-hidden="true"></i><span class="btn-catalog-label">Каталог</span></button>' +
 			'<div class="mp-search-form"><i class="fa fa-search mp-search-icon-inside" aria-hidden="true"></i>' +
 			'<input type="text" class="mp-search-input" placeholder="Поиск по магазину…" tabindex="-1"></div>' +
-			'<span class="mp-header-actions"><i class="fa fa-heart-o" aria-hidden="true"></i><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>' +
+			'<div class="mp-header-actions">' +
+			'<span class="mp-action-item"><i class="fa fa-heart-o mp-action-icon" aria-hidden="true"></i>Избранное</span>' +
+			'<span class="mp-action-item"><i class="fa fa-shopping-cart mp-action-icon" aria-hidden="true"></i>Корзина</span>' +
+			'<span class="mp-action-item"><i class="fa fa-user-o mp-action-icon" aria-hidden="true"></i>Войти</span>' +
+			'</div>' +
 			'</div></div></div>' +
 			'<div class="mp-container"><div class="vcc-mock__note">Предпросмотр в контексте магазина — тестовые данные не кликабельны</div></div>' +
 			'</div>';
