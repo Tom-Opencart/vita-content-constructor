@@ -10,6 +10,7 @@
 (function () {
 	var editingId = null;
 	var previewMode = false;
+	var fullscreenMode = false;
 
 	/* ---------- Утилиты ---------- */
 	function $(sel, root) { return (root || document).querySelector(sel); }
@@ -301,7 +302,7 @@
 		root.addEventListener('click', root._vccTabsDelegate);
 	}
 
-	/* ---------- Мок магазина (только предпросмотр, некликабельно) ---------- */
+	/* ---------- Мок магазина (некликабельные данные — в канвасе редактора и предпросмотре) ---------- */
 	function mockHeader() {
 		return '<div class="vcc-mock" aria-hidden="true">' +
 			'<div class="vcc-mock__topbar"><span>Бесплатная доставка от 3 000 ₽</span><span>+7 (900) 000-00-00</span></div>' +
@@ -323,6 +324,20 @@
 			'</div>' +
 			'<div class="vcc-mock__copy">© 2026 Магазин «Вита». Демонстрационные данные конструктора.</div>' +
 			'</div>';
+	}
+
+	function renderFullscreen(project) {
+		var fs = $('#vcc-fullscreen');
+		var page = $('#vcc-fullscreen-page');
+		if (!fs || !page) return;
+		bindTabsDelegate(page);
+		/* Страница как на витрине: некликабельные шапка/подвал Виты
+		   вокруг сгенерированного контента (тестовые данные) */
+		page.innerHTML = mockHeader() +
+			(project.blocks.map(blockPreviewHtml).join('\n') ||
+				'<p style="text-align:center;color:var(--mp-text-light,#94A3B8);padding:60px 20px">Страница пока пуста — вернитесь в редактирование и добавьте блоки из палитры</p>') +
+			mockFooter();
+		page.scrollTop = 0;
 	}
 
 	/* ---------- Рендер ---------- */
@@ -353,6 +368,13 @@
 		document.querySelectorAll('#vcc-mode-switch button').forEach(function (btn) {
 			btn.classList.toggle('is-active', btn.dataset.mode === project.themeMode);
 		});
+
+		var fsTitle = $('#vcc-fs-title');
+		if (fsTitle) fsTitle.textContent = project.title || 'Без названия';
+		if (fullscreenMode) {
+			renderFullscreen(project);
+			return; /* фуллскрин обновляется отдельно: свой блок, канвас не нужен */
+		}
 
 		if (previewMode) {
 			var parts = [mockHeader()];
@@ -450,6 +472,37 @@
 		openOnboard();
 	}
 
+	/* ---------- Фуллскрин: только сгенерированная страница ---------- */
+	function enterFullscreen() {
+		if (fullscreenMode) return;
+		fullscreenMode = true;
+		editingId = null;
+		previewMode = false;
+		$('#vcc-app').style.display = 'none';
+		$('#vcc-fullscreen').classList.add('is-active');
+		document.body.classList.add('is-vcc-fs');
+		render(VccStore.currentProject(), true);
+		$('#vcc-fullscreen-page').focus({ preventScroll: true });
+	}
+	function exitFullscreen() {
+		if (!fullscreenMode) return;
+		fullscreenMode = false;
+		$('#vcc-app').style.display = '';
+		$('#vcc-fullscreen').classList.remove('is-active');
+		document.body.classList.remove('is-vcc-fs');
+		refreshEditor();
+	}
+
+	/* Статус кнопки пресета: имя палитры или призыв к действию */
+	function renderPresetButton() {
+		var btn = $('#vcc-preset-open');
+		if (!btn) return;
+		var name = VccStore.getPaletteName();
+		$('#vcc-preset-btn-label').textContent = name ? ('Палитра: ' + name) : 'Загрузить пресет';
+		btn.classList.toggle('is-set', !!name);
+	}
+	VccStore.subscribe(renderPresetButton);
+
 	function bindDropZone(zone, input) {
 		zone.addEventListener('click', function () { input.click(); });
 		zone.addEventListener('dragover', function (e) { e.preventDefault(); zone.classList.add('is-over'); });
@@ -465,31 +518,6 @@
 		});
 	}
 
-	function copyHtml() {
-		/* Моки шорткодов (toHTML) в буфер не попадают — только экспортный вид */
-		var html = VccExport.buildHtml(VccStore.currentProject());
-		if (navigator.clipboard && navigator.clipboard.writeText) {
-			navigator.clipboard.writeText(html).then(function () {
-				showToast('HTML скопирован — вставьте в редактор магазина', 'success');
-			}, function () { fallbackCopy(html); });
-		} else {
-			fallbackCopy(html);
-		}
-	}
-	function fallbackCopy(text) {
-		var ta = el('textarea');
-		ta.value = text;
-		document.body.appendChild(ta);
-		ta.select();
-		try {
-			document.execCommand('copy');
-			showToast('HTML скопирован — вставьте в редактор магазина', 'success');
-		} catch (e) {
-			showToast('Не удалось скопировать — скачайте файл HTML', 'warning');
-		}
-		ta.remove();
-	}
-
 	function init() {
 		VccStore.load();
 		renderPalette();
@@ -502,7 +530,10 @@
 		if (resume) resume.addEventListener('click', closeOnboard);
 		$('#vcc-onboard-backdrop').addEventListener('click', closeOnboard);
 		document.addEventListener('keydown', function (e) {
-			if (e.key === 'Escape' || e.keyCode === 27) closeOnboard();
+			if (e.key === 'Escape' || e.keyCode === 27) {
+				if (fullscreenMode) { exitFullscreen(); return; }
+				closeOnboard();
+			}
 		});
 		bindDropZone($('#vcc-welcome-drop'), $('#vcc-welcome-file'));
 		bindDropZone($('#vcc-layouts-drop'), $('#vcc-layouts-file'));
@@ -520,16 +551,7 @@
 			var btn = e.target.closest('button');
 			if (btn) VccStore.setMode(btn.dataset.mode);
 		});
-		$('#vcc-preview-toggle').addEventListener('click', function () {
-			previewMode = !previewMode;
-			editingId = null;
-			this.innerHTML = previewMode
-				? '<i class="fa fa-pencil"></i> К редактированию'
-				: '<i class="fa fa-eye"></i> Предпросмотр';
-			refreshEditor();
-		});
 		$('#vcc-undo').addEventListener('click', function () { VccStore.undo(); });
-		$('#vcc-copy-html').addEventListener('click', copyHtml);
 		$('#vcc-dl-html').addEventListener('click', function () { VccExport.downloadHtml(VccStore.currentProject()); });
 		$('#vcc-dl-json').addEventListener('click', function () { VccExport.downloadJson(VccStore.currentProject()); });
 		$('#vcc-dl-css').addEventListener('click', function () {
@@ -540,7 +562,15 @@
 		});
 		$('#vcc-home').addEventListener('click', showWelcome);
 
+		/* Фуллскрин: страница на всю ширину без палитры и шапки конструктора */
+		$('#vcc-fullscreen-toggle').addEventListener('click', enterFullscreen);
+		$('#vcc-fullscreen-exit').addEventListener('click', exitFullscreen);
+
+		/* Пресет: отдельная кнопка в шапке — открыть онбординг с дропзоной */
+		$('#vcc-preset-open').addEventListener('click', showWelcome);
+
 		VccStore.subscribe(render);
+		renderPresetButton();
 		render(VccStore.currentProject());
 	}
 

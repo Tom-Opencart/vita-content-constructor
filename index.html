@@ -51,22 +51,22 @@
 	<header class="vcc-header">
 		<span class="vcc-header__brand"><i class="fa fa-leaf"></i> Вита · Конструктор</span>
 		<input class="vcc-header__title-input" id="vcc-title-input" type="text" placeholder="Название страницы" aria-label="Название страницы">
-		<div class="vcc-mode-switch" id="vcc-mode-switch">
-			<button type="button" data-mode="light"><i class="fa fa-sun-o"></i> Светлая</button>
-			<button type="button" data-mode="dark"><i class="fa fa-moon-o"></i> Тёмная</button>
+		<div class="vcc-mode-switch" id="vcc-mode-switch" title="Тема оформления страницы">
+			<button type="button" data-mode="light" title="Светлая тема"><i class="fa fa-sun-o"></i></button>
+			<button type="button" data-mode="dark" title="Тёмная тема"><i class="fa fa-moon-o"></i></button>
 		</div>
+		<button type="button" class="vcc-btn vcc-btn--sm vcc-preset-btn" id="vcc-preset-open" title="Загрузить пресет темы: Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора"><i class="fa fa-paint-brush"></i> <span id="vcc-preset-btn-label">Загрузить пресет</span></button>
 		<span class="vcc-header__spacer"></span>
 		<span class="vcc-header__label" id="vcc-slug-label">content.html</span>
-		<label class="vcc-btn vcc-btn--sm" id="vcc-header-file-label" title="Загрузить проект или пресет темы (.json)">
-			<i class="fa fa-upload"></i> Импорт
+		<label class="vcc-btn vcc-btn--sm" id="vcc-header-file-label" title="Загрузить проект или макет (.json)">
+			<i class="fa fa-upload"></i> <span class="vcc-hide-narrow">Импорт</span>
 			<input type="file" id="vcc-header-file" accept=".json" style="display:none" multiple>
 		</label>
-		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-undo" title="Отменить последнее действие"><i class="fa fa-undo"></i></button>
-		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-preview-toggle"><i class="fa fa-eye"></i> Предпросмотр</button>
-		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-copy-html" title="Скопировать HTML для вставки в редактор магазина"><i class="fa fa-clipboard"></i> Копировать HTML</button>
-		<button type="button" class="vcc-btn vcc-btn--primary vcc-btn--sm" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль"><i class="fa fa-download"></i> Скачать</button>
-		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-dl-json" title="Скачать проект JSON">JSON</button>
-		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-dl-css" title="Скачать CSS (обычно не нужен — стили подключает тема)">CSS</button>
+		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-undo" title="Отменить последнее действие"><i class="fa fa-undo"></i></button>
+		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-toggle" title="Страница на всю ширину: только сгенерированный контент, без палитры и шапки конструктора"><i class="fa fa-arrows-alt"></i> <span class="vcc-hide-narrow">На весь экран</span></button>
+		<button type="button" class="vcc-btn vcc-btn--primary vcc-btn--sm" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать</span></button>
+		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm vcc-hide-narrow" id="vcc-dl-json" title="Скачать проект JSON">JSON</button>
+		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm vcc-hide-narrow" id="vcc-dl-css" title="Скачать CSS (обычно не нужен — стили подключает тема)">CSS</button>
 		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-home" title="Как это работает — справка и загрузка пресета"><i class="fa fa-home"></i></button>
 	</header>
 
@@ -74,6 +74,15 @@
 		<aside class="vcc-sidebar" id="vcc-palette"></aside>
 		<main class="vcc-canvas" id="vcc-canvas"></main>
 	</div>
+</div>
+
+<!-- ============ Фуллскрин: только сгенерированная страница ============ -->
+<div class="vcc-fullscreen" id="vcc-fullscreen">
+	<div class="vcc-fullscreen__bar">
+		<span class="vcc-fullscreen__label"><i class="fa fa-arrows-alt"></i> Предпросмотр страницы — <span id="vcc-fs-title"></span></span>
+		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-exit" title="Вернуться к редактированию (Esc)"><i class="fa fa-compress"></i> Вернуться в редактирование</button>
+	</div>
+	<main class="vcc-fullscreen__page vcc-content" id="vcc-fullscreen-page" tabindex="-1"></main>
 </div>
 
 <!-- ============ Онбординг: принцип работы + пресет магазина ============ -->
