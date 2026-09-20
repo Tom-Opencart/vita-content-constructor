@@ -14,7 +14,7 @@ import glob
 import json
 import os
 
-APP_VERSION = "0.6.0"
+APP_VERSION = "0.7.0"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 FILES_ORDER = [
@@ -25,6 +25,7 @@ FILES_ORDER = [
 	"src/core/store.js",
 	"src/blocks/index.js",
 	"src/blocks/shortcodes.js",
+	"src/blocks/landing.js",
 	"src/export/export.js",
 	"src/ui/app.js",
 ]

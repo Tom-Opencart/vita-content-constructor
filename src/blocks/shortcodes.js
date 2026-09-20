@@ -156,6 +156,34 @@
 		});
 	}
 
+	/* --- HTML-модуль темы ([vita_html]…[/vita_html]) — клапан отхода (0.7.0):
+	 * точечная вёрстка, которой нет в каталоге блоков. Тема рендерит шорткод
+	 * как есть; содержимое должно оставаться в whitelist санитайзера, чтобы
+	 * файл выживал и при импорте через кнопку (путь B). --- */
+	BlockRegistry.register({
+		type: 'vita_html',
+		label: 'HTML темы (шорткод)',
+		icon: 'fa-code',
+		group: 'modules',
+		defaults: { content: '<div class="vcc-paragraph">Ваш HTML…</div>' },
+		fields: function () {
+			return [
+				{ key: 'content', label: 'HTML (теги и классы — только из справочника контракта vcc)', type: 'textarea', rows: 10 },
+				{ key: '_hint', label: 'Bootstrap-классы и теги вне whitelist (script, iframe, style) тема вырезает при импорте файла. Сервисные скрипты ставьте в поле «Custom JS» модуля, а не сюда.', type: 'hint' }
+			];
+		},
+		toExportHTML: function (data) {
+			var content = String(data.content || '').trim();
+			if (!content) return '';
+			return shortcodeWrap('[vita_html]' + content + '[/vita_html]');
+		},
+		toHTML: function (data) {
+			return shortcodeChip('HTML темы', String(data.content || '').trim()
+				? 'Переданный HTML выведется как есть (в рамках whitelist санитайзера)'
+				: 'HTML не задан');
+		}
+	});
+
 	moduleBlock('vita_visual', 'Визуальные блоки (шорткод)', 'fa-picture-o', 'visualBlocks', 'Слайдер / Баннер / LookBook');
 	moduleBlock('vita_all_in_one', 'Универсальные блоки товаров (шорткод)', 'fa-th-large', 'productBlocks', 'Товарный блок магазина');
 	moduleBlock('vita_extra_wall', 'Стена категорий и брендов (шорткод)', 'fa-th', 'walls', 'Стена магазина');

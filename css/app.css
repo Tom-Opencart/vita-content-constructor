@@ -497,6 +497,36 @@ button { font-family: inherit; }
 .vcc-checkbox-row { align-items: center; display: flex; gap: 8px; }
 .vcc-hint { color: var(--mp-text-light, #94A3B8); font-size: 12px; margin-top: 4px; }
 
+/* ---------- rows-editor: повторяющиеся элементы (0.7.0) ---------- */
+.vcc-rows-item {
+	background: var(--mp-bg-subtle, #f8fafc);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-md, 4px);
+	margin-bottom: 10px;
+}
+.vcc-rows-item__head {
+	align-items: center;
+	background: var(--mp-bg-hover, #f1f5f9);
+	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	display: flex;
+	gap: 6px;
+	padding: 6px 8px;
+}
+.vcc-rows-item__title {
+	color: var(--mp-text-main, #2D3748);
+	flex: 1;
+	font-size: 13px;
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.vcc-rows-item__body { padding: 10px; }
+
+/* ---------- Лендинг-секции в канвасе: card-контекст для светлых фонов ---------- */
+.vcc-canvas .vcc-section { margin: 0 0 18px; }
+.vcc-canvas .vcc-section:last-child { margin-bottom: 0; }
+
 /* ---------- Тосты ---------- */
 .vcc-toasts {
 	bottom: 20px;

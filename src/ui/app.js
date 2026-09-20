@@ -89,7 +89,7 @@
 		if (!box) return;
 		box.innerHTML = '';
 		/* Картинка в группе «Текст» — отдельной группы из одного блока нет */
-		var groups = { text: 'Блоки контента', modules: 'Модули магазина' };
+		var groups = { text: 'Блоки контента', landing: 'Лендинг-секции', modules: 'Модули магазина' };
 		var defs = BlockRegistry.getList();
 		Object.keys(groups).forEach(function (group) {
 			var defsInGroup = defs.filter(function (d) { return (d.group || 'text') === group; });
@@ -113,6 +113,13 @@
 	/* ---------- Формы ---------- */
 	function fieldValue(key) { return function (block) { return block.data[key]; }; }
 
+	/* Значение поля: обычные ключи лежат в data напрямую, ключи с меткой
+	 * mark:'sec' — вложенным объектом data.sec (общие поля секции лендинга). */
+	function valOf(block, def) {
+		if (def.mark === 'sec') return (block.data.sec || {})[def.key.slice(4)];
+		return block.data[def.key];
+	}
+
 	function makeField(def, block, onChange) {
 		var wrap = el('div', 'vcc-field');
 		/* Пояснительная строка без ввода (например, откуда список пикера) */
@@ -124,7 +131,7 @@
 			var row = el('label', 'vcc-checkbox-row');
 			var cb = el('input');
 			cb.type = 'checkbox';
-			cb.checked = !!block.data[def.key];
+			cb.checked = !!valOf(block, def);
 			cb.addEventListener('change', function () { onChange(def.key, cb.checked); });
 			row.appendChild(cb);
 			row.appendChild(el('span', null, def.label));
@@ -136,69 +143,111 @@
 		if (def.type === 'select') {
 			var select = el('select', 'vcc-select');
 			(def.options || []).forEach(function (opt) {
-				var option = el('option', null, opt[1]);
-				option.value = opt[0];
-				if (String(block.data[def.key]) === String(opt[0])) option.selected = true;
-				select.appendChild(option);
+			var option = el('option', null, opt[1]);
+			option.value = opt[0];
+			if (String(valOf(block, def)) === String(opt[0])) option.selected = true;
+			select.appendChild(option);
 			});
 			select.addEventListener('change', function () { onChange(def.key, select.value); });
 			wrap.appendChild(select);
 			return wrap;
 		}
-		if (def.type === 'tabs-editor') {
-			return makeTabsEditor(def, block, onChange, wrap);
-		}
-		var input = def.type === 'textarea' ? el('textarea', 'vcc-textarea') : el('input', 'vcc-input');
+		if (def.type === 'rows-editor') {
+		return makeRowsEditor(def, block, onChange, wrap);
+	}
+	if (def.type === 'tabs-editor') {
+		return makeTabsEditor(def, block, onChange, wrap);
+	}
+	var input = def.type === 'textarea' ? el('textarea', 'vcc-textarea') : el('input', 'vcc-input');
 		if (def.type === 'textarea') input.rows = def.rows || 4;
 		if (def.type === 'number') { input.type = 'number'; input.min = 0; input.step = 1; }
 		if (def.placeholder) input.placeholder = def.placeholder;
-		input.value = block.data[def.key] == null ? '' : block.data[def.key];
+		input.value = valOf(block, def) == null ? '' : valOf(block, def);
 		input.addEventListener('input', function () { onChange(def.key, input.value); });
 		wrap.appendChild(input);
 		if (def.markdown) {
-			wrap.appendChild(el('div', 'vcc-hint', 'Markdown: **жирный**, *курсив*, `код`, [текст](url), [соглашение](agree:ID), списки через «- »'));
+			wrap.appendChild(el('div', 'vcc-hint', 'Markdown: **жирный**, *курсив*, ==акцент==, `код`, [текст](url), [соглашение](agree:ID), [кнопка формы](form:ID), списки через «- »'));
 		}
 		return wrap;
 	}
 
-	function makeTabsEditor(def, block, onChange, wrap) {
-		var list = Array.isArray(block.data.tabs) ? block.data.tabs : [];
-		function commit() { onChange('tabs', JSON.parse(JSON.stringify(list))); }
-		list.forEach(function (tab, idx) {
-			var card = el('div', 'vcc-tabs-item');
-			var head = el('div', 'vcc-tabs-item__head');
-			var title = el('input', 'vcc-input');
-			title.value = tab.title || '';
-			title.placeholder = 'Заголовок вкладки ' + (idx + 1);
-			title.addEventListener('input', function () { tab.title = title.value; commit(); });
-			head.appendChild(title);
-			var del = el('button', 'vcc-block__icon-btn vcc-block__icon-btn--danger', '<i class="fa fa-trash"></i>');
-			del.type = 'button';
-			del.title = 'Удалить вкладку';
-			del.addEventListener('click', function () {
+	/* Универсальный редактор повторяющихся элементов (0.7.0, спека §5.3):
+	 * карточки с заголовком, сортировкой, удалением и вложенными полями.
+	 * tabs-editor — частный случай (те же механики, ключ tabs). */
+	function makeRowsEditor(def, block, onChange, wrap) {
+		var key = def.key;
+		var list = Array.isArray(block.data[key]) ? block.data[key] : [];
+		var max = def.max || 99;
+
+		function commit() {
+			var copy = JSON.parse(JSON.stringify(list));
+			onChange(key, copy);
+		}
+
+		list.forEach(function (item, idx) {
+			var card = el('div', 'vcc-rows-item');
+			var head = el('div', 'vcc-rows-item__head');
+			head.appendChild(el('span', 'vcc-rows-item__title',
+				(def.itemTitle ? def.itemTitle(item, idx) : '') || ('Элемент ' + (idx + 1))));
+			head.appendChild(iconBtn('fa-arrow-up', 'Выше', function () {
+				if (idx === 0) return;
+				list.splice(idx - 1, 0, list.splice(idx, 1)[0]);
+				commit();
+				refreshEditor();
+			}, idx === 0));
+			head.appendChild(iconBtn('fa-arrow-down', 'Ниже', function () {
+				if (idx === list.length - 1) return;
+				list.splice(idx + 1, 0, list.splice(idx, 1)[0]);
+				commit();
+				refreshEditor();
+			}, idx === list.length - 1));
+			head.appendChild(iconBtn('fa-trash', 'Удалить', function () {
 				list.splice(idx, 1);
 				commit();
 				refreshEditor();
-			});
-			head.appendChild(del);
+			}, false, true));
 			card.appendChild(head);
-			var content = el('textarea', 'vcc-textarea');
-			content.rows = 3;
-			content.value = tab.content || '';
-			content.placeholder = 'Содержимое вкладки';
-			content.addEventListener('input', function () { tab.content = content.value; commit(); });
-			card.appendChild(content);
+			var body = el('div', 'vcc-rows-item__body');
+			(def.itemFields || []).forEach(function (fd) {
+				body.appendChild(makeField(fd, { data: item }, function (ikey, value) {
+					item[ikey] = value;
+					commit();
+				}));
+			});
+			card.appendChild(body);
 			wrap.appendChild(card);
 		});
-		var add = el('button', 'vcc-btn vcc-btn--sm', '<i class="fa fa-plus"></i> Добавить вкладку');
+
+		var add = el('button', 'vcc-btn vcc-btn--sm', '<i class="fa fa-plus"></i> ' + (def.addLabel || 'Добавить элемент'));
 		add.type = 'button';
+		add.disabled = list.length >= max;
 		add.addEventListener('click', function () {
-			list.push({ title: 'Вкладка ' + (list.length + 1), content: '' });
+			if (list.length >= max) return;
+			var fresh = {};
+			(def.itemFields || []).forEach(function (fd) {
+				if (fd.key && fd.type !== 'hint') fresh[fd.key] = '';
+			});
+			list.push(fresh);
 			commit();
 			refreshEditor();
 		});
 		wrap.appendChild(add);
 		return wrap;
+	}
+
+	/* Вкладки = частный случай rows-editor (0.7.0): данные и совместимость
+	 * не меняются, редактор общий. */
+	function makeTabsEditor(def, block, onChange, wrap) {
+		return makeRowsEditor({
+			key: 'tabs',
+			addLabel: 'Добавить вкладку',
+			max: 12,
+			itemFields: [
+				{ key: 'title', label: 'Заголовок вкладки', type: 'text' },
+				{ key: 'content', label: 'Содержимое вкладки', type: 'textarea', rows: 3, markdown: true }
+			],
+			itemTitle: function (item, i) { return item.title || ('Вкладка ' + (i + 1)); }
+		}, block, onChange, wrap);
 	}
 
 	function refreshEditor() {
@@ -212,6 +261,13 @@
 		/* Правки полей — тихие (без перестройки DOM, фокус сохраняется);
 		   чекпойнт undo ставится один раз при входе в редактирование. */
 		var onChange = function (key, value) {
+			/* Общие поля секции лендинга живут вложенным объектом data.sec */
+			if (key.indexOf('sec.') === 0) {
+				var sec = JSON.parse(JSON.stringify(block.data.sec || {}));
+				sec[key.slice(4)] = value;
+				VccStore.updateBlockSilent(block.id, { sec: sec });
+				return;
+			}
 			var patch = {};
 			patch[key] = value;
 			VccStore.updateBlockSilent(block.id, patch);

@@ -1,0 +1,119 @@
+{
+  "type": "vita-constructor-project",
+  "contract": "vcc-v1",
+  "layoutTitle": "Лендинг услуги",
+  "layoutDesc": "Продающая страница: обложка, преимущества, шаги, тарифы, отзывы и форма заявки",
+  "layoutIcon": "fa-rocket",
+  "title": "Лендинг услуги",
+  "slug": "landing",
+  "themeMode": "light",
+  "theme": { "preset": null, "tokens": null },
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "hero",
+      "data": {
+        "title": "Профессиональный монтаж кондиционеров за ==один день==",
+        "sub": "Замер, подбор модели и установка под ключ — с гарантией три года и обслуживанием после сдачи.",
+        "btn1_label": "Рассчитать стоимость",
+        "btn1_url": "form:0",
+        "btn2_label": "Как мы работаем",
+        "btn2_url": "#shagi",
+        "note": "Гарантия по договору · Более 2 500 установок",
+        "align": "center",
+        "sec": { "bg": "image", "image": "", "overlay": true, "padding": "xl", "width": "default", "anchor": "start", "eyebrow": "", "title": "", "text": "", "align": "center" }
+      }
+    },
+    {
+      "id": "b2",
+      "type": "badges",
+      "data": {
+        "sec": { "bg": "surface", "padding": "s", "width": "default", "eyebrow": "", "title": "", "text": "", "align": "center" },
+        "items": [
+          { "icon": "credit-card", "title": "Удобная оплата", "text": "Картой, наличными или по счёту" },
+          { "icon": "truck", "title": "Доставка и монтаж", "text": "Приезжаем в день заявки" },
+          { "icon": "shield", "title": "Гарантия 3 года", "text": "Сервисное обслуживание" }
+        ]
+      }
+    },
+    {
+      "id": "b3",
+      "type": "features",
+      "data": {
+        "sec": { "eyebrow": "Почему мы", "title": "Монтаж, о котором не придётся жалеть", "text": "", "align": "center", "bg": "light", "padding": "l", "width": "default", "image": "", "video": "", "overlay": false, "anchor": "" },
+        "cols": "3",
+        "items": [
+          { "icon": "clock-o", "title": "За один день", "text": "Приезжаем с оборудованием и завершаем монтаж за один визит — без «доделаем потом»." },
+          { "icon": "shield", "title": "Гарантия 3 года", "text": "Работаем по договору, даём письменную гарантию на монтаж и материалы." },
+          { "icon": "wrench", "title": "Чистая работа", "text": "Штробы с пылесосом, уборка после установки — квартира остаётся чистой." }
+        ]
+      }
+    },
+    {
+      "id": "b4",
+      "type": "steps",
+      "data": {
+        "sec": { "eyebrow": "Как это работает", "title": "Три шага до прохлады", "text": "", "align": "left", "bg": "none", "padding": "l", "width": "default", "image": "", "video": "", "overlay": false, "anchor": "shagi" },
+        "style": "timeline",
+        "items": [
+          { "title": "Заявка", "text": "Оставьте заявку или позвоните — согласуем удобное время замера." },
+          { "title": "Замер и смета", "text": "Инженер приезжает с образцами, подбирает модель и называет точную цену." },
+          { "title": "Монтаж", "text": "Устанавливаем за один день, показываем, как пользоваться, и убираем за собой." }
+        ]
+      }
+    },
+    {
+      "id": "b5",
+      "type": "pricing",
+      "data": {
+        "sec": { "eyebrow": "Тарифы", "title": "Выберите подходящий", "text": "", "align": "center", "bg": "light", "padding": "l", "width": "default", "image": "", "video": "", "overlay": false, "anchor": "tarify" },
+        "align": "center",
+        "items": [
+          { "name": "Базовый", "price": "от 9 900 ₽", "period": "", "old_price": "", "features": "Монтаж стандартной сплит-системы\nТрасса до 3 метров\nПусконаладка", "featured": false, "flag_label": "Рекомендуем", "btn_label": "Заказать", "btn_url": "form:0", "note": "" },
+          { "name": "Стандарт", "price": "от 14 900 ₽", "period": "", "old_price": "17 400 ₽", "features": "Всё из «Базового»\nТрасса до 5 метров\nДекоративный короб", "featured": true, "flag_label": "Рекомендуем", "btn_label": "Заказать", "btn_url": "form:0", "note": "" },
+          { "name": "Премиум", "price": "по запросу", "period": "", "old_price": "", "features": "Всё из «Стандарта»\nСкрытая трасса любой длины\nОбслуживание первый год", "featured": false, "flag_label": "Рекомендуем", "btn_label": "Обсудить", "btn_url": "form:0", "note": "" }
+        ]
+      }
+    },
+    {
+      "id": "b6",
+      "type": "reviews",
+      "data": {
+        "sec": { "eyebrow": "Отзывы", "title": "Что говорят клиенты", "text": "", "align": "center", "bg": "surface", "padding": "l", "width": "default", "image": "", "video": "", "overlay": false, "anchor": "" },
+        "cols": "3",
+        "items": [
+          { "text": "Приехали в тот же день, к вечеру уже работало. Убрали за собой идеально — даже пыли не осталось.", "name": "Ольга", "role": "квартира, новостройка", "stars": 5, "avatar": "" },
+          { "text": "Смета совпала с обещанной по телефону до рубля. По договору — три года гарантии, все бумаги на руках.", "name": "Сергей", "role": "частный дом", "stars": 5, "avatar": "" },
+          { "text": "Заказывали три кондиционера в офис. Уложились в один день, всё чисто и без лишнего шума.", "name": "Марина", "role": "офис компании", "stars": 4, "avatar": "" }
+        ]
+      }
+    },
+    {
+      "id": "b7",
+      "type": "cta",
+      "data": {
+        "sec": { "eyebrow": "", "title": "Готовы к лету?", "text": "", "align": "center", "bg": "primary", "padding": "l", "width": "narrow", "image": "", "video": "", "overlay": false, "anchor": "" },
+        "text": "Оставьте заявку — перезвоним в течение рабочего дня, ответим на вопросы и рассчитаем точную стоимость.",
+        "btn1_label": "Оставить заявку",
+        "btn1_url": "form:0",
+        "btn2_label": "",
+        "btn2_url": ""
+      }
+    },
+    {
+      "id": "b8",
+      "type": "vita_form",
+      "data": { "formId": 0 }
+    },
+    {
+      "id": "b9",
+      "type": "seotext",
+      "data": {
+        "sec": { "bg": "none", "padding": "m", "width": "narrow", "align": "left", "eyebrow": "", "title": "", "text": "", "image": "", "video": "", "overlay": false, "anchor": "" },
+        "title": "Подробнее о монтаже кондиционеров",
+        "text": "Монтаж кондиционера начинается с правильного подбора мощности: избыточная модель будет часто отключаться, недостаточная — работать на пределе. Инженер учитывает площадь, высоту потолков, сторону света и назначение помещения.\n\nСама установка включает прокладку фреоновой трассы, монтаж наружного блока с учётом шума и правил УК, подключение питания и пусконаладку. После сдачи мы показываем, как обслуживать фильтры, и остаёмся на связи для сервисного визита.",
+        "open": false
+      }
+    }
+  ]
+}

@@ -1,9 +1,10 @@
 /* ============================================================
 Вита — Конструктор контента · core/markdown.js
 Мини-markdown для экспортного HTML: жирный, курсив, `код`,
-ссылки, спойлеры-соглашения [text](agree:ID), списки в поле.
+ссылки, спойлеры-соглашения [text](agree:ID), кнопки-формы
+[text](form:ID) и акцент ==текст== (0.7.0), списки в поле.
 Безопасность: HTML во входе экранируется всегда, разметка
-добавляется только сгенерированная. URL-схемы http/https/agree.
+добавляется только сгенерированная. URL-схемы http/https/agree/form.
 ============================================================ */
 'use strict';
 
@@ -22,22 +23,30 @@ function vccSafeHref(url) {
 	if (/^\//.test(s)) return s;
 	if (/^image\//i.test(s)) return s;
 	if (/^agree:\d+$/i.test(s)) return s;
+	if (/^form:\d+$/i.test(s)) return s; /* 0.7.0: кнопка вызова формы магазина */
 	if (/^#/.test(s)) return s;
 	return '#';
 }
 
-/* Инлайн-разметка: escape -> code -> links -> bold -> italic */
+/* Инлайн-разметка: escape -> code -> accent -> links -> bold -> italic.
+ * 0.7.0: ==акцент== и кнопка-форма [text](form:ID) (спецификация
+ * docs/v0.5.0-landing-blocks.md §5.5; ветка form: зеркальна agree:). */
 function vccInline(text) {
 	var s = vccEscapeHtml(text);
 	/* `code` */
 	s = s.replace(/`([^`]+)`/g, function (_, code) {
 		return '<code class="vcc-code">' + code + '</code>';
 	});
-	/* [text](url) и [text](agree:ID) */
+	/* ==акцент== (до bold/italic) */
+	s = s.replace(/==([^=\n]+)==/g, '<span class="vcc-accent">$1</span>');
+	/* [text](url), [text](agree:ID) и [text](form:ID) */
 	s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, label, href) {
 		var safe = vccSafeHref(href);
 		if (/^agree:/i.test(safe)) {
 			return '<a href="#" class="vcc-agree" data-agree="' + vccEscapeHtml(safe.slice(6)) + '">' + label + '</a>';
+		}
+		if (/^form:\d+$/i.test(safe)) {
+			return '<a href="' + vccEscapeHtml(safe) + '" class="vcc-btn vcc-btn--primary">' + label + '</a>';
 		}
 		return '<a href="' + vccEscapeHtml(safe) + '"' + (/^https?:/i.test(safe) ? ' target="_blank" rel="noopener"' : '') + '>' + label + '</a>';
 	});
