@@ -17,6 +17,10 @@ sync_to_theme.py — синхронизация export.css конструкто�
   2. В обоих репозиториях нет незакоммиченных изменений отслеживаемых
      файлов (git status -uno) — полуприменённая правка «повиснуть» не может.
   3. Оба репозитория запушены: HEAD == origin/<branch> (если remote настроен).
+  4. Канонический текст подсказки о спец-метках (docs/shortcode-hint.md,
+     строка VCC-SHORTCODE-HINT-v1) присутствует в шапке экспортного файла
+     (src/export/export.js) и в документации темы (docs/index.html)
+     — три поверхности одной подсказки расходиться не могут.
 
 Дополнительно (информационно, без влияния на код выхода) печатается
 последний коммит каждого файла — для eyeball-сверки пары.
@@ -46,6 +50,18 @@ THEME_CSS = os.path.join(THEME_DIR, *THEME_CSS_REL.split("/"))
 
 # Файлы, составляющие пару (относительно корня каждого репозитория).
 SOURCE_REL = "css/export.css"
+
+# Гейт 4: каноническая подсказка о спец-метках (один текст на три поверхности:
+# справочник, шапка экспортного файла, документация темы). Маркер — в справочнике
+# и шапке экспорта; в доках темы проверяется сама фраза (маркер человеку в
+# тексте карточки не нужен).
+HINT_DOCS_REL = os.path.join("docs", "shortcode-hint.md")
+HINT_EXPORT_REL = os.path.join("src", "export", "export.js")
+HINT_THEME_DOCS_REL = os.path.join("docs", "index.html")
+HINT_MARKER = "VCC-SHORTCODE-HINT-v1"
+HINT_SENTENCE = ("Спец-метки модулей Виты вставляйте текстовым блоком или через блок "
+                 "«HTML темы» — они переживают экспорт и импорт, а на витрине "
+                 "превращаются в живые блоки модулей.")
 
 
 # --- Утилиты git -----------------------------------------------------------
@@ -262,6 +278,33 @@ def do_check(limit=40):
     print("[gate 3] both pushed            : %s (constructor:%s theme:%s)" % (g3, b_c, b_t))
     if not g3:
         problems.append("HEAD не равен origin/<branch> (или remote нет)")
+
+    # -- Гейт 4: каноническая подсказка на всех трёх поверхностях ------------
+    g4 = True
+
+    def file_has(path, needles):
+        try:
+            with open(path, encoding="utf-8") as f:
+                text = f.read()
+            return all(n in text for n in needles)
+        except (OSError, UnicodeDecodeError):
+            return False
+
+    hint_sources = (
+        ("reference (constructor docs/shortcode-hint.md)",
+         os.path.join(CONSTRUCTOR_ROOT, HINT_DOCS_REL), [HINT_MARKER, HINT_SENTENCE]),
+        ("export header (src/export/export.js)",
+         os.path.join(CONSTRUCTOR_ROOT, HINT_EXPORT_REL), [HINT_MARKER, HINT_SENTENCE]),
+        ("theme docs (docs/index.html)",
+         os.path.join(THEME_DIR, HINT_THEME_DOCS_REL), [HINT_SENTENCE]),
+    )
+    for label, path, needles in hint_sources:
+        has_hint = file_has(path, needles)
+        print("[gate 4] %-46s: %s" % (label, "OK" if has_hint else "MISSING"))
+        if not has_hint:
+            g4 = False
+    if not g4:
+        problems.append("подсказка о спец-метках (%s) отсутствует/устарела на одной из поверхностей — эталон: docs/shortcode-hint.md" % HINT_MARKER)
 
     print()
     if problems:
