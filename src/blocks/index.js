@@ -168,8 +168,17 @@
 		},
 		toHTML: function (data) {
 			var cols = Math.max(1, Math.min(4, parseInt(data.cols, 10) || 2));
-			var headers = Array.isArray(data.headers) ? data.headers : [];
-			var rows = Array.isArray(data.rows) ? data.rows : [];
+			/* Обратная совместимость: старый формат хранил headers/rows строками
+			 * («A\nB», ячейки через « | ») — рендерим их как раньше */
+			var headers = Array.isArray(data.headers)
+				? data.headers
+				: (String(data.headers || '').trim() ? String(data.headers).split(/\r?\n/) : []);
+			var rowList = Array.isArray(data.rows)
+				? data.rows
+				: (String(data.rows || '').trim() ? String(data.rows).split(/\r?\n/) : []);
+			var rows = rowList.map(function (r) {
+				return Array.isArray(r) ? r : String(r || '').split('|');
+			});
 			if (!headers.length && !rows.length) return '';
 			var html = '<div class="vcc-table-wrap"><table class="vcc-table">';
 			var hasHeaders = headers.some(function (h) { return String(h || '').trim() !== ''; });
@@ -180,7 +189,7 @@
 			}
 			html += '<tbody>';
 			for (var r = 0; r < rows.length; r++) {
-				var cells = Array.isArray(rows[r]) ? rows[r] : [];
+				var cells = rows[r];
 				html += '<tr>';
 				for (var cc = 0; cc < cols; cc++) html += '<td>' + vccInline(String(cells[cc] || '')) + '</td>';
 				html += '</tr>';
