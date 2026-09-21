@@ -49,12 +49,12 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'pricing', data_schema: { align: 'left|center', items: 'Array of { name, price, old_price?, period?, features: String — по строке на пункт, featured: Boolean, flag_label?, btn_label, btn_url, note? }', sec: 'Object' } },
 		{ type: 'columns', data_schema: { cols: '2|3|4', items: 'Array of { md: String (markdown-block) }', sec: 'Object' } },
 		{ type: 'video', data_schema: { src: 'String — ссылка или iframe-код сервиса', ratio: '16x9|4x3|1x1', title: 'String', sec: 'Object; экспорт: .vcc-video с data-vcc-video (embed-URL разрешённого хоста), iframe строит рантайм темы' } },
-		{ type: 'vita_faq', data_schema: { faqId: 'Integer ≥ 0 — ID группы FAQ (0 — все активные)', title: 'String (опционально, переопределяет заголовок)' }, export: '[vita_faq id title] литерально в <div class="vcc-shortcode">' },
-		{ type: 'vita_form', data_schema: { formId: 'Integer ≥ 1 — ID формы модуля «Вита — Формы» (0 = блок не экспортируется)' }, export: '[vita_form id] литерально в <div class="vcc-shortcode">' },
-		{ type: 'vita_visual', data_schema: { blockId: 'Integer ≥ 1 — ID инстанса модуля «Вита — Визуальные блоки» (0 = блок не экспортируется)' }, export: '[vita_visual id] литерально в <div class="vcc-shortcode">' },
-		{ type: 'vita_all_in_one', data_schema: { blockId: 'Integer ≥ 1 — ID блока модуля «Вита — Универсальные блоки товаров» (0 = блок не экспортируется)' }, export: '[vita_all_in_one id] литерально в <div class="vcc-shortcode">' },
-		{ type: 'vita_extra_wall', data_schema: { blockId: 'Integer ≥ 1 — ID стены модуля «Вита — Стена категорий, брендов и кастомных ссылок» (0 = блок не экспортируется)' }, export: '[vita_extra_wall id] литерально в <div class="vcc-shortcode">' },
-		{ type: 'vita_html', data_schema: { content: 'String — HTML строго в whitelist санитайзера (см. системную библиотеку security/content_sanitize.php)' }, export: '[vita_html]…[/vita_html] литерально в <div class="vcc-shortcode">' }
+		{ type: 'vita_faq', data_schema: { faqId: 'Integer ≥ 0 — ID группы FAQ (0 — все активные)', title: 'String (опционально, переопределяет заголовок)', sec: 'Object — общие поля секции (блок оборачивается в vcc-section)' }, export: '[vita_faq id title] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_form', data_schema: { formId: 'Integer ≥ 1 — ID формы модуля «Вита — Формы» (0 = блок не экспортируется)', sec: 'Object — общие поля секции' }, export: '[vita_form id] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_visual', data_schema: { blockId: 'Integer ≥ 1 — ID инстанса модуля «Вита — Визуальные блоки» (0 = блок не экспортируется)', sec: 'Object — общие поля секции' }, export: '[vita_visual id] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_all_in_one', data_schema: { blockId: 'Integer ≥ 1 — ID блока модуля «Вита — Универсальные блоки товаров» (0 = блок не экспортируется)', sec: 'Object — общие поля секции' }, export: '[vita_all_in_one id] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_extra_wall', data_schema: { blockId: 'Integer ≥ 1 — ID стены модуля «Вита — Стена категорий, брендов и кастомных ссылок» (0 = блок не экспортируется)', sec: 'Object — общие поля секции' }, export: '[vita_extra_wall id] литерально в <div class="vcc-shortcode">' },
+		{ type: 'vita_html', data_schema: { content: 'String — HTML строго в whitelist санитайзера (см. системную библиотеку security/content_sanitize.php)', sec: 'Object — общие поля секции' }, export: '[vita_html]…[/vita_html] литерально в <div class="vcc-shortcode">' }
 	]
 };
 

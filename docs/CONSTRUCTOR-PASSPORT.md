@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.8.1 · контракт: vcc-v1
+Версия конструктора: 0.8.2 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -564,64 +564,130 @@ anchor — якорь латиницей для ссылок #anchor
 ### Живые модули магазина (спец-метки)
 
 #### vita_html — HTML темы (спец-метка)
-Сырой HTML строго в whitelist санитайзера темы — используйте в последнюю очередь.
+Сырой HTML строго в whitelist санитайзера темы — используйте в последнюю очередь. Можно задать секцию (фон/отступы/якорь).
 Поля data:
 - `content` — текст (многострочный
 - `_hint` — hint
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
 Пример:
 ```json
-{"id":"b1","type":"vita_html","data":{"content":"<div class=\"vcc-paragraph\">Ваш HTML…</div>"}}
+{"id":"b1","type":"vita_html","data":{"content":"<div class=\"vcc-paragraph\">Ваш HTML…</div>","sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
 ```
 
 #### vita_visual — Визуальные блоки (спец-метка)
-Готовый визуальный блок модуля «Вита — Визуальные блоки» по ID.
+Готовый визуальный блок модуля «Вита — Визуальные блоки» по ID. Можно задать секцию (фон/отступы/якорь).
 Поля data:
 - `_catalog_hint` — hint
 - `blockId` — number
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
 Пример:
 ```json
-{"id":"b1","type":"vita_visual","data":{"blockId":1}}
+{"id":"b1","type":"vita_visual","data":{"blockId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
 ```
 
 #### vita_all_in_one — Универсальные блоки товаров (спец-метка)
-Блок модуля «Вита — Универсальные блоки товаров» по ID.
+Блок модуля «Вита — Универсальные блоки товаров» по ID. Можно задать секцию (фон/отступы/якорь).
 Поля data:
 - `_catalog_hint` — hint
 - `blockId` — number
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
 Пример:
 ```json
-{"id":"b1","type":"vita_all_in_one","data":{"blockId":1}}
+{"id":"b1","type":"vita_all_in_one","data":{"blockId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
 ```
 
 #### vita_extra_wall — Стена категорий и брендов (спец-метка)
-Стена категорий/брендов модуля «Вита — Стена» по ID.
+Стена категорий/брендов модуля «Вита — Стена» по ID. Можно задать секцию (фон/отступы/якорь).
 Поля data:
 - `_catalog_hint` — hint
 - `blockId` — number
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
 Пример:
 ```json
-{"id":"b1","type":"vita_extra_wall","data":{"blockId":1}}
+{"id":"b1","type":"vita_extra_wall","data":{"blockId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
 ```
 
 #### vita_faq — FAQ-группы (спец-метка)
-Живой FAQ магазина: аккордеон из модуля «Вита — FAQ» + SEO-разметка. faqId 0 — все активные группы.
+Живой FAQ магазина: аккордеон из модуля «Вита — FAQ» + SEO-разметка. faqId 0 — все активные группы. Можно задать секцию (фон/отступы/якорь) — блок обернётся в vcc-section.
 Поля data:
 - `_catalog_hint` — hint
 - `faqId` — number
 - `title` — строка
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
 Пример:
 ```json
-{"id":"b1","type":"vita_faq","data":{"faqId":0,"title":""}}
+{"id":"b1","type":"vita_faq","data":{"faqId":0,"title":"","sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
 ```
 
 #### vita_form — Форма (спец-метка)
-Живая форма магазина (модуль «Вита — Формы»). formId 0 — блок не экспортируется.
+Живая форма магазина (модуль «Вита — Формы»). formId 0 — блок не экспортируется. Можно задать секцию (фон/отступы/якорь) — блок обернётся в vcc-section.
 Поля data:
 - `_catalog_hint` — hint
 - `formId` — number
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
 Пример:
 ```json
-{"id":"b1","type":"vita_form","data":{"formId":1}}
+{"id":"b1","type":"vita_form","data":{"formId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
 ```
 
 ## Формат ответа для AI

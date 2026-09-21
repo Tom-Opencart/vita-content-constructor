@@ -136,18 +136,31 @@
 			label: label,
 			icon: icon,
 			group: 'modules',
-			defaults: { blockId: 0 },
+			defaults: { blockId: 0, sec: { bg: 'none', padding: 'm', width: 'default' } },
 			fields: function () {
 				return [
 					catalogHint(),
 					{ key: 'blockId', label: fieldLabel, type: hasCatalog(listKey) ? 'select' : 'number', options: moduleOptions(listKey, '— Выберите блок —'), picker: true }
-				];
+				].concat(VccSection.fields());
 			},
-			/* Без ID шорткод ничего не выведет — не экспортируем блок вовсе */
+			/* Без ID шорткод ничего не выведет — не экспортируем блок вовсе.
+			 * Секция (vcc-section) рисуется, когда задан фон/отступы/заголовок:
+			 * движок шорткодов темы обрабатывает [vita_*] в любом выводе,
+			 * санитайзер пропускает vcc-* классы и data-vcc-* атрибуты. */
 			toExportHTML: function (data) {
 				var id = Math.max(0, parseInt(data.blockId, 10) || 0);
 				if (!id) return '';
-				return shortcodeWrap('[' + type + ' id="' + id + '"]');
+				var sc = shortcodeWrap('[' + type + ' id="' + id + '"]');
+				/* Секция рисуется только при осмысленных отклонениях от
+				 * дефолта (bg none / pad m / width default): старые проекты
+				 * без sec экспортируются как прежде — голым шорткодом. */
+				var sec = data.sec || {};
+				var hasSec = (sec.bg && sec.bg !== 'none') ||
+					(sec.padding && sec.padding !== 'm') ||
+					(sec.width && sec.width !== 'default') ||
+					sec.anchor || sec.eyebrow || sec.title || sec.text;
+				if (!hasSec) return sc;
+				return VccSection.open(sec) + VccSection.head(sec) + sc + VccSection.close();
 			},
 			toHTML: function (data) {
 				var id = Math.max(0, parseInt(data.blockId, 10) || 0);
@@ -165,17 +178,24 @@
 		label: 'HTML темы (спец-метка)',
 		icon: 'fa-code',
 		group: 'modules',
-		defaults: { content: '<div class="vcc-paragraph">Ваш HTML…</div>' },
+		defaults: { content: '<div class="vcc-paragraph">Ваш HTML…</div>', sec: { bg: 'none', padding: 'm', width: 'default' } },
 		fields: function () {
 			return [
 				{ key: 'content', label: 'HTML (теги и классы — только из справочника контракта vcc)', type: 'textarea', rows: 10 },
 				{ key: '_hint', label: 'Bootstrap-классы и теги вне whitelist (script, iframe, style) тема вырезает при импорте файла. Сервисные скрипты ставьте в поле «Custom JS» модуля, а не сюда.', type: 'hint' }
-			];
+			].concat(VccSection.fields());
 		},
 		toExportHTML: function (data) {
 			var content = String(data.content || '').trim();
 			if (!content) return '';
-			return shortcodeWrap('[vita_html]' + content + '[/vita_html]');
+			var sc = shortcodeWrap('[vita_html]' + content + '[/vita_html]');
+			var sec = data.sec || {};
+			var hasSec = (sec.bg && sec.bg !== 'none') ||
+				(sec.padding && sec.padding !== 'm') ||
+				(sec.width && sec.width !== 'default') ||
+				sec.anchor || sec.eyebrow || sec.title || sec.text;
+			if (!hasSec) return sc;
+			return VccSection.open(sec) + VccSection.head(sec) + sc + VccSection.close();
 		},
 		toHTML: function (data) {
 			return shortcodeChip('HTML темы', String(data.content || '').trim()
@@ -194,20 +214,29 @@
 		label: 'FAQ-группы (спец-метка)',
 		icon: 'fa-question-circle-o',
 		group: 'modules',
-		defaults: { faqId: 0, title: '' },
+		defaults: { faqId: 0, title: '', sec: { bg: 'none', padding: 'm', width: 'default' } },
 		fields: function () {
 			return [
 				catalogHint(),
 				{ key: 'faqId', label: 'Группа FAQ', type: hasCatalog() ? 'select' : 'number', options: faqOptions(), picker: true },
 				{ key: 'title', label: 'Заголовок блока (опционально)', type: 'text', placeholder: 'Оставьте пустым — возьмётся из группы' }
-			];
+			].concat(VccSection.fields());
 		},
-		/* Экспорт: литеральный шорткод — на витрине тема рендерит FAQ */
+		/* Экспорт: литеральный шорткод — на витрине тема рендерит FAQ.
+		 * Секция (vcc-section) — при заданных фоне/отступах/заголовке секции. */
 		toExportHTML: function (data) {
 			var id = Math.max(0, parseInt(data.faqId, 10) || 0);
 			var title = String(data.title || '').trim();
 			var sc = '[vita_faq' + (id ? ' id="' + id + '"' : '') + (title ? ' title="' + vccEscapeHtml(title) + '"' : '') + ']';
-			return sc ? shortcodeWrap(sc) : '';
+			if (!sc) return '';
+			sc = shortcodeWrap(sc);
+			var sec = data.sec || {};
+			var hasSec = (sec.bg && sec.bg !== 'none') ||
+				(sec.padding && sec.padding !== 'm') ||
+				(sec.width && sec.width !== 'default') ||
+				sec.anchor || sec.eyebrow || sec.title || sec.text;
+			if (!hasSec) return sc;
+			return VccSection.open(sec) + VccSection.head(sec) + sc + VccSection.close();
 		},
 		/* Редактор/галерея: некликабельный мок */
 		toHTML: function (data) {
@@ -223,18 +252,26 @@
 		label: 'Форма (спец-метка)',
 		icon: 'fa-wpforms',
 		group: 'modules',
-		defaults: { formId: 0 },
+		defaults: { formId: 0, sec: { bg: 'none', padding: 'm', width: 'default' } },
 		fields: function () {
 			return [
 				catalogHint(),
 				{ key: 'formId', label: 'Форма магазина', type: hasCatalog() ? 'select' : 'number', options: formOptions(), picker: true }
-			];
+			].concat(VccSection.fields());
 		},
-		/* Без формы шорткод ничего не выведет — не экспортируем блок вовсе */
+		/* Без формы шорткод ничего не выведет — не экспортируем блок вовсе.
+		 * Секция (vcc-section) — при заданных фоне/отступах/заголовке секции. */
 		toExportHTML: function (data) {
 			var id = Math.max(0, parseInt(data.formId, 10) || 0);
 			if (!id) return '';
-			return shortcodeWrap('[vita_form id="' + id + '"]');
+			var sc = shortcodeWrap('[vita_form id="' + id + '"]');
+			var sec = data.sec || {};
+			var hasSec = (sec.bg && sec.bg !== 'none') ||
+				(sec.padding && sec.padding !== 'm') ||
+				(sec.width && sec.width !== 'default') ||
+				sec.anchor || sec.eyebrow || sec.title || sec.text;
+			if (!hasSec) return sc;
+			return VccSection.open(sec) + VccSection.head(sec) + sc + VccSection.close();
 		},
 		toHTML: function (data) {
 			var id = Math.max(0, parseInt(data.formId, 10) || 0);

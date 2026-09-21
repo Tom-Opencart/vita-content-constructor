@@ -1017,5 +1017,17 @@ Tilda-модель — каждый «широкий» блок экспорти
 		return { url: '', warn: 'Вставьте ссылку на видео (YouTube, Vimeo, Rutube, OK, Dailymotion, VK) или iframe-код из кнопки «Встроить».' };
 	}
 	window.VccVideo = { resolve: resolveVideoUrl, isHostAllowed: isVideoHostAllowed };
+	/* Хелперы секций для блоков-спец-меток (shortcodes.js): модульные блоки
+	 * тоже оборачиваются в vcc-section — фон/отступы/якорь/заголовок секции. */
+	window.VccSection = {
+		open: sectionOpen,
+		close: sectionClose,
+		head: sectionHead,
+		data: secData,
+		fields: sectionFields,
+		safeBg: safeBg,
+		safePad: safePad,
+		safeWidth: safeWidth
+	};
 
 })();

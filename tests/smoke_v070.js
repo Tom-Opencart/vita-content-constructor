@@ -8,7 +8,7 @@
 'use strict';
 const fs = require('fs');
 
-global.window = {};
+global.window = global; /* VccSection виден как глобал */
 global.location = { search: '' };
 global.document = {
 	addEventListener: function () {},

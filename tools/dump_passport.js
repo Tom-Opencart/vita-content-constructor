@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-global.window = {};
+global.window = global; /* VccSection (landing.js) виден как глобал в ленивых fields() */
 global.location = { search: '' };
 global.document = {
 	addEventListener: function () {},
