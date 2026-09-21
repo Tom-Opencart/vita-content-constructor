@@ -281,13 +281,16 @@ button { font-family: inherit; }
 /* ---------- Редактор (shell) ---------- */
 .vcc-app { display: flex; flex-direction: column; min-height: 100vh; }
 
+/* Левый паддинг 20px: бренд 230px заканчивается ровно на 250 — правая грань
+   бренда и сайдбара совпадают пиксель-в-пиксель, бордер бренда продолжает
+   границу колонки в шапку без ступеньки (независимо от светлой/тёмной темы). */
 .vcc-header {
 	align-items: center;
 	background: var(--mp-card-bg, #fff);
 	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
 	display: flex;
 	gap: 10px;
-	padding: 10px 18px;
+	padding: 10px 18px 10px 20px;
 	position: sticky;
 	top: 0;
 	z-index: 20;
