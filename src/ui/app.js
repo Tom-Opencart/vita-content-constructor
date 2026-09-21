@@ -517,10 +517,6 @@
 		/* render вызывают и с state (subscribe), и с project напрямую */
 		var project = (src && src.project) ? src.project : (src || VccStore.currentProject());
 
-		var titleInput = $('#vcc-title-input');
-		if (titleInput && document.activeElement !== titleInput && titleInput.value !== project.title) {
-			titleInput.value = project.title;
-		}
 		var slugLabel = $('#vcc-slug-label');
 		if (slugLabel) slugLabel.textContent = project.slug ? ('content-' + project.slug + '.html') : 'content.html';
 
@@ -760,9 +756,31 @@
 		if (!VccStore.currentProject().blocks.length) openOnboard();
 
 		/* Шапка редактора */
-		$('#vcc-title-input').addEventListener('input', function () {
-			VccStore.setMeta({ title: this.value });
+		/* Меню «Файл»: загрузка, undo, экспорт — один список, закрывается
+		   по выбору, клику мимо и Escape. */
+		var filemenu = $('#vcc-filemenu');
+		var filemenuToggle = $('#vcc-filemenu-toggle');
+		var filemenuListClose;
+		function closeFilemenu() {
+			filemenu.classList.remove('is-open');
+			filemenuToggle.setAttribute('aria-expanded', 'false');
+		}
+		filemenuToggle.addEventListener('click', function (e) {
+			e.stopPropagation();
+			var open = filemenu.classList.toggle('is-open');
+			filemenuToggle.setAttribute('aria-expanded', String(open));
 		});
+		document.addEventListener('click', function (e) {
+			if (filemenu.classList.contains('is-open') && !filemenu.contains(e.target)) closeFilemenu();
+		});
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && filemenu.classList.contains('is-open')) closeFilemenu();
+		});
+		filemenuListClose = $('#vcc-filemenu-list');
+		filemenuListClose.addEventListener('click', function (e) {
+			if (e.target.closest('.vcc-filemenu__item')) closeFilemenu();
+		});
+		$('#vcc-undo').addEventListener('click', function () { VccStore.undo(); });
 		$('#vcc-mode-switch').addEventListener('click', function (e) {
 			var btn = e.target.closest('button');
 			if (btn) VccStore.setMode(btn.dataset.mode);

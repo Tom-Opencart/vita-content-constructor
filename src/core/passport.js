@@ -272,7 +272,6 @@ var VccPassport = (function () {
 		'{',
 		'  "type": "vita-constructor-project",',
 		'  "contract": "vcc-v1",',
-		'  "title": "Название страницы",',
 		'  "slug": "латинский-slug",',
 		'  "themeMode": "light",',
 		'  "blocks": [ { "id": "b1", "type": "…", "data": { … } } ]',
@@ -284,7 +283,7 @@ var VccPassport = (function () {
 		'КАРКАС ПРОЕКТА (JSON):',
 		'- type: "vita-constructor-project" (обязателен)',
 		'- contract: "vcc-v1" (обязателен)',
-		'- title — название страницы, slug — латинский slug для имени файла',
+		'- slug — латинский slug для имени файла (title устарел и не нужен)',
 		'- themeMode: "light" | "dark" (режим предпросмотра)',
 		'- blocks — упорядоченный массив блоков: { id: String, type: String (из реестра), data: Object }'
 	].join('\n');

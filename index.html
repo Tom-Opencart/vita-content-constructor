@@ -6,7 +6,7 @@
 <title>Вита — Конструктор контента</title>
 <meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.8.2">
+<link rel="stylesheet" href="css/app.css?v=0.8.3">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -115,7 +115,6 @@
 <div class="vcc-app" id="vcc-app">
 	<header class="vcc-header">
 		<span class="vcc-header__brand"><i class="fa fa-leaf"></i> Вита · Конструктор</span>
-		<input class="vcc-header__title-input" id="vcc-title-input" type="text" placeholder="Название страницы" aria-label="Название страницы">
 		<div class="vcc-mode-switch" id="vcc-mode-switch" title="Тема оформления страницы">
 			<button type="button" data-mode="light" title="Светлая тема"><i class="fa fa-sun-o"></i></button>
 			<button type="button" data-mode="dark" title="Тёмная тема"><i class="fa fa-moon-o"></i></button>
@@ -129,14 +128,22 @@
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-preset-btn" id="vcc-preset-open" title="Загрузить пресет темы: Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора"><i class="fa fa-paint-brush"></i> <span id="vcc-preset-btn-label">Загрузить пресет</span></button>
 		<span class="vcc-header__spacer"></span>
 		<span class="vcc-header__label" id="vcc-slug-label">content.html</span>
-		<label class="vcc-btn vcc-btn--sm" id="vcc-header-file-label" title="Загрузить проект или макет (.json)">
-			<i class="fa fa-upload"></i> <span class="vcc-hide-narrow">Импорт</span>
-			<input type="file" id="vcc-header-file" accept=".json" style="display:none" multiple>
-		</label>
-		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-undo" title="Отменить последнее действие"><i class="fa fa-undo"></i></button>
+		<div class="vcc-filemenu" id="vcc-filemenu">
+			<button type="button" class="vcc-btn vcc-btn--sm vcc-filemenu__toggle" id="vcc-filemenu-toggle" aria-haspopup="true" aria-expanded="false" title="Файл: загрузка, undo, экспорт"><i class="fa fa-file-text-o"></i> <span class="vcc-hide-narrow">Файл</span> <i class="fa fa-angle-down"></i></button>
+			<div class="vcc-filemenu__list" id="vcc-filemenu-list" role="menu">
+				<label class="vcc-filemenu__item" id="vcc-header-file-label" title="Загрузить проект или макет (.json)" role="menuitem">
+					<i class="fa fa-upload"></i> Загрузить проект или макет
+					<input type="file" id="vcc-header-file" accept=".json" style="display:none" multiple>
+				</label>
+				<button type="button" class="vcc-filemenu__item" id="vcc-undo" title="Отменить последнее действие" role="menuitem"><i class="fa fa-undo"></i> Отменить действие</button>
+				<div class="vcc-filemenu__sep" role="separator"></div>
+				<button type="button" class="vcc-filemenu__item vcc-filemenu__item--accent" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль" role="menuitem"><i class="fa fa-download"></i> Скачать бэкап для модуля</button>
+				<button type="button" class="vcc-filemenu__item" id="vcc-dl-json" title="Скачать проект JSON" role="menuitem"><i class="fa fa-code"></i> Скачать проект JSON</button>
+				<button type="button" class="vcc-filemenu__item" id="vcc-dl-css" title="Скачать CSS (обычно не нужен — стили подключает тема)" role="menuitem"><i class="fa fa-paint-brush"></i> Скачать CSS</button>
+			</div>
+		</div>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-assistant-open" title="Создать по донору: промт для любого AI и сборка ответа в лендинг"><i class="fa fa-magic"></i> Помощник</button>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-toggle" title="Страница на всю ширину: только сгенерированный контент, без палитры и шапки конструктора"><i class="fa fa-arrows-alt"></i> <span class="vcc-hide-narrow">На весь экран</span></button>
-		<button type="button" class="vcc-btn vcc-btn--primary vcc-btn--sm" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать</span></button>
 		<span class="vcc-export-hint" tabindex="0" aria-label="Подсказка: как вставлять спец-метки модулей Виты, чтобы они пережили экспорт и импорт">
 			<i class="fa fa-question-circle-o"></i>
 			<span class="vcc-export-hint__bubble" role="tooltip">
@@ -144,8 +151,6 @@
 				Теги вида <code>[vita_visual id=78]</code>, <code>[vita_faq id=3]</code>, <code>[vita_form id=5]</code> переживают экспорт файла и импорт в модуль, а на витрине превращаются в живые блоки. В палитре есть и готовые блоки спец-меток с выбором ID из каталога магазина — они надёжнее ручного ввода.
 			</span>
 		</span>
-		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm vcc-hide-narrow" id="vcc-dl-json" title="Скачать проект JSON">JSON</button>
-		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm vcc-hide-narrow" id="vcc-dl-css" title="Скачать CSS (обычно не нужен — стили подключает тема)">CSS</button>
 		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-home" title="Как это работает — справка и загрузка пресета"><i class="fa fa-home"></i></button>
 	</header>
 
@@ -286,6 +291,6 @@
 
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.8.2"></script>
+<script src="js/app.js?v=0.8.3"></script>
 </body>
 </html>
