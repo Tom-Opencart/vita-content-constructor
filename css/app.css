@@ -294,10 +294,13 @@ button { font-family: inherit; }
 }
 .vcc-header__brand {
 	align-items: center;
-	/* Ширина = левая колонка workspace (250px): бренд ровно над палитрой блоков,
-	   в одну строку без переноса (иконка + текст — 163px, запас до 250px). */
+	/* Ширина = левая колонка workspace: бренд ровно над палитрой блоков,
+	   в одну строку без переноса. Правый бордер продолжает линию границы
+	   сайдбара в шапку — колонка читается от верха страницы. Цвет — тот же
+	   var(--mp-border-color), что у сайдбара: корректен в тёмной теме. */
+	border-right: 1px solid var(--mp-border-color, #E2E8F0);
 	box-sizing: border-box;
-	flex: 0 0 250px;
+	flex: 0 0 230px;
 	font-weight: 700;
 	gap: 9px;
 	margin-right: 8px;
