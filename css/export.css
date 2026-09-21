@@ -34,8 +34,11 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-paragraph p { margin: 0 0 14px; }
 
 /* --- Ссылки и инлайн --- */
-.vcc-content a { color: var(--mp-primary, #8C9D93); text-decoration: none; }
-.vcc-content a:hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }
+/* Ссылки стилизуем через :where() + :not(.vcc-btn): правило не матчит
+   кнопки вовсе, иначе (0,1,1) против (0,1,0) у .vcc-btn--primary
+   цвет ссылки побеждал --mp-text-inverse и текст сливался с фоном. */
+.vcc-content :where(a:not(.vcc-btn)) { color: var(--mp-primary, #8C9D93); text-decoration: none; }
+.vcc-content :where(a:not(.vcc-btn)):hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }
 .vcc-code {
 	background: var(--mp-bg-subtle, #f8fafc);
 	border: 1px solid var(--mp-border-divider, #F1F5F9);
