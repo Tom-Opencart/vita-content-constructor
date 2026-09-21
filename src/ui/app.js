@@ -517,8 +517,6 @@
 		/* render вызывают и с state (subscribe), и с project напрямую */
 		var project = (src && src.project) ? src.project : (src || VccStore.currentProject());
 
-		var slugLabel = $('#vcc-slug-label');
-		if (slugLabel) slugLabel.textContent = project.slug ? ('content-' + project.slug + '.html') : 'content.html';
 
 		/* Ввод в поле редактируемого блока: DOM уже актуален, перестройка
 		   канваса убивала бы фокус. Структурные изменения (add/delete/move
