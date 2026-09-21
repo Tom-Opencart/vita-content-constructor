@@ -555,10 +555,10 @@
 			return;
 		}
 
-		/* Канвас всегда в контексте страницы: сверху и снизу — некликабельные
-		 * моки шапки/подвала Виты (на палитре магазина) — то, что просил
-		 * владелец: «чтобы было визуально понятно, что получится». */
-		canvas.innerHTML = mockHeader();
+		/* Канвас редактора — только карточки блоков. Моки шапки/подвала Виты
+		 * живут в предпросмотре (кнопка «глаз») и в фуллскрине — там они и
+		 * показывают контекст магазина, не мешая редактированию. */
+		canvas.innerHTML = '';
 		if (!project.blocks.length) {
 			canvas.appendChild(el('div', 'vcc-canvas__empty',
 				'<i class="fa fa-cube" style="font-size:26px; margin-bottom:10px; display:block;"></i>Добавьте первый блок из палитры слева'));
@@ -567,7 +567,6 @@
 				canvas.appendChild(renderBlockCard(block, i, project.blocks.length));
 			});
 		}
-		canvas.insertAdjacentHTML('beforeend', mockFooter());
 	}
 
 	/* ---------- Галерея макетов (первый экран) ---------- */
