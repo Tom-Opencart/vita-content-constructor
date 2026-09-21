@@ -80,7 +80,28 @@ def build():
 	with open(out_path, "w", encoding="utf-8", newline="\n") as f:
 		f.write("\n\n".join(parts) + "\n")
 	print("Successfully compiled js/app.js (%d chars)" % os.path.getsize(out_path))
+	sync_index_version()
 	check_passport()
+
+
+def sync_index_version():
+	"""Cache-busting ?v= в index.html — из того же APP_VERSION, что и в бандле:
+	последняя ручная копия версии устранена. Заменяются только атрибуты
+	?v= у css/app.css и js/app.js; остальной HTML не трогается."""
+	import re
+	idx = os.path.join(ROOT, "index.html")
+	with open(idx, "r", encoding="utf-8", newline="") as f:
+		html = f.read()
+	pattern = re.compile(r'((?:css/app\.css|js/app\.js)\?v=)[^"\']+')
+	html2, n = pattern.subn(lambda m: m.group(1) + APP_VERSION, html)
+	if n == 0:
+		raise SystemExit("Build FAILED: в index.html не найдено ?v= у css/app.css/js/app.js — проверьте разметку")
+	if html2 != html:
+		with open(idx, "w", encoding="utf-8", newline="") as f:
+			f.write(html2)
+		print("index.html: ?v= обновлён на %s (%d ссылок)" % (APP_VERSION, n))
+	else:
+		print("index.html: ?v= уже %s" % APP_VERSION)
 
 
 def check_passport():
