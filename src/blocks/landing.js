@@ -96,7 +96,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			{ key: 'sec.padding', label: 'Вертикальные отступы', type: 'select', mark: 'sec',
 				options: [['s', 'Компактно'], ['m', 'Обычно'], ['l', 'Просторно'], ['xl', 'Максимально']] },
 			{ key: 'sec.width', label: 'Ширина контента', type: 'select', mark: 'sec',
-				options: [['default', 'Стандартная (1140px)'], ['narrow', 'Узкая (720px)'], ['full', 'Во всю ширину']] },
+				options: [['default', 'Как у сайта (--vita-container-max)'], ['narrow', 'Узкая (720px)'], ['full', 'Во всю ширину']] },
 			{ key: 'sec.anchor', label: 'Якорь секции (латиница, для ссылок #якорь)', type: 'text', mark: 'sec',
 				placeholder: 'tarify' }
 		];

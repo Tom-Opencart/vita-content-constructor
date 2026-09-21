@@ -44,6 +44,10 @@ var VCC_DEFAULT_TOKENS = {
 	'--mp-radius-lg': '6px',
 	'--mp-radius-pill': '9999px',
 
+	/* Ширина контейнера контента — из настроек темы (Дизайн и стили →
+	 * «Ширина сайта»). Дефолт совпадает с vars_css.php (wide = 1640px). */
+	'--vita-container-max': '1640px',
+
 	'--mp-shadow-sm': '0 1px 3px rgba(0, 0, 0, 0.05)',
 	'--mp-shadow-md': '0 4px 12px rgba(0, 0, 0, 0.08)',
 	'--mp-shadow-lg': '0 10px 25px rgba(0, 0, 0, 0.1)',
@@ -157,17 +161,36 @@ function vccApplyPreset(tokensObj) {
 	}
 	for (key in tokensObj) {
 		if (!Object.prototype.hasOwnProperty.call(tokensObj, key)) continue;
-		var mapped = VCC_PRESET_MAP[key];
+		/* Геометрические ключи обрабатываются своими ветками ниже и
+		 * в цветовую карту VCC_PRESET_MAP не входят. */
+		var isGeometry = key === 'theme_vita_border_radius' || key === 'theme_vita_container_width';
+		var mapped = isGeometry ? key : VCC_PRESET_MAP[key];
 		if (!mapped) continue;
 		var value = String(tokensObj[key]).trim();
-		/* Радиус приходит числом в px: 0..8 */
+		/* Радиус приходит числом в px: 0..24. Формула — ровно как в
+		 * vars_css.php темы: sm = round(n*0.5), md = n, lg = round(n*1.5). */
 		if (key === 'theme_vita_border_radius') {
 			var n = parseInt(value, 10);
 			if (isNaN(n)) continue;
-			n = Math.max(0, Math.min(8, n));
-			out['--mp-radius-sm'] = Math.max(0, n - 2) + 'px';
+			n = Math.max(0, Math.min(24, n));
+			out['--mp-radius-sm'] = Math.round(n * 0.5) + 'px';
 			out['--mp-radius-md'] = n + 'px';
-			out['--mp-radius-lg'] = (n + 2) + 'px';
+			out['--mp-radius-lg'] = Math.round(n * 1.5) + 'px';
+			continue;
+		}
+		/* Ширина контейнера: строковый ключ из настроек темы. Тема
+		 * (vars_css.php) превращает его в --vita-container-max; здесь —
+		 * та же таблица, чтобы предпросмотр и экспорт совпадали с витриной. */
+		if (key === 'theme_vita_container_width') {
+			var widths = {
+				compact: '1210px',
+				optimal: '1400px',
+				wide: '1640px',
+				fluid: '100%'
+			};
+			if (Object.prototype.hasOwnProperty.call(widths, value)) {
+				out['--vita-container-max'] = widths[value];
+			}
 			continue;
 		}
 		if (!/^#[0-9a-fA-F]{3,8}$/.test(value) && !/^rgba?\(/.test(value)) continue;
