@@ -187,21 +187,127 @@ var VccPassport = (function () {
 		return String(s).toLowerCase().replace(/[a-z]/g, function (ch) { return TRANSLIT[ch] || ch; });
 	}
 
+	/* Подсказка ближайшего блока: три слоя, берём лучший.
+	   1. Посимвольное расстояние: ввод vs type/label (как есть + транслит)
+	      — ловит опечатки латиницей («herо», «tarifs»).
+	   2. Слово-по-слову: слово ввода совпало со словом label или псевдонима
+	      — ловит русские описания, которые посимвольно далеко
+	      («о компании» → media_text «Картинка + текст» с дефолтом
+	      «О компании в двух словах»; «вопросы» → vita_faq).
+	   3. Слова псевдонимов — надёжные синонимы из практики моделей,
+	      в label не попавшие. */
+	var ALIASES = {
+		hero: ['обложка', 'шапка страницы', 'первый экран', 'баннер', 'hero'],
+		heading: ['заголовок', 'подзаголовок', 'заголовок раздела'],
+		paragraph: ['абзац', 'параграф', 'описание', 'текстовый блок'],
+		list: ['список', 'перечисление', 'маркеры'],
+		quote: ['цитата', 'цитата в тексте'],
+		alert: ['внимание', 'важно', 'предупреждение', 'заметка', 'врезка'],
+		tabs: ['вкладки', 'табы', 'переключаемые секции'],
+		table: ['таблица', 'сравнение', 'табличные данные'],
+		image: ['картинка', 'изображение', 'фото', 'иллюстрация'],
+		toc: ['оглавление', 'содержание'],
+		divider: ['разделитель', 'линия'],
+		features: ['преимущества', 'фичи', 'почему мы', 'особенности', 'features', 'benefits'],
+		logos: ['логотипы', 'партнёры', 'клиенты', 'бренды', 'brands', 'clients'],
+		media_text: ['о компании', 'картинка с текстом', 'изображение с текстом', 'о нас', 'о магазине', 'about', 'about us'],
+		steps: ['шаги', 'этапы', 'как мы работаем', 'таймлайн', 'процесс', 'process', 'how it works'],
+		stats: ['цифры', 'факты', 'статистика', 'показатели', 'цифры и факты', 'metrics', 'numbers'],
+		reviews: ['отзывы', 'рекомендации клиентов', 'отзывы клиентов', 'testimonials', 'review'],
+		team: ['команда', 'сотрудники', 'специалисты', 'team'],
+		documents: ['документы', 'сертификаты', 'лицензии'],
+		cta: ['призыв', 'призыв к действию', 'кнопка действия', 'подписка', 'заказать', 'subscribe'],
+		contacts: ['контакты', 'контактная информация', 'связаться', 'адрес и телефон', 'контакт', 'contacts', 'contact us', 'контакты и адрес'],
+		socials: ['соцсети', 'социальные сети', 'мессенджеры'],
+		badges: ['бейджи', 'доверие', 'гарантии', 'бейджи доверия'],
+		checklist: ['чек-лист', 'чеклист', 'что входит', 'проверенный список'],
+		seotext: ['seo текст', 'сео текст', 'скрытый текст', 'спойлер'],
+		pricing: ['тарифы', 'цены', 'прайс', 'планы', 'тарифы и цены'],
+		columns: ['колонки', 'колонки текста', 'две колонки', 'три колонки'],
+		video: ['видео', 'ролик', 'видеоролик', 'плеер'],
+		vita_html: ['html темы', 'произвольный html', 'свой html'],
+		vita_faq: ['faq', 'вопросы и ответы', 'вопросы', 'ответы на вопросы', 'часто задаваемые вопросы', 'questions'],
+		vita_form: ['форма', 'форма заявки', 'форма обратной связи', 'форма связи', 'form', 'заявка'],
+		vita_visual: ['слайдер', 'баннеры', 'визуальные блоки', 'lookbook', 'реклама', 'рекламные баннеры'],
+		vita_all_in_one: ['товары', 'товарный блок', 'каталог товаров', 'универсальные блоки товаров', 'витрина товаров'],
+		vita_extra_wall: ['стена категорий', 'категории и бренды', 'стена магазина']
+	};
+
+	function splitWords(s) {
+		return String(s).toLowerCase().replace(/[^\sа-яёa-z0-9-]/gi, ' ').split(/\s+/).filter(function (w) { return w.length >= 3; });
+	}
+
+	function aliasFor(type) {
+		return ALIASES[type] || [];
+	}
+
+	/* Слово-матч: слово ввода vs слова label/псевдонимов.
+	   Возвращаем лучший штраф (0 при точном слове, иначе посимвольная цена
+	   опечатки внутри слова ≤2, морфология — через общий префикс) и покрытие —
+	   сколько слов ввода совпало точно (для tie-break при равном штрафе). */
+	function wordMatchScore(inputWords, targetWords) {
+		var best = Infinity, hits = 0;
+		inputWords.forEach(function (iw) {
+			var wordBest = Infinity;
+			targetWords.forEach(function (tw) {
+				if (iw === tw) wordBest = Math.min(wordBest, 0);
+				else {
+					var d = damLev(iw, tw);
+					if (d <= 2 && d < wordBest) wordBest = d;
+					/* Префикс: «вопросы» vs «вопрос», «контакты» vs «контакт» —
+					   русская морфология. Порог высокий: общий префикс ≥5 букв
+					   и ≥ половины короткого слова («табл...» vs «табы» не пройдёт). */
+					var shared = 0;
+					var minLen = Math.min(iw.length, tw.length);
+					while (shared < minLen && iw.charAt(shared) === tw.charAt(shared)) shared++;
+					if (shared >= 5 && shared * 2 >= minLen && wordBest > 1) wordBest = Math.min(wordBest, 1);
+				}
+			});
+			if (wordBest === 0) hits++;
+			best = Math.min(best, wordBest);
+		});
+		return { score: best, hits: hits };
+	}
+
 	/* Подсказка ближайшего блока: сравниваем ввод с type И русским label,
-	   в обоих написаниях (как есть + транслит) — берём минимальное расстояние. */
+	   в обоих написаниях (как есть + транслит), плюс слово-матч по label
+	   и псевдонимам — берём минимальный штраф. */
 	function nearestSuggestion(name) {
 		var low = String(name).toLowerCase();
 		var variants = [low, translitRu(low)];
-		var best = null, bestD = Infinity;
+		/* Слова в двух написаниях: латиница моделей («forma», «otzyvy»)
+		   и её транслит — иначе слово-матч не видит русских псевдонимов. */
+		var inputWords = splitWords(low);
+		var inputWordsRu = splitWords(translitRu(low));
+		var best = null, bestD = Infinity, bestHits = -1;
 		BlockRegistry.getList().forEach(function (def) {
 			var targets = [def.type.toLowerCase()];
 			if (def.label) targets.push(String(def.label).toLowerCase());
+			/* Слой 1+2: посимвольно по type и label */
+			var score = Infinity, hits = 0;
 			variants.forEach(function (v) {
 				targets.forEach(function (t) {
-					var d = damLev(v, t);
-					if (d < bestD) { bestD = d; best = def.type; }
+					score = Math.min(score, damLev(v, t));
 				});
 			});
+			/* Слой 3: слово-матч по label и псевдонимам — русские описания
+			   («о компании» → media_text), где посимвольно далеко до всего. */
+			if (inputWords.length || inputWordsRu.length) {
+				var wordTargets = aliasFor(def.type).slice();
+				if (def.label) wordTargets.push(String(def.label));
+				var targetWords = splitWords(wordTargets.join(' '));
+				var m = wordMatchScore(inputWords, targetWords);
+				if (inputWordsRu.length) {
+					var mRu = wordMatchScore(inputWordsRu, targetWords);
+					if (mRu.score < m.score || (mRu.score === m.score && mRu.hits > m.hits)) m = mRu;
+				}
+				if (m.score < score || (m.score === score && m.hits > hits)) { score = m.score; hits = m.hits; }
+			}
+			/* Равный штраф выигрывает большее покрытие точными словами:
+			   «seo текст» → seotext (2 слова), а не paragraph (1 слово «текст»). */
+			if (score < bestD || (score === bestD && hits > bestHits)) {
+				bestD = score; bestHits = hits; best = def.type;
+			}
 		});
 		return { type: best, distance: bestD };
 	}

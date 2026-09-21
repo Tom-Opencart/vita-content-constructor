@@ -77,6 +77,36 @@ const r6 = P.extractJson(JSON.stringify(badType));
 extract('unknown-тип → ошибка с ближайшим именем (pricing)',
 	!r6.ok && r6.errors.some(e => e.indexOf('tarifs') !== -1 && e.indexOf('pricing') !== -1));
 
+/* --- 3b) Подсказка типов: три слоя (посимвольный, транслит, слово-матч) --- */
+const EXPECT = {
+	'о компании': 'media_text', 'about': 'media_text', 'about us': 'media_text', 'о нас': 'media_text',
+	'вопросы и ответы': 'vita_faq', 'вопросы': 'vita_faq', 'faq': 'vita_faq',
+	'тарифы и цены': 'pricing', 'tarifs': 'pricing',
+	'отзывы': 'reviews', 'otzyvy': 'reviews',
+	'команда': 'team', 'сотрудники': 'team',
+	'товары': 'vita_all_in_one',
+	'форма заявки': 'vita_form', 'forma': 'vita_form', 'form': 'vita_form', 'заявка': 'vita_form',
+	'слайдер': 'vita_visual', 'реклама': 'vita_visual',
+	'почему мы': 'features',
+	'alert': 'alert', 'врезка': 'alert',
+	'herо': 'hero', 'цитата': 'quote', 'tablitsa': 'table', 'таблица': 'table', 'сравнение': 'table',
+	'contacty': 'contacts', 'kontakty': 'contacts',
+	'zagolovok': 'heading', 'заголовок': 'heading',
+	'spisok': 'list', 'шаги': 'steps', 'этапы': 'steps', 'цифры': 'stats',
+	'партнёры': 'logos', 'видео': 'video', 'видеоролик': 'video',
+	'подписка': 'cta', 'вкладки': 'tabs', 'оглавление': 'toc',
+	'чек-лист': 'checklist', 'seo текст': 'seotext', 'сео текст': 'seotext', 'спойлер': 'seotext',
+	'гарантии': 'badges', 'колонки': 'columns', 'сертификаты': 'documents',
+	'абзац': 'paragraph', 'текст': 'paragraph', 'изображение': 'image', 'фото': 'image'
+};
+let suggFails = 0, suggTotal = 0;
+Object.keys(EXPECT).forEach(function (input) {
+	suggTotal++;
+	const s = P.nearestSuggestion(input);
+	if (s.type !== EXPECT[input]) { suggFails++; console.log('     подсказка: "' + input + '" → ' + s.type + ' (d=' + s.distance + '), ожидалось ' + EXPECT[input]); }
+});
+ok(suggFails === 0, 'подсказка типов: ' + (suggTotal - suggFails) + '/' + suggTotal + ' матчей по русским label и псевдонимам');
+
 extract('чужой type → человеческая ошибка',
 	!P.extractJson('{"type":"other","blocks":[]}').errors.every(e => e.indexOf('vita-constructor-project') === -1));
 extract('чужой контракт → ошибка с именем',
