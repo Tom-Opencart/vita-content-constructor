@@ -1,0 +1,45 @@
+name: ci
+
+# Качество бандла на каждом пуше в main: сборка должна быть зелёной,
+# смоуки (экспорт блоков, санитайзер-контракт, подсказки Помощника) — PASS,
+# паспорт Помощника — соответствовать дампу бандла. Pages (legacy из main)
+# подхватывает коммит автоматически; эта джоба ловит поломку ДО витрины.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build
+        run: python build/build.py
+
+      - name: Smoke v0.7.0 (блоки, экспорт, гекс-линт, video)
+        run: node tests/smoke_v070.js
+
+      - name: Smoke v0.8.0 (ассистент, подсказки типов, паспорт)
+        run: node tests/smoke_v080.js
+
+      - name: Working tree clean (бандл закоммичен)
+        run: |
+          if [ -n "$(git status --porcelain -- index.html js/app.js)" ]; then
+            echo "::error::Сборка изменила index.html или js/app.js — бандл в репозитории устарел. Запустите build/build.py и закоммитьте."
+            git status --porcelain -- index.html js/app.js
+            exit 1
+          fi
