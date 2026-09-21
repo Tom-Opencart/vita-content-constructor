@@ -659,14 +659,17 @@ button { font-family: inherit; }
 }
 .vcc-mock .mp-logo-tagline { color: var(--vita-header-muted, #64748b); font-size: 12px; }
 .vcc-mock .btn-catalog-toggle {
+	align-items: center;
 	background: var(--vita-header-catalog-bg, #8c9d93);
 	border: 1px solid transparent;
 	border-radius: var(--mp-radius-md, 4px);
 	color: var(--vita-header-catalog-text, #ffffff);
 	display: inline-flex;
+	flex-shrink: 0;
 	font-size: 17px;
 	height: 44px;
 	justify-content: center;
+	line-height: 1;
 	min-width: 44px;
 }
 .vcc-mock .btn-catalog-toggle.has-label {
