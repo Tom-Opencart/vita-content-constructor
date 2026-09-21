@@ -218,7 +218,10 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-section--pad-m { padding: 80px 0; }
 .vcc-section--pad-l { padding: 112px 0; }
 .vcc-section--pad-xl { padding: 160px 0; }
-.vcc-container { margin: 0 auto; max-width: 1140px; padding: 0 24px; }
+/* Ширина контента повторяет настройку темы «Ширина сайта»
+   (Дизайн и стили): --vita-container-max приходит из пресета
+   (1210/1400/1640/100%) — предпросмотр равен витрине. */
+.vcc-container { margin: 0 auto; max-width: var(--vita-container-max, 1640px); padding: 0 24px; }
 .vcc-section--w-narrow .vcc-container { max-width: 720px; }
 .vcc-section--w-full .vcc-container { max-width: none; }
 
