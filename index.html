@@ -6,7 +6,7 @@
 <title>Вита — Конструктор контента</title>
 <meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.8.0">
+<link rel="stylesheet" href="css/app.css?v=0.8.1">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -120,6 +120,12 @@
 			<button type="button" data-mode="light" title="Светлая тема"><i class="fa fa-sun-o"></i></button>
 			<button type="button" data-mode="dark" title="Тёмная тема"><i class="fa fa-moon-o"></i></button>
 		</div>
+		<select class="vcc-width-switch" id="vcc-width-switch" title="Ширина сайта (как в теме: Дизайн и стили → Ширина сайта): влияет на предпросмотр, моки и экспортный CSS">
+			<option value="compact">Ширина: компакт 1210</option>
+			<option value="optimal">Ширина: оптимал 1400</option>
+			<option value="wide">Ширина: широкая 1640</option>
+			<option value="fluid">Ширина: резина 100%</option>
+		</select>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-preset-btn" id="vcc-preset-open" title="Загрузить пресет темы: Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора"><i class="fa fa-paint-brush"></i> <span id="vcc-preset-btn-label">Загрузить пресет</span></button>
 		<span class="vcc-header__spacer"></span>
 		<span class="vcc-header__label" id="vcc-slug-label">content.html</span>
@@ -280,6 +286,6 @@
 
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.8.0"></script>
+<script src="js/app.js?v=0.8.1"></script>
 </body>
 </html>

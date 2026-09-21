@@ -9,10 +9,15 @@ localStorage, подписки, undo в пределах сессии.
 var VccStore = (function () {
 	var LS_KEY = 'vcc_project_v1';
 	var LS_CATALOG_KEY = 'vcc_catalog_v1';
+	var LS_WIDTH_KEY = 'vcc_container_width_v1';
 	var state = {
 		project: { title: '', slug: '', themeMode: 'light', theme: { preset: null, tokens: null }, blocks: [] },
 		palette: VCC_DEFAULT_TOKENS,
 		paletteName: '',
+		/* Ширина сайта — настройка темы (Дизайн и стили), не свойство проекта:
+		   задаёт --vita-container-max для моков, предпросмотра и CSS-превью карточек.
+		   Приходит из пресета (theme_vita_container_width), селектом в шапке — вручную. */
+		containerWidth: 'wide',
 		catalog: VCC_CATALOG_DEFAULT,
 		undoStack: []
 	};
@@ -56,6 +61,10 @@ var VccStore = (function () {
 			if (normalized) state.project = normalized;
 		} catch (e) { /* битый кэш — начинаем с пустого */ }
 		loadCatalog();
+		try {
+			var w = localStorage.getItem(LS_WIDTH_KEY);
+			if (w && ['compact', 'optimal', 'wide', 'fluid'].indexOf(w) !== -1) state.containerWidth = w;
+		} catch (e) { /* приватный режим — дефолт */ }
 	}
 
 	function setProject(project) {
@@ -146,6 +155,14 @@ var VccStore = (function () {
 		emit();
 	}
 
+	/* Ширина сайта: compact/optimal/wide/fluid — та же таблица, что в vars_css.php */
+	function setContainerWidth(value) {
+		if (['compact', 'optimal', 'wide', 'fluid'].indexOf(value) === -1) return;
+		state.containerWidth = value;
+		try { localStorage.setItem(LS_WIDTH_KEY, value); } catch (e) { /* приватный режим */ }
+		emit();
+	}
+
 	/* Каталог модулей магазина: из пресета темы, живёт в localStorage —
 	 * блоки-шорткоды строят по нему пикеры ID */
 	function setCatalog(catalog) {
@@ -197,6 +214,8 @@ var VccStore = (function () {
 		undo: undo,
 		getPalette: function () { return state.palette; },
 		getPaletteName: function () { return state.paletteName; },
+		setContainerWidth: setContainerWidth,
+		getContainerWidth: function () { return state.containerWidth; },
 		canUndo: function () { return state.undoStack.length > 0; }
 	};
 })();

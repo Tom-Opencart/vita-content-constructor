@@ -33,6 +33,10 @@
 
 	/* Токены -> DOM. Тёмный режим накладывает поверх палитры
 	   тёмные поверхности Виты — ровно как [data-theme=dark] в теме. */
+	/* Ширина сайта — та же таблица, что в vars_css.php темы и tokens.js:
+	 * единый источник значений для селекта в шапке. */
+	var WIDTH_TABLE = { compact: '1210px', optimal: '1400px', wide: '1640px', fluid: '100%' };
+
 	function applyTokensToDom() {
 		var palette = VccStore.getPalette();
 		var mode = VccStore.currentProject().themeMode;
@@ -56,6 +60,11 @@
 		for (var name in tokens) {
 			if (Object.prototype.hasOwnProperty.call(tokens, name)) root.style.setProperty(name, tokens[name]);
 		}
+		/* Ширина сайта (селект в шапке / пресет) — поверх палитры:
+		   моки, канвас и превью карточек следуют одному --vita-container-max. */
+		root.style.setProperty('--vita-container-max', WIDTH_TABLE[VccStore.getContainerWidth()] || '1640px');
+		var widthSel = $('#vcc-width-switch');
+		if (widthSel && widthSel.value !== VccStore.getContainerWidth()) widthSel.value = VccStore.getContainerWidth();
 	}
 
 	/* Экспортный CSS: билдер вшивает его в window.VCC_EXPORT_CSS;
@@ -758,6 +767,9 @@
 		$('#vcc-mode-switch').addEventListener('click', function (e) {
 			var btn = e.target.closest('button');
 			if (btn) VccStore.setMode(btn.dataset.mode);
+		});
+		$('#vcc-width-switch').addEventListener('change', function () {
+			VccStore.setContainerWidth(this.value);
 		});
 		$('#vcc-undo').addEventListener('click', function () { VccStore.undo(); });
 		$('#vcc-dl-html').addEventListener('click', function () {

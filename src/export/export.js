@@ -142,6 +142,12 @@ var VccImport = (function () {
 		}
 		var tokens = vccApplyPreset(data.tokens);
 		VccStore.setPalette(tokens, data.name || data.title || 'Пресет магазина');
+		/* Ширина сайта — из пресета (если несёт): селект в шапке подстроится,
+		   пользователь может перекрыть вручную. */
+		var w = data.tokens && data.tokens.theme_vita_container_width;
+		if (w && ['compact', 'optimal', 'wide', 'fluid'].indexOf(w) !== -1) {
+			VccStore.setContainerWidth(w);
+		}
 		/* Каталог модулей магазина (0.4.0): реальные FAQ-группы и формы —
 		 * пикеры блоков-шорткодов. Старые пресеты поля не несут — каталог
 		 * остаётся прежним (обычно пустым, блоки дают ручной ввод ID). */

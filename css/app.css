@@ -324,6 +324,20 @@ button { font-family: inherit; }
 	border-radius: var(--mp-radius-md, 4px);
 	overflow: hidden;
 }
+/* Ширина сайта: селект в шапке — как в теме (Дизайн и стили → Ширина сайта).
+   Скрываем подпись «Ширина:» на узких экранах вместе с остальными текстами кнопок. */
+.vcc-width-switch {
+	appearance: none;
+	-webkit-appearance: none;
+	background: var(--mp-card-bg, #fff) url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 9px center;
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-md, 4px);
+	color: var(--mp-text-muted, #64748B);
+	cursor: pointer;
+	font-size: 13px;
+	padding: 7px 26px 7px 10px;
+}
+.vcc-width-switch:focus-visible { outline: 2px solid var(--mp-primary, #8C9D93); outline-offset: 1px; }
 .vcc-mode-switch button {
 	background: var(--mp-card-bg, #fff);
 	border: none;
@@ -682,9 +696,11 @@ button { font-family: inherit; }
 }
 .vcc-mock .btn-catalog-label { white-space: nowrap; }
 .vcc-mock .mp-search-form {
+	align-items: center;
 	background: var(--vita-header-search-bg, #f1f5f9);
 	border: 1px solid var(--vita-header-search-border, transparent);
 	border-radius: var(--mp-radius-md, 4px);
+	display: flex;
 	flex: 1 1 auto;
 	height: 44px;
 	position: relative;
@@ -701,7 +717,10 @@ button { font-family: inherit; }
 .vcc-mock .mp-search-input::placeholder { color: #94a3b8; }
 .vcc-mock .mp-search-icon-inside {
 	color: var(--vita-header-search-placeholder, #64748b);
+	left: 14px;
 	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 }
 .vcc-mock .mp-header-actions {
 	align-items: center;
@@ -722,7 +741,7 @@ button { font-family: inherit; }
 	text-align: center;
 }
 .vcc-mock .mp-action-icon { font-size: 20px; line-height: 1; margin-bottom: 3px; }
-/* Контейнер Виты внутри мока (1640px, как на витрине) */
+/* Контейнер Виты внутри мока (ширина — --vita-container-max из пресета/селекта) */
 .vcc-mock .mp-container {
 	margin-left: auto;
 	margin-right: auto;
@@ -731,6 +750,11 @@ button { font-family: inherit; }
 	padding-right: 20px;
 	width: 100%;
 }
+/* Поиск: как в теме flex: 1, но с базой 200px — в узкой панели редактора
+   поиск не сжимается в иглу: строка шапки мягко переносится целиком.
+   Никаких device-медиазапросов: ширина панели редактора — не ширина сайта. */
+.vcc-mock .mp-search-form { flex: 1 1 200px; min-width: 140px; }
+.vcc-mock .mp-header-main { flex-wrap: wrap; }
 /* Подвал: .tech-footer Виты. Отступы Виты заданы в rem при root 10px
    (наследие Bootstrap 3 в OpenCart): 3.5rem = 35px, 2rem = 20px.
    Светлые фолбэки — дефолты vars_css.php: #fafafa/#6b7280/#111827. */
