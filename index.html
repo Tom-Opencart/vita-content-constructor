@@ -6,7 +6,7 @@
 <title>Вита — Конструктор контента</title>
 <meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.7.5">
+<link rel="stylesheet" href="css/app.css?v=0.8.0">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -128,6 +128,7 @@
 			<input type="file" id="vcc-header-file" accept=".json" style="display:none" multiple>
 		</label>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-undo" title="Отменить последнее действие"><i class="fa fa-undo"></i></button>
+		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-assistant-open" title="Создать по донору: промт для любого AI и сборка ответа в лендинг"><i class="fa fa-magic"></i> Помощник</button>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-toggle" title="Страница на всю ширину: только сгенерированный контент, без палитры и шапки конструктора"><i class="fa fa-arrows-alt"></i> <span class="vcc-hide-narrow">На весь экран</span></button>
 		<button type="button" class="vcc-btn vcc-btn--primary vcc-btn--sm" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать</span></button>
 		<span class="vcc-export-hint" tabindex="0" aria-label="Подсказка: как вставлять спец-метки модулей Виты, чтобы они пережили экспорт и импорт">
@@ -209,6 +210,14 @@
 		<div class="vcc-onboard__layouts">
 			<div class="vcc-onboard__layouts-title">Или начните с готового макета</div>
 			<div class="vcc-layouts-grid" id="vcc-layouts-grid"></div>
+			<button type="button" class="vcc-assistant-entry" id="vcc-assistant-open-onboard">
+				<span class="vcc-assistant-entry__icon"><i class="fa fa-magic"></i></span>
+				<span class="vcc-assistant-entry__body">
+					<span class="vcc-assistant-entry__title">Создать по донору (AI)</span>
+					<span class="vcc-assistant-entry__desc">Конструктор выдаст готовый промт: строгий список своих блоков + ссылка на страницу-образец. Вставьте его в любой AI с доступом в веб — ChatGPT, Claude, DeepSeek — и верните ответ сюда: черновик лендинга соберётся сам.</span>
+				</span>
+				<span class="vcc-assistant-entry__cta"><i class="fa fa-arrow-right"></i></span>
+			</button>
 			<div class="vcc-drop vcc-drop--compact" id="vcc-layouts-drop" tabindex="0" title="Загрузить макет или проект файлом">
 				<i class="fa fa-upload"></i> Или загрузите макет/проект файлом .json
 			</div>
@@ -217,8 +226,60 @@
 	</div>
 </div>
 
+<!-- ============ Помощник: «Создать по донору» ============ -->
+<div class="vcc-assistant" id="vcc-assistant">
+	<div class="vcc-assistant__backdrop" id="vcc-assistant-backdrop"></div>
+	<div class="vcc-assistant__modal" role="dialog" aria-modal="true" aria-labelledby="vcc-assistant-title">
+		<button type="button" class="vcc-assistant__close" id="vcc-assistant-close" title="Закрыть (Esc)"><i class="fa fa-times"></i></button>
+		<div class="vcc-assistant__brand">
+			<span class="vcc-assistant__logo"><i class="fa fa-magic"></i></span>
+			<div>
+				<h2 class="vcc-assistant__title" id="vcc-assistant-title">Помощник — создать по донору</h2>
+				<p class="vcc-assistant__lead">Конструктор не ходит в сеть сам: он собирает промт со строгим списком своих блоков, а страницу-донор читает AI, которого выберете вы. Его же ответ верните на второй вкладке — лендинг соберётся в редакторе.</p>
+			</div>
+		</div>
+
+		<div class="vcc-assistant__tabs">
+			<button type="button" class="is-active" data-tab="prompt"><i class="fa fa-file-text-o"></i> 1 · Промт</button>
+			<button type="button" data-tab="response"><i class="fa fa-download"></i> 2 · Ответ AI</button>
+		</div>
+
+		<div class="vcc-assistant__pane is-active" data-pane="prompt">
+			<label class="vcc-assistant__field">
+				<span>Донор — страница-образец (URL)</span>
+				<input type="url" id="vcc-assistant-donor" placeholder="https://example.com/landing" inputmode="url">
+			</label>
+			<label class="vcc-assistant__field">
+				<span>Пожелания — что взять с донора, чего избегать, какие формы подключать (необязательно)</span>
+				<input type="text" id="vcc-assistant-wishes" placeholder="Например: акцент на тарифы, без блога, кнопки только на форму 1">
+			</label>
+			<details class="vcc-assistant__preview">
+				<summary>Показать промт <span id="vcc-assistant-size"></span></summary>
+				<textarea id="vcc-assistant-prompt" rows="10" readonly></textarea>
+			</details>
+			<div class="vcc-assistant__actions">
+				<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-copy"><i class="fa fa-clipboard"></i> <span>Скопировать промт</span></button>
+				<button type="button" class="vcc-btn" id="vcc-assistant-download"><i class="fa fa-file-text-o"></i> Скачать .txt</button>
+				<span class="vcc-assistant__hint">Вставьте промт в любой AI с доступом в веб (ChatGPT, Claude, DeepSeek) — модель сама прочитает донора и вернёт JSON проекта.</span>
+			</div>
+		</div>
+
+		<div class="vcc-assistant__pane" data-pane="response">
+			<label class="vcc-assistant__field">
+				<span>Ответ модели — вставьте JSON целиком (можно вместе с пояснениями и ```-забором: конструктор вырежет лишнее)</span>
+				<textarea id="vcc-assistant-response" rows="12" placeholder='{ "type": "vita-constructor-project", "contract": "vcc-v1", "blocks": [ … ] }'></textarea>
+			</label>
+			<div class="vcc-assistant__result" id="vcc-assistant-result" style="display:none"></div>
+			<div class="vcc-assistant__actions">
+				<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-build"><i class="fa fa-magic"></i> Собрать лендинг</button>
+				<span class="vcc-assistant__hint">Проект заменит текущий черновик — прежнее состояние вернёт кнопка «Отменить» в шапке редактора.</span>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.7.5"></script>
+<script src="js/app.js?v=0.8.0"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 'use strict';
 
-window.VCC_APP_VERSION = '0.7.5';
+window.VCC_APP_VERSION = '0.8.0';
 
 window.VCC_EXPORT_CSS = "/* ============================================================\n\u0412\u0438\u0442\u0430 \u2014 \u041a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0442\u043e\u0440 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u00b7 \u042d\u043a\u0441\u043f\u043e\u0440\u0442\u043d\u044b\u0435 \u0441\u0442\u0438\u043b\u0438 vcc-v1\n\u042d\u0442\u043e\u0442 \u0444\u0430\u0439\u043b \u2014 \u0415\u0414\u0418\u041d\u0421\u0422\u0412\u0415\u041d\u041d\u042b\u0419 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u0441\u0442\u0438\u043b\u0435\u0439 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430: \u0431\u0438\u043b\u0434\u0435\u0440 \u0432\u0448\u0438\u0432\u0430\u0435\u0442\n\u0435\u0433\u043e \u0432 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440 (\u043e\u043a\u043d\u043e \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430) \u0438 \u043e\u0442\u0434\u0430\u0451\u0442 \u043a\u043d\u043e\u043f\u043a\u043e\u0439 \u00ab\u0421\u043a\u0430\u0447\u0430\u0442\u044c CSS\u00bb.\n\u0422\u0435\u043c\u0430 \u0412\u0438\u0442\u0430 \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u044d\u0442\u043e\u0442 \u0436\u0435 \u0444\u0430\u0439\u043b \u043a\u0430\u043a\ncatalog/view/theme/vita/stylesheet/vita-content-constructor.css.\n\u041f\u0440\u0430\u0432\u0438\u043b\u0430: \u0442\u043e\u043b\u044c\u043a\u043e var(--mp-*, fallback) \u2014 \u043d\u0438 \u043e\u0434\u043d\u043e\u0433\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u043b\u044c\u043d\u043e\u0433\u043e\n\u0446\u0432\u0435\u0442\u0430 \u0432 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u0445. \u041a\u043e\u043d\u0442\u0440\u0430\u043a\u0442 vcc-v1 \u044d\u0432\u043e\u043b\u044e\u0446\u0438\u043e\u043d\u0438\u0440\u0443\u0435\u0442 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e.\n============================================================ */\n\n.vcc-content {\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-family: var(--mp-font-family, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif);\n\tfont-size: 16px;\n\tline-height: 1.65;\n\toverflow-wrap: break-word;\n}\n.vcc-content > *:first-child { margin-top: 0; }\n.vcc-content > *:last-child { margin-bottom: 0; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0438 --- */\n.vcc-heading {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 700;\n\tline-height: 1.3;\n\tmargin: 28px 0 12px;\n}\n.vcc-heading--h2 { font-size: 26px; }\n.vcc-heading--h3 { font-size: 21px; }\n.vcc-heading--h4 { font-size: 18px; }\n\n/* --- \u0410\u0431\u0437\u0430\u0446\u044b --- */\n.vcc-paragraph { margin: 0 0 14px; }\n.vcc-paragraph p { margin: 0 0 14px; }\n\n/* --- \u0421\u0441\u044b\u043b\u043a\u0438 \u0438 \u0438\u043d\u043b\u0430\u0439\u043d --- */\n/* \u0421\u0441\u044b\u043b\u043a\u0438 \u0441\u0442\u0438\u043b\u0438\u0437\u0443\u0435\u043c \u0447\u0435\u0440\u0435\u0437 :where() + :not(.vcc-btn): \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043d\u0435 \u043c\u0430\u0442\u0447\u0438\u0442\n   \u043a\u043d\u043e\u043f\u043a\u0438 \u0432\u043e\u0432\u0441\u0435, \u0438\u043d\u0430\u0447\u0435 (0,1,1) \u043f\u0440\u043e\u0442\u0438\u0432 (0,1,0) \u0443 .vcc-btn--primary\n   \u0446\u0432\u0435\u0442 \u0441\u0441\u044b\u043b\u043a\u0438 \u043f\u043e\u0431\u0435\u0436\u0434\u0430\u043b --mp-text-inverse \u0438 \u0442\u0435\u043a\u0441\u0442 \u0441\u043b\u0438\u0432\u0430\u043b\u0441\u044f \u0441 \u0444\u043e\u043d\u043e\u043c. */\n.vcc-content :where(a:not(.vcc-btn)) { color: var(--mp-primary, #8C9D93); text-decoration: none; }\n.vcc-content :where(a:not(.vcc-btn)):hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }\n.vcc-code {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-sm, 2px);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-size: 0.9em;\n\tpadding: 1px 6px;\n}\n\n/* --- \u0421\u043f\u0438\u0441\u043a\u0438 --- */\n.vcc-list { margin: 0 0 14px; padding-left: 22px; }\n.vcc-list li { margin-bottom: 6px; }\n\n/* --- \u0426\u0438\u0442\u0430\u0442\u0430 --- */\n.vcc-quote {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-muted, #64748B);\n\tfont-style: italic;\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-quote__author {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 14px;\n\tfont-style: normal;\n\tmargin-top: 8px;\n}\n\n/* --- \u0412\u0440\u0435\u0437\u043a\u0438 (alert): \u0432\u0430\u0440\u0438\u0430\u043d\u0442 \u0437\u0430\u0434\u0430\u0451\u0442\u0441\u044f \u0446\u0432\u0435\u0442\u043d\u043e\u0439 \u043c\u0435\u0442\u043a\u043e\u0439 \u0441\u0432\u0435\u0440\u0445\u0443, \u0431\u0435\u0437 \u0431\u043e\u0440\u0434\u0435\u0440\u043e\u0432 \u0441\u043b\u0435\u0432\u0430 --- */\n.vcc-alert {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }\n.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-express-bg, #059669); }\n.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-hit-bg, #d97706); }\n.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-discount-bg, #dc2626); }\n/* \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430: primary-light \u043d\u0435 \u043f\u0435\u0440\u0435\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u0435\u043c\u043e\u0439 \u2014 \u0432\u0440\u0435\u0437\u043a\u0435 info \u043d\u0443\u0436\u0435\u043d \u0442\u0451\u043c\u043d\u044b\u0439 \u0444\u043e\u043d (\u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e) */\n[data-theme=\"dark\"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }\n.vcc-alert p:last-child { margin-bottom: 0; }\n\n/* --- \u0421\u043f\u043e\u0439\u043b\u0435\u0440 --- */\n.vcc-spoiler {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 14px 0;\n}\n.vcc-spoiler__summary {\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 12px 16px;\n\tcolor: var(--mp-text-main, #2D3748);\n}\n.vcc-spoiler__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-spoiler__body {\n\tborder-top: 1px solid var(--mp-border-divider, #F1F5F9);\n\tpadding: 12px 16px;\n}\n.vcc-spoiler__body p:last-child { margin-bottom: 0; }\n\n/* --- \u0422\u0430\u0431\u044b --- */\n.vcc-tabs { margin: 18px 0; }\n.vcc-tabs__nav {\n\tborder-bottom: 1px solid var(--mp-border-color, #E2E8F0);\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tgap: 4px;\n}\n.vcc-tabs__btn {\n\tbackground: none;\n\tborder: none;\n\tborder-bottom: 2px solid transparent;\n\tcolor: var(--mp-text-muted, #64748B);\n\tcursor: pointer;\n\tfont-size: 15px;\n\tmargin-bottom: -1px;\n\tpadding: 10px 14px;\n}\n.vcc-tabs__btn.is-active {\n\tborder-bottom-color: var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-primary, #8C9D93);\n\tfont-weight: 600;\n}\n.vcc-tabs__panel { display: none; padding-top: 14px; }\n.vcc-tabs__panel.is-active { display: block; }\n\n/* --- \u0422\u0430\u0431\u043b\u0438\u0446\u0430 --- */\n.vcc-table-wrap { margin: 18px 0; overflow-x: auto; }\n.vcc-table {\n\tborder-collapse: collapse;\n\twidth: 100%;\n}\n.vcc-table th,\n.vcc-table td {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tpadding: 9px 12px;\n\ttext-align: left;\n}\n.vcc-table th {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n}\n.vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }\n\n/* --- \u041a\u0430\u0440\u0442\u0438\u043d\u043a\u0430 --- */\n.vcc-figure { margin: 18px 0; }\n.vcc-figure__img {\n\tborder-radius: var(--mp-radius-md, 4px);\n\theight: auto;\n\tmax-width: 100%;\n}\n.vcc-figure__caption {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 13px;\n\tmargin-top: 6px;\n\ttext-align: center;\n}\n\n/* --- \u041e\u0433\u043b\u0430\u0432\u043b\u0435\u043d\u0438\u0435 --- */\n.vcc-toc {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tmargin: 18px 0;\n\tpadding: 14px 20px;\n}\n.vcc-toc__title {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n\tmargin-bottom: 8px;\n}\n.vcc-toc__list { margin: 0; padding-left: 20px; }\n.vcc-toc__list li { margin-bottom: 4px; }\n\n/* ==== v0.7.0 landing ==== */\n\n/* --- \u0421\u0435\u043a\u0446\u0438\u0438: \u043a\u0430\u0440\u043a\u0430\u0441 --- */\n.vcc-section { position: relative; overflow: hidden; }\n.vcc-section--bg-light   { background: var(--mp-bg-subtle, #f8fafc); }\n.vcc-section--bg-surface { background: var(--mp-bg-surface, #ffffff); }\n.vcc-section--bg-primary { background: var(--mp-primary, #8C9D93); color: var(--mp-text-inverse, #ffffff); }\n.vcc-section--bg-image, .vcc-section--bg-video {\n\tbackground-color: var(--mp-bg-surface, #ffffff);\n\tbackground-position: center;\n\tbackground-size: cover;\n}\n.vcc-section__video {\n\theight: 100%;\n\tleft: 0;\n\tobject-fit: cover;\n\tposition: absolute;\n\ttop: 0;\n\twidth: 100%;\n\tz-index: 0;\n}\n/* \u041e\u0432\u0435\u0440\u043b\u0435\u0439 \u2014 \u0441\u043b\u043e\u0439 \u0421\u0415\u041a\u0426\u0418\u0418 (z1): \u043f\u043e\u0434 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u043e\u043c (inner z2), \u043d\u0430\u0434 \u0444\u043e\u043d\u043e\u043c/\u0432\u0438\u0434\u0435\u043e\n * (video z0). \u041d\u0430 __inner \u043e\u043d \u0437\u0430\u0442\u0435\u043c\u043d\u044f\u043b \u0431\u044b \u0441\u0430\u043c \u0442\u0435\u043a\u0441\u0442. */\n.vcc-section--overlay::before {\n\tbackground: rgba(0, 0, 0, 0.45);\n\tbottom: 0;\n\tcontent: '';\n\tleft: 0;\n\tposition: absolute;\n\tright: 0;\n\ttop: 0;\n\tz-index: 1;\n}\n.vcc-section__inner { position: relative; z-index: 2; }\n.vcc-section--pad-s { padding: 48px 0; }\n.vcc-section--pad-m { padding: 80px 0; }\n.vcc-section--pad-l { padding: 112px 0; }\n.vcc-section--pad-xl { padding: 160px 0; }\n/* \u0428\u0438\u0440\u0438\u043d\u0430 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u043f\u043e\u0432\u0442\u043e\u0440\u044f\u0435\u0442 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0443 \u0442\u0435\u043c\u044b \u00ab\u0428\u0438\u0440\u0438\u043d\u0430 \u0441\u0430\u0439\u0442\u0430\u00bb\n   (\u0414\u0438\u0437\u0430\u0439\u043d \u0438 \u0441\u0442\u0438\u043b\u0438): --vita-container-max \u043f\u0440\u0438\u0445\u043e\u0434\u0438\u0442 \u0438\u0437 \u043f\u0440\u0435\u0441\u0435\u0442\u0430\n   (1210/1400/1640/100%) \u2014 \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 \u0440\u0430\u0432\u0435\u043d \u0432\u0438\u0442\u0440\u0438\u043d\u0435. */\n.vcc-container { margin: 0 auto; max-width: var(--vita-container-max, 1640px); padding: 0 24px; }\n.vcc-section--w-narrow .vcc-container { max-width: 720px; }\n.vcc-section--w-full .vcc-container { max-width: none; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0441\u0435\u043a\u0446\u0438\u0438 --- */\n.vcc-section__head { margin: 0 0 40px; }\n.vcc-section__head--center { text-align: center; }\n.vcc-eyebrow {\n\tcolor: var(--mp-secondary, #5A8F76);\n\tdisplay: inline-block;\n\tfont-size: 12px;\n\tletter-spacing: 0.08em;\n\tmargin-bottom: 8px;\n\ttext-transform: uppercase;\n}\n.vcc-section--bg-primary .vcc-eyebrow { color: var(--mp-text-inverse, #ffffff); opacity: 0.85; }\n.vcc-section__title { margin: 0 0 10px; }\n.vcc-section__sub { color: var(--mp-text-muted, #64748B); margin: 0 auto; max-width: 720px; }\n.vcc-section--bg-primary .vcc-section__sub { color: var(--mp-text-inverse, #ffffff); opacity: 0.9; }\n\n/* --- \u041a\u043d\u043e\u043f\u043a\u0438 --- */\n.vcc-btn {\n\talign-items: center;\n\tborder: 1px solid transparent;\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-sizing: border-box;\n\tdisplay: inline-flex;\n\tfont-weight: 600;\n\tjustify-content: center;\n\tmin-height: 44px;\n\tpadding: 10px 24px;\n\ttext-decoration: none;\n}\n.vcc-btn--primary { background: var(--mp-primary, #8C9D93); color: var(--mp-text-inverse, #ffffff); }\n.vcc-btn--primary:hover { background: var(--mp-primary-hover, #7A8B81); }\n.vcc-btn--secondary { background: var(--mp-secondary, #5A8F76); color: var(--mp-text-inverse, #ffffff); }\n.vcc-btn--secondary:hover { filter: brightness(1.05); }\n.vcc-btn--ghost { background: transparent; border-color: var(--mp-border-color, #E2E8F0); color: inherit; }\n.vcc-btn--ghost:hover { border-color: var(--mp-primary, #8C9D93); color: var(--mp-primary, #8C9D93); }\n.vcc-hero .vcc-btn--ghost,\n.vcc-section--bg-primary .vcc-btn--ghost { border-color: currentColor; }\n\n/* --- \u0418\u043a\u043e\u043d\u043a\u0430 (span -> i \u0440\u0430\u043d\u0442\u0430\u0439\u043c\u043e\u043c \u0442\u0435\u043c\u044b) --- */\n.vcc-icon {\n\talign-items: center;\n\tbackground: var(--mp-bg-hover, #f1f5f9);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tcolor: var(--mp-primary, #8C9D93);\n\tdisplay: inline-flex;\n\tfont-size: 20px;\n\theight: 48px;\n\tjustify-content: center;\n\twidth: 48px;\n}\n.vcc-section--bg-primary .vcc-icon { background: rgba(255, 255, 255, 0.18); color: inherit; }\n\n/* --- \u0410\u043a\u0446\u0435\u043d\u0442 inline --- */\n.vcc-accent { color: var(--mp-primary, #8C9D93); font-weight: inherit; }\n.vcc-section--bg-primary .vcc-accent {\n\tcolor: var(--mp-text-inverse, #ffffff);\n\ttext-decoration: underline;\n\ttext-decoration-color: var(--mp-text-inverse, #ffffff);\n}\n\n/* --- hero --- */\n.vcc-hero { padding: 8px 0; }\n.vcc-hero--center { text-align: center; }\n.vcc-hero__title { font-size: 42px; line-height: 1.15; margin: 0 0 14px; }\n.vcc-hero__sub { color: var(--mp-text-muted, #64748B); font-size: 19px; margin: 0 auto 28px; max-width: 720px; }\n.vcc-section--bg-primary .vcc-hero__sub,\n.vcc-section--bg-image .vcc-hero__sub,\n.vcc-section--bg-video .vcc-hero__sub { color: inherit; opacity: 0.9; }\n.vcc-hero__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; }\n.vcc-hero--center .vcc-hero__actions { justify-content: center; }\n.vcc-hero__note { color: var(--mp-text-light, #94A3B8); font-size: 13px; margin: 18px 0 0; }\n.vcc-section--bg-primary .vcc-hero__note,\n.vcc-section--bg-image .vcc-hero__note,\n.vcc-section--bg-video .vcc-hero__note { color: inherit; opacity: 0.75; }\n\n/* --- logos --- */\n.vcc-logos { align-items: center; display: flex; flex-wrap: wrap; gap: 40px; row-gap: 24px; }\n.vcc-logos__img { height: 40px; width: auto; opacity: 0.75; }\n.vcc-logos__link:hover .vcc-logos__img { opacity: 1; }\n\n/* --- features --- */\n.vcc-features { display: grid; gap: 24px; }\n.vcc-features--c2 { grid-template-columns: repeat(2, 1fr); }\n.vcc-features--c3 { grid-template-columns: repeat(3, 1fr); }\n.vcc-features--c4 { grid-template-columns: repeat(4, 1fr); }\n.vcc-feature { text-align: left; }\n.vcc-section__head--center + .vcc-features .vcc-feature { text-align: center; }\n.vcc-section__head--center + .vcc-features .vcc-feature .vcc-icon { margin-bottom: 14px; }\n.vcc-feature__icon { margin-bottom: 0; }\n.vcc-feature__title { font-size: 18px; margin: 14px 0 8px; }\n.vcc-feature__text { color: var(--mp-text-muted, #64748B); }\n.vcc-feature__text p { margin: 0 0 10px; }\n.vcc-feature__text p:last-child { margin-bottom: 0; }\n.vcc-section--bg-primary .vcc-feature__text { color: inherit; opacity: 0.9; }\n\n/* --- media_text --- */\n.vcc-media-text { align-items: center; display: grid; gap: 40px; grid-template-columns: 1fr 1fr; }\n.vcc-media-text--flip .vcc-media-text__media { order: 2; }\n.vcc-media-text--flip .vcc-media-text__body { order: 1; }\n.vcc-media-text__media { margin: 0; }\n.vcc-media-text__media img { border-radius: var(--mp-radius-lg, 6px); height: auto; max-width: 100%; }\n.vcc-media-text__actions { margin-top: 20px; }\n\n/* --- steps --- */\n.vcc-steps { display: grid; gap: 28px; }\n.vcc-steps--timeline .vcc-step { padding-left: 56px; position: relative; }\n.vcc-steps--timeline .vcc-step::before {\n\tbackground: var(--mp-border-color, #E2E8F0);\n\tbottom: -28px;\n\tcontent: '';\n\tleft: 19px;\n\tposition: absolute;\n\ttop: 40px;\n\twidth: 2px;\n}\n.vcc-steps--timeline .vcc-step:last-child::before { display: none; }\n.vcc-step__num {\n\talign-items: center;\n\tbackground: var(--mp-primary, #8C9D93);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-inverse, #ffffff);\n\tdisplay: inline-flex;\n\tfont-weight: 700;\n\theight: 40px;\n\tjustify-content: center;\n\tleft: 0;\n\tposition: absolute;\n\ttop: 0;\n\twidth: 40px;\n}\n.vcc-steps--numbers .vcc-step__num { position: static; margin-bottom: 10px; }\n.vcc-step__title { font-size: 18px; margin: 6px 0 6px; }\n.vcc-step__text { color: var(--mp-text-muted, #64748B); }\n.vcc-step__text p { margin: 0 0 8px; }\n.vcc-step__text p:last-child { margin-bottom: 0; }\n\n/* --- stats --- */\n.vcc-stats { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); text-align: center; }\n.vcc-stat__value { color: inherit; display: block; font-size: 40px; font-weight: 700; line-height: 1.1; }\n.vcc-stat__suffix { font-size: 0.55em; font-weight: 600; margin-left: 2px; opacity: 0.85; }\n.vcc-stat__label { color: var(--mp-text-muted, #64748B); font-size: 14px; }\n.vcc-section--bg-primary .vcc-stat__label { color: inherit; opacity: 0.85; }\n\n/* --- reviews --- */\n.vcc-reviews { display: grid; gap: 24px; }\n.vcc-reviews--c2 { grid-template-columns: repeat(2, 1fr); }\n.vcc-reviews--c3 { grid-template-columns: repeat(3, 1fr); }\n.vcc-review {\n\tbackground: var(--mp-bg-surface, #ffffff);\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-style: normal;\n\tmargin: 0;\n\tpadding: 24px;\n}\n.vcc-review__text { margin: 0 0 12px; }\n.vcc-stars { color: var(--mp-star-color, #f59e0b); display: block; font-size: 15px; letter-spacing: 2px; margin-bottom: 10px; }\n.vcc-review__person { align-items: center; display: flex; flex-wrap: wrap; gap: 10px; }\n.vcc-review__avatar { border-radius: var(--mp-radius-pill, 9999px); height: 40px; width: 40px; object-fit: cover; }\n.vcc-review__name { color: var(--mp-text-main, #2D3748); }\n.vcc-review__role { color: var(--mp-text-light, #94A3B8); display: block; font-size: 13px; width: 100%; }\n\n/* --- team --- */\n.vcc-team { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }\n.vcc-member { text-align: center; }\n.vcc-member__photo { border-radius: var(--mp-radius-pill, 9999px); height: 128px; width: 128px; object-fit: cover; }\n.vcc-member__name { color: var(--mp-text-main, #2D3748); display: block; margin-top: 12px; }\n.vcc-member__role { color: var(--mp-secondary, #5A8F76); display: block; font-size: 13px; margin-top: 2px; }\n.vcc-member__text { color: var(--mp-text-muted, #64748B); font-size: 14px; margin-top: 8px; }\n.vcc-member__text p { margin: 0 0 8px; }\n.vcc-member__text p:last-child { margin-bottom: 0; }\n\n/* --- documents --- */\n.vcc-docs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }\n.vcc-doc { color: inherit; display: block; text-align: center; text-decoration: none; }\n.vcc-doc__img { border: 1px solid var(--mp-border-color, #E2E8F0); border-radius: var(--mp-radius-md, 4px); height: auto; max-width: 100%; }\n.vcc-doc__title { color: var(--mp-text-muted, #64748B); display: block; font-size: 14px; margin-top: 8px; }\n.vcc-doc:hover .vcc-doc__title { color: var(--mp-primary, #8C9D93); }\n\n/* --- cta --- */\n.vcc-cta { text-align: center; }\n.vcc-cta__title { margin: 0 0 12px; }\n.vcc-cta__text { color: var(--mp-text-muted, #64748B); margin: 0 auto 24px; max-width: 640px; }\n.vcc-section--bg-primary .vcc-cta__text { color: inherit; opacity: 0.9; }\n.vcc-cta__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }\n\n/* --- contacts --- */\n.vcc-contacts { display: grid; gap: 18px; }\n.vcc-contact { align-items: center; display: flex; flex-wrap: wrap; gap: 14px; }\n.vcc-contact__label { color: var(--mp-text-light, #94A3B8); min-width: 90px; }\n.vcc-contact__value { color: var(--mp-text-main, #2D3748); font-weight: 600; text-decoration: none; }\na.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration: underline; }\n\n/* --- socials --- */\n.vcc-socials { display: flex; flex-wrap: wrap; gap: 14px; }\n.vcc-socials--center { justify-content: center; }\n.vcc-social {\n\talign-items: center;\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tcolor: var(--mp-text-body, #2D3748);\n\tdisplay: inline-flex;\n\tgap: 8px;\n\tpadding: 8px 18px 8px 10px;\n\tposition: relative;\n\ttext-decoration: none;\n}\n.vcc-social .vcc-icon { height: 32px; width: 32px; font-size: 15px; }\n.vcc-social:hover { border-color: var(--mp-primary, #8C9D93); color: var(--mp-primary, #8C9D93); }\n\n/* --- badges --- */\n.vcc-badges { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }\n.vcc-badge {\n\talign-items: center;\n\tbackground: var(--mp-bg-surface, #ffffff);\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tdisplay: flex;\n\tgap: 12px;\n\tpadding: 14px 16px;\n}\n.vcc-badge .vcc-icon { flex: 0 0 auto; height: 40px; width: 40px; font-size: 17px; }\n.vcc-badge__title { color: var(--mp-text-main, #2D3748); display: block; font-weight: 600; }\n.vcc-badge__text { color: var(--mp-text-light, #94A3B8); display: block; font-size: 13px; }\n\n/* --- checklist --- */\n.vcc-checklist { list-style: none; margin: 0; padding: 0; }\n.vcc-checklist--c2 { display: grid; gap: 8px 32px; }\n.vcc-checklist__item { padding: 6px 0 6px 34px; position: relative; }\n.vcc-checklist__item::before {\n\tcolor: var(--mp-primary, #8C9D93);\n\tcontent: '\\2713';\n\tfont-weight: 700;\n\tleft: 4px;\n\tposition: absolute;\n}\n\n/* --- divider --- */\n.vcc-divider {\n\talign-items: center;\n\tdisplay: flex;\n\tjustify-content: center;\n}\n.vcc-divider--line { border-top: 1px solid var(--mp-border-color, #E2E8F0); }\n.vcc-divider__ornament { color: var(--mp-text-light, #94A3B8); font-size: 20px; letter-spacing: 6px; }\n\n/* --- seotext --- */\n.vcc-seotext {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-md, 4px);\n}\n.vcc-seotext__summary {\n\tcolor: var(--mp-text-main, #2D3748);\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 14px 18px;\n}\n.vcc-seotext__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-seotext__body { border-top: 1px solid var(--mp-border-divider, #F1F5F9); padding: 14px 18px; }\n.vcc-seotext__body p:last-child { margin-bottom: 0; }\n\n/* --- pricing --- */\n.vcc-plans { align-items: stretch; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }\n.vcc-plan {\n\tbackground: var(--mp-bg-surface, #ffffff);\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tdisplay: flex;\n\tflex-direction: column;\n\tpadding: 28px 24px;\n\tposition: relative;\n\ttext-align: center;\n}\n.vcc-plan--left { text-align: left; }\n.vcc-plan--featured {\n\tbackground: var(--mp-primary-light, #F2F6F4);\n\tborder-color: var(--mp-primary, #8C9D93);\n\tbox-shadow: var(--mp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.08));\n}\n.vcc-plan__flag {\n\tbackground: var(--mp-primary, #8C9D93);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tcolor: var(--mp-text-inverse, #ffffff);\n\tfont-size: 12px;\n\tfont-weight: 600;\n\tleft: 50%;\n\tpadding: 3px 14px;\n\tposition: absolute;\n\ttop: -13px;\n\ttransform: translateX(-50%);\n}\n.vcc-plan__name { color: var(--mp-text-main, #2D3748); font-size: 18px; margin: 4px 0 10px; }\n.vcc-plan__price { color: var(--mp-text-main, #2D3748); font-size: 30px; font-weight: 700; }\n.vcc-plan__period { color: var(--mp-text-muted, #64748B); font-size: 15px; font-weight: 400; margin-left: 4px; }\n.vcc-plan__old { color: var(--mp-text-light, #94A3B8); text-decoration: line-through; }\n.vcc-plan__features { list-style: none; margin: 18px 0 22px; padding: 0; text-align: left; }\n.vcc-plan__features li { border-bottom: 1px solid var(--mp-border-divider, #F1F5F9); padding: 8px 0 8px 24px; position: relative; }\n.vcc-plan__features li::before { color: var(--mp-primary, #8C9D93); content: '\\2713'; font-weight: 700; left: 2px; position: absolute; }\n.vcc-plan__features li:last-child { border-bottom: none; }\n.vcc-plan .vcc-btn { margin-top: auto; width: 100%; }\n.vcc-plan__note { color: var(--mp-text-light, #94A3B8); font-size: 12px; margin-top: 10px; }\n\n/* --- video --- */\n.vcc-video {\n\tposition: relative;\n\twidth: 100%;\n}\n.vcc-video--16x9 { aspect-ratio: 16 / 9; }\n.vcc-video--4x3 { aspect-ratio: 4 / 3; }\n.vcc-video--1x1 { aspect-ratio: 1 / 1; }\n.vcc-video__frame,\n.vcc-video__link {\n\tborder: 0;\n\tdisplay: block;\n\theight: 100%;\n\tleft: 0;\n\tposition: absolute;\n\ttop: 0;\n\twidth: 100%;\n}\n.vcc-video__link {\n\talign-items: center;\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tcolor: var(--mp-text-body, #2D3748);\n\tdisplay: flex;\n\tjustify-content: center;\n\toverflow: hidden;\n\tposition: relative;\n\ttext-decoration: none;\n}\n.vcc-video__link::before { color: var(--mp-primary, #8C9D93); content: '\\25B6'; font-size: 28px; margin-right: 12px; }\n.vcc-video__caption { color: var(--mp-text-light, #94A3B8); font-size: 13px; margin: 8px 0 0; text-align: center; }\n\n/* --- columns --- */\n.vcc-columns { display: grid; gap: 32px; }\n.vcc-columns--c2 { grid-template-columns: repeat(2, 1fr); }\n.vcc-columns--c3 { grid-template-columns: repeat(3, 1fr); }\n.vcc-columns--c4 { grid-template-columns: repeat(4, 1fr); }\n.vcc-column p { margin: 0 0 12px; }\n.vcc-column p:last-child { margin-bottom: 0; }\n\n/* --- \u0410\u0434\u0430\u043f\u0442\u0438\u0432: \u043e\u0434\u0438\u043d \u043f\u0430\u0442\u0442\u0435\u0440\u043d, \u0441\u0435\u0442\u043a\u0438 \u0441\u0445\u043b\u043e\u043f\u044b\u0432\u0430\u044e\u0442\u0441\u044f \u0432 \u043a\u043e\u043b\u043e\u043d\u043a\u0443 --- */\n@media (max-width: 767px) {\n\t.vcc-hero__title { font-size: 31px; }\n\t.vcc-features--c2, .vcc-features--c3, .vcc-features--c4,\n\t.vcc-media-text, .vcc-reviews--c2, .vcc-reviews--c3,\n\t.vcc-columns--c2, .vcc-columns--c3, .vcc-columns--c4 {\n\t\tgrid-template-columns: 1fr;\n\t}\n\t.vcc-media-text--flip .vcc-media-text__media { order: 0; }\n\t.vcc-media-text--flip .vcc-media-text__body { order: 0; }\n\t.vcc-section--pad-s { padding: 36px 0; }\n\t.vcc-section--pad-m { padding: 52px 0; }\n\t.vcc-section--pad-l { padding: 64px 0; }\n\t.vcc-section--pad-xl { padding: 80px 0; }\n}\n\n/* --- \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430: \u0440\u043e\u0432\u043d\u043e \u0434\u0432\u0430 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u044b\u0445 \u043e\u0432\u0435\u0440\u0440\u0430\u044f (\u0441\u043f\u0435\u043a\u0430 \u00a74.4) --- */\n[data-theme=\"dark\"] .vcc-plan--featured { background: var(--mp-bg-hover, #38343E); }\n[data-theme=\"dark\"] .vcc-section--overlay::before { background: rgba(0, 0, 0, 0.65); }";
 
@@ -17,7 +17,7 @@ window.VCC_LAYOUT_PRESETS = [{"type": "vita-constructor-project", "contract": "v
 'use strict';
 
 var VCC_CONTRACT = 'vcc-v1';
-var VCC_APP_VERSION = '0.7.5';
+var VCC_APP_VERSION = '0.8.0';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {
@@ -473,6 +473,460 @@ var BlockRegistry = {
 		};
 	}
 };
+
+/* ============================================================
+Вита — Конструктор контента · core/passport.js
+Паспорт возможностей конструктора: генерируется из ЖИВОГО
+BlockRegistry при загрузке — не пишется руками и не устаревает.
+
+Три экспортные функции:
+  - buildPassportMd()  — полный документ (docs/CONSTRUCTOR-PASSPORT.md,
+    кнопка «Скачать паспорт»);
+  - buildPrompt(donor, wishes) — промт-конверт для любого AI с
+    веб-доступом (конструктор сам ничего не читает и никуда не ходит);
+  - extractJson(text) — мягкая починка ответа AI: срез markdown-забора,
+    извлечение JSON из текста, починка висячих запятых, человеческие
+    ошибки (unknown-тип → ближайшее имя из реестра).
+============================================================ */
+'use strict';
+
+var VccPassport = (function () {
+
+	/* ---------- Человекочитаемые описания блоков ---------- */
+	var DESC = {
+		heading: 'Заголовок статьи (H2–H4). H1 конструктор ставит сам только в блоке hero.',
+		paragraph: 'Абзац текста с инлайн-разметкой.',
+		list: 'Маркированный или нумерованный список, один пункт на строку.',
+		quote: 'Цитата с необязательным автором.',
+		alert: 'Цветная врезка-акцент: info/success/warning/danger.',
+		tabs: 'Вкладки: массив { title, content }.',
+		table: 'Таблица: строка заголовков и строки данных, ячейки через перенос строки.',
+		image: 'Картинка из медиатеки (image/catalog/...) с подписью.',
+		toc: 'Оглавление по заголовкам статьи — собирается автоматически.',
+		hero: 'Первый экран лендинга: H1, подзаголовок, до двух кнопок, строка доверия.',
+		logos: 'Полоса логотипов партнёров/клиентов.',
+		features: 'Сетка карточек-преимуществ с иконками (2–4 колонки).',
+		media_text: 'Картинка + текст рядом, кнопка, картинка может стоять справа (flip).',
+		steps: 'Шаги процесса: numbers (номера) или timeline (вертикальная линия).',
+		stats: 'Полоса цифр-показателей: { value, suffix, label }.',
+		reviews: 'Карточки отзывов: текст, имя, роль, звёзды 0–5, аватар.',
+		team: 'Команда: фото, имя, роль, описание.',
+		documents: 'Сетка документов/сертификатов: картинка-превью + название.',
+		cta: 'Финальный призыв к действию: заголовок, текст, до двух кнопок.',
+		contacts: 'Список контактов: { icon, label, value, url }.',
+		socials: 'Кнопки-ссылки соцсетей: { icon, url, label }.',
+		badges: 'Плашки доверия с иконкой: { icon, title, text }.',
+		checklist: 'Список с галочками, пункты — инлайн-разметка.',
+		divider: 'Разделитель: отступ / линия / орнамент.',
+		seotext: 'Сворачиваемый SEO-текст: заголовок + большой текст.',
+		pricing: 'Карточки тарифов: цена, старая цена, пункты-фичи, флаг «Рекомендуем», кнопка.',
+		columns: 'Колонки произвольного текста (2–4).',
+		video: 'Видео с YouTube/Vimeo/Rutube: ссылка или iframe-код сервиса.',
+		vita_faq: 'Живой FAQ магазина: аккордеон из модуля «Вита — FAQ» + SEO-разметка. faqId 0 — все активные группы.',
+		vita_form: 'Живая форма магазина (модуль «Вита — Формы»). formId 0 — блок не экспортируется.',
+		vita_visual: 'Готовый визуальный блок модуля «Вита — Визуальные блоки» по ID.',
+		vita_all_in_one: 'Блок модуля «Вита — Универсальные блоки товаров» по ID.',
+		vita_extra_wall: 'Стена категорий/брендов модуля «Вита — Стена» по ID.',
+		vita_html: 'Сырой HTML строго в whitelist санитайзера темы — используйте в последнюю очередь.'
+	};
+
+	var GROUP_TITLES = {
+		landing: 'Секции лендинга',
+		text: 'Текстовые блоки',
+		modules: 'Живые модули магазина (спец-метки)'
+	};
+	var GROUP_ORDER = ['landing', 'text', 'modules'];
+
+	var FIELD_TYPE_LABEL = {
+		text: 'строка',
+		textarea: 'текст (многострочный',
+		select: 'одно из значений',
+		checkbox: 'булево (true/false)',
+		tabs_editor: 'массив { title, content }',
+		rows_editor: 'массив объектов'
+	};
+
+	/* ---------- Утилиты ---------- */
+	function esc(s) {
+		return String(s == null ? '' : s)
+			.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	}
+
+	function describeField(f) {
+		var desc;
+		if (f.type === 'select') {
+			var opts = (f.options || []).map(function (o) { return o[0]; }).join(' | ');
+			desc = FIELD_TYPE_LABEL.select + ': ' + opts;
+		} else if (f.type === 'tabs-editor') {
+			desc = FIELD_TYPE_LABEL.tabs_editor;
+		} else if (f.type === 'rows-editor') {
+			var keys = (f.itemFields || []).map(function (it) { return it.key; }).join(', ');
+			desc = FIELD_TYPE_LABEL.rows_editor + ' { ' + keys + ' }';
+		} else if (f.type === 'checkbox') {
+			desc = FIELD_TYPE_LABEL.checkbox;
+		} else if (f.markdown) {
+			desc = 'текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)';
+		} else {
+			desc = FIELD_TYPE_LABEL[f.type] || f.type;
+		}
+		if (f.type === 'textarea' && f.markdown) desc = 'многострочный ' + desc;
+		return desc;
+	}
+
+	function fieldsOf(def) {
+		var raw = typeof def.fields === 'function' ? def.fields() : (def.fields || []);
+		return raw.filter(function (f) { return f && f.key; });
+	}
+
+	/* Пример блока: дефолты реестра, дополненные до реалистичного вида.
+	   Секционные блоки получают полный набор полей sec; ID-шники модулей
+	   показываются единицами (0 = «не экспортируется» — в примере бесполезен). */
+	function blockExample(type) {
+		var def = BlockRegistry.get(type);
+		if (!def) return null;
+		var data = JSON.parse(JSON.stringify(def.defaults || {}));
+		if (data.sec && typeof data.sec === 'object') {
+			data.sec = mergeSec(data.sec);
+		}
+		if (type === 'vita_form' || type === 'vita_visual' || type === 'vita_all_in_one' || type === 'vita_extra_wall') {
+			data[type === 'vita_form' ? 'formId' : 'blockId'] = 1;
+		}
+		return { id: 'b1', type: type, data: data };
+	}
+
+	function mergeSec(sec) {
+		return {
+			eyebrow: sec.eyebrow || '',
+			title: sec.title || '',
+			text: sec.text || '',
+			align: sec.align || 'left',
+			bg: sec.bg || 'none',
+			image: sec.image || '',
+			video: sec.video || '',
+			overlay: !!sec.overlay,
+			padding: sec.padding || 'l',
+			width: sec.width || 'default',
+			anchor: sec.anchor || ''
+		};
+	}
+
+	var SEC_FIELDS = [
+		'eyebrow — надзаголовок (короткая строка над заголовком)',
+		'title — заголовок секции',
+		'text — подзаголовок секции',
+		'align — left | center',
+		'bg — фон: none | light | surface | primary | image | video',
+		'image — путь картинки фона (для bg=image), image/catalog/...',
+		'video — ссылка фонового видео (для bg=video)',
+		'overlay — true: затемнение поверх фона (обязательно для читаемости текста на bg=image/video)',
+		'padding — вертикальные отступы: s | m | l | xl',
+		'width — ширина контента: narrow | default | full',
+		'anchor — якорь латиницей для ссылок #anchor'
+	].join(';\n');
+
+	/* ---------- Расстояние Дамерау—Левенштейна (для подсказок) ---------- */
+	function damLev(a, b) {
+		a = String(a); b = String(b);
+		var m = a.length, n = b.length;
+		if (!m) return n;
+		if (!n) return m;
+		var d = [], i, j;
+		for (i = 0; i <= m; i++) { d[i] = [i]; }
+		for (j = 0; j <= n; j++) { d[0][j] = j; }
+		for (i = 1; i <= m; i++) {
+			for (j = 1; j <= n; j++) {
+				var cost = a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1;
+				d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+				if (i > 1 && j > 1 && a.charAt(i - 1) === b.charAt(j - 2) && a.charAt(i - 2) === b.charAt(j - 1)) {
+					d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+				}
+			}
+		}
+		return d[m][n];
+	}
+
+	function nearestType(name, known) {
+		var best = null, bestD = Infinity;
+		var low = String(name).toLowerCase();
+		for (var i = 0; i < known.length; i++) {
+			var d = damLev(low, known[i].toLowerCase());
+			if (d < bestD) { bestD = d; best = known[i]; }
+		}
+		return { type: best, distance: bestD };
+	}
+
+	/* Латиница → кириллица по символам: модели часто пишут типы транслитом
+	   («tarifs» вместо label «Тарифы»). Посимвольного отображения достаточно
+	   для расстояния Дамерау—Левенштейна. */
+	var TRANSLIT = { a: 'а', b: 'б', c: 'ц', d: 'д', e: 'е', f: 'ф', g: 'г', h: 'х', i: 'и', j: 'й', k: 'к', l: 'л', m: 'м', n: 'н', o: 'о', p: 'п', q: 'к', r: 'р', s: 'с', t: 'т', u: 'у', v: 'в', w: 'в', x: 'х', y: 'ы', z: 'з' };
+	function translitRu(s) {
+		return String(s).toLowerCase().replace(/[a-z]/g, function (ch) { return TRANSLIT[ch] || ch; });
+	}
+
+	/* Подсказка ближайшего блока: сравниваем ввод с type И русским label,
+	   в обоих написаниях (как есть + транслит) — берём минимальное расстояние. */
+	function nearestSuggestion(name) {
+		var low = String(name).toLowerCase();
+		var variants = [low, translitRu(low)];
+		var best = null, bestD = Infinity;
+		BlockRegistry.getList().forEach(function (def) {
+			var targets = [def.type.toLowerCase()];
+			if (def.label) targets.push(String(def.label).toLowerCase());
+			variants.forEach(function (v) {
+				targets.forEach(function (t) {
+					var d = damLev(v, t);
+					if (d < bestD) { bestD = d; best = def.type; }
+				});
+			});
+		});
+		return { type: best, distance: bestD };
+	}
+
+	/* ---------- Реестр в текст ---------- */
+	function orderedGroups() {
+		var seen = {}, groups = [];
+		BlockRegistry.getList().forEach(function (def) {
+			var g = def.group || 'other';
+			if (!seen[g]) { seen[g] = true; groups.push(g); }
+		});
+		groups.sort(function (a, b) {
+			var ia = GROUP_ORDER.indexOf(a), ib = GROUP_ORDER.indexOf(b);
+			if (ia === -1) ia = 99; if (ib === -1) ib = 99;
+			return ia - ib || String(a).localeCompare(String(b));
+		});
+		return groups;
+	}
+
+	/* withExamples: полный паспорт (документация) — с примером на каждый блок;
+	   в промт идёт компактный реестр без примеров (пример каркаса один). */
+	function registryMd(withExamples) {
+		var out = [];
+		orderedGroups().forEach(function (g) {
+			out.push('### ' + (GROUP_TITLES[g] || 'Блоки: ' + g));
+			out.push('');
+			BlockRegistry.getList().forEach(function (def) {
+				if ((def.group || 'other') !== g) return;
+				out.push('#### ' + def.type + ' — ' + def.label);
+				if (DESC[def.type]) out.push(DESC[def.type]);
+				var fields = fieldsOf(def);
+				if (fields.length) {
+					out.push('Поля data:');
+					fields.forEach(function (f) {
+						if (f.key === 'sec') {
+							out.push('- `sec` — общие поля секции (см. «Общие поля секции» выше)');
+						} else {
+							out.push('- `' + f.key + '` — ' + describeField(f));
+						}
+					});
+				} else {
+					out.push('Поля: нет (только `sec`).');
+				}
+				if (withExamples) {
+					var ex = blockExample(def.type);
+					if (ex) out.push('Пример:\n```json\n' + JSON.stringify(ex) + '\n```');
+				}
+				out.push('');
+			});
+		});
+		return out.join('\n');
+	}
+
+	var RULES_MD = [
+		'1. Ровно один H1 на страницу — только в блоке hero. Остальные заголовки: heading H2/H3/H4 или заголовки секций (sec.title).',
+		'2. Тексты — короткие заглушки-намёки по мотивам донора (ремикс, НЕ дословное копирование чужого контента). Русский язык.',
+		'3. Цвета, шрифты и отступы НЕ указываются — их задаёт палитра магазина. Никакого HTML, CSS, JavaScript и hex-цветов в текстах.',
+		'4. Якоря секций (sec.anchor) — латиницей, без пробелов.',
+		'5. Ссылки: https://..., #якорь, form:N (открыть форму магазина), agree:N (страница соглашения). form:N и ID модулей (faqId/formId/blockId) ставь ТОЛЬКО если пользователь попросил в пожеланиях; иначе оставь 0.',
+		'6. Объём: 6–12 блоков. Структура донора важнее его наполнения: порядок и смысл секций, не их количество.',
+		'7. Не выдумывай типы блоков: только перечисленные в реестре. Если для части донора нет подходящего блока — просто опусти её.',
+		'8. Иконки — FontAwesome 4 имена без префикса fa- (truck, shield, clock-o...).'
+	].join('\n');
+
+	var ANSWER_FORMAT_MD = [
+		'ФОРМАТ ОТВЕТА (строго):',
+		'Верни ТОЛЬКО JSON-объект проекта, без markdown-забора ``` и без пояснений до или после:',
+		'{',
+		'  "type": "vita-constructor-project",',
+		'  "contract": "vcc-v1",',
+		'  "title": "Название страницы",',
+		'  "slug": "латинский-slug",',
+		'  "themeMode": "light",',
+		'  "blocks": [ { "id": "b1", "type": "…", "data": { … } } ]',
+		'}',
+		'Поля id/theme/themeMode можно опустить — конструктор достроит их сам. Обязательны: type блока и data.'
+	].join('\n');
+
+	var ENVELOPE_MD = [
+		'КАРКАС ПРОЕКТА (JSON):',
+		'- type: "vita-constructor-project" (обязателен)',
+		'- contract: "vcc-v1" (обязателен)',
+		'- title — название страницы, slug — латинский slug для имени файла',
+		'- themeMode: "light" | "dark" (режим предпросмотра)',
+		'- blocks — упорядоченный массив блоков: { id: String, type: String (из реестра), data: Object }'
+	].join('\n');
+
+	function passportHeader() {
+		return [
+			'# Паспорт возможностей — Вита · Конструктор контента',
+			'',
+			'Версия конструктора: ' + VCC_APP_VERSION + ' · контракт: ' + VCC_CONTRACT,
+			'Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).',
+			'',
+			'Этот документ — полное описание того, что умеет конструктор. Он же входит в промт',
+			'режима «Создать по донору»: вставьте его в любой AI с доступом в веб вместе со ссылкой',
+			'на страницу-донор — и получите JSON-проект, который конструктор соберёт в лендинг.'
+		].join('\n');
+	}
+
+	var INSTRUCTIONS_MD = [
+		'## Инлайн-разметка текстов',
+		'',
+		'Единственный разрешённый «HTML» в текстовых полях:',
+		'- `**жирный**`, `*курсив*`, `` `код` ``',
+		'- `[текст](https://example.com)` — ссылка',
+		'- `[текст](form:N)` — кнопка-ссылка, открывающая форму магазина N',
+		'- `[текст](agree:N)` — ссылка на страницу соглашения N',
+		'- `==акцент==` — выделение фирменным цветом'
+	].join('\n');
+
+	/* ---------- Публичные сборщики ---------- */
+	function buildPassportMd() {
+		return [
+			passportHeader(),
+			'',
+			'## Каркас проекта',
+			'',
+			ENVELOPE_MD,
+			'',
+			'## Общие поля секции (`data.sec` у секционных блоков)',
+			'',
+			SEC_FIELDS,
+			'',
+			INSTRUCTIONS_MD,
+			'',
+			'## Правила качества',
+			'',
+			RULES_MD,
+			'',
+			'## Реестр блоков',
+			'',
+			registryMd(true),
+			'## Формат ответа для AI',
+			'',
+			ANSWER_FORMAT_MD,
+			''
+		].join('\n');
+	}
+
+	function buildPrompt(donor, wishes) {
+		var url = String(donor || '').trim();
+		var w = String(wishes || '').trim();
+		var head = [
+			'Ты — проектировщик структуры страниц для «Вита — Конструктор контента» (OpenCart 3, тема Вита).',
+			'',
+			'ЗАДАЧА: пользователь хочет воспроизвести структуру страницы-донора средствами конструктора.',
+			'Прочитай донор по ссылке, выдели его смысловые секции и спроектируй страницу ТОЛЬКО из блоков',
+			'реестра ниже. Воспроизведённая структура должна читаться как та же страница в стилистике магазина:',
+			'порядок и смысл секций — как у донора, тексты — нейтральные заглушки.'
+		];
+		if (url) head.push('', 'ДОНОР: ' + url);
+		if (w) head.push('', 'ПОЖЕЛАНИЯ ПОЛЬЗОВАТЕЛЯ (приоритет выше донора): ' + w);
+		return head.join('\n') +
+			'\n\n' + passportHeader().split('\n').slice(4).join('\n') +
+			'\n\n## Каркас проекта\n\n' + ENVELOPE_MD +
+			'\n\n## Общие поля секции (data.sec)\n\n' + SEC_FIELDS +
+			'\n\n' + INSTRUCTIONS_MD +
+			'\n\n## Реестр блоков (строгий список — ничего вне него)\n\n' + registryMd(false) +
+			'Пример блока целиком:\n```json\n' + JSON.stringify(blockExample('hero')) + '\n```\n\n' +
+			'## Правила\n\n' + RULES_MD + '\n\n' + ANSWER_FORMAT_MD + '\n';
+	}
+
+	/* ---------- Мягкая починка ответа AI ---------- */
+	function extractJson(raw) {
+		var result = { ok: false, data: null, errors: [], warnings: [] };
+		var text = String(raw || '').trim();
+		if (!text) {
+			result.errors.push('Ответ пуст — вставьте JSON, который вернула модель.');
+			return result;
+		}
+		var fence = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+		if (fence && fence[1].trim()) {
+			text = fence[1].trim();
+			result.warnings.push('Срезана markdown-обёртка ```.');
+		}
+		var parsed = null;
+		try { parsed = JSON.parse(text); } catch (e) { /* дальше починка */ }
+		if (parsed === null) {
+			var s = text.indexOf('{'), e2 = text.lastIndexOf('}');
+			if (s !== -1 && e2 > s) {
+				try { parsed = JSON.parse(text.slice(s, e2 + 1)); result.warnings.push('JSON извлечён из текста ответа (вокруг были пояснения).'); } catch (e3) { /* дальше */ }
+			}
+		}
+		if (parsed === null) {
+			try { parsed = JSON.parse(text.replace(/,\s*([}\]])/g, '$1')); result.warnings.push('Убраны висячие запятые.'); } catch (e4) { /* всё */ }
+		}
+		if (parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed) && !parsed.blocks && Array.isArray(parsed.project)) {
+			parsed = parsed.project;
+		}
+		if (Array.isArray(parsed)) {
+			parsed = { type: 'vita-constructor-project', contract: VCC_CONTRACT, blocks: parsed };
+			result.warnings.push('Ответ был массивом блоков — обёрнут в каркас проекта автоматически.');
+		}
+		if (parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed) &&
+			!parsed.type && Array.isArray(parsed.blocks)) {
+			parsed.type = 'vita-constructor-project';
+			parsed.contract = parsed.contract || VCC_CONTRACT;
+			result.warnings.push('В ответе не было обёртки проекта — type и contract добавлены автоматически.');
+		}
+		if (parsed === null || typeof parsed !== 'object') {
+			result.errors.push('Не удалось найти JSON в ответе. Попросите модель вернуться к формату из промта (только JSON).');
+			return result;
+		}
+		if (parsed.type !== 'vita-constructor-project') {
+			result.errors.push('Это не проект конструктора: поле type = "' + String(parsed.type) + '", ожидалось "vita-constructor-project".');
+			return result;
+		}
+		if (parsed.contract && parsed.contract !== VCC_CONTRACT) {
+			result.errors.push('Неизвестный контракт "' + parsed.contract + '" — ожидался "' + VCC_CONTRACT + '". Обновите конструктор или попросите модель использовать контракт vcc-v1.');
+			return result;
+		}
+		if (!Array.isArray(parsed.blocks) || !parsed.blocks.length) {
+			result.errors.push('В ответе нет блоков (blocks: []).');
+			return result;
+		}
+		var known = Object.keys(BlockRegistry.getAll());
+		var unknowns = [];
+		for (var i = 0; i < parsed.blocks.length; i++) {
+			var b = parsed.blocks[i];
+			if (!b || typeof b !== 'object' || !b.type) continue;
+			if (known.indexOf(b.type) === -1) {
+				var near = nearestSuggestion(b.type);
+				unknowns.push('Блок ' + (i + 1) + ': тип "' + b.type + '" не существует' +
+					(near.type && near.distance <= 3 ? ' — возможно, имелся в виду "' + near.type + '"' : '') + '.');
+			}
+		}
+		if (unknowns.length) {
+			result.errors = result.errors.concat(unknowns.slice(0, 4));
+			if (unknowns.length > 4) result.errors.push('…и ещё ' + (unknowns.length - 4) + ' неизвестных типов.');
+			return result;
+		}
+		if (parsed.blocks.length > 20) {
+			result.warnings.push('Модель вернула ' + parsed.blocks.length + ' блоков — обычно достаточно 6–12. Лишнее удалите после сборки.');
+		}
+		result.ok = true;
+		result.data = parsed;
+		return result;
+	}
+
+	return {
+		buildPassportMd: buildPassportMd,
+		buildPrompt: buildPrompt,
+		extractJson: extractJson,
+		blockExample: blockExample,
+		nearestType: nearestType,
+		nearestSuggestion: nearestSuggestion
+	};
+})();
 
 /* ============================================================
 Вита — Конструктор контента · core/store.js
@@ -3112,13 +3566,14 @@ var VccImport = (function () {
 		var resume = $('#vcc-resume');
 		if (resume && VccStore.currentProject().blocks.length) resume.style.display = '';
 		if (resume) resume.addEventListener('click', closeOnboard);
-		$('#vcc-onboard-backdrop').addEventListener('click', closeOnboard);
-		document.addEventListener('keydown', function (e) {
-			if (e.key === 'Escape' || e.keyCode === 27) {
-				if (fullscreenMode) { exitFullscreen(); return; }
-				closeOnboard();
-			}
-		});
+		$('#vcc-onboard-backdrop').addEventListener('click', closeOnboard);			document.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape' || e.keyCode === 27) {
+					if (fullscreenMode) { exitFullscreen(); return; }
+					var assistant = $('#vcc-assistant');
+					if (assistant && assistant.classList.contains('is-open')) { window.VccAssistant.close(); return; }
+					closeOnboard();
+				}
+			});
 		bindDropZone($('#vcc-welcome-drop'), $('#vcc-welcome-file'));
 		bindDropZone($('#vcc-layouts-drop'), $('#vcc-layouts-file'));
 		renderLayoutGallery();
@@ -3149,6 +3604,10 @@ var VccImport = (function () {
 		});
 		$('#vcc-home').addEventListener('click', showWelcome);
 
+		/* Помощник «Создать по донору»: кнопка в шапке + карточка онбординга */
+		$('#vcc-assistant-open').addEventListener('click', function () { window.VccAssistant.open(); });
+		$('#vcc-assistant-open-onboard').addEventListener('click', function () { window.VccAssistant.open(); });
+
 		/* Фуллскрин: страница на всю ширину без палитры и шапки конструктора */
 		$('#vcc-fullscreen-toggle').addEventListener('click', enterFullscreen);
 		$('#vcc-fullscreen-exit').addEventListener('click', exitFullscreen);
@@ -3167,6 +3626,176 @@ var VccImport = (function () {
 	}
 
 	document.addEventListener('DOMContentLoaded', init);
+})();
+
+/* ============================================================
+Вита — Конструктор контента · ui/assistant.js
+Помощник «Создать по донору»: одна модалка, две вкладки.
+  - Промт: донор + пожелания → конверт из Паспорта → копировать/скачать.
+  - Ответ AI: вставка ответа модели → мягкая починка → лендинг в канвасе.
+Конструктор остаётся статическим: ни одной сети, ни одного ключа.
+============================================================ */
+'use strict';
+
+(function () {
+	function $(sel) { return document.querySelector(sel); }
+
+	function openAssistant() {
+		var modal = $('#vcc-assistant');
+		if (!modal) return;
+		/* Паспорт строится в момент открытия — из живого реестра текущей версии */
+		var ta = $('#vcc-assistant-prompt');
+		if (ta) {
+			ta.value = VccPassport.buildPrompt(
+				$('#vcc-assistant-donor') ? $('#vcc-assistant-donor').value : '',
+				$('#vcc-assistant-wishes') ? $('#vcc-assistant-wishes').value : ''
+			);
+			updateSize();
+		}
+		var resp = $('#vcc-assistant-response');
+		if (resp) resp.value = '';
+		var out = $('#vcc-assistant-result');
+		if (out) { out.style.display = 'none'; out.innerHTML = ''; }
+		modal.classList.add('is-open');
+		switchTab('prompt');
+		var first = $('#vcc-assistant-donor');
+		if (first) first.focus();
+	}
+
+	function closeAssistant() {
+		var modal = $('#vcc-assistant');
+		if (modal) modal.classList.remove('is-open');
+	}
+
+	function updateSize() {
+		var size = $('#vcc-assistant-size');
+		if (size) {
+			var kb = ($('#vcc-assistant-prompt').value.length / 1024).toFixed(1);
+			size.textContent = kb + ' КБ';
+		}
+	}
+
+	function switchTab(name) {
+		var modal = $('#vcc-assistant');
+		if (!modal) return;
+		var tabs = modal.querySelectorAll('[data-tab]');
+		for (var i = 0; i < tabs.length; i++) {
+			tabs[i].classList.toggle('is-active', tabs[i].getAttribute('data-tab') === name);
+		}
+		var panes = modal.querySelectorAll('[data-pane]');
+		for (var j = 0; j < panes.length; j++) {
+			panes[j].classList.toggle('is-active', panes[j].getAttribute('data-pane') === name);
+		}
+	}
+
+	function downloadPrompt() {
+		var text = $('#vcc-assistant-prompt').value;
+		var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+		var url = URL.createObjectURL(blob);
+		var a = document.createElement('a');
+		a.href = url;
+		a.download = 'vita-constructor-prompt.txt';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+	}
+
+	function copyPrompt(btn) {
+		var text = $('#vcc-assistant-prompt').value;
+		var label = btn.querySelector('span');
+		var done = function (okFlag) {
+			if (label) {
+				var prev = label.textContent;
+				label.textContent = okFlag ? 'Скопировано' : 'Не удалось — скачайте файл';
+				setTimeout(function () { label.textContent = prev; }, 2200);
+			}
+		};
+		if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+			navigator.clipboard.writeText(text).then(function () { done(true); }, function () { legacy(); });
+		} else {
+			legacy();
+		}
+		function legacy() {
+			var ta = $('#vcc-assistant-prompt');
+			ta.focus();
+			ta.select();
+			var okFlag = false;
+			try { okFlag = document.execCommand('copy'); } catch (e) { /* file:// без прав */ }
+			ta.blur();
+			done(okFlag);
+			if (!okFlag) downloadPrompt();
+		}
+	}
+
+	function showError(out, msgs) {
+		out.style.display = '';
+		out.className = 'vcc-assistant__result vcc-assistant__result--error';
+		out.innerHTML = msgs.map(function (m) { return '<div><i class="fa fa-exclamation-triangle"></i> ' + m + '</div>'; }).join('');
+	}
+
+	function showWarn(out, msgs) {
+		out.style.display = '';
+		out.className = 'vcc-assistant__result vcc-assistant__result--warn';
+		out.innerHTML = msgs.map(function (m) { return '<div><i class="fa fa-info-circle"></i> ' + m + '</div>'; }).join('');
+	}
+
+	function toast(text, kind) {
+		if (window.vccToast) window.vccToast(text, kind || 'info');
+	}
+
+	function buildLanding() {
+		var out = $('#vcc-assistant-result');
+		var raw = $('#vcc-assistant-response').value;
+		var res = VccPassport.extractJson(raw);
+		if (!res.ok) {
+			showError(out, res.errors);
+			return;
+		}
+		var data = res.data;
+		try {
+			/* Палитру задаёт пресет магазина: чужие токены от модели не сохраняем */
+			if (data.theme && data.theme.tokens) delete data.theme.tokens;
+			if (data.theme && data.theme.preset) delete data.theme.preset;
+		} catch (e) { /* необязательно */ }
+		VccStore.setProject(data);
+		var n = VccStore.currentProject().blocks.length;
+		if (res.warnings.length) showWarn(out, res.warnings);
+		else out.style.display = 'none';
+		toast('Лендинг собран: ' + n + ' блоков — правьте свободно', 'success');
+		setTimeout(closeAssistant, res.warnings.length ? 400 : 150);
+		var canvas = $('#vcc-canvas');
+		if (canvas) canvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	function initAssistant() {
+		var modal = $('#vcc-assistant');
+		if (!modal) return;
+		modal.querySelectorAll('[data-tab]').forEach(function (btn) {
+			btn.addEventListener('click', function () { switchTab(btn.getAttribute('data-tab')); });
+		});
+		$('#vcc-assistant-donor').addEventListener('input', function () {
+			$('#vcc-assistant-prompt').value = VccPassport.buildPrompt(this.value, $('#vcc-assistant-wishes').value);
+			updateSize();
+		});
+		$('#vcc-assistant-wishes').addEventListener('input', function () {
+			$('#vcc-assistant-prompt').value = VccPassport.buildPrompt($('#vcc-assistant-donor').value, this.value);
+			updateSize();
+		});
+		$('#vcc-assistant-copy').addEventListener('click', function () { copyPrompt(this); });
+		$('#vcc-assistant-download').addEventListener('click', downloadPrompt);
+		$('#vcc-assistant-build').addEventListener('click', buildLanding);
+		$('#vcc-assistant-close').addEventListener('click', closeAssistant);
+		$('#vcc-assistant-backdrop').addEventListener('click', closeAssistant);
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initAssistant);
+	} else {
+		initAssistant();
+	}
+
+	window.VccAssistant = { open: openAssistant, close: closeAssistant };
 })();
 
 })();

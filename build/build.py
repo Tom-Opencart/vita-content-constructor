@@ -14,7 +14,7 @@ import glob
 import json
 import os
 
-APP_VERSION = "0.7.5"
+APP_VERSION = "0.8.0"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 FILES_ORDER = [
@@ -22,12 +22,14 @@ FILES_ORDER = [
 	"src/core/schema.js",
 	"src/core/markdown.js",
 	"src/core/registry.js",
+	"src/core/passport.js",
 	"src/core/store.js",
 	"src/blocks/index.js",
 	"src/blocks/shortcodes.js",
 	"src/blocks/landing.js",
 	"src/export/export.js",
 	"src/ui/app.js",
+	"src/ui/assistant.js",
 ]
 
 
@@ -78,6 +80,19 @@ def build():
 	with open(out_path, "w", encoding="utf-8", newline="\n") as f:
 		f.write("\n\n".join(parts) + "\n")
 	print("Successfully compiled js/app.js (%d chars)" % os.path.getsize(out_path))
+	check_passport()
+
+
+def check_passport():
+	"""Гейт рассинхрона Паспорта: docs/CONSTRUCTOR-PASSPORT.md должен быть
+	дампом текущего бандла. Если registry менялся — прогнать
+	node tools/dump_passport.js и закоммитить обновлённый документ."""
+	import subprocess
+	tool = os.path.join(ROOT, "tools", "dump_passport.js")
+	r = subprocess.run(["node", tool, "--check"], cwd=ROOT, capture_output=True, text=True)
+	if r.returncode != 0:
+		raise SystemExit("Build FAILED: " + (r.stdout or r.stderr).strip())
+	print(r.stdout.strip())
 
 
 if __name__ == "__main__":

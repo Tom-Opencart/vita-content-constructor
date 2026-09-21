@@ -735,13 +735,14 @@
 		var resume = $('#vcc-resume');
 		if (resume && VccStore.currentProject().blocks.length) resume.style.display = '';
 		if (resume) resume.addEventListener('click', closeOnboard);
-		$('#vcc-onboard-backdrop').addEventListener('click', closeOnboard);
-		document.addEventListener('keydown', function (e) {
-			if (e.key === 'Escape' || e.keyCode === 27) {
-				if (fullscreenMode) { exitFullscreen(); return; }
-				closeOnboard();
-			}
-		});
+		$('#vcc-onboard-backdrop').addEventListener('click', closeOnboard);			document.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape' || e.keyCode === 27) {
+					if (fullscreenMode) { exitFullscreen(); return; }
+					var assistant = $('#vcc-assistant');
+					if (assistant && assistant.classList.contains('is-open')) { window.VccAssistant.close(); return; }
+					closeOnboard();
+				}
+			});
 		bindDropZone($('#vcc-welcome-drop'), $('#vcc-welcome-file'));
 		bindDropZone($('#vcc-layouts-drop'), $('#vcc-layouts-file'));
 		renderLayoutGallery();
@@ -771,6 +772,10 @@
 			});
 		});
 		$('#vcc-home').addEventListener('click', showWelcome);
+
+		/* Помощник «Создать по донору»: кнопка в шапке + карточка онбординга */
+		$('#vcc-assistant-open').addEventListener('click', function () { window.VccAssistant.open(); });
+		$('#vcc-assistant-open-onboard').addEventListener('click', function () { window.VccAssistant.open(); });
 
 		/* Фуллскрин: страница на всю ширину без палитры и шапки конструктора */
 		$('#vcc-fullscreen-toggle').addEventListener('click', enterFullscreen);
