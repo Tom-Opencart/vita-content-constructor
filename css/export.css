@@ -302,6 +302,9 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 
 /* --- logos --- */
 .vcc-logos { align-items: center; display: flex; flex-wrap: wrap; gap: 40px; row-gap: 24px; }
+/* Центрированный заголовок секции — центрируем и ряд логотипов,
+   иначе 3-4 знака липнут к левому краю широкого контейнера. */
+.vcc-section__head--center + .vcc-logos { justify-content: center; }
 .vcc-logos__img { height: 40px; width: auto; opacity: 0.75; }
 .vcc-logos__link:hover .vcc-logos__img { opacity: 1; }
 
