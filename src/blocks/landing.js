@@ -48,12 +48,16 @@ Tilda-модель — каждый «широкий» блок экспорти
 	/* Путь картинки для ПРЕДПРОСМОТРА: штатная заглушка рисуется локальной
 	 * копией (в конструкторе на Pages пути image/catalog/ не существуют).
 	 * ВАЖНО: вызывается ТОЛЬКО рендерером предпросмотра (app.js) — toHTML
-	 * всегда пишет магазинные пути, они едут в файл для магазина. */
+	 * всегда пишет магазинные пути, они едут в файл для магазина.
+	 * Кеш-бастер ?v=<версия>: копии обновляются между релизами конструктора,
+	 * без суффикса браузер показывает устаревшую заглушку из дискового кеша. */
+	var PH_V = '?v=' + String(window.VCC_APP_VERSION || '0');
+
 	function phPreview(src) {
 		var s = String(src || '').trim();
-		if (s === PLACEHOLDERS.hero) return PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg';
-		if (s === PLACEHOLDERS.photo) return PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg';
-		if (s === PLACEHOLDERS.logo) return PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png';
+		if (s === PLACEHOLDERS.hero) return PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg' + PH_V;
+		if (s === PLACEHOLDERS.photo) return PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg' + PH_V;
+		if (s === PLACEHOLDERS.logo) return PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png' + PH_V;
 		return s;
 	}
 
@@ -61,9 +65,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 	 * магазинными путями; превью-подмена идёт отдельной функцией. */
 	function vccPhPreviewHtml(html) {
 		return html
-			.split(PLACEHOLDERS.hero).join(PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg')
-			.split(PLACEHOLDERS.photo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg')
-			.split(PLACEHOLDERS.logo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png');
+			.split(PLACEHOLDERS.hero).join(PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg' + PH_V)
+			.split(PLACEHOLDERS.photo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg' + PH_V)
+			.split(PLACEHOLDERS.logo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png' + PH_V);
 	}
 
 	/* Открытие секции. sec = { bg, image, video, overlay, padding, width, anchor }.
