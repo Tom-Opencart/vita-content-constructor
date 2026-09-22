@@ -11,3 +11,4 @@ desktop.ini
 # Scratch (в репо не должно быть временных файлов — см. AGENTS.md)
 scratch/
 *.verify.md
+__pycache__/
