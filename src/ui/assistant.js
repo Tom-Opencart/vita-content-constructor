@@ -1,14 +1,30 @@
 /* ============================================================
 Вита — Конструктор контента · ui/assistant.js
-Помощник «Создать по донору»: одна модалка, две вкладки.
-  - Промт: донор + пожелания → конверт из Паспорта → копировать/скачать.
-  - Ответ AI: вставка ответа модели → мягкая починка → лендинг в канвасе.
+Визард «Собрать по образцу сайта»: три шага, ни одного
+технического термина.
+  Шаг 1 — ссылка на страницу-образец (+ что важно учесть).
+  Шаг 2 — одна кнопка: скопировать задание → отдать нейросети.
+  Шаг 3 — вставить ответ нейросети → «Собрать страницу».
 Конструктор остаётся статическим: ни одной сети, ни одного ключа.
+Невалидный ответ не роняет пользователя в техническую ошибку:
+если модель ответила не тем, визард объясняет по-человечески,
+что написать нейросети, и оставляет вставленный текст на месте.
 ============================================================ */
 'use strict';
 
 (function () {
 	function $(sel) { return document.querySelector(sel); }
+
+	function showStep(n) {
+		var modal = $('#vcc-assistant');
+		if (!modal) return;
+		var steps = modal.querySelectorAll('.vcc-wizard__step');
+		for (var i = 0; i < steps.length; i++) {
+			steps[i].classList.toggle('is-active', steps[i].getAttribute('data-step') === String(n));
+		}
+		var out = $('#vcc-assistant-result');
+		if (out) { out.style.display = 'none'; out.innerHTML = ''; }
+	}
 
 	function openAssistant() {
 		var modal = $('#vcc-assistant');
@@ -24,10 +40,8 @@
 		}
 		var resp = $('#vcc-assistant-response');
 		if (resp) resp.value = '';
-		var out = $('#vcc-assistant-result');
-		if (out) { out.style.display = 'none'; out.innerHTML = ''; }
+		showStep(1);
 		modal.classList.add('is-open');
-		switchTab('prompt');
 		var first = $('#vcc-assistant-donor');
 		if (first) first.focus();
 	}
@@ -39,22 +53,9 @@
 
 	function updateSize() {
 		var size = $('#vcc-assistant-size');
-		if (size) {
+		if (size && $('#vcc-assistant-prompt')) {
 			var kb = ($('#vcc-assistant-prompt').value.length / 1024).toFixed(1);
 			size.textContent = kb + ' КБ';
-		}
-	}
-
-	function switchTab(name) {
-		var modal = $('#vcc-assistant');
-		if (!modal) return;
-		var tabs = modal.querySelectorAll('[data-tab]');
-		for (var i = 0; i < tabs.length; i++) {
-			tabs[i].classList.toggle('is-active', tabs[i].getAttribute('data-tab') === name);
-		}
-		var panes = modal.querySelectorAll('[data-pane]');
-		for (var j = 0; j < panes.length; j++) {
-			panes[j].classList.toggle('is-active', panes[j].getAttribute('data-pane') === name);
 		}
 	}
 
@@ -119,7 +120,13 @@
 		var raw = $('#vcc-assistant-response').value;
 		var res = VccPassport.extractJson(raw);
 		if (!res.ok) {
-			showError(out, res.errors);
+			/* НЕ валить пользователя в технические ошибки: ответ нейросети,
+			   из которого не извлекается проект, — обычная ситуация. Всё,
+			   что он вставил, остаётся в поле: исправит и повторит. */
+			showError(out, [
+				'Нейросеть ответила не тем — в её ответе нет страницы для сборки. Чаще всего она что-то объясняет вместо того, чтобы собрать страницу.',
+				'Напишите ей в чате: «Собери страницу строго по заданию, верни только данные страницы». Проверьте, что отправили ей задание из шага 2 целиком, — и вставьте её новый ответ сюда вместо этого.'
+			]);
 			return;
 		}
 		var data = res.data;
@@ -128,11 +135,15 @@
 			if (data.theme && data.theme.tokens) delete data.theme.tokens;
 			if (data.theme && data.theme.preset) delete data.theme.preset;
 		} catch (e) { /* необязательно */ }
+		var blocks = Array.isArray(data.blocks) ? data.blocks.length : 0;
+		if (!blocks) {
+			showError(out, ['Нейросеть вернула пустую страницу — в задании был образец по ссылке из шага 1. Перейдите назад, проверьте ссылку и попросите её переделать ответ.']);
+			return;
+		}
 		VccStore.setProject(data);
-		var n = VccStore.currentProject().blocks.length;
 		if (res.warnings.length) showWarn(out, res.warnings);
 		else out.style.display = 'none';
-		toast('Лендинг собран: ' + n + ' блоков — правьте свободно', 'success');
+		toast('Страница собрана: ' + blocks + ' блоков — правьте свободно', 'success');
 		setTimeout(closeAssistant, res.warnings.length ? 400 : 150);
 		var canvas = $('#vcc-canvas');
 		if (canvas) canvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -141,22 +152,37 @@
 	function initAssistant() {
 		var modal = $('#vcc-assistant');
 		if (!modal) return;
-		modal.querySelectorAll('[data-tab]').forEach(function (btn) {
-			btn.addEventListener('click', function () { switchTab(btn.getAttribute('data-tab')); });
+
+		$('#vcc-wizard-next1').addEventListener('click', function () {
+			var donor = $('#vcc-assistant-donor').value.trim();
+			if (!donor) {
+				toast('Сначала укажите ссылку на страницу-образец', 'warn');
+				$('#vcc-assistant-donor').focus();
+				return;
+			}
+			taSyncPrompt();
+			showStep(2);
 		});
-		$('#vcc-assistant-donor').addEventListener('input', function () {
-			$('#vcc-assistant-prompt').value = VccPassport.buildPrompt(this.value, $('#vcc-assistant-wishes').value);
-			updateSize();
-		});
-		$('#vcc-assistant-wishes').addEventListener('input', function () {
-			$('#vcc-assistant-prompt').value = VccPassport.buildPrompt($('#vcc-assistant-donor').value, this.value);
-			updateSize();
-		});
+		$('#vcc-wizard-back2').addEventListener('click', function () { showStep(1); });
 		$('#vcc-assistant-copy').addEventListener('click', function () { copyPrompt(this); });
-		$('#vcc-assistant-download').addEventListener('click', downloadPrompt);
+		$('#vcc-wizard-next2').addEventListener('click', function () { showStep(3); });
+		$('#vcc-wizard-back3').addEventListener('click', function () { showStep(2); });
 		$('#vcc-assistant-build').addEventListener('click', buildLanding);
 		$('#vcc-assistant-close').addEventListener('click', closeAssistant);
 		$('#vcc-assistant-backdrop').addEventListener('click', closeAssistant);
+
+		$('#vcc-assistant-donor').addEventListener('input', taSyncPrompt);
+		$('#vcc-assistant-wishes').addEventListener('input', taSyncPrompt);
+	}
+
+	function taSyncPrompt() {
+		var ta = $('#vcc-assistant-prompt');
+		if (!ta) return;
+		ta.value = VccPassport.buildPrompt(
+			$('#vcc-assistant-donor').value,
+			$('#vcc-assistant-wishes').value
+		);
+		updateSize();
 	}
 
 	if (document.readyState === 'loading') {

@@ -6,7 +6,7 @@
 <title>Вита — Конструктор контента</title>
 <meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.8.6">
+<link rel="stylesheet" href="css/app.css?v=0.9.0">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -127,20 +127,8 @@
 		</select>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-preset-btn" id="vcc-preset-open" title="Загрузить пресет темы: Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора"><i class="fa fa-paint-brush"></i> <span id="vcc-preset-btn-label">Загрузить пресет</span></button>
 		<span class="vcc-header__spacer"></span>
-		<div class="vcc-filemenu" id="vcc-filemenu">
-			<button type="button" class="vcc-btn vcc-btn--sm vcc-filemenu__toggle" id="vcc-filemenu-toggle" aria-haspopup="true" aria-expanded="false" title="Файл: загрузка, undo, экспорт"><i class="fa fa-file-text-o"></i> <span class="vcc-hide-narrow">Файл</span> <i class="fa fa-angle-down"></i></button>
-			<div class="vcc-filemenu__list" id="vcc-filemenu-list" role="menu">
-				<label class="vcc-filemenu__item" id="vcc-header-file-label" title="Загрузить проект или макет (.json)" role="menuitem">
-					<i class="fa fa-upload"></i> Загрузить проект или макет
-					<input type="file" id="vcc-header-file" accept=".json" style="display:none" multiple>
-				</label>
-				<button type="button" class="vcc-filemenu__item" id="vcc-undo" title="Отменить последнее действие" role="menuitem"><i class="fa fa-undo"></i> Отменить действие</button>
-				<div class="vcc-filemenu__sep" role="separator"></div>
-				<button type="button" class="vcc-filemenu__item vcc-filemenu__item--accent" id="vcc-dl-html" title="Скачать бэкап для импорта в модуль" role="menuitem"><i class="fa fa-download"></i> Скачать бэкап для модуля</button>
-				<button type="button" class="vcc-filemenu__item" id="vcc-dl-json" title="Скачать проект JSON" role="menuitem"><i class="fa fa-code"></i> Скачать проект JSON</button>
-				<button type="button" class="vcc-filemenu__item" id="vcc-dl-css" title="Скачать CSS (обычно не нужен — стили подключает тема)" role="menuitem"><i class="fa fa-paint-brush"></i> Скачать CSS</button>
-			</div>
-		</div>
+		<button type="button" class="vcc-btn vcc-btn--sm vcc-btn--primary" id="vcc-dl-html" title="Сохранить HTML-файл этой страницы — загрузите его в модуле «Универсальные блоки контента» кнопкой «Импорт из Конструктора»"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать для магазина</span></button>
+		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-dl-json" title="Сохранить черновик файлом — откройте его позже на главном экране: «Открыть сохранённую страницу файлом»"><i class="fa fa-save"></i> <span class="vcc-hide-narrow">Сохранить проект</span></button>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-assistant-open" title="Создать по донору: промт для любого AI и сборка ответа в лендинг"><i class="fa fa-magic"></i> Помощник</button>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-toggle" title="Страница на всю ширину: только сгенерированный контент, без палитры и шапки конструктора"><i class="fa fa-arrows-alt"></i> <span class="vcc-hide-narrow">На весь экран</span></button>
 		<span class="vcc-export-hint" tabindex="0" aria-label="Подсказка: как вставлять спец-метки модулей Виты, чтобы они пережили экспорт и импорт">
@@ -178,58 +166,42 @@
 			<div class="vcc-onboard__logo"><i class="fa fa-leaf"></i></div>
 			<h1 class="vcc-onboard__title" id="vcc-onboard-title">Вита — Конструктор контента</h1>
 		</div>
-		<p class="vcc-onboard__lead">Собирайте описания товаров, статьи и посадочные блоками — и переносите готовый контент в модуль «Вита — Универсальные блоки контента». Полный редактор уже открыт под этим окном.</p>
+		<p class="vcc-onboard__lead">Соберите страницу для магазина — описание товара, статью или посадочную — и перенесите её в модуль «Вита — Универсальные блоки контента» одним файлом.</p>
 
-		<div class="vcc-onboard__step">
-			<div class="vcc-onboard__step-num">1</div>
-			<div class="vcc-onboard__step-body">
-				<h2>Загрузите палитру магазина</h2>
-				<p>Скачайте пресет в админке: <strong>Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора</strong> (тема 1.10.1+) — и загрузите его сюда. Конструктор окрасится в цвета магазина, включая тёмную тему. Шаг необязателен: без пресета используется палитра Виты по умолчанию.</p>
-				<div class="vcc-drop" id="vcc-welcome-drop" tabindex="0">
-					<i class="fa fa-upload"></i> Перетащите vita-preset.json сюда или нажмите для выбора
-				</div>
-				<input type="file" id="vcc-welcome-file" accept=".json" style="display:none">
+		<div class="vcc-onboard__preset">
+			<div class="vcc-drop vcc-drop--compact" id="vcc-welcome-drop" tabindex="0" title="Палитра задаёт цвета конструктора и будущей страницы">
+				<i class="fa fa-paint-brush"></i> Загрузить палитру магазина (необязательно) — файл из админки: Расширения → Вита → Дизайн и стили → «Экспорт пресета для Конструктора»
 			</div>
+			<input type="file" id="vcc-welcome-file" accept=".json" style="display:none">
 		</div>
 
-		<div class="vcc-onboard__step">
-			<div class="vcc-onboard__step-num">2</div>
-			<div class="vcc-onboard__step-body">
-				<h2>Соберите страницу</h2>
-				<p>Добавляйте блоки из палитры слева: заголовки, текст с разметкой, врезки, табы, таблицы, картинки — и живые модули магазина (FAQ и формы) через спец-метки. Предпросмотр покажет страницу в контексте магазина.</p>
-			</div>
-		</div>
-
-		<div class="vcc-onboard__step">
-			<div class="vcc-onboard__step-num">3</div>
-			<div class="vcc-onboard__step-body">
-				<h2>Перенесите в магазин</h2>
-				<p>Кнопка «Скачать» сохранит HTML-файл. В админке модуля «Универсальные блоки контента» нажмите «Импорт из Конструктора» и выберите файл — содержимое пройдёт серверную проверку и появится в блоке.</p>
-			</div>
-		</div>
-
-		<div class="vcc-onboard__actions">
-			<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-start-empty">
-				<i class="fa fa-pencil-square-o"></i> Начать работу
+		<div class="vcc-onboard__modes">
+			<button type="button" class="vcc-modecard" id="vcc-start-empty">
+				<span class="vcc-modecard__icon"><i class="fa fa-pencil-square-o"></i></span>
+				<span class="vcc-modecard__body">
+					<span class="vcc-modecard__title">Собрать самому</span>
+					<span class="vcc-modecard__desc">Полный редактор: добавляйте блоки из палитры слева — заголовки, текст, картинки, табы, таблицы и живые модули магазина (FAQ, формы, товары).</span>
+				</span>
+				<span class="vcc-modecard__cta"><i class="fa fa-arrow-right"></i></span>
 			</button>
-			<button type="button" class="vcc-btn" id="vcc-resume" style="display:none">
-				<i class="fa fa-history"></i> Продолжить прошлую работу
+			<button type="button" class="vcc-modecard vcc-modecard--accent" id="vcc-assistant-open-onboard">
+				<span class="vcc-modecard__icon"><i class="fa fa-magic"></i></span>
+				<span class="vcc-modecard__body">
+					<span class="vcc-modecard__title">Собрать по образцу сайта</span>
+					<span class="vcc-modecard__desc">Укажите страницу-образец — конструктор подготовит задание для нейросети, вы отдадите его ей, а её ответ соберётся в черновик страницы.</span>
+				</span>
+				<span class="vcc-modecard__cta"><i class="fa fa-arrow-right"></i></span>
 			</button>
 		</div>
 
 		<div class="vcc-onboard__layouts">
 			<div class="vcc-onboard__layouts-title">Или начните с готового макета</div>
 			<div class="vcc-layouts-grid" id="vcc-layouts-grid"></div>
-			<button type="button" class="vcc-assistant-entry" id="vcc-assistant-open-onboard">
-				<span class="vcc-assistant-entry__icon"><i class="fa fa-magic"></i></span>
-				<span class="vcc-assistant-entry__body">
-					<span class="vcc-assistant-entry__title">Создать по донору (AI)</span>
-					<span class="vcc-assistant-entry__desc">Конструктор выдаст готовый промт: строгий список своих блоков + ссылка на страницу-образец. Вставьте его в любой AI с доступом в веб — ChatGPT, Claude, DeepSeek — и верните ответ сюда: черновик лендинга соберётся сам.</span>
-				</span>
-				<span class="vcc-assistant-entry__cta"><i class="fa fa-arrow-right"></i></span>
-			</button>
-			<div class="vcc-drop vcc-drop--compact" id="vcc-layouts-drop" tabindex="0" title="Загрузить макет или проект файлом">
-				<i class="fa fa-upload"></i> Или загрузите макет/проект файлом .json
+			<div class="vcc-onboard__secondary">
+				<div class="vcc-drop vcc-drop--compact" id="vcc-layouts-drop" tabindex="0" title="Открыть макет или сохранённый проект файлом">
+					<i class="fa fa-upload"></i> Открыть сохранённую страницу файлом
+				</div>
+				<button type="button" class="vcc-linklike" id="vcc-resume" style="display:none"><i class="fa fa-history"></i> Продолжить прошлую работу</button>
 			</div>
 			<input type="file" id="vcc-layouts-file" accept=".json" style="display:none">
 		</div>
@@ -247,42 +219,66 @@
 				<h2 class="vcc-assistant__title" id="vcc-assistant-title">Помощник — создать по донору</h2>
 				<p class="vcc-assistant__lead">Конструктор не ходит в сеть сам: он собирает промт со строгим списком своих блоков, а страницу-донор читает AI, которого выберете вы. Его же ответ верните на второй вкладке — лендинг соберётся в редакторе.</p>
 			</div>
-		</div>
-
-		<div class="vcc-assistant__tabs">
-			<button type="button" class="is-active" data-tab="prompt"><i class="fa fa-file-text-o"></i> 1 · Промт</button>
-			<button type="button" data-tab="response"><i class="fa fa-download"></i> 2 · Ответ AI</button>
-		</div>
-
-		<div class="vcc-assistant__pane is-active" data-pane="prompt">
-			<label class="vcc-assistant__field">
-				<span>Донор — страница-образец (URL)</span>
-				<input type="url" id="vcc-assistant-donor" placeholder="https://example.com/landing" inputmode="url">
-			</label>
-			<label class="vcc-assistant__field">
-				<span>Пожелания — что взять с донора, чего избегать, какие формы подключать (необязательно)</span>
-				<input type="text" id="vcc-assistant-wishes" placeholder="Например: акцент на тарифы, без блога, кнопки только на форму 1">
-			</label>
-			<details class="vcc-assistant__preview">
-				<summary>Показать промт <span id="vcc-assistant-size"></span></summary>
-				<textarea id="vcc-assistant-prompt" rows="10" readonly></textarea>
-			</details>
-			<div class="vcc-assistant__actions">
-				<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-copy"><i class="fa fa-clipboard"></i> <span>Скопировать промт</span></button>
-				<button type="button" class="vcc-btn" id="vcc-assistant-download"><i class="fa fa-file-text-o"></i> Скачать .txt</button>
-				<span class="vcc-assistant__hint">Вставьте промт в любой AI с доступом в веб (ChatGPT, Claude, DeepSeek) — модель сама прочитает донора и вернёт JSON проекта.</span>
+		</div>		<div class="vcc-wizard">
+			<div class="vcc-wizard__step is-active" data-step="1">
+				<div class="vcc-wizard__num">1</div>
+				<div class="vcc-wizard__body">
+					<h3 class="vcc-wizard__title">Укажите страницу-образец</h3>
+					<label class="vcc-assistant__field">
+						<span>Ссылка на страницу, которая нравится</span>
+						<input type="url" id="vcc-assistant-donor" placeholder="https://example.com/landing" inputmode="url">
+					</label>
+					<label class="vcc-assistant__field">
+						<span>Что важно учесть (необязательно)</span>
+						<input type="text" id="vcc-assistant-wishes" placeholder="Например: акцент на тарифы, без блога, кнопки ведут на форму заявки">
+					</label>
+					<div class="vcc-wizard__nav">
+						<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-wizard-next1">Дальше <i class="fa fa-arrow-right"></i></button>
+						<span class="vcc-wizard__nav-hint">Конструктор сам подготовит задание для нейросети</span>
+					</div>
+				</div>
 			</div>
-		</div>
 
-		<div class="vcc-assistant__pane" data-pane="response">
-			<label class="vcc-assistant__field">
-				<span>Ответ модели — вставьте JSON целиком (можно вместе с пояснениями и ```-забором: конструктор вырежет лишнее)</span>
-				<textarea id="vcc-assistant-response" rows="12" placeholder='{ "type": "vita-constructor-project", "contract": "vcc-v1", "blocks": [ … ] }'></textarea>
-			</label>
-			<div class="vcc-assistant__result" id="vcc-assistant-result" style="display:none"></div>
-			<div class="vcc-assistant__actions">
-				<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-build"><i class="fa fa-magic"></i> Собрать лендинг</button>
-				<span class="vcc-assistant__hint">Проект заменит текущий черновик — прежнее состояние вернёт кнопка «Отменить» в шапке редактора.</span>
+			<div class="vcc-wizard__step" data-step="2">
+				<div class="vcc-wizard__num">2</div>
+				<div class="vcc-wizard__body">
+					<h3 class="vcc-wizard__title">Поручите нейросети изучить образец</h3>
+					<ol class="vcc-wizard__how">
+						<li>Нажмите кнопку — задание скопируется в буфер обмена.</li>
+						<li>Откройте нейросеть с доступом в интернет (ChatGPT, Claude, DeepSeek) и вставьте задание в чат.</li>
+						<li>Когда она ответит — переходите к шагу 3.</li>
+					</ol>
+					<details class="vcc-assistant__preview">
+						<summary>Посмотреть задание <span id="vcc-assistant-size"></span></summary>
+						<textarea id="vcc-assistant-prompt" rows="10" readonly></textarea>
+					</details>
+					<div class="vcc-wizard__nav">
+						<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-copy"><i class="fa fa-clipboard"></i> <span>Скопировать задание</span></button>
+						<button type="button" class="vcc-btn" id="vcc-wizard-next2">Скопировала — дальше <i class="fa fa-arrow-right"></i></button>
+						<button type="button" class="vcc-btn vcc-btn--ghost" id="vcc-wizard-back2"><i class="fa fa-arrow-left"></i> Назад</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="vcc-wizard__step" data-step="3">
+				<div class="vcc-wizard__num">3</div>
+				<div class="vcc-wizard__body">
+					<h3 class="vcc-wizard__title">Вставьте ответ нейросети</h3>
+					<label class="vcc-assistant__field">
+						<span>Скопируйте её ответ целиком и вставьте сюда — конструктор соберёт из него черновик страницы</span>
+						<textarea id="vcc-assistant-response" rows="10" placeholder="Вставьте сюда ответ нейросети..."></textarea>
+					</label>
+					<div class="vcc-wizard__bubble" id="vcc-wizard-hint" tabindex="0" aria-label="Подсказка: что делать, если нейросеть ответила не тем">
+						<i class="fa fa-question-circle-o"></i>
+						<span class="vcc-wizard__bubble-text" role="tooltip">Если конструктор ответил «это не ответ по заданию» — значит, нейросеть что-то объяснила вместо сборки страницы. Напишите ей: <strong>«Собери страницу строго по заданию, верни только данные страницы»</strong> — и вставьте её новый ответ сюда.</span>
+					</div>
+				</div>
+				<div class="vcc-assistant__result" id="vcc-assistant-result" style="display:none"></div>
+				<div class="vcc-wizard__nav">
+					<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-build"><i class="fa fa-magic"></i> Собрать страницу</button>
+					<button type="button" class="vcc-btn vcc-btn--ghost" id="vcc-wizard-back3"><i class="fa fa-arrow-left"></i> Назад</button>
+					<span class="vcc-wizard__nav-hint">Черновик откроется в редакторе — дальше скачивайте его для магазина одной кнопкой</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -290,6 +286,6 @@
 
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.8.6"></script>
+<script src="js/app.js?v=0.9.0"></script>
 </body>
 </html>

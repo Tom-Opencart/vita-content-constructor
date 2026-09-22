@@ -748,37 +748,11 @@
 		bindDropZone($('#vcc-welcome-drop'), $('#vcc-welcome-file'));
 		bindDropZone($('#vcc-layouts-drop'), $('#vcc-layouts-file'));
 		renderLayoutGallery();
-		bindDropZone($('#vcc-header-file-label'), $('#vcc-header-file'));
 		/* Первое открытие (проект пуст) — модалка онбординга поверх редактора;
 		   у вернувшегося с черновиком открыта просто палитра */
 		if (!VccStore.currentProject().blocks.length) openOnboard();
 
 		/* Шапка редактора */
-		/* Меню «Файл»: загрузка, undo, экспорт — один список, закрывается
-		   по выбору, клику мимо и Escape. */
-		var filemenu = $('#vcc-filemenu');
-		var filemenuToggle = $('#vcc-filemenu-toggle');
-		var filemenuListClose;
-		function closeFilemenu() {
-			filemenu.classList.remove('is-open');
-			filemenuToggle.setAttribute('aria-expanded', 'false');
-		}
-		filemenuToggle.addEventListener('click', function (e) {
-			e.stopPropagation();
-			var open = filemenu.classList.toggle('is-open');
-			filemenuToggle.setAttribute('aria-expanded', String(open));
-		});
-		document.addEventListener('click', function (e) {
-			if (filemenu.classList.contains('is-open') && !filemenu.contains(e.target)) closeFilemenu();
-		});
-		document.addEventListener('keydown', function (e) {
-			if (e.key === 'Escape' && filemenu.classList.contains('is-open')) closeFilemenu();
-		});
-		filemenuListClose = $('#vcc-filemenu-list');
-		filemenuListClose.addEventListener('click', function (e) {
-			if (e.target.closest('.vcc-filemenu__item')) closeFilemenu();
-		});
-		$('#vcc-undo').addEventListener('click', function () { VccStore.undo(); });
 		$('#vcc-mode-switch').addEventListener('click', function (e) {
 			var btn = e.target.closest('button');
 			if (btn) VccStore.setMode(btn.dataset.mode);
@@ -786,18 +760,12 @@
 		$('#vcc-width-switch').addEventListener('change', function () {
 			VccStore.setContainerWidth(this.value);
 		});
-		$('#vcc-undo').addEventListener('click', function () { VccStore.undo(); });
+		/* Экспорт: две кнопки вместо меню «Файл» — для магазина или черновик */
 		$('#vcc-dl-html').addEventListener('click', function () {
 			validateExport(VccStore.currentProject());
 			VccExport.downloadHtml(VccStore.currentProject());
 		});
 		$('#vcc-dl-json').addEventListener('click', function () { VccExport.downloadJson(VccStore.currentProject()); });
-		$('#vcc-dl-css').addEventListener('click', function () {
-			ensureExportCss().then(function () {
-				VccExport.downloadCss();
-				showToast('CSS скачан. Тема Вита подключает стили сама — файл нужен только для нестандартных шаблонов.', 'success');
-			});
-		});
 		$('#vcc-home').addEventListener('click', showWelcome);
 
 		/* Помощник «Создать по донору»: кнопка в шапке + карточка онбординга */
