@@ -2,7 +2,7 @@
 
 'use strict';
 
-window.VCC_APP_VERSION = '0.9.2';
+window.VCC_APP_VERSION = '0.9.3';
 
 window.VCC_EXPORT_CSS = "/* ============================================================\n\u0412\u0438\u0442\u0430 \u2014 \u041a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0442\u043e\u0440 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u00b7 \u042d\u043a\u0441\u043f\u043e\u0440\u0442\u043d\u044b\u0435 \u0441\u0442\u0438\u043b\u0438 vcc-v1\n\u042d\u0442\u043e\u0442 \u0444\u0430\u0439\u043b \u2014 \u0415\u0414\u0418\u041d\u0421\u0422\u0412\u0415\u041d\u041d\u042b\u0419 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u0441\u0442\u0438\u043b\u0435\u0439 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430: \u0431\u0438\u043b\u0434\u0435\u0440 \u0432\u0448\u0438\u0432\u0430\u0435\u0442\n\u0435\u0433\u043e \u0432 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440 (\u043e\u043a\u043d\u043e \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430) \u0438 \u043e\u0442\u0434\u0430\u0451\u0442 \u043a\u043d\u043e\u043f\u043a\u043e\u0439 \u00ab\u0421\u043a\u0430\u0447\u0430\u0442\u044c CSS\u00bb.\n\u0422\u0435\u043c\u0430 \u0412\u0438\u0442\u0430 \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u044d\u0442\u043e\u0442 \u0436\u0435 \u0444\u0430\u0439\u043b \u043a\u0430\u043a\ncatalog/view/theme/vita/stylesheet/vita-content-constructor.css.\n\u041f\u0440\u0430\u0432\u0438\u043b\u0430: \u0442\u043e\u043b\u044c\u043a\u043e var(--mp-*, fallback) \u2014 \u043d\u0438 \u043e\u0434\u043d\u043e\u0433\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u043b\u044c\u043d\u043e\u0433\u043e\n\u0446\u0432\u0435\u0442\u0430 \u0432 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u0445. \u041a\u043e\u043d\u0442\u0440\u0430\u043a\u0442 vcc-v1 \u044d\u0432\u043e\u043b\u044e\u0446\u0438\u043e\u043d\u0438\u0440\u0443\u0435\u0442 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e.\n============================================================ */\n\n.vcc-content {\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-family: var(--mp-font-family, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif);\n\tfont-size: 16px;\n\tline-height: 1.65;\n\toverflow-wrap: break-word;\n}\n.vcc-content > *:first-child { margin-top: 0; }\n.vcc-content > *:last-child { margin-bottom: 0; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0438 --- */\n.vcc-heading {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 700;\n\tline-height: 1.3;\n\tmargin: 28px 0 12px;\n}\n.vcc-heading--h2 { font-size: 26px; }\n.vcc-heading--h3 { font-size: 21px; }\n.vcc-heading--h4 { font-size: 18px; }\n\n/* --- \u0410\u0431\u0437\u0430\u0446\u044b --- */\n.vcc-paragraph { margin: 0 0 14px; }\n.vcc-paragraph p { margin: 0 0 14px; }\n\n/* --- \u0421\u0441\u044b\u043b\u043a\u0438 \u0438 \u0438\u043d\u043b\u0430\u0439\u043d --- */\n/* \u0421\u0441\u044b\u043b\u043a\u0438 \u0441\u0442\u0438\u043b\u0438\u0437\u0443\u0435\u043c \u0447\u0435\u0440\u0435\u0437 :where() + :not(.vcc-btn): \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043d\u0435 \u043c\u0430\u0442\u0447\u0438\u0442\n   \u043a\u043d\u043e\u043f\u043a\u0438 \u0432\u043e\u0432\u0441\u0435, \u0438\u043d\u0430\u0447\u0435 (0,1,1) \u043f\u0440\u043e\u0442\u0438\u0432 (0,1,0) \u0443 .vcc-btn--primary\n   \u0446\u0432\u0435\u0442 \u0441\u0441\u044b\u043b\u043a\u0438 \u043f\u043e\u0431\u0435\u0436\u0434\u0430\u043b --mp-text-inverse \u0438 \u0442\u0435\u043a\u0441\u0442 \u0441\u043b\u0438\u0432\u0430\u043b\u0441\u044f \u0441 \u0444\u043e\u043d\u043e\u043c. */\n.vcc-content :where(a:not(.vcc-btn)) { color: var(--mp-primary, #8C9D93); text-decoration: none; }\n.vcc-content :where(a:not(.vcc-btn)):hover { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }\n.vcc-code {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-sm, 2px);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-size: 0.9em;\n\tpadding: 1px 6px;\n}\n\n/* --- \u0421\u043f\u0438\u0441\u043a\u0438 --- */\n.vcc-list { margin: 0 0 14px; padding-left: 22px; }\n.vcc-list li { margin-bottom: 6px; }\n\n/* --- \u0426\u0438\u0442\u0430\u0442\u0430 --- */\n.vcc-quote {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-muted, #64748B);\n\tfont-style: italic;\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-quote__author {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 14px;\n\tfont-style: normal;\n\tmargin-top: 8px;\n}\n\n/* --- \u0412\u0440\u0435\u0437\u043a\u0438 (alert): \u0432\u0430\u0440\u0438\u0430\u043d\u0442 \u0437\u0430\u0434\u0430\u0451\u0442\u0441\u044f \u0446\u0432\u0435\u0442\u043d\u043e\u0439 \u043c\u0435\u0442\u043a\u043e\u0439 \u0441\u0432\u0435\u0440\u0445\u0443, \u0431\u0435\u0437 \u0431\u043e\u0440\u0434\u0435\u0440\u043e\u0432 \u0441\u043b\u0435\u0432\u0430 --- */\n.vcc-alert {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tmargin: 18px 0;\n\tpadding: 14px 18px;\n}\n.vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }\n.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-express-bg, #059669); }\n.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-hit-bg, #d97706); }\n.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-discount-bg, #dc2626); }\n/* \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430: primary-light \u043d\u0435 \u043f\u0435\u0440\u0435\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u0435\u043c\u043e\u0439 \u2014 \u0432\u0440\u0435\u0437\u043a\u0435 info \u043d\u0443\u0436\u0435\u043d \u0442\u0451\u043c\u043d\u044b\u0439 \u0444\u043e\u043d (\u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e) */\n[data-theme=\"dark\"] .vcc-alert--info { background: var(--mp-bg-hover, #38343E); }\n.vcc-alert p:last-child { margin-bottom: 0; }\n\n/* --- \u0421\u043f\u043e\u0439\u043b\u0435\u0440 --- */\n.vcc-spoiler {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tmargin: 14px 0;\n}\n.vcc-spoiler__summary {\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 12px 16px;\n\tcolor: var(--mp-text-main, #2D3748);\n}\n.vcc-spoiler__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-spoiler__body {\n\tborder-top: 1px solid var(--mp-border-divider, #F1F5F9);\n\tpadding: 12px 16px;\n}\n.vcc-spoiler__body p:last-child { margin-bottom: 0; }\n\n/* --- \u0422\u0430\u0431\u044b --- */\n.vcc-tabs { margin: 18px 0; }\n.vcc-tabs__nav {\n\tborder-bottom: 1px solid var(--mp-border-color, #E2E8F0);\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tgap: 4px;\n}\n.vcc-tabs__btn {\n\tbackground: none;\n\tborder: none;\n\tborder-bottom: 2px solid transparent;\n\tcolor: var(--mp-text-muted, #64748B);\n\tcursor: pointer;\n\tfont-size: 15px;\n\tmargin-bottom: -1px;\n\tpadding: 10px 14px;\n}\n.vcc-tabs__btn.is-active {\n\tborder-bottom-color: var(--mp-primary, #8C9D93);\n\tcolor: var(--mp-primary, #8C9D93);\n\tfont-weight: 600;\n}\n.vcc-tabs__panel { display: none; padding-top: 14px; }\n.vcc-tabs__panel.is-active { display: block; }\n\n/* --- \u0422\u0430\u0431\u043b\u0438\u0446\u0430 --- */\n.vcc-table-wrap { margin: 18px 0; overflow-x: auto; }\n.vcc-table {\n\tborder-collapse: collapse;\n\twidth: 100%;\n}\n.vcc-table th,\n.vcc-table td {\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tpadding: 9px 12px;\n\ttext-align: left;\n}\n.vcc-table th {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n}\n.vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }\n\n/* --- \u041a\u0430\u0440\u0442\u0438\u043d\u043a\u0430 --- */\n.vcc-figure { margin: 18px 0; }\n.vcc-figure__img {\n\tborder-radius: var(--mp-radius-md, 4px);\n\theight: auto;\n\tmax-width: 100%;\n}\n.vcc-figure__caption {\n\tcolor: var(--mp-text-light, #94A3B8);\n\tfont-size: 13px;\n\tmargin-top: 6px;\n\ttext-align: center;\n}\n\n/* --- \u041e\u0433\u043b\u0430\u0432\u043b\u0435\u043d\u0438\u0435 --- */\n.vcc-toc {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tmargin: 18px 0;\n\tpadding: 14px 20px;\n}\n.vcc-toc__title {\n\tcolor: var(--mp-text-main, #2D3748);\n\tfont-weight: 600;\n\tmargin-bottom: 8px;\n}\n.vcc-toc__list { margin: 0; padding-left: 20px; }\n.vcc-toc__list li { margin-bottom: 4px; }\n\n/* ==== v0.7.0 landing ==== */\n\n/* --- \u0421\u0435\u043a\u0446\u0438\u0438: \u043a\u0430\u0440\u043a\u0430\u0441 --- */\n.vcc-section { position: relative; overflow: hidden; }\n.vcc-section--bg-light   { background: var(--mp-bg-subtle, #f8fafc); }\n.vcc-section--bg-surface { background: var(--mp-bg-surface, #ffffff); }\n.vcc-section--bg-primary { background: var(--mp-primary, #8C9D93); color: var(--mp-text-inverse, #ffffff); }\n.vcc-section--bg-image, .vcc-section--bg-video {\n\tbackground-color: var(--mp-bg-surface, #ffffff);\n\tbackground-position: center;\n\tbackground-size: cover;\n}\n.vcc-section__video {\n\theight: 100%;\n\tleft: 0;\n\tobject-fit: cover;\n\tposition: absolute;\n\ttop: 0;\n\twidth: 100%;\n\tz-index: 0;\n}\n/* \u041e\u0432\u0435\u0440\u043b\u0435\u0439 \u2014 \u0441\u043b\u043e\u0439 \u0421\u0415\u041a\u0426\u0418\u0418 (z1): \u043f\u043e\u0434 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u043e\u043c (inner z2), \u043d\u0430\u0434 \u0444\u043e\u043d\u043e\u043c/\u0432\u0438\u0434\u0435\u043e\n * (video z0). \u041d\u0430 __inner \u043e\u043d \u0437\u0430\u0442\u0435\u043c\u043d\u044f\u043b \u0431\u044b \u0441\u0430\u043c \u0442\u0435\u043a\u0441\u0442. */\n.vcc-section--overlay::before {\n\tbackground: rgba(0, 0, 0, 0.45);\n\tbottom: 0;\n\tcontent: '';\n\tleft: 0;\n\tposition: absolute;\n\tright: 0;\n\ttop: 0;\n\tz-index: 1;\n}\n.vcc-section__inner { position: relative; z-index: 2; }\n.vcc-section--pad-s { padding: 48px 0; }\n.vcc-section--pad-m { padding: 80px 0; }\n.vcc-section--pad-l { padding: 112px 0; }\n.vcc-section--pad-xl { padding: 160px 0; }\n/* \u0428\u0438\u0440\u0438\u043d\u0430 \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u043f\u043e\u0432\u0442\u043e\u0440\u044f\u0435\u0442 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0443 \u0442\u0435\u043c\u044b \u00ab\u0428\u0438\u0440\u0438\u043d\u0430 \u0441\u0430\u0439\u0442\u0430\u00bb\n   (\u0414\u0438\u0437\u0430\u0439\u043d \u0438 \u0441\u0442\u0438\u043b\u0438): --vita-container-max \u043f\u0440\u0438\u0445\u043e\u0434\u0438\u0442 \u0438\u0437 \u043f\u0440\u0435\u0441\u0435\u0442\u0430\n   (1210/1400/1640/100%) \u2014 \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 \u0440\u0430\u0432\u0435\u043d \u0432\u0438\u0442\u0440\u0438\u043d\u0435. */\n.vcc-container { margin: 0 auto; max-width: var(--vita-container-max, 1640px); padding: 0 24px; }\n.vcc-section--w-narrow .vcc-container { max-width: 720px; }\n.vcc-section--w-full .vcc-container { max-width: none; }\n\n/* --- \u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0441\u0435\u043a\u0446\u0438\u0438 --- */\n.vcc-section__head { margin: 0 0 40px; }\n.vcc-section__head--center { text-align: center; }\n.vcc-eyebrow {\n\tcolor: var(--mp-secondary, #5A8F76);\n\tdisplay: inline-block;\n\tfont-size: 12px;\n\tletter-spacing: 0.08em;\n\tmargin-bottom: 8px;\n\ttext-transform: uppercase;\n}\n.vcc-section--bg-primary .vcc-eyebrow { color: var(--mp-text-inverse, #ffffff); opacity: 0.85; }\n.vcc-section__title { margin: 0 0 10px; }\n.vcc-section__sub { color: var(--mp-text-muted, #64748B); margin: 0 auto; max-width: 720px; }\n.vcc-section--bg-primary .vcc-section__sub { color: var(--mp-text-inverse, #ffffff); opacity: 0.9; }\n\n/* --- \u041a\u043d\u043e\u043f\u043a\u0438 --- */\n.vcc-btn {\n\talign-items: center;\n\tborder: 1px solid transparent;\n\tborder-radius: var(--mp-radius-md, 4px);\n\tbox-sizing: border-box;\n\tdisplay: inline-flex;\n\tfont-weight: 600;\n\tjustify-content: center;\n\tmin-height: 44px;\n\tpadding: 10px 24px;\n\ttext-decoration: none;\n}\n.vcc-btn--primary { background: var(--mp-primary, #8C9D93); color: var(--mp-text-inverse, #ffffff); }\n.vcc-btn--primary:hover { background: var(--mp-primary-hover, #7A8B81); }\n.vcc-btn--secondary { background: var(--mp-secondary, #5A8F76); color: var(--mp-text-inverse, #ffffff); }\n.vcc-btn--secondary:hover { filter: brightness(1.05); }\n.vcc-btn--ghost { background: transparent; border-color: var(--mp-border-color, #E2E8F0); color: inherit; }\n.vcc-btn--ghost:hover { border-color: var(--mp-primary, #8C9D93); color: var(--mp-primary, #8C9D93); }\n.vcc-hero .vcc-btn--ghost,\n.vcc-section--bg-primary .vcc-btn--ghost { border-color: currentColor; }\n\n/* --- \u0418\u043a\u043e\u043d\u043a\u0430 (span -> i \u0440\u0430\u043d\u0442\u0430\u0439\u043c\u043e\u043c \u0442\u0435\u043c\u044b) --- */\n.vcc-icon {\n\talign-items: center;\n\tbackground: var(--mp-bg-hover, #f1f5f9);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tcolor: var(--mp-primary, #8C9D93);\n\tdisplay: inline-flex;\n\tfont-size: 20px;\n\theight: 48px;\n\tjustify-content: center;\n\twidth: 48px;\n}\n.vcc-section--bg-primary .vcc-icon { background: rgba(255, 255, 255, 0.18); color: inherit; }\n\n/* --- \u0410\u043a\u0446\u0435\u043d\u0442 inline --- */\n.vcc-accent { color: var(--mp-primary, #8C9D93); font-weight: inherit; }\n.vcc-section--bg-primary .vcc-accent {\n\tcolor: var(--mp-text-inverse, #ffffff);\n\ttext-decoration: underline;\n\ttext-decoration-color: var(--mp-text-inverse, #ffffff);\n}\n\n/* --- hero --- */\n.vcc-hero { padding: 8px 0; }\n.vcc-hero--center { text-align: center; }\n.vcc-hero__title { font-size: 42px; line-height: 1.15; margin: 0 0 14px; }\n.vcc-hero__sub { color: var(--mp-text-muted, #64748B); font-size: 19px; margin: 0 auto 28px; max-width: 720px; }\n.vcc-section--bg-primary .vcc-hero__sub,\n.vcc-section--bg-image .vcc-hero__sub,\n.vcc-section--bg-video .vcc-hero__sub { color: inherit; opacity: 0.9; }\n.vcc-hero__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; }\n.vcc-hero--center .vcc-hero__actions { justify-content: center; }\n.vcc-hero__note { color: var(--mp-text-light, #94A3B8); font-size: 13px; margin: 18px 0 0; }\n.vcc-section--bg-primary .vcc-hero__note,\n.vcc-section--bg-image .vcc-hero__note,\n.vcc-section--bg-video .vcc-hero__note { color: inherit; opacity: 0.75; }\n\n/* --- logos --- */\n.vcc-logos { align-items: center; display: flex; flex-wrap: wrap; gap: 40px; row-gap: 24px; }\n.vcc-logos__img { height: 40px; width: auto; opacity: 0.75; }\n.vcc-logos__link:hover .vcc-logos__img { opacity: 1; }\n\n/* --- features --- */\n.vcc-features { display: grid; gap: 24px; }\n.vcc-features--c2 { grid-template-columns: repeat(2, 1fr); }\n.vcc-features--c3 { grid-template-columns: repeat(3, 1fr); }\n.vcc-features--c4 { grid-template-columns: repeat(4, 1fr); }\n.vcc-feature { text-align: left; }\n.vcc-section__head--center + .vcc-features .vcc-feature { text-align: center; }\n.vcc-section__head--center + .vcc-features .vcc-feature .vcc-icon { margin-bottom: 14px; }\n.vcc-feature__icon { margin-bottom: 0; }\n.vcc-feature__title { font-size: 18px; margin: 14px 0 8px; }\n.vcc-feature__text { color: var(--mp-text-muted, #64748B); }\n.vcc-feature__text p { margin: 0 0 10px; }\n.vcc-feature__text p:last-child { margin-bottom: 0; }\n.vcc-section--bg-primary .vcc-feature__text { color: inherit; opacity: 0.9; }\n\n/* --- media_text --- */\n.vcc-media-text { align-items: center; display: grid; gap: 40px; grid-template-columns: 1fr 1fr; }\n.vcc-media-text--flip .vcc-media-text__media { order: 2; }\n.vcc-media-text--flip .vcc-media-text__body { order: 1; }\n.vcc-media-text__media { margin: 0; }\n.vcc-media-text__media img { border-radius: var(--mp-radius-lg, 6px); height: auto; max-width: 100%; }\n.vcc-media-text__actions { margin-top: 20px; }\n\n/* --- steps --- */\n.vcc-steps { display: grid; gap: 28px; }\n.vcc-steps--timeline .vcc-step { padding-left: 56px; position: relative; }\n.vcc-steps--timeline .vcc-step::before {\n\tbackground: var(--mp-border-color, #E2E8F0);\n\tbottom: -28px;\n\tcontent: '';\n\tleft: 19px;\n\tposition: absolute;\n\ttop: 40px;\n\twidth: 2px;\n}\n.vcc-steps--timeline .vcc-step:last-child::before { display: none; }\n.vcc-step__num {\n\talign-items: center;\n\tbackground: var(--mp-primary, #8C9D93);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-inverse, #ffffff);\n\tdisplay: inline-flex;\n\tfont-weight: 700;\n\theight: 40px;\n\tjustify-content: center;\n\tleft: 0;\n\tposition: absolute;\n\ttop: 0;\n\twidth: 40px;\n}\n.vcc-steps--numbers .vcc-step__num { position: static; margin-bottom: 10px; }\n.vcc-step__title { font-size: 18px; margin: 6px 0 6px; }\n.vcc-step__text { color: var(--mp-text-muted, #64748B); }\n.vcc-step__text p { margin: 0 0 8px; }\n.vcc-step__text p:last-child { margin-bottom: 0; }\n\n/* --- stats --- */\n.vcc-stats { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); text-align: center; }\n.vcc-stat__value { color: inherit; display: block; font-size: 40px; font-weight: 700; line-height: 1.1; }\n.vcc-stat__suffix { font-size: 0.55em; font-weight: 600; margin-left: 2px; opacity: 0.85; }\n.vcc-stat__label { color: var(--mp-text-muted, #64748B); font-size: 14px; }\n.vcc-section--bg-primary .vcc-stat__label { color: inherit; opacity: 0.85; }\n\n/* --- reviews --- */\n.vcc-reviews { display: grid; gap: 24px; }\n.vcc-reviews--c2 { grid-template-columns: repeat(2, 1fr); }\n.vcc-reviews--c3 { grid-template-columns: repeat(3, 1fr); }\n.vcc-review {\n\tbackground: var(--mp-bg-surface, #ffffff);\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tbox-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));\n\tcolor: var(--mp-text-body, #2D3748);\n\tfont-style: normal;\n\tmargin: 0;\n\tpadding: 24px;\n}\n.vcc-review__text { margin: 0 0 12px; }\n.vcc-stars { color: var(--mp-star-color, #f59e0b); display: block; font-size: 15px; letter-spacing: 2px; margin-bottom: 10px; }\n.vcc-review__person { align-items: center; display: flex; flex-wrap: wrap; gap: 10px; }\n.vcc-review__avatar { border-radius: var(--mp-radius-pill, 9999px); height: 40px; width: 40px; object-fit: cover; }\n.vcc-review__name { color: var(--mp-text-main, #2D3748); }\n.vcc-review__role { color: var(--mp-text-light, #94A3B8); display: block; font-size: 13px; width: 100%; }\n\n/* --- team --- */\n.vcc-team { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }\n.vcc-member { text-align: center; }\n.vcc-member__photo { border-radius: var(--mp-radius-pill, 9999px); height: 128px; width: 128px; object-fit: cover; }\n.vcc-member__name { color: var(--mp-text-main, #2D3748); display: block; margin-top: 12px; }\n.vcc-member__role { color: var(--mp-secondary, #5A8F76); display: block; font-size: 13px; margin-top: 2px; }\n.vcc-member__text { color: var(--mp-text-muted, #64748B); font-size: 14px; margin-top: 8px; }\n.vcc-member__text p { margin: 0 0 8px; }\n.vcc-member__text p:last-child { margin-bottom: 0; }\n\n/* --- documents --- */\n.vcc-docs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }\n.vcc-doc { color: inherit; display: block; text-align: center; text-decoration: none; }\n.vcc-doc__img { border: 1px solid var(--mp-border-color, #E2E8F0); border-radius: var(--mp-radius-md, 4px); height: auto; max-width: 100%; }\n.vcc-doc__title { color: var(--mp-text-muted, #64748B); display: block; font-size: 14px; margin-top: 8px; }\n.vcc-doc:hover .vcc-doc__title { color: var(--mp-primary, #8C9D93); }\n\n/* --- cta --- */\n.vcc-cta { text-align: center; }\n.vcc-cta__title { margin: 0 0 12px; }\n.vcc-cta__text { color: var(--mp-text-muted, #64748B); margin: 0 auto 24px; max-width: 640px; }\n.vcc-section--bg-primary .vcc-cta__text { color: inherit; opacity: 0.9; }\n.vcc-cta__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }\n\n/* --- contacts --- */\n.vcc-contacts { display: grid; gap: 18px; }\n.vcc-contact { align-items: center; display: flex; flex-wrap: wrap; gap: 14px; }\n.vcc-contact__label { color: var(--mp-text-light, #94A3B8); min-width: 90px; }\n.vcc-contact__value { color: var(--mp-text-main, #2D3748); font-weight: 600; text-decoration: none; }\na.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration: underline; }\n\n/* --- socials --- */\n.vcc-socials { display: flex; flex-wrap: wrap; gap: 14px; }\n.vcc-socials--center { justify-content: center; }\n.vcc-social {\n\talign-items: center;\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tcolor: var(--mp-text-body, #2D3748);\n\tdisplay: inline-flex;\n\tgap: 8px;\n\tpadding: 8px 18px 8px 10px;\n\tposition: relative;\n\ttext-decoration: none;\n}\n.vcc-social .vcc-icon { height: 32px; width: 32px; font-size: 15px; }\n.vcc-social:hover { border-color: var(--mp-primary, #8C9D93); color: var(--mp-primary, #8C9D93); }\n\n/* --- badges --- */\n.vcc-badges { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }\n.vcc-badge {\n\talign-items: center;\n\tbackground: var(--mp-bg-surface, #ffffff);\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tdisplay: flex;\n\tgap: 12px;\n\tpadding: 14px 16px;\n}\n.vcc-badge .vcc-icon { flex: 0 0 auto; height: 40px; width: 40px; font-size: 17px; }\n.vcc-badge__title { color: var(--mp-text-main, #2D3748); display: block; font-weight: 600; }\n.vcc-badge__text { color: var(--mp-text-light, #94A3B8); display: block; font-size: 13px; }\n\n/* --- checklist --- */\n.vcc-checklist { list-style: none; margin: 0; padding: 0; }\n.vcc-checklist--c2 { display: grid; gap: 8px 32px; }\n.vcc-checklist__item { padding: 6px 0 6px 34px; position: relative; }\n.vcc-checklist__item::before {\n\tcolor: var(--mp-primary, #8C9D93);\n\tcontent: '\\2713';\n\tfont-weight: 700;\n\tleft: 4px;\n\tposition: absolute;\n}\n\n/* --- divider --- */\n.vcc-divider {\n\talign-items: center;\n\tdisplay: flex;\n\tjustify-content: center;\n}\n.vcc-divider--line { border-top: 1px solid var(--mp-border-color, #E2E8F0); }\n.vcc-divider__ornament { color: var(--mp-text-light, #94A3B8); font-size: 20px; letter-spacing: 6px; }\n\n/* --- seotext --- */\n.vcc-seotext {\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder: 1px solid var(--mp-border-divider, #F1F5F9);\n\tborder-radius: var(--mp-radius-md, 4px);\n}\n.vcc-seotext__summary {\n\tcolor: var(--mp-text-main, #2D3748);\n\tcursor: pointer;\n\tfont-weight: 600;\n\tpadding: 14px 18px;\n}\n.vcc-seotext__summary:hover { color: var(--mp-primary, #8C9D93); }\n.vcc-seotext__body { border-top: 1px solid var(--mp-border-divider, #F1F5F9); padding: 14px 18px; }\n.vcc-seotext__body p:last-child { margin-bottom: 0; }\n\n/* --- pricing --- */\n.vcc-plans { align-items: stretch; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }\n.vcc-plan {\n\tbackground: var(--mp-bg-surface, #ffffff);\n\tborder: 1px solid var(--mp-border-color, #E2E8F0);\n\tborder-radius: var(--mp-radius-lg, 6px);\n\tdisplay: flex;\n\tflex-direction: column;\n\tpadding: 28px 24px;\n\tposition: relative;\n\ttext-align: center;\n}\n.vcc-plan--left { text-align: left; }\n.vcc-plan--featured {\n\tbackground: var(--mp-primary-light, #F2F6F4);\n\tborder-color: var(--mp-primary, #8C9D93);\n\tbox-shadow: var(--mp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.08));\n}\n.vcc-plan__flag {\n\tbackground: var(--mp-primary, #8C9D93);\n\tborder-radius: var(--mp-radius-pill, 9999px);\n\tcolor: var(--mp-text-inverse, #ffffff);\n\tfont-size: 12px;\n\tfont-weight: 600;\n\tleft: 50%;\n\tpadding: 3px 14px;\n\tposition: absolute;\n\ttop: -13px;\n\ttransform: translateX(-50%);\n}\n.vcc-plan__name { color: var(--mp-text-main, #2D3748); font-size: 18px; margin: 4px 0 10px; }\n.vcc-plan__price { color: var(--mp-text-main, #2D3748); font-size: 30px; font-weight: 700; }\n.vcc-plan__period { color: var(--mp-text-muted, #64748B); font-size: 15px; font-weight: 400; margin-left: 4px; }\n.vcc-plan__old { color: var(--mp-text-light, #94A3B8); text-decoration: line-through; }\n.vcc-plan__features { list-style: none; margin: 18px 0 22px; padding: 0; text-align: left; }\n.vcc-plan__features li { border-bottom: 1px solid var(--mp-border-divider, #F1F5F9); padding: 8px 0 8px 24px; position: relative; }\n.vcc-plan__features li::before { color: var(--mp-primary, #8C9D93); content: '\\2713'; font-weight: 700; left: 2px; position: absolute; }\n.vcc-plan__features li:last-child { border-bottom: none; }\n.vcc-plan .vcc-btn { margin-top: auto; width: 100%; }\n.vcc-plan__note { color: var(--mp-text-light, #94A3B8); font-size: 12px; margin-top: 10px; }\n\n/* --- video --- */\n.vcc-video {\n\tposition: relative;\n\twidth: 100%;\n}\n.vcc-video--16x9 { aspect-ratio: 16 / 9; }\n.vcc-video--4x3 { aspect-ratio: 4 / 3; }\n.vcc-video--1x1 { aspect-ratio: 1 / 1; }\n.vcc-video__frame,\n.vcc-video__link {\n\tborder: 0;\n\tdisplay: block;\n\theight: 100%;\n\tleft: 0;\n\tposition: absolute;\n\ttop: 0;\n\twidth: 100%;\n}\n.vcc-video__link {\n\talign-items: center;\n\tbackground: var(--mp-bg-subtle, #f8fafc);\n\tborder-radius: var(--mp-radius-md, 4px);\n\tcolor: var(--mp-text-body, #2D3748);\n\tdisplay: flex;\n\tjustify-content: center;\n\toverflow: hidden;\n\tposition: relative;\n\ttext-decoration: none;\n}\n.vcc-video__link::before { color: var(--mp-primary, #8C9D93); content: '\\25B6'; font-size: 28px; margin-right: 12px; }\n.vcc-video__caption { color: var(--mp-text-light, #94A3B8); font-size: 13px; margin: 8px 0 0; text-align: center; }\n\n/* --- columns --- */\n.vcc-columns { display: grid; gap: 32px; }\n.vcc-columns--c2 { grid-template-columns: repeat(2, 1fr); }\n.vcc-columns--c3 { grid-template-columns: repeat(3, 1fr); }\n.vcc-columns--c4 { grid-template-columns: repeat(4, 1fr); }\n.vcc-column p { margin: 0 0 12px; }\n.vcc-column p:last-child { margin-bottom: 0; }\n\n/* --- \u0410\u0434\u0430\u043f\u0442\u0438\u0432: \u043e\u0434\u0438\u043d \u043f\u0430\u0442\u0442\u0435\u0440\u043d, \u0441\u0435\u0442\u043a\u0438 \u0441\u0445\u043b\u043e\u043f\u044b\u0432\u0430\u044e\u0442\u0441\u044f \u0432 \u043a\u043e\u043b\u043e\u043d\u043a\u0443 --- */\n@media (max-width: 767px) {\n\t.vcc-hero__title { font-size: 31px; }\n\t.vcc-features--c2, .vcc-features--c3, .vcc-features--c4,\n\t.vcc-media-text, .vcc-reviews--c2, .vcc-reviews--c3,\n\t.vcc-columns--c2, .vcc-columns--c3, .vcc-columns--c4 {\n\t\tgrid-template-columns: 1fr;\n\t}\n\t.vcc-media-text--flip .vcc-media-text__media { order: 0; }\n\t.vcc-media-text--flip .vcc-media-text__body { order: 0; }\n\t.vcc-section--pad-s { padding: 36px 0; }\n\t.vcc-section--pad-m { padding: 52px 0; }\n\t.vcc-section--pad-l { padding: 64px 0; }\n\t.vcc-section--pad-xl { padding: 80px 0; }\n}\n\n/* --- \u0422\u0451\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430: \u0440\u043e\u0432\u043d\u043e \u0434\u0432\u0430 \u0430\u0434\u0434\u0438\u0442\u0438\u0432\u043d\u044b\u0445 \u043e\u0432\u0435\u0440\u0440\u0430\u044f (\u0441\u043f\u0435\u043a\u0430 \u00a74.4) --- */\n[data-theme=\"dark\"] .vcc-plan--featured { background: var(--mp-bg-hover, #38343E); }\n[data-theme=\"dark\"] .vcc-section--overlay::before { background: rgba(0, 0, 0, 0.65); }";
 
@@ -1891,6 +1891,45 @@ Tilda-модель — каждый «широкий» блок экспорти
 		return ['narrow', 'default', 'full'].indexOf(w) !== -1 ? w : 'default';
 	}
 
+	/* ---------- Штатные заглушки изображений (0.9.3) ----------
+	 * Файлы живут в ТЕМЕ: image/catalog/vita-placeholder-*.jpg|png.
+	 * Владелец один раз заменяет файл в Менеджере изображений магазина
+	 * (тот же путь) — все блоки, где путь не меняли, получают его фото.
+	 * В предпросмотре конструктора пути подменяются на локальные копии
+	 * assets/placeholders/ — битых картинок в редакторе нет. */
+	var PLACEHOLDER_BASE = 'image/catalog/';
+	var PLACEHOLDER_LOCAL = 'assets/placeholders/';
+	var PLACEHOLDERS = {
+		hero: PLACEHOLDER_BASE + 'vita-placeholder-hero.jpg',
+		photo: PLACEHOLDER_BASE + 'vita-placeholder-photo.jpg',
+		logo: PLACEHOLDER_BASE + 'vita-placeholder-logo.png'
+	};
+
+	function ph(name) {
+		return PLACEHOLDERS[name] || PLACEHOLDERS.photo;
+	}
+
+	/* Путь картинки для ПРЕДПРОСМОТРА: штатная заглушка рисуется локальной
+	 * копией (в конструкторе на Pages пути image/catalog/ не существуют).
+	 * ВАЖНО: вызывается ТОЛЬКО рендерером предпросмотра (app.js) — toHTML
+	 * всегда пишет магазинные пути, они едут в файл для магазина. */
+	function phPreview(src) {
+		var s = String(src || '').trim();
+		if (s === PLACEHOLDERS.hero) return PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg';
+		if (s === PLACEHOLDERS.photo) return PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg';
+		if (s === PLACEHOLDERS.logo) return PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png';
+		return s;
+	}
+
+	/* Экспорт/предпросмотр НЕ отличимы по вызову: toHTML возвращает HTML с
+	 * магазинными путями; превью-подмена идёт отдельной функцией. */
+	function vccPhPreviewHtml(html) {
+		return html
+			.split(PLACEHOLDERS.hero).join(PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg')
+			.split(PLACEHOLDERS.photo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg')
+			.split(PLACEHOLDERS.logo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png');
+	}
+
 	/* Открытие секции. sec = { bg, image, video, overlay, padding, width, anchor }.
 	 * Классы фона: bg-primary => --bg-primary; image/video => --bg-image/--bg-video.
 	 * Атрибуты данных принимает рантайм темы: якорь (id), фон-картинка, фон-видео. */
@@ -1911,8 +1950,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 		var anchor = String(sec.anchor || '').trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
 		if (anchor) attrs += ' data-vcc-anchor="' + vccEscapeHtml(anchor) + '"';
 		if (bg === 'image' || bg === 'video') {
-			var img = String(sec.image || '').trim();
-			if (img) attrs += ' data-vcc-bg="' + vccEscapeHtml(img) + '"';
+			/* Пустой путь — штатная заглушка фона: экспорт всегда валиден,
+			 * владелец заменит файл в магазине. Явно введённый путь не трогаем. */
+			var img = String(sec.image || '').trim() || ph('hero');
+			attrs += ' data-vcc-bg="' + vccEscapeHtml(vccSafeHref(img)) + '"';
 			if (bg === 'video') {
 				var vid = String(sec.video || '').trim();
 				if (vid) attrs += ' data-vcc-bg-video="' + vccEscapeHtml(vid) + '"';
@@ -1968,10 +2009,14 @@ Tilda-модель — каждый «широкий» блок экспорти
 
 	/* Собирает data.sec из плоских ключей «sec.*» (values: { 'sec.bg': 'light', ... }) */
 	function secData(values) {
+		/* Данные блока хранят sec ВЛОЖЕННЫМ объектом (data.sec) — так его
+		 * пишет редактор; плоские ключи 'sec.*' — легаси-форма вызова.
+		 * Приоритет: плоский ключ перекрывает вложенный (форма редактора). */
+		var nested = (values && typeof values.sec === 'object' && values.sec) ? values.sec : {};
 		var sec = {};
 		var keys = ['eyebrow', 'title', 'text', 'align', 'bg', 'image', 'video', 'overlay', 'padding', 'width', 'anchor'];
 		for (var i = 0; i < keys.length; i++) {
-			sec[keys[i]] = values['sec.' + keys[i]];
+			sec[keys[i]] = values['sec.' + keys[i]] !== undefined ? values['sec.' + keys[i]] : nested[keys[i]];
 		}
 		return sec;
 	}
@@ -2073,13 +2118,17 @@ Tilda-модель — каждый «широкий» блок экспорти
 		},
 		toHTML: function (data) {
 			var v = data || {};
-			var items = arr(v.items).filter(function (it) { return it && String(it.src || '').trim(); });
+			/* Пустой src больше НЕ выбрасывает элемент: без картинок блок был бы
+			 * пустой рамкой — штатная заглушка «Логотип» наполняет его. */
+			var items = arr(v.items).filter(function (it) { return it && (String(it.src || '').trim() || String(it.alt || '').trim()); });
 			if (!items.length && !String(v.sec && v.sec.title || '').trim()) return '';
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
 			html += '<div class="vcc-logos">';
 			for (var i = 0; i < items.length; i++) {
 				var it = items[i];
-				var img = '<img class="vcc-logos__img" src="' + vccEscapeHtml(vccSafeHref(it.src)) + '" alt="' + vccEscapeHtml(it.alt || '') + '" loading="lazy">';
+				/* Пустой src — штатная заглушка «Логотип»: картинка в блоке
+				 * всегда есть, владелец заменит файл в магазине. */
+				var img = '<img class="vcc-logos__img" src="' + vccEscapeHtml(vccSafeHref(String(it.src || '').trim() || ph('logo'))) + '" alt="' + vccEscapeHtml(it.alt || '') + '" loading="lazy">';
 				html += String(it.url || '').trim()
 					? '<a class="vcc-logos__link" href="' + vccEscapeHtml(vccSafeHref(it.url)) + '" target="_blank" rel="noopener">' + img + '</a>'
 					: img;
@@ -2161,15 +2210,15 @@ Tilda-модель — каждый «широкий» блок экспорти
 		toHTML: function (data) {
 			var v = data || {};
 			var text = String(v.text || '').trim();
-			var img = String(v.img || '').trim();
-			if (!text && !img) return '';
+			/* Пустой путь — штатная заглушка «Фотография»: медиаколонка всегда
+			 * наполнена, владелец заменит файл в магазине. */
+			var img = String(v.img || '').trim() || ph('photo');
+			if (!text && !String(v.img || '').trim()) return '';
 			var media = '';
-			if (img) {
-				media = '<figure class="vcc-media-text__media">' +
-					'<img src="' + vccEscapeHtml(vccSafeHref(img)) + '" alt="' + vccEscapeHtml(v.img_alt || '') + '" loading="lazy">';
-				if (String(v.caption || '').trim()) media += '<figcaption class="vcc-figure__caption">' + vccInline(v.caption) + '</figcaption>';
-				media += '</figure>';
-			}
+			media = '<figure class="vcc-media-text__media">' +
+				'<img src="' + vccEscapeHtml(vccSafeHref(img)) + '" alt="' + vccEscapeHtml(v.img_alt || '') + '" loading="lazy">';
+			if (String(v.caption || '').trim()) media += '<figcaption class="vcc-figure__caption">' + vccInline(v.caption) + '</figcaption>';
+			media += '</figure>';
 			var btn = btnHtml(v.btn_label, v.btn_url, 'primary');
 			var body = '<div class="vcc-media-text__body">' + (text ? vccBlock(text) : '');
 			if (btn) body += '<div class="vcc-media-text__actions">' + btn + '</div>';
@@ -2322,9 +2371,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 					html += '<span class="vcc-stars" title="' + stars + ' из 5">' + s + '</span>';
 				}
 				html += '<footer class="vcc-review__person">';
-				if (String(it.avatar || '').trim()) {
-					html += '<img class="vcc-review__avatar" src="' + vccEscapeHtml(vccSafeHref(it.avatar)) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
-				}
+				/* Аватар: пусто → заглушка «Фотография»; не задаёт владелец —
+				 * показывает штатную, замена тем же файлом в магазине */
+				html += '<img class="vcc-review__avatar" src="' + vccEscapeHtml(vccSafeHref(String(it.avatar || '').trim() || ph('photo'))) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
 				html += '<strong class="vcc-review__name">' + vccInline(it.name || '') + '</strong>';
 				if (String(it.role || '').trim()) html += '<span class="vcc-review__role">' + vccInline(it.role) + '</span>';
 				html += '</footer></blockquote>';
@@ -2366,9 +2415,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 			for (var i = 0; i < items.length; i++) {
 				var it = items[i];
 				html += '<div class="vcc-member">';
-				if (String(it.photo || '').trim()) {
-					html += '<img class="vcc-member__photo" src="' + vccEscapeHtml(vccSafeHref(it.photo)) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
-				}
+				/* Фото члена команды: пусто → заглушка «Фотография» */
+				html += '<img class="vcc-member__photo" src="' + vccEscapeHtml(vccSafeHref(String(it.photo || '').trim() || ph('photo'))) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
 				html += '<strong class="vcc-member__name">' + vccInline(it.name || '') + '</strong>';
 				if (String(it.role || '').trim()) html += '<span class="vcc-member__role">' + vccInline(it.role) + '</span>';
 				if (String(it.text || '').trim()) html += '<div class="vcc-member__text">' + vccBlock(it.text) + '</div>';
@@ -2409,9 +2457,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 			html += '<div class="vcc-docs">';
 			for (var i = 0; i < items.length; i++) {
 				var it = items[i];
-				var inner = (String(it.image || '').trim()
-					? '<img class="vcc-doc__img" src="' + vccEscapeHtml(vccSafeHref(it.image)) + '" alt="' + vccEscapeHtml(it.title || '') + '" loading="lazy">'
-					: '') +
+				/* Пусто → заглушка «Фотография»: карточка документа без «дыры» */
+				var inner = '<img class="vcc-doc__img" src="' + vccEscapeHtml(vccSafeHref(String(it.image || '').trim() || ph('photo'))) + '" alt="' + vccEscapeHtml(it.title || '') + '" loading="lazy">' +
 					'<span class="vcc-doc__title">' + vccInline(it.title || '') + '</span>';
 				html += String(it.url || '').trim()
 					? '<a class="vcc-doc" href="' + vccEscapeHtml(vccSafeHref(it.url)) + '" target="_blank" rel="noopener">' + inner + '</a>'
@@ -2891,7 +2938,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 		fields: sectionFields,
 		safeBg: safeBg,
 		safePad: safePad,
-		safeWidth: safeWidth
+		safeWidth: safeWidth,
+		/* Подмена штатных заглушек на локальные копии — ТОЛЬКО для
+		 * предпросмотра (app.js); экспорт не трогает. */
+		phPreviewHtml: vccPhPreviewHtml
 	};
 
 })();
@@ -3458,7 +3508,14 @@ var VccImport = (function () {
 	function blockPreviewHtml(block) {
 		var def = BlockRegistry.get(block.type);
 		try {
-			return def.toHTML(block.data || {});
+			var html = def.toHTML(block.data || {});
+			/* Штатные заглушки (image/catalog/vita-placeholder-*) рисуются
+			 * локальными копиями — на Pages пути магазина не существуют.
+			 * Экспорт вызывает toHTML без этой подмены — в магазин едут
+			 * правильные пути. */
+			return window.VccSection && typeof window.VccSection.phPreviewHtml === 'function'
+				? window.VccSection.phPreviewHtml(html)
+				: html;
 		} catch (e) {
 			return '<p><em>Ошибка отображения блока</em></p>';
 		}
@@ -3535,6 +3592,18 @@ var VccImport = (function () {
 		root.addEventListener('click', root._vccTabsDelegate);
 	}
 
+	/* Рантайм предпросмотра: data-vcc-bg -> background-image (в магазине это
+	 * делает common.js темы; здесь — то же самое для превью и фуллскрина). */
+	function applyPreviewBg(root) {
+		if (!root) return;
+		root.querySelectorAll('.vcc-section[data-vcc-bg]').forEach(function (sec) {
+			var url = (sec.getAttribute('data-vcc-bg') || '').trim();
+			if (/^(image\/|\/|https?:\/\/|assets\/)/i.test(url)) {
+				sec.style.backgroundImage = 'url("' + url + '")';
+			}
+		});
+	}
+
 	/* ---------- Мок магазина (некликабельные данные — в канвасе редактора и предпросмотре) ---------- */
 	function mockHeader() {
 		/* Разметка = структура шапки Виты (header_topbar.twig + header_main.twig):
@@ -3595,6 +3664,7 @@ var VccImport = (function () {
 				'<p style="text-align:center;color:var(--mp-text-light,#94A3B8);padding:60px 20px">Страница пока пуста — вернитесь в редактирование и добавьте блоки из палитры</p>') +
 			'</div>' +
 			mockFooter();
+		applyPreviewBg(page);
 		window.scrollTo(0, 0);
 	}
 
@@ -3637,6 +3707,7 @@ var VccImport = (function () {
 			parts.push('<div class="vcc-content">' + (blocksHtml || '<p style="text-align:center;color:var(--mp-text-light,#94A3B8)">Пока пусто — добавьте блоки из палитры слева</p>') + '</div>');
 			parts.push(mockFooter());
 			canvas.innerHTML = parts.join('\n');
+			applyPreviewBg(canvas);
 			return;
 		}
 
@@ -3651,6 +3722,7 @@ var VccImport = (function () {
 			project.blocks.forEach(function (block, i) {
 				canvas.appendChild(renderBlockCard(block, i, project.blocks.length));
 			});
+			applyPreviewBg(canvas);
 		}
 	}
 

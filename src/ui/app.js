@@ -367,7 +367,14 @@
 	function blockPreviewHtml(block) {
 		var def = BlockRegistry.get(block.type);
 		try {
-			return def.toHTML(block.data || {});
+			var html = def.toHTML(block.data || {});
+			/* Штатные заглушки (image/catalog/vita-placeholder-*) рисуются
+			 * локальными копиями — на Pages пути магазина не существуют.
+			 * Экспорт вызывает toHTML без этой подмены — в магазин едут
+			 * правильные пути. */
+			return window.VccSection && typeof window.VccSection.phPreviewHtml === 'function'
+				? window.VccSection.phPreviewHtml(html)
+				: html;
 		} catch (e) {
 			return '<p><em>Ошибка отображения блока</em></p>';
 		}
@@ -444,6 +451,18 @@
 		root.addEventListener('click', root._vccTabsDelegate);
 	}
 
+	/* Рантайм предпросмотра: data-vcc-bg -> background-image (в магазине это
+	 * делает common.js темы; здесь — то же самое для превью и фуллскрина). */
+	function applyPreviewBg(root) {
+		if (!root) return;
+		root.querySelectorAll('.vcc-section[data-vcc-bg]').forEach(function (sec) {
+			var url = (sec.getAttribute('data-vcc-bg') || '').trim();
+			if (/^(image\/|\/|https?:\/\/|assets\/)/i.test(url)) {
+				sec.style.backgroundImage = 'url("' + url + '")';
+			}
+		});
+	}
+
 	/* ---------- Мок магазина (некликабельные данные — в канвасе редактора и предпросмотре) ---------- */
 	function mockHeader() {
 		/* Разметка = структура шапки Виты (header_topbar.twig + header_main.twig):
@@ -504,6 +523,7 @@
 				'<p style="text-align:center;color:var(--mp-text-light,#94A3B8);padding:60px 20px">Страница пока пуста — вернитесь в редактирование и добавьте блоки из палитры</p>') +
 			'</div>' +
 			mockFooter();
+		applyPreviewBg(page);
 		window.scrollTo(0, 0);
 	}
 
@@ -546,6 +566,7 @@
 			parts.push('<div class="vcc-content">' + (blocksHtml || '<p style="text-align:center;color:var(--mp-text-light,#94A3B8)">Пока пусто — добавьте блоки из палитры слева</p>') + '</div>');
 			parts.push(mockFooter());
 			canvas.innerHTML = parts.join('\n');
+			applyPreviewBg(canvas);
 			return;
 		}
 
@@ -560,6 +581,7 @@
 			project.blocks.forEach(function (block, i) {
 				canvas.appendChild(renderBlockCard(block, i, project.blocks.length));
 			});
+			applyPreviewBg(canvas);
 		}
 	}
 

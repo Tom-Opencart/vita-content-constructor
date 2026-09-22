@@ -27,6 +27,45 @@ Tilda-модель — каждый «широкий» блок экспорти
 		return ['narrow', 'default', 'full'].indexOf(w) !== -1 ? w : 'default';
 	}
 
+	/* ---------- Штатные заглушки изображений (0.9.3) ----------
+	 * Файлы живут в ТЕМЕ: image/catalog/vita-placeholder-*.jpg|png.
+	 * Владелец один раз заменяет файл в Менеджере изображений магазина
+	 * (тот же путь) — все блоки, где путь не меняли, получают его фото.
+	 * В предпросмотре конструктора пути подменяются на локальные копии
+	 * assets/placeholders/ — битых картинок в редакторе нет. */
+	var PLACEHOLDER_BASE = 'image/catalog/';
+	var PLACEHOLDER_LOCAL = 'assets/placeholders/';
+	var PLACEHOLDERS = {
+		hero: PLACEHOLDER_BASE + 'vita-placeholder-hero.jpg',
+		photo: PLACEHOLDER_BASE + 'vita-placeholder-photo.jpg',
+		logo: PLACEHOLDER_BASE + 'vita-placeholder-logo.png'
+	};
+
+	function ph(name) {
+		return PLACEHOLDERS[name] || PLACEHOLDERS.photo;
+	}
+
+	/* Путь картинки для ПРЕДПРОСМОТРА: штатная заглушка рисуется локальной
+	 * копией (в конструкторе на Pages пути image/catalog/ не существуют).
+	 * ВАЖНО: вызывается ТОЛЬКО рендерером предпросмотра (app.js) — toHTML
+	 * всегда пишет магазинные пути, они едут в файл для магазина. */
+	function phPreview(src) {
+		var s = String(src || '').trim();
+		if (s === PLACEHOLDERS.hero) return PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg';
+		if (s === PLACEHOLDERS.photo) return PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg';
+		if (s === PLACEHOLDERS.logo) return PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png';
+		return s;
+	}
+
+	/* Экспорт/предпросмотр НЕ отличимы по вызову: toHTML возвращает HTML с
+	 * магазинными путями; превью-подмена идёт отдельной функцией. */
+	function vccPhPreviewHtml(html) {
+		return html
+			.split(PLACEHOLDERS.hero).join(PLACEHOLDER_LOCAL + 'vita-placeholder-hero.jpg')
+			.split(PLACEHOLDERS.photo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-photo.jpg')
+			.split(PLACEHOLDERS.logo).join(PLACEHOLDER_LOCAL + 'vita-placeholder-logo.png');
+	}
+
 	/* Открытие секции. sec = { bg, image, video, overlay, padding, width, anchor }.
 	 * Классы фона: bg-primary => --bg-primary; image/video => --bg-image/--bg-video.
 	 * Атрибуты данных принимает рантайм темы: якорь (id), фон-картинка, фон-видео. */
@@ -47,8 +86,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 		var anchor = String(sec.anchor || '').trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
 		if (anchor) attrs += ' data-vcc-anchor="' + vccEscapeHtml(anchor) + '"';
 		if (bg === 'image' || bg === 'video') {
-			var img = String(sec.image || '').trim();
-			if (img) attrs += ' data-vcc-bg="' + vccEscapeHtml(img) + '"';
+			/* Пустой путь — штатная заглушка фона: экспорт всегда валиден,
+			 * владелец заменит файл в магазине. Явно введённый путь не трогаем. */
+			var img = String(sec.image || '').trim() || ph('hero');
+			attrs += ' data-vcc-bg="' + vccEscapeHtml(vccSafeHref(img)) + '"';
 			if (bg === 'video') {
 				var vid = String(sec.video || '').trim();
 				if (vid) attrs += ' data-vcc-bg-video="' + vccEscapeHtml(vid) + '"';
@@ -104,10 +145,14 @@ Tilda-модель — каждый «широкий» блок экспорти
 
 	/* Собирает data.sec из плоских ключей «sec.*» (values: { 'sec.bg': 'light', ... }) */
 	function secData(values) {
+		/* Данные блока хранят sec ВЛОЖЕННЫМ объектом (data.sec) — так его
+		 * пишет редактор; плоские ключи 'sec.*' — легаси-форма вызова.
+		 * Приоритет: плоский ключ перекрывает вложенный (форма редактора). */
+		var nested = (values && typeof values.sec === 'object' && values.sec) ? values.sec : {};
 		var sec = {};
 		var keys = ['eyebrow', 'title', 'text', 'align', 'bg', 'image', 'video', 'overlay', 'padding', 'width', 'anchor'];
 		for (var i = 0; i < keys.length; i++) {
-			sec[keys[i]] = values['sec.' + keys[i]];
+			sec[keys[i]] = values['sec.' + keys[i]] !== undefined ? values['sec.' + keys[i]] : nested[keys[i]];
 		}
 		return sec;
 	}
@@ -209,13 +254,17 @@ Tilda-модель — каждый «широкий» блок экспорти
 		},
 		toHTML: function (data) {
 			var v = data || {};
-			var items = arr(v.items).filter(function (it) { return it && String(it.src || '').trim(); });
+			/* Пустой src больше НЕ выбрасывает элемент: без картинок блок был бы
+			 * пустой рамкой — штатная заглушка «Логотип» наполняет его. */
+			var items = arr(v.items).filter(function (it) { return it && (String(it.src || '').trim() || String(it.alt || '').trim()); });
 			if (!items.length && !String(v.sec && v.sec.title || '').trim()) return '';
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
 			html += '<div class="vcc-logos">';
 			for (var i = 0; i < items.length; i++) {
 				var it = items[i];
-				var img = '<img class="vcc-logos__img" src="' + vccEscapeHtml(vccSafeHref(it.src)) + '" alt="' + vccEscapeHtml(it.alt || '') + '" loading="lazy">';
+				/* Пустой src — штатная заглушка «Логотип»: картинка в блоке
+				 * всегда есть, владелец заменит файл в магазине. */
+				var img = '<img class="vcc-logos__img" src="' + vccEscapeHtml(vccSafeHref(String(it.src || '').trim() || ph('logo'))) + '" alt="' + vccEscapeHtml(it.alt || '') + '" loading="lazy">';
 				html += String(it.url || '').trim()
 					? '<a class="vcc-logos__link" href="' + vccEscapeHtml(vccSafeHref(it.url)) + '" target="_blank" rel="noopener">' + img + '</a>'
 					: img;
@@ -297,15 +346,15 @@ Tilda-модель — каждый «широкий» блок экспорти
 		toHTML: function (data) {
 			var v = data || {};
 			var text = String(v.text || '').trim();
-			var img = String(v.img || '').trim();
-			if (!text && !img) return '';
+			/* Пустой путь — штатная заглушка «Фотография»: медиаколонка всегда
+			 * наполнена, владелец заменит файл в магазине. */
+			var img = String(v.img || '').trim() || ph('photo');
+			if (!text && !String(v.img || '').trim()) return '';
 			var media = '';
-			if (img) {
-				media = '<figure class="vcc-media-text__media">' +
-					'<img src="' + vccEscapeHtml(vccSafeHref(img)) + '" alt="' + vccEscapeHtml(v.img_alt || '') + '" loading="lazy">';
-				if (String(v.caption || '').trim()) media += '<figcaption class="vcc-figure__caption">' + vccInline(v.caption) + '</figcaption>';
-				media += '</figure>';
-			}
+			media = '<figure class="vcc-media-text__media">' +
+				'<img src="' + vccEscapeHtml(vccSafeHref(img)) + '" alt="' + vccEscapeHtml(v.img_alt || '') + '" loading="lazy">';
+			if (String(v.caption || '').trim()) media += '<figcaption class="vcc-figure__caption">' + vccInline(v.caption) + '</figcaption>';
+			media += '</figure>';
 			var btn = btnHtml(v.btn_label, v.btn_url, 'primary');
 			var body = '<div class="vcc-media-text__body">' + (text ? vccBlock(text) : '');
 			if (btn) body += '<div class="vcc-media-text__actions">' + btn + '</div>';
@@ -458,9 +507,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 					html += '<span class="vcc-stars" title="' + stars + ' из 5">' + s + '</span>';
 				}
 				html += '<footer class="vcc-review__person">';
-				if (String(it.avatar || '').trim()) {
-					html += '<img class="vcc-review__avatar" src="' + vccEscapeHtml(vccSafeHref(it.avatar)) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
-				}
+				/* Аватар: пусто → заглушка «Фотография»; не задаёт владелец —
+				 * показывает штатную, замена тем же файлом в магазине */
+				html += '<img class="vcc-review__avatar" src="' + vccEscapeHtml(vccSafeHref(String(it.avatar || '').trim() || ph('photo'))) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
 				html += '<strong class="vcc-review__name">' + vccInline(it.name || '') + '</strong>';
 				if (String(it.role || '').trim()) html += '<span class="vcc-review__role">' + vccInline(it.role) + '</span>';
 				html += '</footer></blockquote>';
@@ -502,9 +551,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 			for (var i = 0; i < items.length; i++) {
 				var it = items[i];
 				html += '<div class="vcc-member">';
-				if (String(it.photo || '').trim()) {
-					html += '<img class="vcc-member__photo" src="' + vccEscapeHtml(vccSafeHref(it.photo)) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
-				}
+				/* Фото члена команды: пусто → заглушка «Фотография» */
+				html += '<img class="vcc-member__photo" src="' + vccEscapeHtml(vccSafeHref(String(it.photo || '').trim() || ph('photo'))) + '" alt="' + vccEscapeHtml(it.name || '') + '" loading="lazy">';
 				html += '<strong class="vcc-member__name">' + vccInline(it.name || '') + '</strong>';
 				if (String(it.role || '').trim()) html += '<span class="vcc-member__role">' + vccInline(it.role) + '</span>';
 				if (String(it.text || '').trim()) html += '<div class="vcc-member__text">' + vccBlock(it.text) + '</div>';
@@ -545,9 +593,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 			html += '<div class="vcc-docs">';
 			for (var i = 0; i < items.length; i++) {
 				var it = items[i];
-				var inner = (String(it.image || '').trim()
-					? '<img class="vcc-doc__img" src="' + vccEscapeHtml(vccSafeHref(it.image)) + '" alt="' + vccEscapeHtml(it.title || '') + '" loading="lazy">'
-					: '') +
+				/* Пусто → заглушка «Фотография»: карточка документа без «дыры» */
+				var inner = '<img class="vcc-doc__img" src="' + vccEscapeHtml(vccSafeHref(String(it.image || '').trim() || ph('photo'))) + '" alt="' + vccEscapeHtml(it.title || '') + '" loading="lazy">' +
 					'<span class="vcc-doc__title">' + vccInline(it.title || '') + '</span>';
 				html += String(it.url || '').trim()
 					? '<a class="vcc-doc" href="' + vccEscapeHtml(vccSafeHref(it.url)) + '" target="_blank" rel="noopener">' + inner + '</a>'
@@ -1027,7 +1074,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 		fields: sectionFields,
 		safeBg: safeBg,
 		safePad: safePad,
-		safeWidth: safeWidth
+		safeWidth: safeWidth,
+		/* Подмена штатных заглушек на локальные копии — ТОЛЬКО для
+		 * предпросмотра (app.js); экспорт не трогает. */
+		phPreviewHtml: vccPhPreviewHtml
 	};
 
 })();
