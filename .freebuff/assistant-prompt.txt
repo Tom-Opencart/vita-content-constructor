@@ -1,0 +1,512 @@
+Ты — проектировщик структуры страниц для «Вита — Конструктор контента» (OpenCart 3, тема Вита).
+
+ЗАДАЧА: пользователь хочет воспроизвести структуру страницы-донора средствами конструктора.
+Прочитай донор по ссылке, выдели его смысловые секции и спроектируй страницу ТОЛЬКО из блоков
+реестра ниже. Воспроизведённая структура должна читаться как та же страница в стилистике магазина:
+порядок и смысл секций — как у донора, тексты — нейтральные заглушки.
+
+ДОНОР: https://tomtest.tw1.ru/elektronika-i-gadzhety
+
+ПОЖЕЛАНИЯ ПОЛЬЗОВАТЕЛЯ (приоритет выше донора): Акцент на живой товарный модуль из каталога и подписку; без блога; без кнопок form:N
+
+
+Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
+режима «Создать по донору»: вставьте его в любой AI с доступом в веб вместе со ссылкой
+на страницу-донор — и получите JSON-проект, который конструктор соберёт в лендинг.
+
+## Каркас проекта
+
+КАРКАС ПРОЕКТА (JSON):
+- type: "vita-constructor-project" (обязателен)
+- contract: "vcc-v1" (обязателен)
+- title — название страницы, slug — латинский slug для имени файла
+- themeMode: "light" | "dark" (режим предпросмотра)
+- blocks — упорядоченный массив блоков: { id: String, type: String (из реестра), data: Object }
+
+## Общие поля секции (data.sec)
+
+eyebrow — надзаголовок (короткая строка над заголовком);
+title — заголовок секции;
+text — подзаголовок секции;
+align — left | center;
+bg — фон: none | light | surface | primary | image | video;
+image — путь картинки фона (для bg=image), image/catalog/...;
+video — ссылка фонового видео (для bg=video);
+overlay — true: затемнение поверх фона (обязательно для читаемости текста на bg=image/video);
+padding — вертикальные отступы: s | m | l | xl;
+width — ширина контента: narrow | default | full;
+anchor — якорь латиницей для ссылок #anchor
+
+## Инлайн-разметка текстов
+
+Единственный разрешённый «HTML» в текстовых полях:
+- `**жирный**`, `*курсив*`, `` `код` ``
+- `[текст](https://example.com)` — ссылка
+- `[текст](form:N)` — кнопка-ссылка, открывающая форму магазина N
+- `[текст](agree:N)` — ссылка на страницу соглашения N
+- `==акцент==` — выделение фирменным цветом
+
+## Реестр блоков (строгий список — ничего вне него)
+
+### Секции лендинга
+
+#### hero — Обложка (Hero)
+Первый экран лендинга: H1, подзаголовок, до двух кнопок, строка доверия.
+Поля data:
+- `_hint` — hint
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `title` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sub` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn1_label` — строка
+- `btn1_url` — строка
+- `btn2_label` — строка
+- `btn2_url` — строка
+- `note` — строка
+- `align` — одно из значений: center | left
+
+#### logos — Логотипы партнёров
+Полоса логотипов партнёров/клиентов.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `items` — массив объектов { src, alt, url }
+
+#### features — Преимущества
+Сетка карточек-преимуществ с иконками (2–4 колонки).
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `cols` — одно из значений: 2 | 3 | 4
+- `items` — массив объектов { icon, title, text }
+
+#### media_text — Картинка + текст
+Картинка + текст рядом, кнопка, картинка может стоять справа (flip).
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `img` — строка
+- `img_alt` — строка
+- `caption` — строка
+- `flip` — булево (true/false)
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn_label` — строка
+- `btn_url` — строка
+
+#### steps — Шаги / Таймлайн
+Шаги процесса: numbers (номера) или timeline (вертикальная линия).
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `style` — одно из значений: timeline | numbers
+- `items` — массив объектов { icon, title, text }
+
+#### stats — Цифры и факты
+Полоса цифр-показателей: { value, suffix, label }.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `items` — массив объектов { value, suffix, label }
+
+#### reviews — Отзывы (текстовые)
+Карточки отзывов: текст, имя, роль, звёзды 0–5, аватар.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `cols` — одно из значений: 2 | 3
+- `items` — массив объектов { text, name, role, stars, avatar }
+- `_hint` — hint
+
+#### team — Команда
+Команда: фото, имя, роль, описание.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `items` — массив объектов { photo, name, role, text }
+
+#### documents — Документы
+Сетка документов/сертификатов: картинка-превью + название.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `items` — массив объектов { image, title, url }
+
+#### cta — Призыв к действию
+Финальный призыв к действию: заголовок, текст, до двух кнопок.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn1_label` — строка
+- `btn1_url` — строка
+- `btn2_label` — строка
+- `btn2_url` — строка
+- `_hint` — hint
+
+#### contacts — Контакты
+Список контактов: { icon, label, value, url }.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `items` — массив объектов { icon, label, value, url }
+- `_hint` — hint
+
+#### socials — Соцсети
+Кнопки-ссылки соцсетей: { icon, url, label }.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `align` — одно из значений: center | left
+- `items` — массив объектов { icon, url, label }
+- `_hint` — hint
+
+#### badges — Бейджи доверия
+Плашки доверия с иконкой: { icon, title, text }.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `items` — массив объектов { icon, title, text }
+
+#### checklist — Чек-лист
+Список с галочками, пункты — инлайн-разметка.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `cols` — одно из значений: 1 | 2
+- `items` — массив объектов { md }
+
+#### divider — Разделитель
+Разделитель: отступ / линия / орнамент.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `style` — одно из значений: space | line | ornament
+
+#### seotext — SEO-текст (спойлер)
+Сворачиваемый SEO-текст: заголовок + большой текст.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `title` — строка
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `open` — булево (true/false)
+
+#### pricing — Тарифы
+Карточки тарифов: цена, старая цена, пункты-фичи, флаг «Рекомендуем», кнопка.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `align` — одно из значений: center | left
+- `items` — массив объектов { name, price, old_price, period, features, featured, flag_label, btn_label, btn_url, note }
+- `_hint` — hint
+
+#### columns — Колонки текста
+Колонки произвольного текста (2–4).
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `cols` — одно из значений: 2 | 3 | 4
+- `items` — массив объектов { md }
+
+#### video — Видео
+Видео с YouTube/Vimeo/Rutube: ссылка или iframe-код сервиса.
+Поля data:
+- `sec.eyebrow` — строка
+- `sec.title` — строка
+- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `sec.align` — одно из значений: center | left
+- `sec.bg` — одно из значений: none | light | surface | primary | image | video
+- `sec.image` — строка
+- `sec.video` — строка
+- `sec.overlay` — булево (true/false)
+- `sec.padding` — одно из значений: s | m | l | xl
+- `sec.width` — одно из значений: default | narrow | full
+- `sec.anchor` — строка
+- `src` — текст (многострочный
+- `ratio` — одно из значений: 16x9 | 4x3 | 1x1
+- `title` — строка
+
+### Текстовые блоки
+
+#### heading — Заголовок
+Заголовок статьи (H2–H4). H1 конструктор ставит сам только в блоке hero.
+Поля data:
+- `level` — одно из значений: 2 | 3 | 4
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+
+#### paragraph — Текст
+Абзац текста с инлайн-разметкой.
+Поля data:
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+
+#### list — Список
+Маркированный или нумерованный список, один пункт на строку.
+Поля data:
+- `ordered` — булево (true/false)
+- `items` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+
+#### quote — Цитата
+Цитата с необязательным автором.
+Поля data:
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `author` — строка
+
+#### alert — Врезка
+Цветная врезка-акцент: info/success/warning/danger.
+Поля data:
+- `style` — одно из значений: info | success | warning | danger
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+
+#### tabs — Табы
+Вкладки: массив { title, content }.
+Поля data:
+- `tabs` — массив { title, content }
+
+#### table — Таблица
+Таблица: строка заголовков и строки данных, ячейки через перенос строки.
+Поля data:
+- `cols` — одно из значений: 2 | 3 | 4
+- `_hh` — group-label
+- `h0` — строка
+- `h1` — строка
+- `rows` — массив объектов { c0, c1 }
+- `_hint` — hint
+
+#### image — Картинка
+Картинка из медиатеки (image/catalog/...) с подписью.
+Поля data:
+- `path` — строка
+- `caption` — строка
+
+#### toc — Оглавление
+Оглавление по заголовкам статьи — собирается автоматически.
+Поля data:
+- `title` — строка
+
+### Живые модули магазина (спец-метки)
+
+#### vita_html — HTML темы (спец-метка)
+Сырой HTML строго в whitelist санитайзера темы — используйте в последнюю очередь.
+Поля data:
+- `content` — текст (многострочный
+- `_hint` — hint
+
+#### vita_visual — Визуальные блоки (спец-метка)
+Готовый визуальный блок модуля «Вита — Визуальные блоки» по ID.
+Поля data:
+- `_catalog_hint` — hint
+- `blockId` — number
+
+#### vita_all_in_one — Универсальные блоки товаров (спец-метка)
+Блок модуля «Вита — Универсальные блоки товаров» по ID.
+Поля data:
+- `_catalog_hint` — hint
+- `blockId` — number
+
+#### vita_extra_wall — Стена категорий и брендов (спец-метка)
+Стена категорий/брендов модуля «Вита — Стена» по ID.
+Поля data:
+- `_catalog_hint` — hint
+- `blockId` — number
+
+#### vita_faq — FAQ-группы (спец-метка)
+Живой FAQ магазина: аккордеон из модуля «Вита — FAQ» + SEO-разметка. faqId 0 — все активные группы.
+Поля data:
+- `_catalog_hint` — hint
+- `faqId` — number
+- `title` — строка
+
+#### vita_form — Форма (спец-метка)
+Живая форма магазина (модуль «Вита — Формы»). formId 0 — блок не экспортируется.
+Поля data:
+- `_catalog_hint` — hint
+- `formId` — number
+Пример блока целиком:
+```json
+{"id":"b1","type":"hero","data":{"title":"Заголовок, который ==продаёт== сам","sub":"Подзаголовок с главным обещанием страницы: что получит покупатель и почему это стоит десяти секунд его внимания.","btn1_label":"Выбрать товар","btn1_url":"#tarify","btn2_label":"Как мы работаем","btn2_url":"#shagi","note":"Гарантия возврата · Доставка по всей стране","align":"center","sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"image","image":"","video":"","overlay":true,"padding":"xl","width":"default","anchor":""}}}
+```
+
+## Правила
+
+1. Ровно один H1 на страницу — только в блоке hero. Остальные заголовки: heading H2/H3/H4 или заголовки секций (sec.title).
+2. Тексты — короткие заглушки-намёки по мотивам донора (ремикс, НЕ дословное копирование чужого контента). Русский язык.
+3. Цвета, шрифты и отступы НЕ указываются — их задаёт палитра магазина. Никакого HTML, CSS, JavaScript и hex-цветов в текстах.
+4. Якоря секций (sec.anchor) — латиницей, без пробелов.
+5. Ссылки: https://..., #якорь, form:N (открыть форму магазина), agree:N (страница соглашения). form:N и ID модулей (faqId/formId/blockId) ставь ТОЛЬКО если пользователь попросил в пожеланиях; иначе оставь 0.
+6. Объём: 6–12 блоков. Структура донора важнее его наполнения: порядок и смысл секций, не их количество.
+7. Не выдумывай типы блоков: только перечисленные в реестре. Если для части донора нет подходящего блока — просто опусти её.
+8. Иконки — FontAwesome 4 имена без префикса fa- (truck, shield, clock-o...).
+
+ФОРМАТ ОТВЕТА (строго):
+Верни ТОЛЬКО JSON-объект проекта, без markdown-забора ``` и без пояснений до или после:
+{
+  "type": "vita-constructor-project",
+  "contract": "vcc-v1",
+  "title": "Название страницы",
+  "slug": "латинский-slug",
+  "themeMode": "light",
+  "blocks": [ { "id": "b1", "type": "…", "data": { … } } ]
+}
+Поля id/theme/themeMode можно опустить — конструктор достроит их сам. Обязательны: type блока и data.

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Вита — Конструктор контента</title>
-<meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные блоки контента».">
+<meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные HTML блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.9.0">
+<link rel="stylesheet" href="css/app.css?v=0.9.1">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -127,7 +127,7 @@
 		</select>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-preset-btn" id="vcc-preset-open" title="Загрузить пресет темы: Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора"><i class="fa fa-paint-brush"></i> <span id="vcc-preset-btn-label">Загрузить пресет</span></button>
 		<span class="vcc-header__spacer"></span>
-		<button type="button" class="vcc-btn vcc-btn--sm vcc-btn--primary" id="vcc-dl-html" title="Скачанный файл — единственный, что нужен: загрузите его в модуле «Универсальные блоки контента» кнопкой «Импорт из Конструктора»"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать для магазина</span></button>
+		<button type="button" class="vcc-btn vcc-btn--sm vcc-btn--primary" id="vcc-dl-html" title="Скачанный файл — единственный, что нужен: загрузите его в модуле «Универсальные HTML блоки контента» кнопкой «Импорт из Конструктора»"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать для магазина</span></button>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-assistant-open" title="Создать по донору: промт для любого AI и сборка ответа в лендинг"><i class="fa fa-magic"></i> Помощник</button>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-toggle" title="Страница на всю ширину: только сгенерированный контент, без палитры и шапки конструктора"><i class="fa fa-arrows-alt"></i> <span class="vcc-hide-narrow">На весь экран</span></button>
 		<span class="vcc-export-hint" tabindex="0" aria-label="Подсказка: как вставлять спец-метки модулей Виты, чтобы они пережили экспорт и импорт">
@@ -165,7 +165,7 @@
 			<div class="vcc-onboard__logo"><i class="fa fa-leaf"></i></div>
 			<h1 class="vcc-onboard__title" id="vcc-onboard-title">Вита — Конструктор контента</h1>
 		</div>
-		<p class="vcc-onboard__lead">Соберите страницу для магазина — описание товара, статью или посадочную — и перенесите её в модуль «Вита — Универсальные блоки контента» одним файлом.</p>
+		<p class="vcc-onboard__lead">Соберите страницу для магазина — описание товара, статью или посадочную — и перенесите её в модуль «Вита — Универсальные HTML блоки контента» одним файлом.</p>
 
 		<div class="vcc-onboard__preset">
 			<div class="vcc-drop vcc-drop--compact" id="vcc-welcome-drop" tabindex="0" title="Палитра задаёт цвета конструктора и будущей страницы">
@@ -289,6 +289,6 @@
 
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.9.0"></script>
+<script src="js/app.js?v=0.9.1"></script>
 </body>
 </html>
