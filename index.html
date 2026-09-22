@@ -6,7 +6,7 @@
 <title>Вита — Конструктор контента</title>
 <meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные HTML блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.9.3">
+<link rel="stylesheet" href="css/app.css?v=0.9.4">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -115,16 +115,6 @@
 <div class="vcc-app" id="vcc-app">
 	<header class="vcc-header">
 		<span class="vcc-header__brand"><i class="fa fa-leaf"></i> Вита · Конструктор</span>
-		<div class="vcc-mode-switch" id="vcc-mode-switch" title="Тема оформления страницы">
-			<button type="button" data-mode="light" title="Светлая тема"><i class="fa fa-sun-o"></i></button>
-			<button type="button" data-mode="dark" title="Тёмная тема"><i class="fa fa-moon-o"></i></button>
-		</div>
-		<select class="vcc-width-switch" id="vcc-width-switch" title="Ширина сайта (как в теме: Дизайн и стили → Ширина сайта): влияет на предпросмотр, моки и экспортный CSS">
-			<option value="compact">Ширина: компакт 1210</option>
-			<option value="optimal">Ширина: оптимал 1400</option>
-			<option value="wide">Ширина: широкая 1640</option>
-			<option value="fluid">Ширина: резина 100%</option>
-		</select>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-preset-btn" id="vcc-preset-open" title="Загрузить пресет темы: Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора"><i class="fa fa-paint-brush"></i> <span id="vcc-preset-btn-label">Загрузить пресет</span></button>
 		<span class="vcc-header__spacer"></span>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-btn--primary" id="vcc-dl-html" title="Скачанный файл — единственный, что нужен: загрузите его в модуле «Универсальные HTML блоки контента» кнопкой «Импорт из Конструктора»"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать для магазина</span></button>
@@ -152,6 +142,18 @@
 <div class="vcc-fullscreen" id="vcc-fullscreen">
 	<div class="vcc-fullscreen__bar">
 		<span class="vcc-fullscreen__label"><i class="fa fa-arrows-alt"></i> Предпросмотр страницы — <span id="vcc-fs-title"></span></span>
+		<div class="vcc-fullscreen__controls">
+			<div class="vcc-mode-switch" id="vcc-mode-switch" title="Тема оформления страницы">
+				<button type="button" data-mode="light" title="Светлая тема"><i class="fa fa-sun-o"></i></button>
+				<button type="button" data-mode="dark" title="Тёмная тема"><i class="fa fa-moon-o"></i></button>
+			</div>
+			<select class="vcc-width-switch" id="vcc-width-switch" title="Ширина сайта (как в теме: Дизайн и стили → Ширина сайта): влияет на предпросмотр, моки и экспортный CSS">
+				<option value="compact">Ширина: компакт 1210</option>
+				<option value="optimal">Ширина: оптимал 1400</option>
+				<option value="wide">Ширина: широкая 1640</option>
+				<option value="fluid">Ширина: резина 100%</option>
+			</select>
+		</div>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-exit" title="Вернуться к редактированию (Esc)"><i class="fa fa-compress"></i> Вернуться в редактирование</button>
 	</div>
 	<main class="vcc-fullscreen__page" id="vcc-fullscreen-page" tabindex="-1"></main>
@@ -289,6 +291,6 @@
 
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.9.3"></script>
+<script src="js/app.js?v=0.9.4"></script>
 </body>
 </html>

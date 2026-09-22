@@ -956,7 +956,6 @@ body.is-vcc-fs { overflow-y: auto; }
 	box-shadow: 0 2px 14px rgba(15, 23, 42, 0.08);
 	display: flex;
 	gap: 10px;
-	justify-content: space-between;
 	left: 0;
 	padding: 8px 18px;
 	position: sticky;
@@ -964,9 +963,17 @@ body.is-vcc-fs { overflow-y: auto; }
 	top: 0;
 	z-index: 50;
 }
+.vcc-fullscreen__bar .vcc-fullscreen__label { margin-right: auto; }
 .vcc-fullscreen__label {
 	color: var(--mp-text-muted, #64748B);
 	font-size: 13px;
+}
+/* Контролы страницы (тема / ширина) переехали из шапки редактора в панель
+   предпросмотра: они управляют именно страницей — здесь им место. */
+.vcc-fullscreen__controls {
+	align-items: center;
+	display: flex;
+	gap: 8px;
 }
 .vcc-fullscreen__label .fa { color: var(--mp-primary, #8C9D93); margin-right: 4px; }
 .vcc-fullscreen__page {
