@@ -379,22 +379,40 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	width: 14px;
 }
 .vcc-steps--timeline .vcc-step:hover .vcc-step__num { transform: scale(1.3); }
-.vcc-steps--numbers .vcc-step { background: transparent; border: 0; box-shadow: none; padding: 0; }
-.vcc-steps--numbers .vcc-step:hover { box-shadow: none; transform: none; }
+/* Стиль «Номера» — та же современная карточная система, номер вместо
+   точки-маркера: крупный круг 44px на карточке, градиент палитры,
+   hover — тот же подъём + рамка, номер мягко растёт вместе с карточкой. */
+.vcc-steps--numbers .vcc-step {
+	background: var(--mp-card-bg, #ffffff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: 16px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.06);
+	height: 100%;
+	padding: 26px 30px;
+	transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.vcc-steps--numbers .vcc-step:hover {
+	border-color: var(--mp-primary, #8C9D93);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 18px 44px rgba(0, 0, 0, 0.1);
+	transform: translateY(-3px);
+}
 .vcc-steps--numbers .vcc-step__num {
-	background: var(--mp-primary, #8C9D93);
+	background: linear-gradient(135deg, var(--mp-primary, #8C9D93), var(--mp-secondary, #5A8F76));
 	border: 0;
 	border-radius: var(--mp-radius-pill, 9999px);
-	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 	color: var(--mp-text-inverse, #ffffff);
 	display: inline-flex;
-	height: 40px;
+	font-size: 17px;
+	font-weight: 700;
+	height: 44px;
 	justify-content: center;
-	left: 0;
-	margin-bottom: 10px;
+	margin-bottom: 14px;
 	position: static;
-	width: 40px;
+	transition: transform 0.25s ease;
+	width: 44px;
 }
+.vcc-steps--numbers .vcc-step:hover .vcc-step__num { transform: scale(1.08); }
 .vcc-step__label {
 	color: var(--mp-primary, #8C9D93);
 	font-size: 12px;
@@ -410,7 +428,8 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 /* Тёмная тема: карточка уже на --mp-card-bg (токен сам тёмный),
    точка получает тёмную обводку фона страницы, тени слабее. */
 [data-theme="dark"] .vcc-steps--timeline .vcc-step__num { border-color: var(--mp-bg-body, #221F24); }
-[data-theme="dark"] .vcc-steps--timeline .vcc-step { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.25); }
+[data-theme="dark"] .vcc-steps--timeline .vcc-step,
+[data-theme="dark"] .vcc-steps--numbers .vcc-step { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.25); }
 .vcc-step__text p { margin: 0 0 8px; }
 .vcc-step__text p:last-child { margin-bottom: 0; }
 
