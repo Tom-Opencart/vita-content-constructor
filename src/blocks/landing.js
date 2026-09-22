@@ -386,10 +386,11 @@ Tilda-модель — каждый «широкий» блок экспорти
 		},
 		fields: function () {
 			return sectionFields().concat([
-				{ key: 'style', label: 'Стиль', type: 'select', options: [['timeline', 'Таймлайн (вертикальная линия)'], ['numbers', 'Простые номера']] },
+				{ key: 'style', label: 'Стиль', type: 'select', options: [['timeline', 'Таймлайн — карточки на линии'], ['numbers', 'Простые номера (без линии)']] },
 				{
 					key: 'items', label: 'Шаги', type: 'rows-editor', addLabel: 'Добавить шаг', max: 8,
 					itemFields: [
+						{ key: 'label', label: 'Подпись над названием (например, год)', type: 'text', placeholder: '2024' },
 						{ key: 'icon', label: 'Иконка (необязательно)', type: 'text', placeholder: 'check' },
 						{ key: 'title', label: 'Название шага', type: 'text' },
 						{ key: 'text', label: 'Описание', type: 'textarea', rows: 2, markdown: true }
@@ -406,9 +407,11 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
 			html += '<div class="vcc-steps vcc-steps--' + style + '">';
 			for (var i = 0; i < items.length; i++) {
+				var label = String(items[i].label || '').trim();
 				html += '<div class="vcc-step">' +
 					'<span class="vcc-step__num">' + (i + 1) + '</span>' +
 					'<div class="vcc-step__body">' +
+					(label ? '<div class="vcc-step__label">' + vccInline(label) + '</div>' : '') +
 					'<h3 class="vcc-step__title">' + vccInline(items[i].title || '') + '</h3>' +
 					'<div class="vcc-step__text">' + vccBlock(items[i].text || '') + '</div>' +
 					'</div></div>';

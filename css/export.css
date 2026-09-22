@@ -329,36 +329,75 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-media-text__actions { margin-top: 20px; }
 
 /* --- steps --- */
-.vcc-steps { display: grid; gap: 28px; }
-.vcc-steps--timeline .vcc-step { padding-left: 56px; position: relative; }
-.vcc-steps--timeline .vcc-step::before {
+.vcc-steps { display: grid; gap: 28px; }/* Таймлайн: вертикальная линия СЛЕВА от карточек (как в макете Виты):
+   линия на самом контейнере (left: 7px при padding-left: 56px),
+   точки на линии напротив верхней части каждой карточки. */
+.vcc-steps--timeline { gap: 24px; padding-left: 56px; position: relative; }
+.vcc-steps--timeline::before {
 	background: var(--mp-border-color, #E2E8F0);
-	bottom: -28px;
+	bottom: 40px;
 	content: '';
-	left: 19px;
+	left: 7px;
 	position: absolute;
 	top: 40px;
 	width: 2px;
 }
-.vcc-steps--timeline .vcc-step:last-child::before { display: none; }
-.vcc-step__num {
-	align-items: center;
+.vcc-steps--timeline .vcc-step {
+	background: var(--mp-card-bg, #ffffff);
+	border-radius: var(--mp-radius-lg, 6px);
+	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+	height: 100%;
+	padding: 28px 32px;
+	position: relative;
+	transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.vcc-steps--timeline .vcc-step:hover {
+	box-shadow: var(--mp-shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.1));
+	transform: translateY(-3px);
+}
+/* Точка на линии напротив карточки (текст номера скрыт — это маркер). */
+.vcc-steps--timeline .vcc-step__num {
 	background: var(--mp-primary, #8C9D93);
+	border: 3px solid var(--mp-bg-body, #F8FAFC);
+	border-radius: 50%;
+	font-size: 0;
+	height: 14px;
+	left: -55px;
+	overflow: hidden;
+	position: absolute;
+	top: 34px;
+	width: 14px;
+}
+.vcc-steps--numbers .vcc-step { background: transparent; border: 0; box-shadow: none; padding: 0; }
+.vcc-steps--numbers .vcc-step:hover { box-shadow: none; transform: none; }
+.vcc-steps--numbers .vcc-step__num {
+	background: var(--mp-primary, #8C9D93);
+	border: 0;
 	border-radius: var(--mp-radius-pill, 9999px);
 	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
 	color: var(--mp-text-inverse, #ffffff);
 	display: inline-flex;
-	font-weight: 700;
 	height: 40px;
 	justify-content: center;
 	left: 0;
-	position: absolute;
-	top: 0;
+	margin-bottom: 10px;
+	position: static;
 	width: 40px;
 }
-.vcc-steps--numbers .vcc-step__num { position: static; margin-bottom: 10px; }
+.vcc-step__label {
+	color: var(--mp-primary, #8C9D93);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	margin-bottom: 4px;
+}
 .vcc-step__title { font-size: 18px; margin: 6px 0 6px; }
 .vcc-step__text { color: var(--mp-text-muted, #64748B); }
+.vcc-step__text p { margin: 0 0 8px; }
+.vcc-step__text p:last-child { margin-bottom: 0; }
+/* Тёмная тема: карточка уже на --mp-card-bg (токен сам тёмный),
+   точка получает тёмную обводку фона страницы. */
+[data-theme="dark"] .vcc-steps--timeline .vcc-step__num { border-color: var(--mp-bg-body, #221F24); }
 .vcc-step__text p { margin: 0 0 8px; }
 .vcc-step__text p:last-child { margin-bottom: 0; }
 
