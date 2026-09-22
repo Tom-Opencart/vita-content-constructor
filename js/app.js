@@ -3772,12 +3772,12 @@ var VccImport = (function () {
 		$('#vcc-width-switch').addEventListener('change', function () {
 			VccStore.setContainerWidth(this.value);
 		});
-		/* Экспорт: две кнопки вместо меню «Файл» — для магазина или черновик */
+		/* Экспорт: одна кнопка «Скачал / Загрузил» — файл для магазина, загрузка
+		   черновика — на первом экране, стили всегда подключает тема */
 		$('#vcc-dl-html').addEventListener('click', function () {
 			validateExport(VccStore.currentProject());
 			VccExport.downloadHtml(VccStore.currentProject());
 		});
-		$('#vcc-dl-json').addEventListener('click', function () { VccExport.downloadJson(VccStore.currentProject()); });
 		$('#vcc-home').addEventListener('click', showWelcome);
 
 		/* Помощник «Создать по донору»: кнопка в шапке + карточка онбординга */
@@ -3806,15 +3806,14 @@ var VccImport = (function () {
 
 /* ============================================================
 Вита — Конструктор контента · ui/assistant.js
-Визард «Собрать по образцу сайта»: три шага, ни одного
-технического термина.
+Визард «Собрать страницу по образцу»: три шага, ведёт сам.
   Шаг 1 — ссылка на страницу-образец (+ что важно учесть).
-  Шаг 2 — одна кнопка: скопировать задание → отдать нейросети.
-  Шаг 3 — вставить ответ нейросети → «Собрать страницу».
+  Шаг 2 — одна кнопка: скопировать задание → отдать нейросети;
+          после копирования шаг сам объясняет, что дальше.
+  Шаг 3 — вставить ответ → «Готово — собрать страницу».
 Конструктор остаётся статическим: ни одной сети, ни одного ключа.
-Невалидный ответ не роняет пользователя в техническую ошибку:
-если модель ответила не тем, визард объясняет по-человечески,
-что написать нейросети, и оставляет вставленный текст на месте.
+Термины JSON/HTML/CSS не используются вовсе: пользователь делает
+«Скачал / Загрузил», всё остальное визард делает за него.
 ============================================================ */
 'use strict';
 
@@ -3830,6 +3829,12 @@ var VccImport = (function () {
 		}
 		var out = $('#vcc-assistant-result');
 		if (out) { out.style.display = 'none'; out.innerHTML = ''; }
+		/* Фокус на первый контрол шага: вставил → сразу можно работать */
+		var step = modal.querySelector('.vcc-wizard__step[data-step="' + n + '"]');
+		if (step) {
+			var focusable = step.querySelector('input, textarea, .vcc-btn--primary');
+			if (focusable) focusable.focus();
+		}
 	}
 
 	function openAssistant() {
@@ -3846,6 +3851,10 @@ var VccImport = (function () {
 		}
 		var resp = $('#vcc-assistant-response');
 		if (resp) resp.value = '';
+		/* Сброс шага 2 к стартовому виду: подсказка скрыта, список — исходный */
+		var hint = $('#vcc-wizard-step2-hint');
+		if (hint) hint.classList.remove('is-visible');
+		if (howInitial && modalOl()) modalOl().innerHTML = howInitial;
 		showStep(1);
 		modal.classList.add('is-open');
 		var first = $('#vcc-assistant-donor');
@@ -3887,6 +3896,17 @@ var VccImport = (function () {
 				label.textContent = okFlag ? 'Скопировано' : 'Не удалось — скачайте файл';
 				setTimeout(function () { label.textContent = prev; }, 2200);
 			}
+			if (okFlag) {
+				/* Ведём за руку: после копирования шаг сам объясняет, что делать */
+				var how = modalOl();
+				if (how) {
+					how.innerHTML = '<li><i class="fa fa-check" style="color: var(--mp-success, #4CAF50); margin-right: 6px;"></i>Задание скопировано — оно уже в буфере обмена.</li>' +
+						'<li>Откройте нейросеть с доступом в интернет (ChatGPT, Claude, DeepSeek) и вставьте задание в чат.</li>' +
+						'<li>Когда она ответит — переходите к шагу 3: там её ответ превратится в страницу.</li>';
+				}
+				var hint = $('#vcc-wizard-step2-hint');
+				if (hint) hint.classList.add('is-visible');
+			}
 		};
 		if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
 			navigator.clipboard.writeText(text).then(function () { done(true); }, function () { legacy(); });
@@ -3920,6 +3940,13 @@ var VccImport = (function () {
 	function toast(text, kind) {
 		if (window.vccToast) window.vccToast(text, kind || 'info');
 	}
+
+	function modalOl() {
+		var step2 = document.querySelector('.vcc-wizard__step[data-step="2"]');
+		return step2 ? step2.querySelector('.vcc-wizard__how') : null;
+	}
+
+	var howInitial = '';
 
 	function buildLanding() {
 		var out = $('#vcc-assistant-result');
@@ -3958,6 +3985,8 @@ var VccImport = (function () {
 	function initAssistant() {
 		var modal = $('#vcc-assistant');
 		if (!modal) return;
+		var howEl = modalOl();
+		howInitial = howEl ? howEl.innerHTML : '';
 
 		$('#vcc-wizard-next1').addEventListener('click', function () {
 			var donor = $('#vcc-assistant-donor').value.trim();
@@ -3970,8 +3999,8 @@ var VccImport = (function () {
 			showStep(2);
 		});
 		$('#vcc-wizard-back2').addEventListener('click', function () { showStep(1); });
-		$('#vcc-assistant-copy').addEventListener('click', function () { copyPrompt(this); });
 		$('#vcc-wizard-next2').addEventListener('click', function () { showStep(3); });
+		$('#vcc-assistant-copy').addEventListener('click', function () { copyPrompt(this); });
 		$('#vcc-wizard-back3').addEventListener('click', function () { showStep(2); });
 		$('#vcc-assistant-build').addEventListener('click', buildLanding);
 		$('#vcc-assistant-close').addEventListener('click', closeAssistant);

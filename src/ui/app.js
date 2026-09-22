@@ -760,12 +760,12 @@
 		$('#vcc-width-switch').addEventListener('change', function () {
 			VccStore.setContainerWidth(this.value);
 		});
-		/* Экспорт: две кнопки вместо меню «Файл» — для магазина или черновик */
+		/* Экспорт: одна кнопка «Скачал / Загрузил» — файл для магазина, загрузка
+		   черновика — на первом экране, стили всегда подключает тема */
 		$('#vcc-dl-html').addEventListener('click', function () {
 			validateExport(VccStore.currentProject());
 			VccExport.downloadHtml(VccStore.currentProject());
 		});
-		$('#vcc-dl-json').addEventListener('click', function () { VccExport.downloadJson(VccStore.currentProject()); });
 		$('#vcc-home').addEventListener('click', showWelcome);
 
 		/* Помощник «Создать по донору»: кнопка в шапке + карточка онбординга */

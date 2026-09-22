@@ -127,8 +127,7 @@
 		</select>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-preset-btn" id="vcc-preset-open" title="Загрузить пресет темы: Расширения → Вита → Дизайн и стили → Экспорт пресета для Конструктора"><i class="fa fa-paint-brush"></i> <span id="vcc-preset-btn-label">Загрузить пресет</span></button>
 		<span class="vcc-header__spacer"></span>
-		<button type="button" class="vcc-btn vcc-btn--sm vcc-btn--primary" id="vcc-dl-html" title="Сохранить HTML-файл этой страницы — загрузите его в модуле «Универсальные блоки контента» кнопкой «Импорт из Конструктора»"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать для магазина</span></button>
-		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-dl-json" title="Сохранить черновик файлом — откройте его позже на главном экране: «Открыть сохранённую страницу файлом»"><i class="fa fa-save"></i> <span class="vcc-hide-narrow">Сохранить проект</span></button>
+		<button type="button" class="vcc-btn vcc-btn--sm vcc-btn--primary" id="vcc-dl-html" title="Скачанный файл — единственный, что нужен: загрузите его в модуле «Универсальные блоки контента» кнопкой «Импорт из Конструктора»"><i class="fa fa-download"></i> <span class="vcc-hide-narrow">Скачать для магазина</span></button>
 		<button type="button" class="vcc-btn vcc-btn--sm vcc-hide-narrow" id="vcc-assistant-open" title="Создать по донору: промт для любого AI и сборка ответа в лендинг"><i class="fa fa-magic"></i> Помощник</button>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-fullscreen-toggle" title="Страница на всю ширину: только сгенерированный контент, без палитры и шапки конструктора"><i class="fa fa-arrows-alt"></i> <span class="vcc-hide-narrow">На весь экран</span></button>
 		<span class="vcc-export-hint" tabindex="0" aria-label="Подсказка: как вставлять спец-метки модулей Виты, чтобы они пережили экспорт и импорт">
@@ -216,10 +215,11 @@
 		<div class="vcc-assistant__brand">
 			<span class="vcc-assistant__logo"><i class="fa fa-magic"></i></span>
 			<div>
-				<h2 class="vcc-assistant__title" id="vcc-assistant-title">Помощник — создать по донору</h2>
-				<p class="vcc-assistant__lead">Конструктор не ходит в сеть сам: он собирает промт со строгим списком своих блоков, а страницу-донор читает AI, которого выберете вы. Его же ответ верните на второй вкладке — лендинг соберётся в редакторе.</p>
+				<h2 class="vcc-assistant__title" id="vcc-assistant-title">Собрать страницу по образцу</h2>
+				<p class="vcc-assistant__lead">Страница-образец, которая вам нравится, изучается нейросетью, которую выберете вы. Конструктор подготовит задание, вы его скопируете, вставите ответ — черновик соберётся сам.</p>
 			</div>
-		</div>		<div class="vcc-wizard">
+		</div>
+		<div class="vcc-wizard">
 			<div class="vcc-wizard__step is-active" data-step="1">
 				<div class="vcc-wizard__num">1</div>
 				<div class="vcc-wizard__body">
@@ -233,8 +233,8 @@
 						<input type="text" id="vcc-assistant-wishes" placeholder="Например: акцент на тарифы, без блога, кнопки ведут на форму заявки">
 					</label>
 					<div class="vcc-wizard__nav">
-						<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-wizard-next1">Дальше <i class="fa fa-arrow-right"></i></button>
-						<span class="vcc-wizard__nav-hint">Конструктор сам подготовит задание для нейросети</span>
+						<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-wizard-next1">Дальше — подготовить задание <i class="fa fa-arrow-right"></i></button>
+						<span class="vcc-wizard__nav-hint">Его вы отдадите нейросети на следующем шаге</span>
 					</div>
 				</div>
 			</div>
@@ -254,8 +254,12 @@
 					</details>
 					<div class="vcc-wizard__nav">
 						<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-copy"><i class="fa fa-clipboard"></i> <span>Скопировать задание</span></button>
-						<button type="button" class="vcc-btn" id="vcc-wizard-next2">Скопировала — дальше <i class="fa fa-arrow-right"></i></button>
-						<button type="button" class="vcc-btn vcc-btn--ghost" id="vcc-wizard-back2"><i class="fa fa-arrow-left"></i> Назад</button>
+						<button type="button" class="vcc-btn vcc-btn--ghost" id="vcc-wizard-back2"><i class="fa fa-arrow-left"></i> Изменить ссылку</button>
+					</div>
+					<div class="vcc-wizard__step-hint" id="vcc-wizard-step2-hint">
+						<div class="vcc-wizard__step-hint-title"><i class="fa fa-check-circle"></i> Задание скопировано</div>
+						<p>Вставьте его в чат нейросети — она изучит страницу-образец. Когда ответит, возвращайтесь сюда.</p>
+						<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-wizard-next2">Нейросеть ответила — дальше <i class="fa fa-arrow-right"></i></button>
 					</div>
 				</div>
 			</div>
@@ -275,10 +279,9 @@
 				</div>
 				<div class="vcc-assistant__result" id="vcc-assistant-result" style="display:none"></div>
 				<div class="vcc-wizard__nav">
-					<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-build"><i class="fa fa-magic"></i> Собрать страницу</button>
-					<button type="button" class="vcc-btn vcc-btn--ghost" id="vcc-wizard-back3"><i class="fa fa-arrow-left"></i> Назад</button>
-					<span class="vcc-wizard__nav-hint">Черновик откроется в редакторе — дальше скачивайте его для магазина одной кнопкой</span>
-				</div>
+						<button type="button" class="vcc-btn vcc-btn--primary" id="vcc-assistant-build"><i class="fa fa-magic"></i> Готово — собрать страницу</button>
+						<button type="button" class="vcc-btn vcc-btn--ghost" id="vcc-wizard-back3"><i class="fa fa-arrow-left"></i> Повторить шаг 2</button>
+					</div>
 			</div>
 		</div>
 	</div>

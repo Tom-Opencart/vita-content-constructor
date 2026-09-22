@@ -1115,6 +1115,44 @@ v0.8.0 · Помощник «Создать по донору»
 }
 .vcc-wizard__bubble strong { color: var(--mp-text-main, #2D3748); }
 .vcc-wizard__bubble-text { display: inline; }
+/* Шаг 2: подсказка «что дальше» — проявляется после копирования задания,
+   чтобы визард вёл сам, без догадок, что нажимать следующим */
+.vcc-wizard__step-hint {
+	background: var(--mp-bg-subtle, #F8FAFC);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-left: 3px solid var(--mp-primary, #8C9D93);
+	border-radius: var(--mp-radius-md, 4px);
+	margin-top: 14px;
+	opacity: 0;
+	padding: 12px 14px;
+	transform: translateY(-6px);
+	transition: opacity 0.35s ease, transform 0.35s ease;
+	visibility: hidden;
+}
+.vcc-wizard__step-hint.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+	visibility: visible;
+}
+.vcc-wizard__step-hint-title {
+	color: var(--mp-text-main, #2D3748);
+	font-weight: 700;
+	font-size: 13.5px;
+	margin-bottom: 4px;
+}
+.vcc-wizard__step-hint-title .fa { color: var(--mp-success, #4CAF50); margin-right: 6px; }
+.vcc-wizard__step-hint p {
+	color: var(--mp-text-muted, #64748B);
+	font-size: 13px;
+	line-height: 1.55;
+	margin: 0 0 10px;
+}
+/* Смена шага: мягкий подскок нового шага вместо резкой подмены */
+@keyframes vcc-step-in {
+	from { opacity: 0; transform: translateY(8px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+.vcc-wizard__step.is-active { animation: vcc-step-in 0.28s ease; }
 .vcc-assistant__pane { display: none; }
 .vcc-assistant__pane.is-active { display: block; }
 .vcc-assistant__field {
