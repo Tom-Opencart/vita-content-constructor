@@ -1,9 +1,10 @@
 /* ============================================================
 Вита — Конструктор контента · blocks/shortcodes.js
 Блоки-шорткоды (M5, 0.5.0): вставка живых модулей темы в контент.
-  [vita_faq]        — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
-  [vita_form]       — форма модуля «Вита — Формы» (атрибут: id, обязателен)
-  [vita_visual]     — инстанс «Вита — Визуальные блоки» (слайдер/баннер/LookBook)
+  [vita_faq]          — FAQ-группы модуля «Вита — FAQ» (атрибуты: id, title)
+  [vita_form]         — форма модуля «Вита — Формы» (атрибут: id, обязателен)
+  [vita_testimonial]  — отзывы о магазине (атрибуты: id | count, random)
+  [vita_visual]       — инстанс «Вита — Визуальные блоки» (слайдер/баннер/LookBook)
   [vita_all_in_one] — инстанс «Вита — Универсальные блоки товаров»
   [vita_extra_wall] — инстанс «Вита — Стена категорий, брендов и кастомных ссылок»
 Пикер ID (0.4.0): поля типа select со списком РЕАЛЬНЫХ групп/форм/блоков
@@ -20,6 +21,8 @@
 Плейсхолдеры id:
   • faqId=0    → все активные группы (валидный вызов renderFaq)
   • formId=0   → форма не выбрана; экспорт этого блока = ''
+  • testimonialId=0 → без count≥1 экспорт = ''; с count — первые N последних
+    (или случайных, random='1') отзывов status=1
   • blockId=0  → блок не выбран; экспорт этого блока = '' (vita_visual/
     vita_all_in_one/vita_extra_wall рендерят конкретный инстанс)
 ============================================================ */
@@ -103,6 +106,29 @@
 			}
 		}
 		return 'форма #' + id;
+	}
+
+	/* Отзывы (0.9.2): options/label пикера [vita_testimonial]. count несёт
+	 * рейтинг — подпись селекта «Имя · город (5★)». */
+	function testimonialOptions() {
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		var options = [['0', '— Выберите отзыв —']];
+		for (var i = 0; i < (catalog.testimonials || []).length; i++) {
+			var t = catalog.testimonials[i];
+			options.push([String(t.id), 'Отзыв #' + t.id + ' · ' + (t.title || 'Без автора') + (t.count ? ' (' + t.count + '\u2605)' : '')]);
+		}
+		return options;
+	}
+
+	function testimonialLabel(id) {
+		if (!id) return 'отзыв не выбран — выберите из списка или укажите ID';
+		var catalog = VccStore.getCatalog() || VCC_CATALOG_DEFAULT;
+		for (var i = 0; i < (catalog.testimonials || []).length; i++) {
+			if (catalog.testimonials[i].id === id) {
+				return catalog.testimonials[i].title || ('отзыв #' + id);
+			}
+		}
+		return 'отзыв #' + id;
 	}
 
 	/* --- Инстансы модулей темы ([vita_visual], [vita_all_in_one],
@@ -276,6 +302,50 @@
 		toHTML: function (data) {
 			var id = Math.max(0, parseInt(data.formId, 10) || 0);
 			return shortcodeChip('Форма темы', formLabel(id));
+		}
+	});
+
+	/* --- Отзывы о магазине ([vita_testimonial]) — 0.9.2: живые отзывы
+	 * витрины (vita_comment, status=1) вместо статичных текстов. Пикер по
+	 * каталогу пресета; атрибуты: id (конкретный отзыв), count, random.
+	 * Без id шорткод выводит первые count отзывов — count=0 не экспортируем. --- */
+	BlockRegistry.register({
+		type: 'vita_testimonial',
+		label: 'Отзыв о магазине (спец-метка)',
+		icon: 'fa-comments-o',
+		group: 'modules',
+		defaults: { testimonialId: 0, count: 3, random: false, sec: { bg: 'none', padding: 'm', width: 'default' } },
+		fields: function () {
+			return [
+				catalogHint(),
+				{ key: 'testimonialId', label: 'Конкретный отзыв', type: hasCatalog('testimonials') ? 'select' : 'number', options: testimonialOptions(), picker: true },
+				{ key: 'count', label: 'Сколько отзывов вывести (если не выбран конкретный)', type: 'number' },
+				{ key: 'random', label: 'Случайный порядок', type: 'checkbox' },
+				{ key: '_hint', label: 'Выводятся живые отзывы из раздела «Отзывы о магазине» — новые появляются сами. Конкретный отзыв сильнее счётчика.', type: 'hint' }
+			].concat(VccSection.fields());
+		},
+		/* Экспорт: без id берём count≥1; оба пустые — блок не экспортируем.
+		 * random='1' → движок темы тасует выборку (ORDER BY RAND()). */
+		toExportHTML: function (data) {
+			var id = Math.max(0, parseInt(data.testimonialId, 10) || 0);
+			var count = Math.max(0, parseInt(data.count, 10) || 0);
+			if (!id && count < 1) return '';
+			var attrs = id ? ' id="' + id + '"' : (count > 1 ? ' count="' + count + '"' : '');
+			if (!id && data.random) attrs += ' random="1"';
+			var sc = shortcodeWrap('[vita_testimonial' + attrs + ']');
+			var sec = data.sec || {};
+			var hasSec = (sec.bg && sec.bg !== 'none') ||
+				(sec.padding && sec.padding !== 'm') ||
+				(sec.width && sec.width !== 'default') ||
+				sec.anchor || sec.eyebrow || sec.title || sec.text;
+			if (!hasSec) return sc;
+			return VccSection.open(sec) + VccSection.head(sec) + sc + VccSection.close();
+		},
+		toHTML: function (data) {
+			var id = Math.max(0, parseInt(data.testimonialId, 10) || 0);
+			var count = Math.max(0, parseInt(data.count, 10) || 0);
+			var label = id ? testimonialLabel(id) : (count > 0 ? count + ' последних' + (data.random ? ', случайный порядок' : '') : 'отзыв не выбран');
+			return shortcodeChip('Отзывы темы', label);
 		}
 	});
 })();

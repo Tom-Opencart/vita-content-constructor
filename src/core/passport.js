@@ -341,12 +341,18 @@ var VccPassport = (function () {
 				var fields = fieldsOf(def);
 				if (fields.length) {
 					out.push('Поля data:');
+					var secMentioned = false;
 					fields.forEach(function (f) {
-						if (f.key === 'sec') {
-							out.push('- `sec` — общие поля секции (см. «Общие поля секции» выше)');
-						} else {
-							out.push('- `' + f.key + '` — ' + describeField(f));
+						/* sec и sec.* — один указатель на блок вместо 11 строк-дублей:
+						 * состав полей секции документирован в «Общие поля секции» */
+						if (f.key === 'sec' || f.key.indexOf('sec.') === 0) {
+							if (!secMentioned) {
+								out.push('- `sec` — общие поля секции (см. «Общие поля секции» выше)');
+								secMentioned = true;
+							}
+							return;
 						}
+						out.push('- `' + f.key + '` — ' + describeField(f));
 					});
 				} else {
 					out.push('Поля: нет (только `sec`).');

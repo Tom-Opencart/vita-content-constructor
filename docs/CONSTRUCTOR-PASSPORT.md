@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.9.1 · контракт: vcc-v1
+Версия конструктора: 0.9.2 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -58,17 +58,7 @@ anchor — якорь латиницей для ссылок #anchor
 Первый экран лендинга: H1, подзаголовок, до двух кнопок, строка доверия.
 Поля data:
 - `_hint` — hint
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `title` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `sub` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
@@ -85,17 +75,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### logos — Логотипы партнёров
 Полоса логотипов партнёров/клиентов.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `items` — массив объектов { src, alt, url }
 Пример:
 ```json
@@ -105,17 +85,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### features — Преимущества
 Сетка карточек-преимуществ с иконками (2–4 колонки).
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `cols` — одно из значений: 2 | 3 | 4
 - `items` — массив объектов { icon, title, text }
 Пример:
@@ -126,17 +96,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### media_text — Картинка + текст
 Картинка + текст рядом, кнопка, картинка может стоять справа (flip).
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `img` — строка
 - `img_alt` — строка
 - `caption` — строка
@@ -152,17 +112,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### steps — Шаги / Таймлайн
 Шаги процесса: numbers (номера) или timeline (вертикальная линия).
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `style` — одно из значений: timeline | numbers
 - `items` — массив объектов { icon, title, text }
 Пример:
@@ -173,17 +123,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### stats — Цифры и факты
 Полоса цифр-показателей: { value, suffix, label }.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `items` — массив объектов { value, suffix, label }
 Пример:
 ```json
@@ -193,17 +133,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### reviews — Отзывы (текстовые)
 Карточки отзывов: текст, имя, роль, звёзды 0–5, аватар.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `cols` — одно из значений: 2 | 3
 - `items` — массив объектов { text, name, role, stars, avatar }
 - `_hint` — hint
@@ -215,17 +145,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### team — Команда
 Команда: фото, имя, роль, описание.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `items` — массив объектов { photo, name, role, text }
 Пример:
 ```json
@@ -235,17 +155,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### documents — Документы
 Сетка документов/сертификатов: картинка-превью + название.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `items` — массив объектов { image, title, url }
 Пример:
 ```json
@@ -255,17 +165,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### cta — Призыв к действию
 Финальный призыв к действию: заголовок, текст, до двух кнопок.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
 - `btn1_url` — строка
@@ -280,17 +180,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### contacts — Контакты
 Список контактов: { icon, label, value, url }.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `items` — массив объектов { icon, label, value, url }
 - `_hint` — hint
 Пример:
@@ -301,17 +191,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### socials — Соцсети
 Кнопки-ссылки соцсетей: { icon, url, label }.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `align` — одно из значений: center | left
 - `items` — массив объектов { icon, url, label }
 - `_hint` — hint
@@ -323,17 +203,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### badges — Бейджи доверия
 Плашки доверия с иконкой: { icon, title, text }.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `items` — массив объектов { icon, title, text }
 Пример:
 ```json
@@ -343,17 +213,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### checklist — Чек-лист
 Список с галочками, пункты — инлайн-разметка.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `cols` — одно из значений: 1 | 2
 - `items` — массив объектов { md }
 Пример:
@@ -364,17 +224,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### divider — Разделитель
 Разделитель: отступ / линия / орнамент.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `style` — одно из значений: space | line | ornament
 Пример:
 ```json
@@ -384,17 +234,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### seotext — SEO-текст (спойлер)
 Сворачиваемый SEO-текст: заголовок + большой текст.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `title` — строка
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `open` — булево (true/false)
@@ -406,17 +246,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### pricing — Тарифы
 Карточки тарифов: цена, старая цена, пункты-фичи, флаг «Рекомендуем», кнопка.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `align` — одно из значений: center | left
 - `items` — массив объектов { name, price, old_price, period, features, featured, flag_label, btn_label, btn_url, note }
 - `_hint` — hint
@@ -428,17 +258,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### columns — Колонки текста
 Колонки произвольного текста (2–4).
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `cols` — одно из значений: 2 | 3 | 4
 - `items` — массив объектов { md }
 Пример:
@@ -449,17 +269,7 @@ anchor — якорь латиницей для ссылок #anchor
 #### video — Видео
 Видео с YouTube/Vimeo/Rutube: ссылка или iframe-код сервиса.
 Поля data:
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 - `src` — текст (многострочный
 - `ratio` — одно из значений: 16x9 | 4x3 | 1x1
 - `title` — строка
@@ -568,17 +378,7 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `content` — текст (многострочный
 - `_hint` — hint
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 Пример:
 ```json
 {"id":"b1","type":"vita_html","data":{"content":"<div class=\"vcc-paragraph\">Ваш HTML…</div>","sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
@@ -589,17 +389,7 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `_catalog_hint` — hint
 - `blockId` — number
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 Пример:
 ```json
 {"id":"b1","type":"vita_visual","data":{"blockId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
@@ -610,17 +400,7 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `_catalog_hint` — hint
 - `blockId` — number
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 Пример:
 ```json
 {"id":"b1","type":"vita_all_in_one","data":{"blockId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
@@ -631,17 +411,7 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `_catalog_hint` — hint
 - `blockId` — number
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 Пример:
 ```json
 {"id":"b1","type":"vita_extra_wall","data":{"blockId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
@@ -653,17 +423,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `_catalog_hint` — hint
 - `faqId` — number
 - `title` — строка
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 Пример:
 ```json
 {"id":"b1","type":"vita_faq","data":{"faqId":0,"title":"","sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
@@ -674,20 +434,23 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `_catalog_hint` — hint
 - `formId` — number
-- `sec.eyebrow` — строка
-- `sec.title` — строка
-- `sec.text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
-- `sec.align` — одно из значений: center | left
-- `sec.bg` — одно из значений: none | light | surface | primary | image | video
-- `sec.image` — строка
-- `sec.video` — строка
-- `sec.overlay` — булево (true/false)
-- `sec.padding` — одно из значений: s | m | l | xl
-- `sec.width` — одно из значений: default | narrow | full
-- `sec.anchor` — строка
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
 Пример:
 ```json
 {"id":"b1","type":"vita_form","data":{"formId":1,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
+```
+
+#### vita_testimonial — Отзыв о магазине (спец-метка)
+Поля data:
+- `_catalog_hint` — hint
+- `testimonialId` — number
+- `count` — number
+- `random` — булево (true/false)
+- `_hint` — hint
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+Пример:
+```json
+{"id":"b1","type":"vita_testimonial","data":{"testimonialId":0,"count":3,"random":false,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""}}}
 ```
 
 ## Формат ответа для AI

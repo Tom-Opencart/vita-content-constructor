@@ -100,10 +100,10 @@ var VCC_PRESET_MAP = {
  * FAQ-группы и формы — пикеры блоков-шорткодов вместо ручного ввода ID.
  * Старые пресеты поля не несут — каталог пуст, блоки дают ручной ввод.
  */
-var VCC_CATALOG_DEFAULT = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [] };
+var VCC_CATALOG_DEFAULT = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [], testimonials: [] };
 
 function vccNormalizeCatalog(raw) {
-	var out = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [] };
+	var out = { faqGroups: [], forms: [], visualBlocks: [], productBlocks: [], walls: [], testimonials: [] };
 	if (!raw || typeof raw !== 'object') return out;
 	function clean(list, nameKey) {
 		var res = [];
@@ -124,6 +124,9 @@ function vccNormalizeCatalog(raw) {
 	}
 	out.faqGroups = clean(raw.faqGroups);
 	out.forms = clean(raw.forms);
+	/* Отзывы о магазине (0.9.2): каталог для пикера [vita_testimonial].
+	 * count несёт рейтинг (1-5) — он же подпись в селекте. */
+	out.testimonials = clean(raw.testimonials);
 	/* Инстансы модулей-шорткодов (0.5.0): слайдеры/баннеры/LookBook,
 	 * товарные блоки, стены. Старые пресеты поля не несут — списки пусты. */
 	out.visualBlocks = clean(raw.visualBlocks);
