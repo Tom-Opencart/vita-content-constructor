@@ -332,45 +332,53 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-media-text__actions { margin-top: 20px; }
 
 /* --- steps --- */
-.vcc-steps { display: grid; gap: 28px; }/* Таймлайн: вертикальная линия СЛЕВА от карточек (как в макете Виты):
-   линия на самом контейнере (left: 7px при padding-left: 56px),
-   точки на линии напротив верхней части каждой карточки. */
-.vcc-steps--timeline { gap: 24px; padding-left: 56px; position: relative; }
+.vcc-steps { display: grid; gap: 28px; }/* Таймлайн: вертикальная линия СЛЕВА от карточек. Современная версия:
+   градиентная линия (от primary к границе и растворение), halo-точка
+   с микроанимацией на hover карточки, мягкая двухслойная тень,
+   крупный радиус, акцентная рамка при наведении. */
+.vcc-steps--timeline { gap: 28px; padding-left: 56px; position: relative; }
 .vcc-steps--timeline::before {
-	background: var(--mp-border-color, #E2E8F0);
-	bottom: 40px;
+	background: linear-gradient(to bottom, var(--mp-primary, #8C9D93), var(--mp-border-color, #E2E8F0) 72%, transparent);
+	bottom: 44px;
 	content: '';
 	left: 7px;
 	position: absolute;
-	top: 40px;
+	top: 41px;
 	width: 2px;
 }
 .vcc-steps--timeline .vcc-step {
 	background: var(--mp-card-bg, #ffffff);
-	border-radius: var(--mp-radius-lg, 6px);
-	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: 16px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.06);
 	height: 100%;
-	padding: 28px 32px;
+	padding: 26px 30px;
 	position: relative;
-	transition: box-shadow 0.25s ease, transform 0.25s ease;
+	transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 .vcc-steps--timeline .vcc-step:hover {
-	box-shadow: var(--mp-shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.1));
+	border-color: var(--mp-primary, #8C9D93);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 18px 44px rgba(0, 0, 0, 0.1);
 	transform: translateY(-3px);
 }
-/* Точка на линии напротив карточки (текст номера скрыт — это маркер). */
+/* Точка на линии напротив карточки (текст номера скрыт — это маркер).
+   Halo: обводка фоном страницы отделяет точку от линии, на hover
+   карточки точка мягко увеличивается. */
 .vcc-steps--timeline .vcc-step__num {
 	background: var(--mp-primary, #8C9D93);
 	border: 3px solid var(--mp-bg-body, #F8FAFC);
 	border-radius: 50%;
+	box-shadow: 0 0 0 2px var(--mp-primary, #8C9D93);
 	font-size: 0;
 	height: 14px;
 	left: -55px;
 	overflow: hidden;
 	position: absolute;
-	top: 34px;
+	top: 36px;
+	transition: transform 0.25s ease;
 	width: 14px;
 }
+.vcc-steps--timeline .vcc-step:hover .vcc-step__num { transform: scale(1.3); }
 .vcc-steps--numbers .vcc-step { background: transparent; border: 0; box-shadow: none; padding: 0; }
 .vcc-steps--numbers .vcc-step:hover { box-shadow: none; transform: none; }
 .vcc-steps--numbers .vcc-step__num {
@@ -389,18 +397,20 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 }
 .vcc-step__label {
 	color: var(--mp-primary, #8C9D93);
-	font-size: 13px;
-	font-weight: 700;
-	letter-spacing: 0.04em;
-	margin-bottom: 4px;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	margin-bottom: 6px;
+	text-transform: uppercase;
 }
-.vcc-step__title { font-size: 18px; margin: 6px 0 6px; }
+.vcc-step__title { font-size: 19px; margin: 6px 0 6px; }
 .vcc-step__text { color: var(--mp-text-muted, #64748B); }
 .vcc-step__text p { margin: 0 0 8px; }
 .vcc-step__text p:last-child { margin-bottom: 0; }
 /* Тёмная тема: карточка уже на --mp-card-bg (токен сам тёмный),
-   точка получает тёмную обводку фона страницы. */
+   точка получает тёмную обводку фона страницы, тени слабее. */
 [data-theme="dark"] .vcc-steps--timeline .vcc-step__num { border-color: var(--mp-bg-body, #221F24); }
+[data-theme="dark"] .vcc-steps--timeline .vcc-step { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.25); }
 .vcc-step__text p { margin: 0 0 8px; }
 .vcc-step__text p:last-child { margin-bottom: 0; }
 
