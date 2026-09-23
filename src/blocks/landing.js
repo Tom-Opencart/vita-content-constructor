@@ -461,8 +461,14 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var items = arr(v.items).filter(function (it) { return it && (String(it.title || '').trim() || String(it.text || '').trim()); });
 			if (!items.length) return '';
 			var style = v.style === 'numbers' ? 'numbers' : 'timeline';
+			/* «Номера» — горизонтальная сетка: класс колонок по числу шагов */
+			var colsClass = '';
+			if (style === 'numbers') {
+				var n = items.length;
+				colsClass = n === 2 ? ' is-c2' : (n === 4 ? ' is-c4' : (n >= 5 ? '' : ''));
+			}
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
-			html += '<div class="vcc-steps vcc-steps--' + style + '">';
+			html += '<div class="vcc-steps vcc-steps--' + style + colsClass + '">';
 			for (var i = 0; i < items.length; i++) {
 				var label = String(items[i].label || '').trim();
 				html += '<div class="vcc-step">' +

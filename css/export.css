@@ -379,6 +379,16 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 /* Стиль «Номера» — та же современная карточная система, номер вместо
    точки-маркера: крупный круг 44px на карточке, градиент палитры,
    hover — тот же подъём + рамка, номер мягко растёт вместе с карточкой. */
+/* Стиль «Номера» — горизонтальная сетка колонок (как у «Преимуществ»):
+   4 шага и меньше — во столько же колонок, 5+ — в 3; на мобильных — колонка. */
+.vcc-steps--numbers { grid-template-columns: repeat(3, 1fr); }
+.vcc-steps--numbers.is-c2 { grid-template-columns: repeat(2, 1fr); }
+.vcc-steps--numbers.is-c4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 767px) {
+	.vcc-steps--numbers,
+	.vcc-steps--numbers.is-c2,
+	.vcc-steps--numbers.is-c4 { grid-template-columns: 1fr; }
+}
 .vcc-steps--numbers .vcc-step {
 	background: var(--mp-card-bg, #ffffff);
 	border: 1px solid var(--mp-border-color, #E2E8F0);
