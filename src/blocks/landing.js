@@ -369,6 +369,63 @@ Tilda-модель — каждый «широкий» блок экспорти
 		}
 	});
 
+	/* --- before_after: До / После --- */
+	BlockRegistry.register({
+		type: 'before_after',
+		label: 'До / После',
+		icon: 'fa-exchange',
+		group: 'landing',
+		defaults: {
+			sec: { title: 'Результат до и после', bg: 'surface', padding: 'l', width: 'default', align: 'center' },
+			cols: '2',
+			items: [
+				{ image: '', img_alt: 'До', title: 'До', text: 'Опишите исходное состояние: с чем пришёл клиент и что его не устраивало.' },
+				{ image: '', img_alt: 'После', title: 'После', text: 'Покажите результат: что изменилось и какую пользу получил клиент.' }
+			]
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{ key: 'cols', label: 'Колонки', type: 'select', options: [['2', '2'], ['3', '3'], ['4', '4']] },
+				{
+					key: 'items', label: 'Кадры', type: 'rows-editor', addLabel: 'Добавить кадр', max: 6,
+					itemFields: [
+						{ key: 'image', label: 'Картинка (image/catalog/... или URL)', type: 'text' },
+						{ key: 'img_alt', label: 'Описание картинки (alt)', type: 'text' },
+						{ key: 'title', label: 'Плашка на кадре (например, «До»)', type: 'text' },
+						{ key: 'text', label: 'Пояснение под кадром (необязательно)', type: 'textarea', rows: 2, markdown: true }
+					],
+					itemTitle: function (item, i) { return item.title || ('Кадр ' + (i + 1)); }
+				},
+				{ key: '_hint', label: 'Пустой путь — штатная заглушка «Фотография»: замените файл с тем же именем в Менеджере изображений магазина, и кадр обновится везде.', type: 'hint' }
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var items = arr(v.items).filter(function (it) {
+				return it && (String(it.image || '').trim() || String(it.title || '').trim() || String(it.text || '').trim());
+			});
+			if (!items.length) return '';
+			var cols = ['2', '3', '4'].indexOf(String(v.cols)) !== -1 ? String(v.cols) : '2';
+			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
+			html += '<div class="vcc-ba vcc-ba--c' + cols + '">';
+			for (var i = 0; i < items.length; i++) {
+				var it = items[i];
+				/* Пустой путь — штатная заглушка «Фотография» (медиаколонка всегда наполнена). */
+				var img = String(it.image || '').trim() || ph('photo');
+				var label = String(it.title || '').trim();
+				var text = String(it.text || '').trim();
+				html += '<figure class="vcc-ba__item">' +
+					'<div class="vcc-ba__media">' +
+						'<img src="' + vccEscapeHtml(vccSafeHref(img)) + '" alt="' + vccEscapeHtml(it.img_alt || label) + '" loading="lazy">' +
+						(label ? '<span class="vcc-ba__label">' + vccInline(label) + '</span>' : '') +
+					'</div>' +
+					(text ? '<figcaption class="vcc-ba__caption">' + vccInline(text) + '</figcaption>' : '') +
+					'</figure>';
+			}
+			return html + '</div>' + sectionClose();
+		}
+	});
+
 	/* --- steps: Шаги (numbers / timeline) --- */
 	BlockRegistry.register({
 		type: 'steps',

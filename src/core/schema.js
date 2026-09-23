@@ -34,6 +34,7 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'logos', data_schema: { items: 'Array of { src, alt, url? }', sec: 'Object' } },
 		{ type: 'features', data_schema: { cols: '2|3|4', items: 'Array of { icon: fa-имя, title, text (markdown) }', sec: 'Object' } },
 		{ type: 'media_text', data_schema: { img: 'String — путь или URL', img_alt: 'String', caption: 'String', flip: 'Boolean — картинка справа', text: 'String (markdown)', btn_label: 'String', btn_url: 'String (или form:ID)', sec: 'Object' } },
+		{ type: 'before_after', data_schema: { cols: '2|3|4', items: 'Array of { image, img_alt, title (плашка «До»/«После»), text (markdown) }', sec: 'Object' } },
 		{ type: 'steps', data_schema: { style: 'numbers|timeline', items: 'Array of { icon?, title, text (markdown) }', sec: 'Object' } },
 		{ type: 'stats', data_schema: { items: 'Array of { value, suffix?, label }', sec: 'Object' } },
 		{ type: 'reviews', data_schema: { cols: '2|3', items: 'Array of { text, name, role?, stars: 0-5, avatar? }', sec: 'Object' } },

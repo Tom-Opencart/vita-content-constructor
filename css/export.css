@@ -457,6 +457,44 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-review__name { color: var(--mp-text-main, #2D3748); }
 .vcc-review__role { color: var(--mp-text-light, #94A3B8); display: block; font-size: 13px; width: 100%; }
 
+/* --- before_after (До / После) --- */
+.vcc-ba { display: grid; gap: 24px; }
+.vcc-ba--c2 { grid-template-columns: repeat(2, 1fr); }
+.vcc-ba--c3 { grid-template-columns: repeat(3, 1fr); }
+.vcc-ba--c4 { grid-template-columns: repeat(4, 1fr); }
+.vcc-ba__item { margin: 0; }
+.vcc-ba__media {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--mp-radius-lg, 6px);
+	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+}
+.vcc-ba__media img {
+	display: block;
+	height: auto;
+	object-fit: cover;
+	width: 100%;
+}
+.vcc-ba__label {
+	background: var(--mp-primary, #8C9D93);
+	border-radius: var(--mp-radius-pill, 9999px);
+	color: var(--mp-text-inverse, #ffffff);
+	font-size: 12px;
+	font-weight: 700;
+	left: 12px;
+	letter-spacing: 0.04em;
+	padding: 4px 12px;
+	position: absolute;
+	top: 12px;
+}
+.vcc-ba__item:hover .vcc-ba__media {
+	box-shadow: var(--mp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.1));
+}
+.vcc-ba__caption { color: var(--mp-text-muted, #64748B); font-size: 14px; margin-top: 10px; }
+.vcc-ba__caption p { margin: 0 0 8px; }
+.vcc-ba__caption p:last-child { margin-bottom: 0; }
+.vcc-section__head--center + .vcc-ba .vcc-ba__caption { text-align: center; }
+
 /* --- team --- */
 .vcc-team { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .vcc-member { text-align: center; }
@@ -643,7 +681,8 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 	.vcc-hero__title { font-size: 31px; }
 	.vcc-features--c2, .vcc-features--c3, .vcc-features--c4,
 	.vcc-media-text, .vcc-reviews--c2, .vcc-reviews--c3,
-	.vcc-columns--c2, .vcc-columns--c3, .vcc-columns--c4 {
+	.vcc-columns--c2, .vcc-columns--c3, .vcc-columns--c4,
+	.vcc-ba--c2, .vcc-ba--c3, .vcc-ba--c4 {
 		grid-template-columns: 1fr;
 	}
 	.vcc-media-text--flip .vcc-media-text__media { order: 0; }
