@@ -405,6 +405,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	transform: translateY(-3px);
 }
 .vcc-steps--numbers .vcc-step__num {
+	align-items: center;
 	background: linear-gradient(135deg, var(--mp-primary, #8C9D93), var(--mp-secondary, #5A8F76));
 	border: 0;
 	border-radius: var(--mp-radius-pill, 9999px);
@@ -416,6 +417,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	font-weight: 700;
 	height: 44px;
 	justify-content: center;
+	line-height: 1;
 	margin-bottom: 0;
 	position: static;
 	transition: transform 0.25s ease;
