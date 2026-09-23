@@ -376,11 +376,10 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	width: 10px;
 }
 .vcc-steps--timeline .vcc-step:hover .vcc-step__num { transform: scale(1.5); }
-/* Стиль «Номера» — та же современная карточная система, номер вместо
-   точки-маркера: крупный круг 44px на карточке, градиент палитры,
-   hover — тот же подъём + рамка, номер мягко растёт вместе с карточкой. */
 /* Стиль «Номера» — горизонтальная сетка колонок (как у «Преимуществ»):
-   4 шага и меньше — во столько же колонок, 5+ — в 3; на мобильных — колонка. */
+   4 шага и меньше — во столько же колонок, 5+ — в 3; на мобильных — колонка.
+   Карточка: номер-круг слева, заголовок справа по центру круга,
+   описание под заголовком — без пустой строки под номером. */
 .vcc-steps--numbers { grid-template-columns: repeat(3, 1fr); }
 .vcc-steps--numbers.is-c2 { grid-template-columns: repeat(2, 1fr); }
 .vcc-steps--numbers.is-c4 { grid-template-columns: repeat(4, 1fr); }
@@ -394,8 +393,10 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	border: 1px solid var(--mp-border-color, #E2E8F0);
 	border-radius: 16px;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.06);
+	display: flex;
+	gap: 16px;
 	height: 100%;
-	padding: 26px 30px;
+	padding: 24px 26px;
 	transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 .vcc-steps--numbers .vcc-step:hover {
@@ -410,15 +411,21 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 	color: var(--mp-text-inverse, #ffffff);
 	display: inline-flex;
+	flex-shrink: 0;
 	font-size: 17px;
 	font-weight: 700;
 	height: 44px;
 	justify-content: center;
-	margin-bottom: 14px;
+	margin-bottom: 0;
 	position: static;
 	transition: transform 0.25s ease;
 	width: 44px;
 }
+/* Заголовок прижат к кругу: первая строка визуально по центру круга (44px),
+   описание идёт ниже на всю ширину колонки тела. */
+.vcc-steps--numbers .vcc-step__body { flex: 1 1 auto; min-width: 0; }
+.vcc-steps--numbers .vcc-step__label { margin-bottom: 2px; }
+.vcc-steps--numbers .vcc-step__title { line-height: 44px; margin: -2px 0 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vcc-steps--numbers .vcc-step:hover .vcc-step__num { transform: scale(1.08); }
 .vcc-step__label {
 	color: var(--mp-primary, #8C9D93);
