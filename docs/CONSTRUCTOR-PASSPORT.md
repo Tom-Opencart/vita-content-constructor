@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.10.0 · контракт: vcc-v1
+Версия конструктора: 0.10.1 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -67,6 +67,10 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn2_url` — строка
 - `note` — строка
 - `align` — одно из значений: center | left
+- `visual` — одно из значений: none | metrics
+- `visual_kicker` — строка
+- `visual_path` — строка
+- `visual_metrics` — массив объектов { value, label }
 Пример:
 ```json
 {"id":"b1","type":"hero","data":{"title":"Заголовок, который ==продаёт== сам","sub":"Подзаголовок с главным обещанием страницы: что получит покупатель и почему это стоит десяти секунд его внимания.","btn1_label":"Выбрать товар","btn1_url":"#tarify","btn2_label":"Как мы работаем","btn2_url":"#shagi","note":"Гарантия возврата · Доставка по всей стране","align":"center","sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"image","image":"","video":"","overlay":true,"padding":"xl","width":"default","anchor":""}}}
@@ -290,6 +294,45 @@ anchor — якорь латиницей для ссылок #anchor
 Пример:
 ```json
 {"id":"b1","type":"key_card","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"narrow","anchor":""},"meta_left":"Лицензия","meta_right":"VITA-3.0","card_label":"Ключ продукта","segs":[{"value":"VITA","dim":false},{"value":"8F2C-ZQ91","dim":true},{"value":"K4D7-TX5E","dim":false}],"sep":"-","chips":[{"icon":"fa-check-circle-o","text":"Активирован"},{"icon":"fa-calendar-check-o","text":"До 2027-01-15"}]}}
+```
+
+#### spec_list — Спецификация
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `items` — массив объектов { label, value }
+Пример:
+```json
+{"id":"b1","type":"spec_list","data":{"sec":{"eyebrow":"Характеристики","title":"Технические ==детали==","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"narrow","anchor":""},"items":[{"label":"Материал","value":"Алюминий 6061-T6, анодирование"},{"label":"Габариты","value":"120 × 80 × 45 мм"},{"label":"Гарантия","value":"[12 месяцев](form:0)"}]}}
+```
+
+#### comparison — Сравнение
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `rows` — массив объектов { alt, us, us_row }
+- `note` — строка
+Пример:
+```json
+{"id":"b1","type":"comparison","data":{"sec":{"eyebrow":"Сравнение","title":"Почему ==мы==, а не они","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""},"rows":[{"alt":"Альтернатива один","us":"Что предлагаем мы","us_row":false},{"alt":"Альтернатива два","us":"Что предлагаем мы","us_row":false},{"alt":"Альтернатива три","us":"Что предлагаем мы","us_row":true}],"note":""}}
+```
+
+#### pain_points — Типичные проблемы
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `cols` — одно из значений: 2 | 3 | 4
+- `items` — массив объектов { title, text }
+Пример:
+```json
+{"id":"b1","type":"pain_points","data":{"sec":{"eyebrow":"Проблемы","title":"Знакомые ==боли== покупателя","text":"","align":"left","bg":"light","image":"","video":"","overlay":false,"padding":"l","width":"default","anchor":""},"cols":"3","items":[{"title":"Проблема номер один","text":"Описание ситуации, в которую попадает покупатель, и чем это для него плохо."},{"title":"Проблема номер два","text":"Описание ситуации, в которую попадает покупатель, и чем это для него плохо."},{"title":"Проблема номер три","text":"Описание ситуации, в которую попадает покупатель, и чем это для него плохо."}]}}
+```
+
+#### updates_grid — Обновления
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `cols` — одно из значений: 2 | 3 | 4
+- `items` — массив объектов { tag, tag_new, title, text }
+Пример:
+```json
+{"id":"b1","type":"updates_grid","data":{"sec":{"eyebrow":"Что нового","title":"Последние ==обновления==","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"l","width":"default","anchor":""},"cols":"3","items":[{"tag":"Новое","tag_new":true,"title":"Возможность номер один","text":"Короткое описание возможности и пользы для владельца магазина."},{"tag":"Улучшение","tag_new":false,"title":"Возможность номер два","text":"Короткое описание возможности и пользы для владельца магазина."},{"tag":"Исправлено","tag_new":false,"title":"Возможность номер три","text":"Короткое описание возможности и пользы для владельца магазина."}]}}
 ```
 
 #### code_window — Код-окно

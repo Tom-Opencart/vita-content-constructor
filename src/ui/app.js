@@ -351,14 +351,20 @@
 			var patch = {};
 			patch[key] = value;
 			VccStore.updateBlockSilent(block.id, patch);
-			/* Смена числа колонок таблицы перестраивает набор полей-ячеек */
-			if (block.type === 'table' && key === 'cols') setTimeout(refreshEditor, 0);
+			/* Смена числа колонок таблицы перестраивает набор полей-ячеек;
+			 * смена вида (style) показывает/прячет зависимые поля (depends: 'style:vs') */
+			if (block.type === 'table' && (key === 'cols' || key === 'style')) setTimeout(refreshEditor, 0);
 		};
 		/* Поля могут быть функцией (пикеры шорткодов зависят от каталога
 		   пресета — он может появиться/обновиться в любой момент; таблица
 		   читает из block число колонок для набора ячеек) */
 		var fields = typeof def.fields === 'function' ? def.fields(block) : (def.fields || []);
 		fields.forEach(function (fieldDef) {
+			/* depends: 'key:value' — поле показывается только при совпадении значения */
+			if (fieldDef.depends) {
+				var dp = String(fieldDef.depends).split(':');
+				if (String(block.data[dp[0]] || '') !== dp.slice(1).join(':')) return;
+			}
 			body.appendChild(makeField(fieldDef, block, onChange));
 		});
 		return body;

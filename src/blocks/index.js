@@ -163,7 +163,7 @@
 					itemFields: colFields,
 					itemTitle: function (item, i) { return 'Строка ' + (i + 1) + (item && item.c0 ? ' — ' + String(item.c0).slice(0, 24) : ''); }
 				},
-				{ key: '_hint', label: 'В каждой ячейке работает markdown: [ссылка](https://…), [кнопка формы](form:ID), ==акцент==, **жирный**.', type: 'hint' }
+				{ key: '_hint', label: 'В каждой ячейке работает markdown: [ссылка](https://…), [кнопка формы](form:ID), ==акцент==, **жирный**. Для характеристик товара есть отдельный блок «Спецификация», для «мы vs альтернативы» — «Сравнение».', type: 'hint' }
 			]);
 		},
 		toHTML: function (data) {

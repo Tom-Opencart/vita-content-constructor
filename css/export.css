@@ -158,6 +158,110 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 }
 .vcc-table tr:nth-child(even) td { background: var(--mp-bg-subtle, #f8fafc); }
 
+/* --- Спецификация (spec-list): строки «лейбл → значение» --- */
+.vcc-speclist { border-top: 1px solid var(--mp-border-color, #E2E8F0); margin: 18px 0; }
+.vcc-speclist__row {
+	align-items: baseline;
+	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 24px;
+	padding: 11px 0;
+}
+.vcc-speclist__label {
+	color: var(--mp-text-light, #94A3B8);
+	flex: 0 0 200px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.vcc-speclist__value { flex: 1 1 260px; }
+
+/* --- Сравнение (comparison): «альтернатива / мы» с выделением нашей строки --- */
+.vcc-compare { margin: 18px 0; }
+.vcc-compare__row {
+	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	display: grid;
+	gap: 16px;
+	grid-template-columns: 1fr 1fr;
+	padding: 12px 0;
+}
+.vcc-compare__row > span { color: var(--mp-text-light, #94A3B8); }
+.vcc-compare__row > strong { font-weight: 600; }
+.vcc-compare__row--us {
+	background: var(--mp-primary-light, rgba(140, 157, 147, 0.12));
+	border-bottom: 2px solid var(--mp-primary, #8C9D93);
+	border-top: 2px solid var(--mp-primary, #8C9D93);
+	padding: 12px 14px;
+}
+.vcc-compare__row--us > span { color: var(--mp-text-main, #2D3748); }
+.vcc-compare__note { color: var(--mp-text-light, #94A3B8); font-size: 13px; margin-top: 10px; }
+@media (max-width: 767px) { .vcc-compare__row { grid-template-columns: 1fr; } }
+
+/* --- Типичные проблемы (pain-points): сетка рамочных карточек «болей» --- */
+.vcc-pains { display: grid; gap: 24px; }
+.vcc-pains--c2 { grid-template-columns: repeat(2, 1fr); }
+.vcc-pains--c3 { grid-template-columns: repeat(3, 1fr); }
+.vcc-pains--c4 { grid-template-columns: repeat(4, 1fr); }
+.vcc-pain {
+	background: var(--mp-bg-surface, #ffffff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-left: 3px solid var(--mp-badge-discount-bg, #DC2626);
+	height: 100%;
+	padding: 24px;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.vcc-pain:hover {
+	border-color: var(--mp-text-main, #2D3748);
+	border-left-color: var(--mp-badge-discount-bg, #DC2626);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
+}
+.vcc-pain__title { font-size: 15px; letter-spacing: 0.02em; margin: 0 0 8px; text-transform: uppercase; }
+.vcc-pain__title::before {
+	background: var(--mp-badge-discount-bg, #DC2626);
+	content: "";
+	display: inline-block;
+	height: 10px;
+	margin-right: 8px;
+	vertical-align: baseline;
+	width: 10px;
+}
+.vcc-pain__text { color: var(--mp-text-muted, #64748B); font-size: 14px; }
+
+/* --- Обновления (updates-grid): сетка article-рамок «что нового» --- */
+.vcc-updates { display: grid; gap: 24px; }
+.vcc-updates--c2 { grid-template-columns: repeat(2, 1fr); }
+.vcc-updates--c3 { grid-template-columns: repeat(3, 1fr); }
+.vcc-update {
+	background: var(--mp-bg-surface, #ffffff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	height: 100%;
+	padding: 24px;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.vcc-update:hover {
+	border-color: var(--mp-text-main, #2D3748);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
+}
+.vcc-update__title { font-size: 16px; letter-spacing: -0.01em; margin: 0 0 8px; }
+.vcc-update__text { color: var(--mp-text-muted, #64748B); font-size: 14px; }
+.vcc-update__tag {
+	background: var(--mp-bg-subtle, #f8fafc);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	color: var(--mp-text-light, #94A3B8);
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	margin-bottom: 14px;
+	padding: 3px 8px;
+	text-transform: uppercase;
+}
+.vcc-update__tag--new { background: var(--mp-badge-express-bg, #059669); border-color: var(--mp-badge-express-bg, #059669); color: var(--mp-text-inverse, #ffffff); }
+
 /* --- Картинка --- */
 .vcc-figure { margin: 18px 0; }
 .vcc-figure__img {
@@ -388,6 +492,49 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-hero__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; }
 .vcc-hero--center .vcc-hero__actions { justify-content: center; }
 .vcc-hero__note { color: var(--mp-text-light, #94A3B8); font-size: 13px; margin: 18px 0 0; }
+
+/* Панель-визуал hero (референс hero-visual): рамочный блок справа с topline
+ * и метриками; раскладка — flex-пара «main + visual» от 992px, колонка ниже. */
+.vcc-hero--split { align-items: center; display: flex; flex-wrap: wrap; gap: 40px; text-align: left; }
+.vcc-hero--split .vcc-hero__main { flex: 1 1 460px; }
+.vcc-hero__visual {
+	background: var(--mp-bg-surface, #ffffff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	box-shadow: 8px 8px 0 var(--mp-border-color, #E2E8F0);
+	flex: 1 1 320px;
+	padding: 20px;
+}
+.vcc-hero__visual-top {
+	align-items: baseline;
+	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	padding-bottom: 12px;
+}
+.vcc-hero__visual-kicker {
+	background: var(--mp-badge-express-bg, #059669);
+	color: var(--mp-text-inverse, #ffffff);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	padding: 3px 8px;
+	text-transform: uppercase;
+}
+.vcc-hero__visual-metrics { display: grid; gap: 0; }
+.vcc-hero__visual-metrics article {
+	border-bottom: 1px solid var(--mp-border-divider, #F1F5F9);
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	padding: 10px 0;
+}
+.vcc-hero__visual-metrics article:last-child { border-bottom: 0; padding-bottom: 0; }
+.vcc-hero__visual-metrics strong { font-size: 22px; letter-spacing: -0.01em; }
+.vcc-hero__visual-metrics span { color: var(--mp-text-light, #94A3B8); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+.vcc-section--bg-primary .vcc-hero__visual { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.4); box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.12); }
+.vcc-section--bg-primary .vcc-hero__visual-metrics span { color: inherit; opacity: 0.85; }
+@media (max-width: 991px) { .vcc-hero--split .vcc-hero__visual { flex-basis: 100%; } }
 .vcc-section--bg-primary .vcc-hero__note,
 .vcc-section--bg-image .vcc-hero__note,
 .vcc-section--bg-video .vcc-hero__note { color: inherit; opacity: 0.75; }

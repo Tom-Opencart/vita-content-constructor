@@ -212,7 +212,18 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'btn2_label', label: 'Кнопка 2 — текст (необязательно)', type: 'text' },
 				{ key: 'btn2_url', label: 'Кнопка 2 — ссылка (или form:ID)', type: 'text' },
 				{ key: 'note', label: 'Строка доверия под кнопками', type: 'text' },
-				{ key: 'align', label: 'Выравнивание', type: 'select', options: [['center', 'По центру'], ['left', 'По левому краю']] }
+				{ key: 'align', label: 'Выравнивание', type: 'select', options: [['center', 'По центру'], ['left', 'По левому краю']] },
+				{ key: 'visual', label: 'Панель-визуал справа', type: 'select', options: [['none', 'Без панели'], ['metrics', 'Метрики (kickер + путь + цифры)']] },
+				{ key: 'visual_kicker', label: 'Панель: статус-лейбл (например «Live»)', type: 'text', depends: 'visual:metrics' },
+				{ key: 'visual_path', label: 'Панель: строка пути/страницы', type: 'text', depends: 'visual:metrics' },
+				{
+					key: 'visual_metrics', label: 'Панель: метрики (значение + подпись)', type: 'rows-editor', addLabel: 'Добавить метрику', max: 4, depends: 'visual:metrics',
+					itemFields: [
+						{ key: 'value', label: 'Значение', type: 'text' },
+						{ key: 'label', label: 'Подпись', type: 'text' }
+					],
+					itemTitle: function (item, i) { return (item && item.value) ? item.value : ('Метрика ' + (i + 1)); }
+				}
 			]);
 		},
 		toHTML: function (data) {
@@ -223,12 +234,35 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var b1 = btnHtml(v.btn1_label, v.btn1_url, 'primary');
 			var b2 = btnHtml(v.btn2_label, v.btn2_url, 'ghost');
 			var actions = b1 + b2;
+			/* Панель-визуал (референс hero-visual): рамочный блок справа с
+			 * topline (статус + путь) и метриками. Пустые части не выводятся. */
+			var visualHtml = '';
+			if (v.visual === 'metrics') {
+				var mets = arr(v.visual_metrics).filter(function (m) { return m && String(m.value || '').trim(); });
+				if (mets.length) {
+					var top = String(v.visual_kicker || '').trim();
+					var path = String(v.visual_path || '').trim();
+					visualHtml = '<div class="vcc-hero__visual">' +
+						(top || path ? '<div class="vcc-hero__visual-top">' +
+							(top ? '<span class="vcc-hero__visual-kicker">' + vccInline(top) + '</span>' : '') +
+							(path ? '<span>' + vccEscapeHtml(path) + '</span>' : '') +
+							'</div>' : '') +
+						'<div class="vcc-hero__visual-metrics">';
+					for (var m = 0; m < mets.length; m++) {
+						visualHtml += '<article><strong>' + vccInline(mets[m].value) + '</strong><span>' + vccInline(mets[m].label || '') + '</span></article>';
+					}
+					visualHtml += '</div></div>';
+				}
+			}
 			var html = sectionOpen(secData(v)) +
-				'<div class="vcc-hero' + (v.align === 'left' ? '' : ' vcc-hero--center') + '">';
+				'<div class="vcc-hero' + (v.align === 'left' ? '' : ' vcc-hero--center') + (visualHtml ? ' vcc-hero--split' : '') + '">' +
+				'<div class="vcc-hero__main">';
 			if (title) html += '<h1 class="vcc-hero__title">' + vccInline(title) + '</h1>';
 			if (sub) html += '<p class="vcc-hero__sub">' + vccInline(sub) + '</p>';
 			if (actions) html += '<div class="vcc-hero__actions">' + actions + '</div>';
 			if (String(v.note || '').trim()) html += '<p class="vcc-hero__note">' + vccInline(v.note) + '</p>';
+			html += '</div>';
+			if (visualHtml) html += visualHtml;
 			return html + '</div>' + sectionClose();
 		}
 	});
@@ -1138,6 +1172,187 @@ Tilda-модель — каждый «широкий» блок экспорти
 				(chipsHtml ? '<div class="vcc-keycard__perforation"><div class="vcc-keycard__footer">' + chipsHtml + '</div></div>' : '') +
 				'</div></div>' + sectionClose();
 			return html;
+		}
+	});
+
+	/* --- spec_list: Спецификация «лейбл → значение» (Tom Modern spec-list) --- */
+	BlockRegistry.register({
+		type: 'spec_list',
+		label: 'Спецификация',
+		icon: 'fa-list-alt',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: 'Характеристики', title: 'Технические ==детали==', bg: 'none', padding: 'm', width: 'narrow' },
+			items: [
+				{ label: 'Материал', value: 'Алюминий 6061-T6, анодирование' },
+				{ label: 'Габариты', value: '120 × 80 × 45 мм' },
+				{ label: 'Гарантия', value: '[12 месяцев](form:0)' }
+			]
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{
+					key: 'items', label: 'Строки спецификации', type: 'rows-editor', addLabel: 'Добавить строку', max: 30,
+					itemFields: [
+						{ key: 'label', label: 'Лейбл (название параметра)', type: 'text' },
+						{ key: 'value', label: 'Значение (markdown)', type: 'textarea', rows: 2, markdown: true }
+					],
+					itemTitle: function (item, i) { return (item && item.label) ? item.label : ('Строка ' + (i + 1)); }
+				}
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var items = arr(v.items).filter(function (it) { return it && (String(it.label || '').trim() || String(it.value || '').trim()); });
+			if (!items.length) return '';
+			var html = sectionOpen(secData(v)) + sectionHead(v.sec) + '<div class="vcc-speclist">';
+			for (var i = 0; i < items.length; i++) {
+				html += '<div class="vcc-speclist__row">' +
+					'<div class="vcc-speclist__label">' + vccInline(items[i].label || '') + '</div>' +
+					'<div class="vcc-speclist__value">' + vccBlock(items[i].value || '') + '</div>' +
+					'</div>';
+			}
+			return html + '</div>' + sectionClose();
+		}
+	});
+
+	/* --- comparison: Сравнение «альтернатива / мы» (Tom Modern comparison) --- */
+	BlockRegistry.register({
+		type: 'comparison',
+		label: 'Сравнение',
+		icon: 'fa-balance-scale',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: 'Сравнение', title: 'Почему ==мы==, а не они', bg: 'none', padding: 'm', width: 'default' },
+			rows: [
+				{ alt: 'Альтернатива один', us: 'Что предлагаем мы', us_row: false },
+				{ alt: 'Альтернатива два', us: 'Что предлагаем мы', us_row: false },
+				{ alt: 'Альтернатива три', us: 'Что предлагаем мы', us_row: true }
+			],
+			note: ''
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{
+					key: 'rows', label: 'Пары «альтернатива / мы»', type: 'rows-editor', addLabel: 'Добавить пару', max: 10,
+					itemFields: [
+						{ key: 'alt', label: 'Альтернатива (что предлагают другие)', type: 'textarea', rows: 2, markdown: true },
+						{ key: 'us', label: 'Наше решение', type: 'textarea', rows: 2, markdown: true },
+						{ key: 'us_row', label: 'Это строка «нашего решения» (подсветить)', type: 'checkbox' }
+					],
+					itemTitle: function (item, i) { return (item && item.alt) ? String(item.alt).slice(0, 30) : ('Пара ' + (i + 1)); }
+				},
+				{ key: 'note', label: 'Примечание под таблицей (необязательно)', type: 'text' }
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var rows = arr(v.rows).filter(function (r) { return r && (String(r.alt || '').trim() || String(r.us || '').trim()); });
+			if (!rows.length) return '';
+			var html = sectionOpen(secData(v)) + sectionHead(v.sec) + '<div class="vcc-compare">';
+			for (var i = 0; i < rows.length; i++) {
+				html += (rows[i].us_row ? '<div class="vcc-compare__row vcc-compare__row--us">' : '<div class="vcc-compare__row">') +
+					'<span>' + vccInline(rows[i].alt || '') + '</span>' +
+					'<strong>' + vccInline(rows[i].us || '') + '</strong>' +
+					'</div>';
+			}
+			html += '</div>';
+			if (String(v.note || '').trim()) html += '<p class="vcc-compare__note">' + vccInline(v.note) + '</p>';
+			return html + sectionClose();
+		}
+	});
+
+	/* --- pain_points: Типичные проблемы (Tom Modern pain-points) --- */
+	BlockRegistry.register({
+		type: 'pain_points',
+		label: 'Типичные проблемы',
+		icon: 'fa-exclamation-triangle',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: 'Проблемы', title: 'Знакомые ==боли== покупателя', bg: 'light', padding: 'l', width: 'default' },
+			cols: '3',
+			items: [
+				{ title: 'Проблема номер один', text: 'Описание ситуации, в которую попадает покупатель, и чем это для него плохо.' },
+				{ title: 'Проблема номер два', text: 'Описание ситуации, в которую попадает покупатель, и чем это для него плохо.' },
+				{ title: 'Проблема номер три', text: 'Описание ситуации, в которую попадает покупатель, и чем это для него плохо.' }
+			]
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{ key: 'cols', label: 'Колонок', type: 'select', options: [['2', '2'], ['3', '3'], ['4', '4']] },
+				{
+					key: 'items', label: 'Проблемы', type: 'rows-editor', addLabel: 'Добавить проблему', max: 8,
+					itemFields: [
+						{ key: 'title', label: 'Заголовок проблемы', type: 'text' },
+						{ key: 'text', label: 'Описание', type: 'textarea', rows: 3, markdown: true }
+					],
+					itemTitle: function (item, i) { return (item && item.title) ? item.title : ('Проблема ' + (i + 1)); }
+				}
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var items = arr(v.items).filter(function (it) { return it && (String(it.title || '').trim() || String(it.text || '').trim()); });
+			if (!items.length) return '';
+			var cols = ['2', '3', '4'].indexOf(String(v.cols)) !== -1 ? String(v.cols) : '3';
+			var html = sectionOpen(secData(v)) + sectionHead(v.sec) + '<div class="vcc-pains vcc-pains--c' + cols + '">';
+			for (var i = 0; i < items.length; i++) {
+				html += '<div class="vcc-pain">' +
+					'<h3 class="vcc-pain__title">' + vccInline(items[i].title || '') + '</h3>' +
+					'<div class="vcc-pain__text">' + vccBlock(items[i].text || '') + '</div>' +
+					'</div>';
+			}
+			return html + '</div>' + sectionClose();
+		}
+	});
+
+	/* --- updates_grid: Обновления/новинки (Tom Modern updates-grid) --- */
+	BlockRegistry.register({
+		type: 'updates_grid',
+		label: 'Обновления',
+		icon: 'fa-refresh',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: 'Что нового', title: 'Последние ==обновления==', bg: 'none', padding: 'l', width: 'default' },
+			cols: '3',
+			items: [
+				{ tag: 'Новое', tag_new: true, title: 'Возможность номер один', text: 'Короткое описание возможности и пользы для владельца магазина.' },
+				{ tag: 'Улучшение', tag_new: false, title: 'Возможность номер два', text: 'Короткое описание возможности и пользы для владельца магазина.' },
+				{ tag: 'Исправлено', tag_new: false, title: 'Возможность номер три', text: 'Короткое описание возможности и пользы для владельца магазина.' }
+			]
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{ key: 'cols', label: 'Колонок', type: 'select', options: [['2', '2'], ['3', '3'], ['4', '4']] },
+				{
+					key: 'items', label: 'Позиции', type: 'rows-editor', addLabel: 'Добавить позицию', max: 9,
+					itemFields: [
+						{ key: 'tag', label: 'Метка (например «Новое»)', type: 'text' },
+						{ key: 'tag_new', label: 'Метка зелёная (акцентная)', type: 'checkbox' },
+						{ key: 'title', label: 'Заголовок', type: 'text' },
+						{ key: 'text', label: 'Описание', type: 'textarea', rows: 3, markdown: true }
+					],
+					itemTitle: function (item, i) { return (item && item.title) ? item.title : ('Позиция ' + (i + 1)); }
+				}
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var items = arr(v.items).filter(function (it) { return it && (String(it.title || '').trim() || String(it.text || '').trim()); });
+			if (!items.length) return '';
+			var cols = ['2', '3', '4'].indexOf(String(v.cols)) !== -1 ? String(v.cols) : '3';
+			var html = sectionOpen(secData(v)) + sectionHead(v.sec) + '<div class="vcc-updates vcc-updates--c' + cols + '">';
+			for (var i = 0; i < items.length; i++) {
+				var tag = String(items[i].tag || '').trim();
+				/* div, не article: whitelist тегов санитайзера темы исторически
+				 * без article — контракт vcc-v1 держится на div/span */
+				html += '<div class="vcc-update">' +
+					(tag ? '<span class="vcc-update__tag' + (items[i].tag_new ? ' vcc-update__tag--new' : '') + '">' + vccInline(tag) + '</span>' : '') +
+					'<h3 class="vcc-update__title">' + vccInline(items[i].title || '') + '</h3>' +
+					'<div class="vcc-update__text">' + vccBlock(items[i].text || '') + '</div>' +
+					'</div>';
+			}
+			return html + '</div>' + sectionClose();
 		}
 	});
 
