@@ -1063,6 +1063,139 @@ Tilda-модель — каждый «широкий» блок экспорти
 		}
 	});
 
+	/* --- key_card: Премиум-карточка ключа (Tom Modern key-card) ---
+	 * Сегменты ключа перечисляются по строкам; флаг dim — приглушённый сегмент.
+	 * Чипы: «текст» + опциональная иконка fa-*. */
+	BlockRegistry.register({
+		type: 'key_card',
+		label: 'Карточка ключа',
+		icon: 'fa-key',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: '', title: '', bg: 'none', padding: 'm', width: 'narrow' },
+			meta_left: 'Лицензия',
+			meta_right: 'VITA-3.0',
+			card_label: 'Ключ продукта',
+			segs: [
+				{ value: 'VITA', dim: false },
+				{ value: '8F2C-ZQ91', dim: true },
+				{ value: 'K4D7-TX5E', dim: false }
+			],
+			sep: '-',
+			chips: [
+				{ icon: 'fa-check-circle-o', text: 'Активирован' },
+				{ icon: 'fa-calendar-check-o', text: 'До 2027-01-15' }
+			]
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{ key: '_hint', label: 'Тёмная карточка-артефакт: sheen-блик, перфорация, чипы. Значение печатается моноширинно; сегменты перечисляются списком.', type: 'hint' },
+				{ key: 'meta_left', label: 'Метаданные слева', type: 'text' },
+				{ key: 'meta_right', label: 'Метаданные справа', type: 'text' },
+				{ key: 'card_label', label: 'Метка карточки', type: 'text' },
+				{
+					key: 'segs', label: 'Сегменты ключа', type: 'rows-editor', addLabel: 'Добавить сегмент', max: 8,
+					itemFields: [
+						{ key: 'value', label: 'Текст сегмента', type: 'text' },
+						{ key: 'dim', label: 'Приглушить (dim)', type: 'checkbox' }
+					],
+					itemTitle: function (item) { return item.value || 'сегмент'; }
+				},
+				{ key: 'sep', label: 'Разделитель', type: 'text' },
+				{
+					key: 'chips', label: 'Чипы', type: 'rows-editor', addLabel: 'Добавить чип', max: 4,
+					itemFields: [
+						{ key: 'icon', label: 'Иконка FontAwesome (опц.)', type: 'text', placeholder: 'fa-check-circle-o' },
+						{ key: 'text', label: 'Текст', type: 'text' }
+					],
+					itemTitle: function (item) { return item.text || 'чип'; }
+				}
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var segs = arr(v.segs).filter(function (s) { return s && String(s.value || '').trim(); });
+			var chips = arr(v.chips).filter(function (c) { return c && String(c.text || '').trim(); });
+			var sep = String(v.sep || '-');
+			var valueHtml = '';
+			for (var i = 0; i < segs.length; i++) {
+				if (i) valueHtml += '<span class="vcc-keycard__sep">' + vccEscapeHtml(sep) + '</span>';
+				valueHtml += '<span' + (segs[i].dim ? ' class="vcc-keycard__seg--dim"' : '') + '>' + vccEscapeHtml(String(segs[i].value).trim()) + '</span>';
+			}
+			var chipsHtml = '';
+			for (var j = 0; j < chips.length; j++) {
+				var cIcon = String(chips[j].icon || '').trim().replace(/^fa-/, '');
+				chipsHtml += '<span class="vcc-chip">' + (cIcon ? '<span class="vcc-icon" data-vcc-icon="fa-' + vccEscapeHtml(cIcon) + '"></span> ' : '') + vccInline(chips[j].text) + '</span>';
+			}
+			if (!valueHtml && !chipsHtml) return '';
+			var html = sectionOpen(secData(v)) + '<div class="vcc-keycard">';
+			var mL = String(v.meta_left || '').trim(), mR = String(v.meta_right || '').trim();
+			if (mL || mR) html += '<div class="vcc-keycard__meta"><span>' + vccInline(mL) + '</span><span>' + vccInline(mR) + '</span></div>';
+			html += '<div class="vcc-keycard__card">' +
+				'<div class="vcc-keycard__sheen"></div>' +
+				'<div class="vcc-keycard__label">' + vccInline(String(v.card_label || '').trim()) + '</div>' +
+				'<div class="vcc-keycard__value">' + valueHtml + '</div>' +
+				(chipsHtml ? '<div class="vcc-keycard__perforation"><div class="vcc-keycard__footer">' + chipsHtml + '</div></div>' : '') +
+				'</div></div>' + sectionClose();
+			return html;
+		}
+	});
+
+	/* --- code_window: Код-окно с подсветкой (Tom Modern code-window) ---
+	 * Код собирается из фрагментов; «роль» задаёт цвет подсветки:
+	 * plain | keyword | function | string | number | property | comment | punctuation. */
+	BlockRegistry.register({
+		type: 'code_window',
+		label: 'Код-окно',
+		icon: 'fa-code',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: '', title: '', bg: 'none', padding: 'm', width: 'narrow' },
+			filename: 'example.js',
+			lines: [
+				{ tag: 'keyword', text: 'const' },
+				{ tag: 'plain', text: ' greeting ' },
+				{ tag: 'punctuation', text: '= ' },
+				{ tag: 'string', text: "'Привет, мир!'" },
+				{ tag: 'punctuation', text: ';' }
+			]
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{ key: '_hint', label: 'Код собирается из фрагментов с ролью: plain | keyword | function | string | number | property | comment | punctuation. Перенос строки внутри фрагмента сохраняется.', type: 'hint' },
+				{ key: 'filename', label: 'Имя файла в шапке', type: 'text' },
+				{
+					key: 'lines', label: 'Код', type: 'rows-editor', addLabel: 'Добавить фрагмент', max: 200,
+					itemFields: [
+						{ key: 'tag', label: 'Роль', type: 'select', options: [['plain', 'plain'], ['keyword', 'keyword'], ['function', 'function'], ['string', 'string'], ['number', 'number'], ['property', 'property'], ['comment', 'comment'], ['punctuation', 'punctuation']] },
+						{ key: 'text', label: 'Текст', type: 'textarea', rows: 2 }
+					],
+					itemTitle: function (item) { return '[' + (item.tag || 'plain') + '] ' + String(item.text || '').slice(0, 30); }
+				}
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var lines = arr(v.lines).filter(function (l) { return l && String(l.text || '').length; });
+			if (!lines.length) return '';
+			var SAFE_TAGS = ['plain', 'keyword', 'function', 'string', 'number', 'property', 'comment', 'punctuation'];
+			var code = '';
+			for (var i = 0; i < lines.length; i++) {
+				var tag = SAFE_TAGS.indexOf(String(lines[i].tag || 'plain')) !== -1 ? String(lines[i].tag) : 'plain';
+				/* \n внутри фрагмента -> <br>: литеральные переводы строк ненадёжны
+				 * (минификатор HTML темы схлопывает их — строки кода склеиваются). */
+				var txt = vccEscapeHtml(String(lines[i].text)).replace(/\r?\n/g, '<br>');
+				code += tag === 'plain' ? txt : '<span class="vcc-tok-' + tag + '">' + txt + '</span>';
+			}
+			var html = sectionOpen(secData(v)) + '<div class="vcc-codewin">' +
+				'<div class="vcc-codewin__header"><span class="vcc-codewin__dots"><span></span><span></span><span></span></span>' +
+				'<span class="vcc-codewin__title">' + vccEscapeHtml(String(v.filename || '').trim()) + '</span></div>' +
+				'<div class="vcc-codewin__body"><pre><code>' + code + '</code></pre></div>' +
+				'</div>' + sectionClose();
+			return html;
+		}
+	});
+
 	/* --- video: Видео из сервиса (iframe собирает рантайм темы) --- */
 	BlockRegistry.register({
 		type: 'video',

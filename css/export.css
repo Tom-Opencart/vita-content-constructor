@@ -52,31 +52,36 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-list { margin: 0 0 14px; padding-left: 22px; }
 .vcc-list li { margin-bottom: 6px; }
 
-/* --- Цитата --- */
+/* --- Цитата (рестайл: редакторская, с левой акцентной чертой) --- */
 .vcc-quote {
 	background: var(--mp-bg-subtle, #f8fafc);
-	border: 1px solid var(--mp-border-divider, #F1F5F9);
-	border-radius: var(--mp-radius-md, 4px);
-	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+	border-left: 3px solid var(--mp-primary, #8C9D93);
+	border-radius: 0;
+	box-shadow: none;
 	color: var(--mp-text-muted, #64748B);
+	font-size: 17px;
 	font-style: italic;
+	line-height: 1.6;
 	margin: 18px 0;
-	padding: 14px 18px;
+	padding: 18px 22px;
 }
 .vcc-quote__author {
-	color: var(--mp-text-light, #94A3B8);
-	font-size: 14px;
+	color: var(--mp-text-main, #2D3748);
+	font-size: 12px;
 	font-style: normal;
-	margin-top: 8px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	margin-top: 10px;
+	text-transform: uppercase;
 }
 
 /* --- Врезки (alert): вариант задаётся цветной меткой сверху, без бордеров слева --- */
 .vcc-alert {
 	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-radius: var(--mp-radius-md, 4px);
-	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+	border-radius: 0;
+	box-shadow: none;
 	margin: 18px 0;
-	padding: 14px 18px;
+	padding: 16px 20px;
 }
 .vcc-alert--info    { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }
 .vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-express-bg, #059669); }
@@ -89,12 +94,13 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 /* --- Спойлер --- */
 .vcc-spoiler {
 	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-radius: var(--mp-radius-md, 4px);
+	border-radius: 0;
 	margin: 14px 0;
 }
 .vcc-spoiler__summary {
 	cursor: pointer;
-	font-weight: 600;
+	font-size: 15px;
+	font-weight: 700;
 	padding: 12px 16px;
 	color: var(--mp-text-main, #2D3748);
 }
@@ -119,14 +125,16 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	border-bottom: 2px solid transparent;
 	color: var(--mp-text-muted, #64748B);
 	cursor: pointer;
-	font-size: 15px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
 	margin-bottom: -1px;
-	padding: 10px 14px;
+	padding: 10px 16px;
+	text-transform: uppercase;
 }
 .vcc-tabs__btn.is-active {
 	border-bottom-color: var(--mp-primary, #8C9D93);
-	color: var(--mp-primary, #8C9D93);
-	font-weight: 600;
+	color: var(--mp-text-main, #2D3748);
 }
 .vcc-tabs__panel { display: none; padding-top: 14px; }
 .vcc-tabs__panel.is-active { display: block; }
@@ -180,6 +188,30 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-toc__list { margin: 0; padding-left: 20px; }
 .vcc-toc__list li { margin-bottom: 4px; }
 
+/* --- Оглавление «фиксированная левая колонка» (v0.10.0) ---
+ * Образец — vita-news-sections--column / vita-news-toc темы:
+ * sticky aside 240px + flex-обёртка, на <992px — колонка сверху.
+ * Обёртку .vcc-toc-wrap строит рантайм темы (initVccBlocks). */
+.vcc-toc-wrap {
+	align-items: flex-start;
+	display: flex;
+	gap: 28px;
+}
+.vcc-toc--column {
+	flex: 0 0 240px;
+	margin: 0;
+	max-height: calc(100vh - 110px);
+	max-width: 240px;
+	overflow-y: auto;
+	position: sticky;
+	top: 90px;
+}
+.vcc-toc-wrap__main { min-width: 0; }
+@media (max-width: 991px) {
+	.vcc-toc-wrap { display: block; }
+	.vcc-toc--column { margin: 0 0 20px; max-height: none; max-width: none; position: static; }
+}
+
 /* ==== v0.7.0 landing ==== */
 
 /* --- Секции: каркас --- */
@@ -225,55 +257,115 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-section--w-narrow .vcc-container { max-width: 720px; }
 .vcc-section--w-full .vcc-container { max-width: none; }
 
-/* --- Заголовок секции --- */
+/* --- Заголовок секции (рестайл Tom Modern, этап 1) ---
+ * Бокс-eyebrow: рамка, поверхность, квадратный маркер палитры.
+ * Заголовок: 34px, плотный трекинг, короткая акцентная черта сверху.
+ * Только токены --mp-*: на bg-primary бокс/маркер/черта идут в currentColor. */
 .vcc-section__head { margin: 0 0 40px; }
 .vcc-section__head--center { text-align: center; }
 .vcc-eyebrow {
-	color: var(--mp-secondary, #5A8F76);
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: 0.08em;
+	align-items: center;
+	background: var(--mp-bg-surface, #ffffff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	color: var(--mp-text-main, #2D3748);
+	display: inline-flex;
+	font-size: 11px;
+	font-weight: 700;
+	gap: 8px;
+	letter-spacing: 0.14em;
 	margin-bottom: 8px;
+	padding: 6px 12px;
 	text-transform: uppercase;
 }
-.vcc-section--bg-primary .vcc-eyebrow { color: var(--mp-text-inverse, #ffffff); opacity: 0.85; }
-.vcc-section__title { margin: 0 0 10px; }
-.vcc-section__sub { color: var(--mp-text-muted, #64748B); margin: 0 auto; max-width: 720px; }
+.vcc-eyebrow::before {
+	background: var(--mp-primary, #8C9D93);
+	content: '';
+	display: inline-block;
+	flex-shrink: 0;
+	height: 6px;
+	width: 6px;
+}
+.vcc-section--bg-primary .vcc-eyebrow {
+	background: transparent;
+	border-color: currentColor;
+	color: var(--mp-text-inverse, #ffffff);
+	opacity: 0.9;
+}
+.vcc-section--bg-primary .vcc-eyebrow::before { background: currentColor; }
+.vcc-section__title {
+	font-size: 34px;
+	letter-spacing: -0.02em;
+	line-height: 1.25;
+	margin: 16px 0 10px;
+	padding-top: 18px;
+	position: relative;
+}
+.vcc-section__title::before {
+	background: var(--mp-primary, #8C9D93);
+	content: '';
+	height: 3px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 44px;
+}
+.vcc-section__head--center .vcc-section__title::before { left: 50%; transform: translateX(-50%); }
+.vcc-section--bg-primary .vcc-section__title::before { background: currentColor; }
+.vcc-section__sub { color: var(--mp-text-muted, #64748B); margin: 10px 0 0; max-width: 640px; }
+.vcc-section__head--center .vcc-section__sub { margin-left: auto; margin-right: auto; }
 .vcc-section--bg-primary .vcc-section__sub { color: var(--mp-text-inverse, #ffffff); opacity: 0.9; }
 
-/* --- Кнопки --- */
+/* --- Кнопки (рестайл Tom Modern: острые углы, плотный вес) --- */
 .vcc-btn {
 	align-items: center;
 	border: 1px solid transparent;
-	border-radius: var(--mp-radius-md, 4px);
+	border-radius: 0;
 	box-sizing: border-box;
 	display: inline-flex;
-	font-weight: 600;
+	font-weight: 700;
 	justify-content: center;
+	letter-spacing: 0.03em;
 	min-height: 44px;
-	padding: 10px 24px;
+	padding: 10px 28px;
 	text-decoration: none;
 }
-.vcc-btn--primary { background: var(--mp-primary, #8C9D93); color: var(--mp-text-inverse, #ffffff); }
-.vcc-btn--primary:hover { background: var(--mp-primary-hover, #7A8B81); }
-.vcc-btn--secondary { background: var(--mp-secondary, #5A8F76); color: var(--mp-text-inverse, #ffffff); }
-.vcc-btn--secondary:hover { filter: brightness(1.05); }
+/* Контраст кнопок при наведении (глобальное правило против «текст = фону»):
+ * тема красит a:hover в --mp-primary; если кнопка при hover меняет фон,
+ * цвет текста обязан фиксироваться РЯДОМ с фоном — иначе текст исчезает. */
+.vcc-btn,
+.vcc-btn:hover,
+.vcc-btn:focus,
+.vcc-btn:active { text-decoration: none; }
+.vcc-btn--primary { background: var(--mp-primary, #8C9D93); }
+.vcc-btn--primary,
+.vcc-btn--primary:hover,
+.vcc-btn--primary:focus,
+.vcc-btn--primary:active { color: var(--mp-text-inverse, #ffffff); }
+.vcc-btn--primary:hover,
+.vcc-btn--primary:focus { background: var(--mp-primary-hover, #7A8B81); }
+.vcc-btn--secondary { background: var(--mp-secondary, #5A8F76); }
+.vcc-btn--secondary,
+.vcc-btn--secondary:hover,
+.vcc-btn--secondary:focus,
+.vcc-btn--secondary:active { color: var(--mp-text-inverse, #ffffff); }
+.vcc-btn--secondary:hover,
+.vcc-btn--secondary:focus { background: var(--mp-primary-hover, #7A8B81); filter: none; }
 .vcc-btn--ghost { background: transparent; border-color: var(--mp-border-color, #E2E8F0); color: inherit; }
 .vcc-btn--ghost:hover { border-color: var(--mp-primary, #8C9D93); color: var(--mp-primary, #8C9D93); }
 .vcc-hero .vcc-btn--ghost,
 .vcc-section--bg-primary .vcc-btn--ghost { border-color: currentColor; }
 
-/* --- Иконка (span -> i рантаймом темы) --- */
+/* --- Иконка (span -> i рантаймом темы): квадратный бейдж палитры --- */
 .vcc-icon {
 	align-items: center;
-	background: var(--mp-bg-hover, #f1f5f9);
-	border-radius: var(--mp-radius-pill, 9999px);
-	color: var(--mp-primary, #8C9D93);
+	background: var(--mp-primary, #8C9D93);
+	border-radius: 0;
+	color: var(--mp-text-inverse, #ffffff);
 	display: inline-flex;
-	font-size: 20px;
-	height: 48px;
+	font-size: 17px;
+	height: 40px;
 	justify-content: center;
-	width: 48px;
+	width: 40px;
 }
 .vcc-section--bg-primary .vcc-icon { background: rgba(255, 255, 255, 0.18); color: inherit; }
 
@@ -288,7 +380,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 /* --- hero --- */
 .vcc-hero { padding: 8px 0; }
 .vcc-hero--center { text-align: center; }
-.vcc-hero__title { font-size: 42px; line-height: 1.15; margin: 0 0 14px; }
+.vcc-hero__title { font-size: 42px; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 14px; }
 .vcc-hero__sub { color: var(--mp-text-muted, #64748B); font-size: 19px; margin: 0 auto 28px; max-width: 720px; }
 .vcc-section--bg-primary .vcc-hero__sub,
 .vcc-section--bg-image .vcc-hero__sub,
@@ -308,27 +400,43 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-logos__img { height: 40px; width: auto; opacity: 0.75; }
 .vcc-logos__link:hover .vcc-logos__img { opacity: 1; }
 
-/* --- features --- */
+/* --- features (рестайл Tom Modern: рамочная карточка 0px,
+   hover — жёсткая offset-тень с микро-сдвигом) --- */
 .vcc-features { display: grid; gap: 24px; }
 .vcc-features--c2 { grid-template-columns: repeat(2, 1fr); }
 .vcc-features--c3 { grid-template-columns: repeat(3, 1fr); }
 .vcc-features--c4 { grid-template-columns: repeat(4, 1fr); }
-.vcc-feature { text-align: left; }
+.vcc-feature {
+	background: var(--mp-bg-surface, #ffffff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: 0;
+	box-shadow: none;
+	height: 100%;
+	padding: 24px;
+	text-align: left;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.vcc-feature:hover {
+	border-color: var(--mp-text-main, #2D3748);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
+}
 .vcc-section__head--center + .vcc-features .vcc-feature { text-align: center; }
 .vcc-section__head--center + .vcc-features .vcc-feature .vcc-icon { margin-bottom: 14px; }
 .vcc-feature__icon { margin-bottom: 0; }
-.vcc-feature__title { font-size: 18px; margin: 14px 0 8px; }
-.vcc-feature__text { color: var(--mp-text-muted, #64748B); }
+.vcc-feature__title { font-size: 15px; letter-spacing: 0.02em; margin: 16px 0 8px; text-transform: uppercase; }
+.vcc-feature__text { color: var(--mp-text-muted, #64748B); font-size: 14px; }
 .vcc-feature__text p { margin: 0 0 10px; }
 .vcc-feature__text p:last-child { margin-bottom: 0; }
-.vcc-section--bg-primary .vcc-feature__text { color: inherit; opacity: 0.9; }
+/* Карточка на зелёной секции остаётся поверхностной: текст — токены, не inherit */
+.vcc-section--bg-primary .vcc-feature__text { color: var(--mp-text-muted, #64748B); }
 
 /* --- media_text --- */
 .vcc-media-text { align-items: center; display: grid; gap: 40px; grid-template-columns: 1fr 1fr; }
 .vcc-media-text--flip .vcc-media-text__media { order: 2; }
 .vcc-media-text--flip .vcc-media-text__body { order: 1; }
 .vcc-media-text__media { margin: 0; }
-.vcc-media-text__media img { border-radius: var(--mp-radius-lg, 6px); height: auto; max-width: 100%; }
+.vcc-media-text__media img { border-radius: 0; height: auto; max-width: 100%; }
 .vcc-media-text__actions { margin-top: 20px; }
 
 /* --- steps --- */
@@ -347,17 +455,18 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 }
 .vcc-steps--timeline .vcc-step {
 	background: var(--mp-card-bg, #ffffff);
-	border: 0;
-	border-radius: 16px;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04), 0 12px 28px rgba(0, 0, 0, 0.06);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: 0;
+	box-shadow: none;
 	height: 100%;
 	padding: 24px 30px 26px;
 	position: relative;
-	transition: box-shadow 0.25s ease, transform 0.25s ease;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 .vcc-steps--timeline .vcc-step:hover {
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 18px 44px rgba(0, 0, 0, 0.1);
-	transform: translateY(-3px);
+	border-color: var(--mp-text-main, #2D3748);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
 }
 /* Точка-маркер на линии: сплошная, маленькая (10px), цвет бренда;
    центр точно на оси линии (left: -53px → центр 8px = центр линии 8px).
@@ -391,44 +500,47 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-steps--numbers .vcc-step {
 	background: var(--mp-card-bg, #ffffff);
 	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-radius: 16px;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.06);
+	border-radius: 0;
+	box-shadow: none;
 	display: flex;
 	gap: 16px;
 	height: 100%;
 	padding: 24px 26px;
-	transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 .vcc-steps--numbers .vcc-step:hover {
-	border-color: var(--mp-primary, #8C9D93);
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 18px 44px rgba(0, 0, 0, 0.1);
-	transform: translateY(-3px);
+	border-color: var(--mp-text-main, #2D3748);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
 }
 .vcc-steps--numbers .vcc-step__num {
 	align-items: center;
-	background: linear-gradient(135deg, var(--mp-primary, #8C9D93), var(--mp-secondary, #5A8F76));
-	border: 0;
-	border-radius: var(--mp-radius-pill, 9999px);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-	color: var(--mp-text-inverse, #ffffff);
+	background: transparent;
+	border: 2px solid var(--mp-primary, #8C9D93);
+	border-radius: 0;
+	box-shadow: none;
+	color: var(--mp-primary, #8C9D93);
 	display: inline-flex;
 	flex-shrink: 0;
-	font-size: 17px;
+	font-size: 18px;
 	font-weight: 700;
-	height: 44px;
+	height: 48px;
 	justify-content: center;
 	line-height: 1;
 	margin-bottom: 0;
 	position: static;
-	transition: transform 0.25s ease;
-	width: 44px;
+	transition: background 0.18s ease, color 0.18s ease;
+	width: 48px;
 }
 /* Заголовок прижат к кругу: первая строка визуально по центру круга (44px),
    описание идёт ниже на всю ширину колонки тела. */
 .vcc-steps--numbers .vcc-step__body { flex: 1 1 auto; min-width: 0; }
 .vcc-steps--numbers .vcc-step__label { margin-bottom: 2px; }
-.vcc-steps--numbers .vcc-step__title { line-height: 44px; margin: -2px 0 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.vcc-steps--numbers .vcc-step:hover .vcc-step__num { transform: scale(1.08); }
+.vcc-steps--numbers .vcc-step__title { line-height: 48px; margin: -2px 0 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vcc-steps--numbers .vcc-step:hover .vcc-step__num {
+	background: var(--mp-primary, #8C9D93);
+	color: var(--mp-text-inverse, #ffffff);
+}
 .vcc-step__label {
 	color: var(--mp-primary, #8C9D93);
 	font-size: 14px;
@@ -440,17 +552,13 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-step__text p { margin: 0 0 8px; }
 .vcc-step__text p:last-child { margin-bottom: 0; }
 /* Тёмная тема: карточки на --mp-card-bg (токен сам тёмный),
-   тени глубже — на тёмном фоне слабые тени исчезают. */
-[data-theme="dark"] .vcc-steps--timeline .vcc-step__num,
-[data-theme="dark"] .vcc-steps--numbers .vcc-step__num { border-color: transparent; }
-[data-theme="dark"] .vcc-steps--timeline .vcc-step,
-[data-theme="dark"] .vcc-steps--numbers .vcc-step { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.25); }
+   рамки/тени тоже токенные — отдельные оверраиды больше не нужны. */
 .vcc-step__text p { margin: 0 0 8px; }
 .vcc-step__text p:last-child { margin-bottom: 0; }
 
 /* --- stats --- */
 .vcc-stats { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); text-align: center; }
-.vcc-stat__value { color: inherit; display: block; font-size: 40px; font-weight: 700; line-height: 1.1; }
+.vcc-stat__value { color: inherit; display: block; font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
 .vcc-stat__suffix { font-size: 0.55em; font-weight: 600; margin-left: 2px; opacity: 0.85; }
 .vcc-stat__label { color: var(--mp-text-muted, #64748B); font-size: 14px; }
 .vcc-section--bg-primary .vcc-stat__label { color: inherit; opacity: 0.85; }
@@ -462,12 +570,18 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-review {
 	background: var(--mp-bg-surface, #ffffff);
 	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-radius: var(--mp-radius-lg, 6px);
-	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+	border-radius: 0;
+	box-shadow: none;
 	color: var(--mp-text-body, #2D3748);
 	font-style: normal;
 	margin: 0;
 	padding: 24px;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.vcc-review:hover {
+	border-color: var(--mp-text-main, #2D3748);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
 }
 .vcc-review__text { margin: 0 0 12px; }
 .vcc-stars { color: var(--mp-star-color, #f59e0b); display: block; font-size: 15px; letter-spacing: 2px; margin-bottom: 10px; }
@@ -485,8 +599,8 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-ba__media {
 	position: relative;
 	overflow: hidden;
-	border-radius: var(--mp-radius-lg, 6px);
-	box-shadow: var(--mp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+	border-radius: 0;
+	box-shadow: none;
 }
 .vcc-ba__media img {
 	display: block;
@@ -496,7 +610,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 }
 .vcc-ba__label {
 	background: var(--mp-primary, #8C9D93);
-	border-radius: var(--mp-radius-pill, 9999px);
+	border-radius: 0;
 	color: var(--mp-text-inverse, #ffffff);
 	font-size: 12px;
 	font-weight: 700;
@@ -516,11 +630,33 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 
 /* --- team --- */
 .vcc-team { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-.vcc-member { text-align: center; }
-.vcc-member__photo { border-radius: var(--mp-radius-pill, 9999px); height: 128px; width: 128px; object-fit: cover; }
-.vcc-member__name { color: var(--mp-text-main, #2D3748); display: block; margin-top: 12px; }
-.vcc-member__role { color: var(--mp-secondary, #5A8F76); display: block; font-size: 13px; margin-top: 2px; }
-.vcc-member__text { color: var(--mp-text-muted, #64748B); font-size: 14px; margin-top: 8px; }
+/* --- team (рестайл: рамочная карточка 0px, квадратное фото, uppercase-роль) --- */
+.vcc-member {
+	background: var(--mp-bg-surface, #ffffff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: 0;
+	height: 100%;
+	padding: 24px;
+	text-align: center;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.vcc-member:hover {
+	border-color: var(--mp-text-main, #2D3748);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
+}
+.vcc-member__photo { border-radius: 0; height: 128px; object-fit: cover; width: 128px; }
+.vcc-member__name { color: var(--mp-text-main, #2D3748); display: block; font-weight: 700; margin-top: 14px; }
+.vcc-member__role {
+	color: var(--mp-text-muted, #64748B);
+	display: block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	margin-top: 4px;
+	text-transform: uppercase;
+}
+.vcc-member__text { color: var(--mp-text-muted, #64748B); font-size: 14px; margin-top: 10px; }
 .vcc-member__text p { margin: 0 0 8px; }
 .vcc-member__text p:last-child { margin-bottom: 0; }
 
@@ -539,9 +675,25 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-cta__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 
 /* --- contacts --- */
-.vcc-contacts { display: grid; gap: 18px; }
-.vcc-contact { align-items: center; display: flex; flex-wrap: wrap; gap: 14px; }
-.vcc-contact__label { color: var(--mp-text-light, #94A3B8); min-width: 90px; }
+/* --- contacts (рестайл: строки-спецификации с uppercase-лейблами) --- */
+.vcc-contacts { display: grid; gap: 0; }
+.vcc-contact {
+	align-items: center;
+	border-bottom: 1px solid var(--mp-border-divider, #F1F5F9);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	padding: 12px 0;
+}
+.vcc-contact:last-child { border-bottom: none; }
+.vcc-contact__label {
+	color: var(--mp-text-light, #94A3B8);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	min-width: 130px;
+	text-transform: uppercase;
+}
 .vcc-contact__value { color: var(--mp-text-main, #2D3748); font-weight: 600; text-decoration: none; }
 a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration: underline; }
 
@@ -619,33 +771,41 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 .vcc-plan {
 	background: var(--mp-bg-surface, #ffffff);
 	border: 1px solid var(--mp-border-color, #E2E8F0);
-	border-radius: var(--mp-radius-lg, 6px);
+	border-radius: 0;
 	display: flex;
 	flex-direction: column;
 	padding: 28px 24px;
 	position: relative;
 	text-align: center;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.vcc-plan:hover {
+	border-color: var(--mp-text-main, #2D3748);
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
+	transform: translate(-2px, -2px);
 }
 .vcc-plan--left { text-align: left; }
 .vcc-plan--featured {
 	background: var(--mp-primary-light, #F2F6F4);
 	border-color: var(--mp-primary, #8C9D93);
-	box-shadow: var(--mp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.08));
+	box-shadow: 6px 6px 0 var(--mp-border-color, #E2E8F0);
 }
 .vcc-plan__flag {
 	background: var(--mp-primary, #8C9D93);
-	border-radius: var(--mp-radius-pill, 9999px);
+	border-radius: 0;
 	color: var(--mp-text-inverse, #ffffff);
-	font-size: 12px;
-	font-weight: 600;
+	font-size: 11px;
+	font-weight: 700;
 	left: 50%;
-	padding: 3px 14px;
+	letter-spacing: 0.08em;
+	padding: 4px 14px;
 	position: absolute;
-	top: -13px;
+	text-transform: uppercase;
+	top: -12px;
 	transform: translateX(-50%);
 }
-.vcc-plan__name { color: var(--mp-text-main, #2D3748); font-size: 18px; margin: 4px 0 10px; }
-.vcc-plan__price { color: var(--mp-text-main, #2D3748); font-size: 30px; font-weight: 700; }
+.vcc-plan__name { color: var(--mp-text-main, #2D3748); font-size: 14px; font-weight: 700; letter-spacing: 0.04em; margin: 4px 0 10px; text-transform: uppercase; }
+.vcc-plan__price { color: var(--mp-text-main, #2D3748); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; }
 .vcc-plan__period { color: var(--mp-text-muted, #64748B); font-size: 15px; font-weight: 400; margin-left: 4px; }
 .vcc-plan__old { color: var(--mp-text-light, #94A3B8); text-decoration: line-through; }
 .vcc-plan__features { list-style: none; margin: 18px 0 22px; padding: 0; text-align: left; }
@@ -698,6 +858,7 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 /* --- Адаптив: один паттерн, сетки схлопываются в колонку --- */
 @media (max-width: 767px) {
 	.vcc-hero__title { font-size: 31px; }
+	.vcc-section__title { font-size: 26px; }
 	.vcc-features--c2, .vcc-features--c3, .vcc-features--c4,
 	.vcc-media-text, .vcc-reviews--c2, .vcc-reviews--c3,
 	.vcc-columns--c2, .vcc-columns--c3, .vcc-columns--c4,
@@ -715,3 +876,197 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 /* --- Тёмная тема: ровно два аддитивных оверрая (спека §4.4) --- */
 [data-theme="dark"] .vcc-plan--featured { background: var(--mp-bg-hover, #38343E); }
 [data-theme="dark"] .vcc-section--overlay::before { background: rgba(0, 0, 0, 0.65); }
+
+/* ============================================================
+   v0.10.0: Новые блоки Tom Modern — key_card и code_window.
+   Перевод палитры оригинала на токены Виты: тёмная карточка
+   = инверсия --mp-text-main/--mp-text-inverse (в светлой теме
+   карточка тёмная, в тёмной — светлая); янтарь метки =
+   --mp-star-color; «светофор» и синтаксис = badge-токены.
+   ============================================================ */
+
+/* --- key_card (премиум-карточка ключа) --- */
+.vcc-keycard { align-items: center; display: flex; flex-direction: column; }
+.vcc-keycard > * { max-width: 390px; width: 100%; }
+.vcc-keycard__meta {
+	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	color: var(--mp-text-muted, #64748B);
+	display: flex;
+	font-size: 10px;
+	font-weight: 700;
+	gap: 12px;
+	justify-content: space-between;
+	letter-spacing: 0.14em;
+	margin-bottom: 14px;
+	padding: 0 2px 10px;
+	text-transform: uppercase;
+}
+.vcc-keycard__card {
+	background: linear-gradient(155deg, var(--mp-text-main, #2D3748) 0%, var(--mp-text-body, #2D3748) 55%, var(--mp-secondary, #5A8F76) 160%);
+	color: var(--mp-text-inverse, #ffffff);
+	overflow: hidden;
+	padding: 24px 22px 18px;
+	position: relative;
+}
+.vcc-keycard__sheen {
+	animation: vcc-sheen-sweep 2.4s ease-out 0.2s 1;
+	background: linear-gradient(115deg,
+		transparent 32%,
+		rgba(255, 255, 255, 0.14) 42%,
+		rgba(255, 255, 255, 0.2) 50%,
+		rgba(255, 255, 255, 0.1) 56%,
+		transparent 66%);
+	height: 180%;
+	left: -65%;
+	mix-blend-mode: screen;
+	pointer-events: none;
+	position: absolute;
+	top: -40%;
+	transform: rotate(9deg) translateX(-12%);
+	width: 170%;
+	z-index: 0;
+}
+@keyframes vcc-sheen-sweep {
+	from { transform: rotate(9deg) translateX(-38%); }
+	to { transform: rotate(9deg) translateX(-12%); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.vcc-keycard__sheen { animation: none; }
+}
+.vcc-keycard__label {
+	color: var(--mp-star-color, #f59e0b);
+	font-size: 10.5px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	margin-bottom: 12px;
+	position: relative;
+	text-transform: uppercase;
+	z-index: 1;
+}
+.vcc-keycard__value {
+	display: flex;
+	flex-wrap: wrap;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 22px;
+	font-weight: 500;
+	gap: 2px;
+	letter-spacing: 1px;
+	margin-bottom: 20px;
+	position: relative;
+	z-index: 1;
+}
+.vcc-keycard__value .vcc-keycard__sep { opacity: 0.35; }
+.vcc-keycard__value .vcc-keycard__seg--dim { opacity: 0.32; }
+.vcc-keycard__perforation {
+	border-top: 1px dashed rgba(255, 255, 255, 0.28);
+	position: relative;
+}
+[data-theme="dark"] .vcc-keycard__perforation { border-color: rgba(0, 0, 0, 0.25); }
+.vcc-keycard__footer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 14px 0 0;
+	position: relative;
+	z-index: 1;
+}
+.vcc-keycard__footer .vcc-chip,
+.vcc-chip {
+	align-items: center;
+	border: 1px solid;
+	border-color: rgba(255, 255, 255, 0.22);
+	border-radius: var(--mp-radius-pill, 9999px);
+	display: inline-flex;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 10.5px;
+	gap: 5px;
+	letter-spacing: 0.06em;
+	padding: 5px 10px;
+	text-transform: uppercase;
+}
+[data-theme="dark"] .vcc-chip { border-color: rgba(0, 0, 0, 0.22); }
+/* Иконка чипа: компактная, поверх бейдж-базовой стилизации .vcc-icon */
+.vcc-chip .vcc-icon {
+	background: transparent;
+	color: inherit;
+	font-size: 12px;
+	height: 14px;
+	margin: 0;
+	vertical-align: middle;
+	width: 14px;
+}
+
+/* --- code_window (код-окно) --- */
+.vcc-codewin {
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	box-shadow: var(--mp-shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.1));
+	overflow: hidden;
+	position: relative;
+}
+.vcc-codewin__header {
+	align-items: center;
+	background: var(--mp-bg-subtle, #f8fafc);
+	border-bottom: 1px solid var(--mp-border-color, #E2E8F0);
+	display: flex;
+	gap: 14px;
+	min-height: 44px;
+	padding: 0 18px;
+}
+.vcc-codewin__dots { display: inline-flex; flex: 0 0 auto; gap: 8px; }
+.vcc-codewin__dots span { border-radius: var(--mp-radius-pill, 9999px); height: 11px; width: 11px; }
+.vcc-codewin__dots span:nth-child(1) { background: var(--mp-badge-discount-bg, #dc2626); }
+.vcc-codewin__dots span:nth-child(2) { background: var(--mp-star-color, #f59e0b); }
+.vcc-codewin__dots span:nth-child(3) { background: var(--mp-badge-express-bg, #059669); }
+.vcc-codewin__title {
+	color: var(--mp-text-muted, #64748B);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+.vcc-codewin__body {
+	background: var(--mp-text-main, #2D3748);
+	color: var(--mp-text-inverse, #ffffff);
+	overflow-x: auto;
+	padding: 24px;
+	position: relative;
+}
+/* Тело окна изолировано от стилей темы для голых pre/code:
+   конкретные селекторы с !important бьют любые правила витрины. */
+.vcc-codewin__body pre {
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	color: inherit !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.vcc-codewin__body code {
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	color: inherit !important;
+	display: block !important;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+	font-size: 14px !important;
+	line-height: 1.7 !important;
+	padding: 0 !important;
+	white-space: pre-wrap !important;
+}
+.vcc-codewin__body code::before,
+.vcc-codewin__body code::after { content: none !important; }
+.vcc-codewin__body pre code span { color: inherit; }
+.vcc-codewin__body .vcc-tok-comment { color: var(--mp-text-light, #94A3B8); opacity: 0.8; }
+.vcc-codewin__body .vcc-tok-keyword { color: var(--mp-star-color, #f59e0b); }
+.vcc-tok-keyword { color: var(--mp-star-color, #f59e0b); }
+.vcc-tok-function { color: var(--mp-badge-express-bg, #059669); }
+.vcc-tok-string { color: var(--mp-secondary, #5A8F76); }
+.vcc-tok-number { color: var(--mp-badge-hit-bg, #d97706); }
+.vcc-tok-property { color: var(--mp-primary, #8C9D93); }
+.vcc-tok-comment { color: var(--mp-text-light, #94A3B8); opacity: 0.8; }
+.vcc-tok-punctuation { opacity: 0.55; }
+[data-theme="dark"] .vcc-codewin__body { background: var(--mp-bg-hover, #38343E); }

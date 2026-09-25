@@ -226,13 +226,18 @@
 		label: 'Оглавление',
 		icon: 'fa-list-ol',
 		group: 'text',
-		defaults: { title: 'Содержание' },
+		defaults: { title: 'Содержание', style: 'header' },
 		fields: [
-			{ key: 'title', label: 'Заголовок (опционально)', type: 'text' }
+			{ key: 'title', label: 'Заголовок (опционально)', type: 'text' },
+			{ key: 'style', label: 'Отображение', type: 'select', options: [['header', 'Сверху (в контенте)'], ['column', 'Фиксированная левая колонка']] }
 		],
-		/* Список ссылок заполняется на магазине после рендера статьи (см. README: шаг после импорта не нужен — якоря создаёт сама тема). */
+		/* Список ссылок заполняется на магазине после рендера статьи (см. README: шаг после импорта не нужен — якоря создаёт сама тема).
+		 * style: header — бокс в потоке контента; column — sticky-колонка слева
+		 * (обёртку .vcc-toc-wrap строит рантайм темы, см. common.js initVccTocColumn). */
 		toHTML: function (data) {
-			var html = '<nav class="vcc-toc" data-vcc-toc>';
+			var style = data.style === 'column' ? 'column' : 'header';
+			var cls = style === 'column' ? 'vcc-toc vcc-toc--column' : 'vcc-toc';
+			var html = '<nav class="' + cls + '" data-vcc-toc>';
 			if (data.title && String(data.title).trim() !== '') {
 				html += '<div class="vcc-toc__title">' + vccInline(data.title) + '</div>';
 			}

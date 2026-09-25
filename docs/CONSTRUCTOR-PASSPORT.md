@@ -277,6 +277,32 @@ anchor — якорь латиницей для ссылок #anchor
 {"id":"b1","type":"columns","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""},"cols":"3","items":[{"md":"Первая колонка. Здесь может быть описание, список или ссылка [пример](https://example.com)."},{"md":"Вторая колонка. Поддерживается всё, что умеет текстовый блок."},{"md":"Третья колонка. ==Акцент== выделяется фирменным цветом."}]}}
 ```
 
+#### key_card — Карточка ключа
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `_hint` — hint
+- `meta_left` — строка
+- `meta_right` — строка
+- `card_label` — строка
+- `segs` — массив объектов { value, dim }
+- `sep` — строка
+- `chips` — массив объектов { icon, text }
+Пример:
+```json
+{"id":"b1","type":"key_card","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"narrow","anchor":""},"meta_left":"Лицензия","meta_right":"VITA-3.0","card_label":"Ключ продукта","segs":[{"value":"VITA","dim":false},{"value":"8F2C-ZQ91","dim":true},{"value":"K4D7-TX5E","dim":false}],"sep":"-","chips":[{"icon":"fa-check-circle-o","text":"Активирован"},{"icon":"fa-calendar-check-o","text":"До 2027-01-15"}]}}
+```
+
+#### code_window — Код-окно
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `_hint` — hint
+- `filename` — строка
+- `lines` — массив объектов { tag, text }
+Пример:
+```json
+{"id":"b1","type":"code_window","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"narrow","anchor":""},"filename":"example.js","lines":[{"tag":"keyword","text":"const"},{"tag":"plain","text":" greeting "},{"tag":"punctuation","text":"= "},{"tag":"string","text":"'Привет, мир!'"},{"tag":"punctuation","text":";"}]}}
+```
+
 #### video — Видео
 Видео с YouTube/Vimeo/Rutube: ссылка или iframe-код сервиса.
 Поля data:
@@ -377,9 +403,10 @@ anchor — якорь латиницей для ссылок #anchor
 Оглавление по заголовкам статьи — собирается автоматически.
 Поля data:
 - `title` — строка
+- `style` — одно из значений: header | column
 Пример:
 ```json
-{"id":"b1","type":"toc","data":{"title":"Содержание"}}
+{"id":"b1","type":"toc","data":{"title":"Содержание","style":"header"}}
 ```
 
 ### Живые модули магазина (спец-метки)
