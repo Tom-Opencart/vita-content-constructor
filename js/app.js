@@ -3385,11 +3385,19 @@ Tilda-модель — каждый «широкий» блок экспорти
 					} else {
 						valueHtml = '<span>' + vccEscapeHtml(val) + '</span>';
 					}
-					/* Авто-источник копии: код без приглушённой середины */
+					/* Авто-источник копии: код без приглушённой середины. Вырезаем
+					 * сегмент вместе с ОДНИМ примыкающим разделителем и схлопываем
+					 * образовавшийся двойной (3834-uni-opencartclub → 3834-opencartclub,
+					 * а не 3834--opencartclub). */
 					if (!copySrc && val) {
-						copySrc = dim && val.indexOf(dim) > 0
-							? val.slice(0, val.indexOf(dim)) + val.slice(val.indexOf(dim) + dim.length)
-							: val;
+						if (dim && val.indexOf(dim) > 0) {
+							var at = val.indexOf(dim);
+							var head = val.slice(0, at).replace(/[-–—_]+$/, '');
+							var tail = val.slice(at + dim.length).replace(/^[-–—_]+/, '');
+							copySrc = tail ? head + '-' + tail : head;
+						} else {
+							copySrc = val;
+						}
 					}
 					sideHtml += '<div class="vcc-keycard">';
 					var mL = String(v.right_meta_left || '').trim(), mR = String(v.right_meta_right || '').trim();
