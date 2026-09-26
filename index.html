@@ -6,7 +6,7 @@
 <title>Вита — Конструктор контента</title>
 <meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные HTML блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.10.8">
+<link rel="stylesheet" href="css/app.css?v=0.10.9">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -127,6 +127,7 @@
 				Теги вида <code>[vita_visual id=78]</code>, <code>[vita_faq id=3]</code>, <code>[vita_form id=5]</code> переживают экспорт файла и импорт в модуль, а на витрине превращаются в живые блоки. В палитре есть и готовые блоки спец-меток с выбором ID из каталога магазина — они надёжнее ручного ввода.
 			</span>
 		</span>
+		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-undo" title="Отменить последнее действие (Ctrl+Z): вернуться к предыдущему состоянию страницы"><i class="fa fa-undo"></i> <span class="vcc-hide-narrow">Отменить</span></button>
 		<button type="button" class="vcc-btn vcc-btn--sm" id="vcc-clear-all" title="Удалить все блоки и название страницы. Палитра магазина остаётся. Действие можно отменить только сразу — Ctrl+Z не поддерживается, проверьте до нажатия"><i class="fa fa-eraser"></i> <span class="vcc-hide-narrow">Очистить</span></button>
 		<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-home" title="Как это работает — справка и загрузка пресета"><i class="fa fa-home"></i></button>
 	</header>
@@ -292,6 +293,6 @@
 
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.10.8"></script>
+<script src="js/app.js?v=0.10.9"></script>
 </body>
 </html>

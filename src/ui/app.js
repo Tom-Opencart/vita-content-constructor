@@ -854,6 +854,21 @@
 		/* Пресет: отдельная кнопка в шапке — открыть онбординг с дропзоной */
 		$('#vcc-preset-open').addEventListener('click', showWelcome);
 
+		/* Undo (0.10.9): кнопка в шапке + Ctrl+Z / Cmd+Z. Состояние
+		 * доступности пересчитывается на каждый render (canUndo). */
+		$('#vcc-undo').addEventListener('click', function () { VccStore.undo(); });
+		document.addEventListener('keydown', function (e) {
+			var key = (e.key || '').toLowerCase();
+			if (key !== 'z' || !(e.ctrlKey || e.metaKey)) return;
+			/* Поле ввода/textarea: пусть браузер отменит правку текста */
+			var tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+			if (tag === 'input' || tag === 'textarea' || document.activeElement && document.activeElement.isContentEditable) return;
+			e.preventDefault();
+			if (e.shiftKey) { showToast('Повтор отменённого (redo) пока не ведётся — стек хранит только историю назад', 'info'); return; }
+			if (!VccStore.canUndo()) { showToast('Отменять нечего — история пуста', 'info'); return; }
+			VccStore.undo();
+		});
+
 		/* Полная очистка (0.10.7): confirm → удалить все блоки и название.
 		   mutate() кладёт прежний проект в undo-стек — programmatic undo
 		   остаётся доступен из консоли (VCC_DEBUG.store.undo()). */
@@ -869,6 +884,10 @@
 		});
 
 		VccStore.subscribe(render);
+		VccStore.subscribe(function () {
+			var btn = $('#vcc-undo');
+			if (btn) btn.disabled = !VccStore.canUndo();
+		});
 		renderPresetButton();
 		render(VccStore.currentProject());
 	}
