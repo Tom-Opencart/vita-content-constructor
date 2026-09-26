@@ -246,7 +246,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	height: 100%;
 	padding: 24px;
 }
-.vcc-pain__title { font-size: 15px; letter-spacing: 0.02em; margin: 0 0 8px; text-transform: uppercase; }
+.vcc-pain__title { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; margin: 0 0 8px; text-transform: uppercase; }
 .vcc-pain__title::before {
 	background: var(--mp-badge-discount-bg, #DC2626);
 	content: "";
@@ -268,7 +268,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	height: 100%;
 	padding: 24px;
 }
-.vcc-update__title { font-size: 16px; letter-spacing: -0.01em; margin: 0 0 8px; }
+.vcc-update__title { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 8px; }
 .vcc-update__text { color: var(--mp-text-muted, #64748B); font-size: 14px; }
 .vcc-update__tag {
 	background: var(--mp-bg-subtle, #f8fafc);
@@ -420,6 +420,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-section--bg-primary .vcc-eyebrow::before { background: currentColor; }
 .vcc-section__title {
 	font-size: 34px;
+	font-weight: 700;
 	letter-spacing: -0.02em;
 	line-height: 1.25;
 	margin: 16px 0 10px;
@@ -540,7 +541,9 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 /* --- hero --- */
 .vcc-hero { padding: 8px 0; }
 .vcc-hero--center { text-align: center; }
-.vcc-hero__title { font-size: 42px; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 14px; }
+/* 0.10.4: заголовки рендерятся нейтральными тегами (div/p) — явный font-weight
+ * обязателен, браузерного bold от <h1..h6> больше нет */
+.vcc-hero__title { font-size: 42px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 14px; }
 .vcc-hero__sub { color: var(--mp-text-muted, #64748B); font-size: 19px; margin: 0 auto 28px; max-width: 720px; }
 .vcc-section--bg-primary .vcc-hero__sub,
 .vcc-section--bg-image .vcc-hero__sub,
@@ -639,7 +642,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-section__head--center + .vcc-features .vcc-feature { text-align: center; }
 .vcc-section__head--center + .vcc-features .vcc-feature .vcc-icon { margin-bottom: 14px; }
 .vcc-feature__icon { margin-bottom: 0; }
-.vcc-feature__title { font-size: 15px; letter-spacing: 0.02em; margin: 16px 0 8px; text-transform: uppercase; }
+.vcc-feature__title { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; margin: 16px 0 8px; text-transform: uppercase; }
 .vcc-feature__text { color: var(--mp-text-muted, #64748B); font-size: 14px; }
 .vcc-feature__text p { margin: 0 0 10px; }
 .vcc-feature__text p:last-child { margin-bottom: 0; }
@@ -750,7 +753,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	font-weight: 700;
 	margin-bottom: 3px;
 }
-.vcc-step__title { font-size: 19px; margin: 6px 0 6px; }
+.vcc-step__title { font-size: 19px; font-weight: 700; margin: 6px 0 6px; }
 .vcc-step__text { color: var(--mp-text-muted, #64748B); }
 .vcc-step__text p { margin: 0 0 8px; }
 .vcc-step__text p:last-child { margin-bottom: 0; }
@@ -860,7 +863,7 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 
 /* --- cta --- */
 .vcc-cta { text-align: center; }
-.vcc-cta__title { margin: 0 0 12px; }
+.vcc-cta__title { font-weight: 700; margin: 0 0 12px; }
 .vcc-cta__text { color: var(--mp-text-muted, #64748B); margin: 0 auto 24px; max-width: 640px; }
 .vcc-section--bg-primary .vcc-cta__text { color: inherit; opacity: 0.9; }
 .vcc-cta__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }

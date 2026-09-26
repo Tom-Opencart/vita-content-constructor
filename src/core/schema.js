@@ -19,8 +19,11 @@ var CC_SCHEMA_SPEC = {
 	supported_blocks: [
 		/* 0.10.3: у КАЖДОГО блока опциональная универсальная кнопка (btn_label
 		 * пусто = нет): url (ссылка/form:ID) + bg primary|dark|ghost|link +
-		 * size md|sm|lg|full + icon (FA-имя) — рендер vccButton(). */
-		{ type: 'heading', data_schema: { level: 'Integer 2-4 (H2-H4)', text: 'String (markdown: **bold**, *italic*, [text](url))', btn_label: 'String — текст кнопки под заголовком (пусто = нет)', btn_url: 'String', btn_bg: 'primary|dark|ghost|link', btn_size: 'md|sm|lg|full', btn_icon: 'String FA-имя' } },
+		 * size md|sm|lg|full + icon (FA-имя) — рендер vccButton().
+		 * 0.10.4 SEO: заголовки рендерятся НЕЙТРАЛЬНЫМ тегом (div/p) с классом-
+		 * контрактом; настоящий H1..H6 — явный выбор поля seo_tag (страница
+		 * магазина уже несёт свой H1 — жёсткий <h1> из блока плодил десятки H1). */
+		{ type: 'heading', data_schema: { level: 'Integer 2-4 (размер текста: H2/H3/H4-размер)', text: 'String (markdown: **bold**, *italic*, [text](url))', seo_tag: 'div|h1|h2|h3|h4 — реальный тег (div по умолчанию!)', btn_label: 'String — текст кнопки под заголовком (пусто = нет)', btn_url: 'String', btn_bg: 'primary|dark|ghost|link', btn_size: 'md|sm|lg|full', btn_icon: 'String FA-имя' } },
 		{ type: 'paragraph', data_schema: { text: 'String (markdown)', btn_label: 'String — кнопка (см. heading)' } },
 		{ type: 'list', data_schema: { ordered: 'Boolean', items: 'Array of String (markdown)', btn_label: 'String — кнопка (см. heading)' } },
 		{ type: 'quote', data_schema: { text: 'String (markdown)', author: 'String (опционально)', btn_label: 'String — кнопка (см. heading)' } },
@@ -30,10 +33,11 @@ var CC_SCHEMA_SPEC = {
 		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)', btn_label: 'String — кнопка под картинкой' } },
 		{ type: 'toc', data_schema: { title: 'String (опционально)', btn_label: 'String — кнопка (только style header)' } },
 		/* 0.7.0: лендинг-секции. Общие поля секции — вложенный объект data.sec:
-		 * { eyebrow, title, text, align, bg: none|light|surface|primary|image|video,
+		 * { eyebrow, title, text, seo_tag, align, bg: none|light|surface|primary|image|video,
 		 *   image, video, overlay, padding: s|m|l|xl, width: narrow|default|full,
-		 *   anchor } — каркас .vcc-section > __inner > .vcc-container. */
-		{ type: 'hero', data_schema: { kicker: 'String — кикер над H1 (uppercase, без плашки)', title: 'String (markdown, H1)', title_size: 'default|md|lg|xl — 42/56/64/76px', sub: 'String (markdown)', btn1_label: 'String', btn1_url: 'String (или form:ID)', btn1_style: 'primary|dark', btn2_label: 'String', btn2_url: 'String', note: 'String — строка доверия', note_lined: 'Boolean — линия над строкой', align: 'left|center', visual: 'none|metrics|keycard — панель-визуал справа (metrics = референс hero-visual, keycard = карточка ключа + сетка плиток 2x3)', visual_kicker: 'String', visual_path: 'String', visual_metrics: 'Array of { value, label }', visual_card: 'Object — keycard-панель: { meta_left, meta_right, label, value, value_dim, chips: Array of { icon, text }, tiles: Array of { label, value, style: boxed|strips } }', sec: 'Object — общие поля секции' } },
+		 *   anchor } — каркас .vcc-section > __inner > .vcc-container. seo_tag:
+		 * реальный тег заголовка секции (div по умолчанию, H1..H3 — явный выбор). */
+		{ type: 'hero', data_schema: { kicker: 'String — кикер над заголовком (uppercase, без плашки)', title: 'String (markdown, визуальный заголовок)', seo_tag: 'div|h1|h2 — реальный тег заголовка (div по умолчанию — H1 ставит страница)', title_size: 'default|md|lg|xl — 42/56/64/76px', sub: 'String (markdown)', btn1_label: 'String', btn1_url: 'String (или form:ID)', btn1_style: 'primary|dark', btn2_label: 'String', btn2_url: 'String', note: 'String — строка доверия', note_lined: 'Boolean — линия над строкой', align: 'left|center', visual: 'none|metrics|keycard — панель-визуал справа (metrics = референс hero-visual, keycard = карточка ключа + сетка плиток 2x3)', visual_kicker: 'String', visual_path: 'String', visual_metrics: 'Array of { value, label }', visual_card: 'Object — keycard-панель: { meta_left, meta_right, label, value, value_dim, chips: Array of { icon, text }, tiles: Array of { label, value, style: boxed|strips } }', sec: 'Object — общие поля секции' } },
 		{ type: 'logos', data_schema: { items: 'Array of { src, alt, url? }', sec: 'Object' } },
 		{ type: 'features', data_schema: { cols: '2|3|4', items: 'Array of { icon: fa-имя, title, text (markdown) }', sec: 'Object' } },
 		{ type: 'media_text', data_schema: { img: 'String — путь или URL', img_alt: 'String', caption: 'String', flip: 'Boolean — картинка справа', text: 'String (markdown)', btn_label: 'String', btn_url: 'String (или form:ID)', sec: 'Object' } },

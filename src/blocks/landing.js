@@ -118,7 +118,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		var center = sec.align !== 'left';
 		var html = '<div class="vcc-section__head' + (center ? ' vcc-section__head--center' : '') + '">';
 		if (eyebrow) html += '<span class="vcc-eyebrow">' + vccInline(eyebrow) + '</span>';
-		if (title) html += '<h2 class="vcc-heading vcc-section__title">' + vccInline(title) + '</h2>';
+		if (title) html += vccHeadingHtml(sec.seo_tag, 'vcc-heading vcc-section__title', vccInline(title));
 		if (text) html += '<p class="vcc-section__sub">' + vccInline(text) + '</p>';
 		return html + '</div>';
 	}
@@ -129,6 +129,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 		return [
 			{ key: 'sec.eyebrow', label: 'Надзаголовок (бровь, опционально)', type: 'text', mark: 'sec' },
 			{ key: 'sec.title', label: 'Заголовок секции', type: 'text', mark: 'sec' },
+			{ key: 'sec.seo_tag', label: 'SEO-тег заголовка секции (по умолчанию div — H1 на странице один)', type: 'select', mark: 'sec',
+				options: [['div', 'div — нейтральный (рекомендуется)'], ['h1', 'h1 — главный (ОДИН на страницу!)'], ['h2', 'h2 — раздел'], ['h3', 'h3 — подраздел']] },
 			{ key: 'sec.text', label: 'Подзаголовок секции', type: 'textarea', rows: 2, markdown: true, mark: 'sec' },
 			{ key: 'sec.align', label: 'Выравнивание заголовка', type: 'select', mark: 'sec',
 				options: [['center', 'По центру'], ['left', 'По левому краю']] },
@@ -154,7 +156,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		 * Приоритет: плоский ключ перекрывает вложенный (форма редактора). */
 		var nested = (values && typeof values.sec === 'object' && values.sec) ? values.sec : {};
 		var sec = {};
-		var keys = ['eyebrow', 'title', 'text', 'align', 'bg', 'image', 'video', 'overlay', 'padding', 'width', 'anchor'];
+		var keys = ['eyebrow', 'title', 'text', 'seo_tag', 'align', 'bg', 'image', 'video', 'overlay', 'padding', 'width', 'anchor'];
 		for (var i = 0; i < keys.length; i++) {
 			sec[keys[i]] = values['sec.' + keys[i]] !== undefined ? values['sec.' + keys[i]] : nested[keys[i]];
 		}
@@ -206,8 +208,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 			return [
 				{ key: '_hint', label: 'H1 на странице должен быть один — не дублируйте его с заголовком статьи (спека §6.1).', type: 'hint' }
 			].concat(sectionFields()).concat([
-				{ key: 'kicker', label: 'Кикер над заголовком (аннотация мелким шрифтом, uppercase)', type: 'text', placeholder: 'Сообщество с 2020 года' },
-				{ key: 'title', label: 'Заголовок H1 (на странице он должен быть один)', type: 'textarea', rows: 2, markdown: true },
+			{ key: 'kicker', label: 'Кикер над заголовком (аннотация мелким шрифтом, uppercase)', type: 'text', placeholder: 'Сообщество с 2020 года' },
+			{ key: 'title', label: 'Заголовок (визуальный)', type: 'textarea', rows: 2, markdown: true },
+			{ key: 'seo_tag', label: 'SEO-тег заголовка (по умолчанию div — H1 на странице один, его ставит сама страница)', type: 'select', options: [['div', 'div — нейтральный (рекомендуется)'], ['h1', 'h1 — главный (ОДИН на страницу!)'], ['h2', 'h2 — раздел']] },
 				{ key: 'title_size', label: 'Размер заголовка', type: 'select', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
 				{ key: 'title_upper', label: 'Заголовок в верхнем регистре', type: 'checkbox' },
 				{ key: 'sub', label: 'Подзаголовок', type: 'textarea', rows: 3, markdown: true },
@@ -345,7 +348,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				'<div class="vcc-hero' + (v.align === 'left' ? '' : ' vcc-hero--center') + (visualHtml ? ' vcc-hero--split' : '') + '">' +
 				'<div class="vcc-hero__main">';
 			if (String(v.kicker || '').trim()) html += '<p class="vcc-hero__kicker">' + vccInline(v.kicker) + '</p>';
-			if (title) html += '<h1 class="' + titleCls + '">' + vccInline(title) + '</h1>';
+			if (title) html += vccHeadingHtml(v.seo_tag, titleCls, vccInline(title));
 			if (sub) html += '<p class="vcc-hero__sub">' + vccInline(sub) + '</p>';
 			if (actions) html += '<div class="vcc-hero__actions">' + actions + '</div>';
 			if (String(v.note || '').trim()) html += '<p class="vcc-hero__note' + (v.note_lined ? ' vcc-hero__note--lined' : '') + '">' + vccInline(v.note) + '</p>';
@@ -438,7 +441,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			for (var i = 0; i < items.length; i++) {
 				html += '<div class="vcc-feature">' +
 					iconHtml(items[i].icon) +
-					'<h3 class="vcc-feature__title">' + vccInline(items[i].title || '') + '</h3>' +
+					'<p class="vcc-feature__title">' + vccInline(items[i].title || '') + '</p>' +
 					'<div class="vcc-feature__text">' + vccBlock(items[i].text || '') + '</div>' +
 					'</div>';
 			}
@@ -597,7 +600,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 					'<span class="vcc-step__num">' + (i + 1) + '</span>' +
 					'<div class="vcc-step__body">' +
 					(label ? '<div class="vcc-step__label">' + vccInline(label) + '</div>' : '') +
-					'<h3 class="vcc-step__title">' + vccInline(items[i].title || '') + '</h3>' +
+					'<p class="vcc-step__title">' + vccInline(items[i].title || '') + '</p>' +
 					'<div class="vcc-step__text">' + vccBlock(items[i].text || '') + '</div>' +
 					'</div></div>';
 			}
@@ -838,7 +841,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var html = sectionOpen(secData(v));
 			var title = String(v.sec && v.sec.title || '').trim();
 			html += '<div class="vcc-cta">';
-			if (title) html += '<h2 class="vcc-heading vcc-cta__title">' + vccInline(title) + '</h2>';
+			if (title) html += vccHeadingHtml('p', 'vcc-heading vcc-cta__title', vccInline(title));
 			if (text) html += '<div class="vcc-cta__text">' + vccBlock(text) + '</div>';
 			if (actions) html += '<div class="vcc-cta__actions">' + actions + '</div>';
 			return html + '</div>' + sectionClose();
@@ -1133,7 +1136,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				if (featured) {
 					html += '<span class="vcc-plan__flag">' + vccInline(it.flag_label || 'Рекомендуем') + '</span>';
 				}
-				if (String(it.name || '').trim()) html += '<h3 class="vcc-plan__name">' + vccInline(it.name) + '</h3>';
+				if (String(it.name || '').trim()) html += '<p class="vcc-plan__name">' + vccInline(it.name) + '</p>';
 				if (String(it.price || '').trim()) {
 					html += '<div class="vcc-plan__price">' + vccInline(it.price) +
 						(String(it.period || '').trim() ? '<span class="vcc-plan__period">' + vccInline(it.period) + '</span>' : '') +
@@ -1248,7 +1251,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			if (logo) html += '<div class="vcc-promocard__top"><img class="vcc-promocard__logo" src="' + vccEscapeHtml(vccSafeHref(logo)) + '" alt="" loading="lazy"></div>';
 			html += '<div class="vcc-promocard__body">';
 			if (badge) html += '<span class="vcc-promocard__badge">' + vccInline(badge) + '</span>';
-			if (title) html += '<h3 class="vcc-promocard__title">' + vccInline(title) + '</h3>';
+			if (title) html += '<p class="vcc-promocard__title">' + vccInline(title) + '</p>';
 			if (text) html += '<div class="vcc-promocard__text">' + vccBlock(text) + '</div>';				if (String(v.btn_label || '').trim()) html += '<div class="vcc-promocard__actions">' + vccButton({ label: v.btn_label, url: v.btn_url, bg: style, size: v.btn_size, icon: v.btn_icon, icon_after: v.btn_icon_after }) + '</div>';
 			html += '</div></div>';
 			if (v.copy && String(v.copy_text || '').trim()) {
@@ -1291,8 +1294,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: '_hl', label: 'Левая колонка', type: 'group-label' },
 				{ key: 'left_mode', label: 'Наполнение слева', type: 'select', options: [['text', 'Текстовый стек (заголовок, текст, кнопки)'], ['promo', 'Промо-карточка (promo_card)'], ['none', 'Пусто (только правая карточка)']] },
 				{ key: 'left_kicker', label: 'Кикер (аннотация мелким шрифтом)', type: 'text', depends: 'left_mode:text' },
-				{ key: 'left_title', label: 'Заголовок (markdown, ==акцент==)', type: 'textarea', rows: 2, markdown: true, depends: 'left_mode:text' },
-				{ key: 'left_title_size', label: 'Размер заголовка', type: 'select', depends: 'left_mode:text', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
+				{ key: 'left_title', label: 'Заголовок (markdown, ==акцент==)', type: 'textarea', rows: 2, markdown: true, depends: 'left_mode:text' },					{ key: 'left_title_size', label: 'Размер заголовка', type: 'select', depends: 'left_mode:text', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
+					{ key: 'left_seo_tag', label: 'SEO-тег заголовка (по умолчанию div — H1 ставит сама страница)', type: 'select', depends: 'left_mode:text', options: [['div', 'div — нейтральный (рекомендуется)'], ['h1', 'h1 — главный (ОДИН на страницу!)'], ['h2', 'h2 — раздел']] },
 				{ key: 'left_text', label: 'Текст (markdown, абзацы через пустую строку)', type: 'textarea', rows: 4, markdown: true, depends: 'left_mode:text' },
 				{ key: 'left_btn1_label', label: 'Кнопка 1 — текст', type: 'text', depends: 'left_mode:text' },
 				{ key: 'left_btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text', depends: 'left_mode:text' },					{ key: 'left_btn1_style', label: 'Кнопка 1 — фон', type: 'select', depends: 'left_mode:text', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
@@ -1345,7 +1348,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 					if (v.left_title_size === 'md' || v.left_title_size === 'lg' || v.left_title_size === 'xl') titleCls += ' vcc-hero__title--' + v.left_title_size;
 					mainHtml += '<div class="vcc-hero__main">';
 					if (String(v.left_kicker || '').trim()) mainHtml += '<p class="vcc-hero__kicker">' + vccInline(v.left_kicker) + '</p>';
-					if (lt) mainHtml += '<h2 class="' + titleCls + '">' + vccInline(lt) + '</h2>';
+					if (lt) mainHtml += vccHeadingHtml(v.left_seo_tag, titleCls, vccInline(lt));
 					if (ltxt) mainHtml += '<div class="vcc-paragraph">' + vccBlock(ltxt) + '</div>';
 				var b1 = vccButton({ label: v.left_btn1_label, url: v.left_btn1_url, bg: ['dark', 'primary', 'ghost', 'link'].indexOf(v.left_btn1_style) !== -1 ? v.left_btn1_style : 'dark', size: v.left_btn1_size, icon: v.left_btn1_icon, icon_after: v.left_btn1_icon_after });
 				var b2 = vccButton({ label: v.left_btn2_label, url: v.left_btn2_url, bg: 'ghost', size: v.left_btn2_size, icon: v.left_btn2_icon, icon_after: v.left_btn2_icon_after });
@@ -1362,7 +1365,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 					if (plogo) mainHtml += '<div class="vcc-promocard__top"><img class="vcc-promocard__logo" src="' + vccEscapeHtml(vccSafeHref(plogo)) + '" alt="" loading="lazy"></div>';
 					mainHtml += '<div class="vcc-promocard__body">';
 					if (String(v.left_badge || '').trim()) mainHtml += '<span class="vcc-promocard__badge">' + vccInline(v.left_badge) + '</span>';
-					if (pt) mainHtml += '<h3 class="vcc-promocard__title">' + vccInline(pt) + '</h3>';
+					if (pt) mainHtml += '<p class="vcc-promocard__title">' + vccInline(pt) + '</p>';
 					if (ptxt) mainHtml += '<div class="vcc-promocard__text">' + vccBlock(ptxt) + '</div>';
 					if (String(v.left_promo_btn_label || '').trim()) mainHtml += '<div class="vcc-promocard__actions">' + vccButton({ label: v.left_promo_btn_label, url: v.left_promo_btn_url, bg: 'dark', size: v.left_promo_btn_size, icon: v.left_promo_btn_icon, icon_after: v.left_promo_btn_icon_after }) + '</div>';
 					mainHtml += '</div></div>';
@@ -1706,7 +1709,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec) + '<div class="vcc-pains vcc-pains--c' + cols + '">';
 			for (var i = 0; i < items.length; i++) {
 				html += '<div class="vcc-pain">' +
-					'<h3 class="vcc-pain__title">' + vccInline(items[i].title || '') + '</h3>' +
+					'<p class="vcc-pain__title">' + vccInline(items[i].title || '') + '</p>' +
 					'<div class="vcc-pain__text">' + vccBlock(items[i].text || '') + '</div>' +
 					'</div>';
 			}
@@ -1756,7 +1759,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				 * без article — контракт vcc-v1 держится на div/span */
 				html += '<div class="vcc-update">' +
 					(tag ? '<span class="vcc-update__tag' + (items[i].tag_new ? ' vcc-update__tag--new' : '') + '">' + vccInline(tag) + '</span>' : '') +
-					'<h3 class="vcc-update__title">' + vccInline(items[i].title || '') + '</h3>' +
+					'<p class="vcc-update__title">' + vccInline(items[i].title || '') + '</p>' +
 					'<div class="vcc-update__text">' + vccBlock(items[i].text || '') + '</div>' +
 					'</div>';
 			}

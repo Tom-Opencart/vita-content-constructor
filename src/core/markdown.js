@@ -145,6 +145,27 @@ function vccButton(cfg) {
 	return '<a class="vcc-btn vcc-btn--' + bg + size + '" href="' + vccEscapeHtml(href) + '">' + iconBefore + vccInline(label) + iconAfter + '</a>';
 }
 
+/* ============================================================
+ * SEO-тег заголовка (0.10.4): страница магазина УЖЕ несёт свой H1
+ * (микроразметка темы), а конструкторский контент вставляется в модули
+ * на главной/в карточке товара/в статьях — жёсткий <h1>/<h2> из блока
+ * плодил десятки H1 и портил SEO. Правило: по умолчанию заголовок —
+ * НЕЙТРАЛЬНЫЙ тег (div/p) с прежним классом-контрактом (стилизация
+ * не меняется); настоящий H1..H6 — явный выбор в поле «SEO-тег».
+ * tag: 'h1'..'h6' | 'div' | 'p' (всё остальное -> 'div').
+ * ============================================================ */
+function vccHeadingTag(tag) {
+	tag = String(tag || '').toLowerCase().trim();
+	return /^h[1-6]$/.test(tag) ? tag : 'div';
+}
+
+/* Рендер заголовка с выбором SEO-тега: <tag class>…</tag>.
+ * cls — класс-контракт (не зависит от выбора тега). */
+function vccHeadingHtml(tag, cls, innerHtml) {
+	var t = vccHeadingTag(tag);
+	return '<' + t + ' class="' + cls + '">' + innerHtml + '</' + t + '>';
+}
+
 /* Поля редактора универсальной кнопки (одинаковый набор у всех блоков).
  * opts: { prefix: 'btn', labelPrefix: 'Кнопка', urlPlaceholder } */
 function vccButtonFields(opts) {

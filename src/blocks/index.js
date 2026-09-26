@@ -23,16 +23,18 @@
 		label: 'Заголовок',
 		icon: 'fa-header',
 		group: 'text',
-		defaults: { level: 2, text: 'Новый заголовок' },
+		defaults: { level: 2, text: 'Новый заголовок', seo_tag: 'div' },
 		fields: [
-			{ key: 'level', label: 'Уровень', type: 'select', options: [['2', 'H2'], ['3', 'H3'], ['4', 'H4']] },
-			{ key: 'text', label: 'Текст', type: 'textarea', rows: 2, markdown: true }
+			{ key: 'level', label: 'Размер текста', type: 'select', options: [['2', 'H2-размер (26px)'], ['3', 'H3-размер (21px)'], ['4', 'H4-размер (18px)']] },
+			{ key: 'text', label: 'Текст', type: 'textarea', rows: 2, markdown: true },
+			{ key: 'seo_tag', label: 'SEO-тег (по умолчанию div — H1 на странице один, его ставит сама страница)', type: 'select', options: [['div', 'div — нейтральный (рекомендуется)'], ['h1', 'h1 — главный (ОДИН на страницу!)'], ['h2', 'h2 — раздел'], ['h3', 'h3 — подраздел'], ['h4', 'h4 — пункт']] }
 		].concat(vccButtonFields()),
 		toHTML: function (data) {
 			var level = [2, 3, 4].indexOf(parseInt(data.level, 10)) !== -1 ? parseInt(data.level, 10) : 2;
 			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
 			var row = btn ? '<div class="vcc-btnrow">' + btn + '</div>' : '';
-			return '<h' + level + ' class="vcc-heading vcc-heading--h' + level + '">' + vccInline(data.text || '') + '</h' + level + '>' + row;
+			/* SEO: тег выбирается явно (по умолчанию div), размер живёт в классе */
+			return vccHeadingHtml(data.seo_tag, 'vcc-heading vcc-heading--h' + level, vccInline(data.text || '')) + row;
 		}
 	});
 
