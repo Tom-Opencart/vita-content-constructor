@@ -97,6 +97,8 @@
 		var box = $('#vcc-palette');
 		if (!box) return;
 		box.innerHTML = '';
+		/* Настройка редактора: куда добавлять новые блоки (0.10.7) */
+		box.appendChild(renderAddPosSwitch());
 		/* Картинка в группе «Текст» — отдельной группы из одного блока нет */
 		var groups = { text: 'Блоки контента', landing: 'Лендинг-секции', modules: 'Модули магазина' };
 		var defs = BlockRegistry.getList();
@@ -110,7 +112,7 @@
 					'<i class="fa ' + def.icon + '"></i><span>' + def.label + '</span>');
 				btn.type = 'button';
 			btn.addEventListener('click', function () {
-				VccStore.addBlock(def.type);
+				VccStore.addBlock(def.type, VccStore.getAddPos() === 'start' ? 0 : undefined);
 				previewMode = false;
 				refreshEditor();
 			});
@@ -118,6 +120,29 @@
 			});
 			box.appendChild(grid);
 		});
+	}
+
+	/* Переключатель «Новые блоки: в конец / в начало» — настройка редактора,
+	 * хранится в localStorage отдельно от проекта (переживает смену макета). */
+	function renderAddPosSwitch() {
+		var wrap = el('div', 'vcc-addpos');
+		wrap.appendChild(el('span', 'vcc-addpos__label', 'Новые блоки:'));
+		var sw = el('div', 'vcc-mode-switch vcc-addpos__switch');
+		sw.title = 'Куда ставить блок, добавленный из палитры';
+		[['end', 'В конец', 'Добавлять в конец страницы'], ['start', 'В начало', 'Добавлять в начало страницы']].forEach(function (opt) {
+			var b = el('button', '', '<i class="fa ' + (opt[0] === 'end' ? 'fa-arrow-down' : 'fa-arrow-up') + '"></i> ' + opt[1]);
+			b.type = 'button';
+			b.dataset.mode = opt[0];
+			b.title = opt[2];
+			b.classList.toggle('is-active', VccStore.getAddPos() === opt[0]);
+			b.addEventListener('click', function () {
+				VccStore.setAddPos(opt[0]);
+				sw.querySelectorAll('button').forEach(function (x) { x.classList.toggle('is-active', x === b); });
+			});
+			sw.appendChild(b);
+		});
+		wrap.appendChild(sw);
+		return wrap;
 	}
 
 	/* ---------- Формы ---------- */
@@ -828,6 +853,20 @@
 
 		/* Пресет: отдельная кнопка в шапке — открыть онбординг с дропзоной */
 		$('#vcc-preset-open').addEventListener('click', showWelcome);
+
+		/* Полная очистка (0.10.7): confirm → удалить все блоки и название.
+		   mutate() кладёт прежний проект в undo-стек — programmatic undo
+		   остаётся доступен из консоли (VCC_DEBUG.store.undo()). */
+		$('#vcc-clear-all').addEventListener('click', function () {
+			var n = VccStore.currentProject().blocks.length;
+			if (!n && !VccStore.currentProject().title) { showToast('Проект уже пуст', 'info'); return; }
+			if (!confirm('Удалить все блоки (' + n + ') и название страницы?\nПалитра магазина останется. Действие необратимо.')) return;
+			VccStore.clearProject();
+			editingId = null;
+			previewMode = false;
+			refreshEditor();
+			showToast('Проект очищен — можно собирать заново', 'success');
+		});
 
 		VccStore.subscribe(render);
 		renderPresetButton();

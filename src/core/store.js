@@ -10,10 +10,15 @@ var VccStore = (function () {
 	var LS_KEY = 'vcc_project_v1';
 	var LS_CATALOG_KEY = 'vcc_catalog_v1';
 	var LS_WIDTH_KEY = 'vcc_container_width_v1';
+	/* Настройка редактора (не проекта): куда добавлять новые блоки из палитры —
+	   'end' (по умолчанию) или 'start'. Живёт в отдельном ключе localStorage:
+	   переживает смену проекта и загрузку макетов. */
+	var LS_ADDPOS_KEY = 'vcc_add_position_v1';
 	var state = {
 		project: { title: '', slug: '', themeMode: 'light', theme: { preset: null, tokens: null }, blocks: [] },
 		palette: VCC_DEFAULT_TOKENS,
 		paletteName: '',
+		addPos: 'end',
 		/* Ширина сайта — настройка темы (Дизайн и стили), не свойство проекта:
 		   задаёт --vita-container-max для моков, предпросмотра и CSS-превью карточек.
 		   Приходит из пресета (theme_vita_container_width), селектом в шапке — вручную. */
@@ -65,6 +70,10 @@ var VccStore = (function () {
 			var w = localStorage.getItem(LS_WIDTH_KEY);
 			if (w && ['compact', 'optimal', 'wide', 'fluid'].indexOf(w) !== -1) state.containerWidth = w;
 		} catch (e) { /* приватный режим — дефолт */ }
+		try {
+			var ap = localStorage.getItem(LS_ADDPOS_KEY);
+			if (ap === 'start' || ap === 'end') state.addPos = ap;
+		} catch (e) { /* приватный режим — дефолт 'end' */ }
 	}
 
 	function setProject(project) {
@@ -184,6 +193,23 @@ var VccStore = (function () {
 		mutate(function (p) { p.themeMode = mode === 'dark' ? 'dark' : 'light'; });
 	}
 
+	/* Настройка редактора: куда ставить новые блоки из палитры */
+	function setAddPos(v) {
+		state.addPos = v === 'start' ? 'start' : 'end';
+		try { localStorage.setItem(LS_ADDPOS_KEY, state.addPos); } catch (e) { /* приватный режим */ }
+	}
+
+	/* Полная очистка проекта: блоки + название/slug. Палитра магазина и
+	   настройки предпросмотра остаются. Через mutate — прежний проект
+	   попадает в undo-стек сессии (на случай будущих кнопок отмены). */
+	function clearProject() {
+		mutate(function (p) {
+			p.blocks = [];
+			p.title = '';
+			p.slug = '';
+		});
+	}
+
 	function undo() {
 		if (!state.undoStack.length) return;
 		var prev = state.undoStack.pop();
@@ -212,6 +238,9 @@ var VccStore = (function () {
 		getCatalog: function () { return state.catalog; },
 		setMode: setMode,
 		undo: undo,
+		setAddPos: setAddPos,
+		getAddPos: function () { return state.addPos; },
+		clearProject: clearProject,
 		getPalette: function () { return state.palette; },
 		getPaletteName: function () { return state.paletteName; },
 		setContainerWidth: setContainerWidth,
