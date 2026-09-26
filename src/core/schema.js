@@ -17,26 +17,29 @@ var CC_SCHEMA_SPEC = {
 		blocks: 'Array — упорядоченный список блоков'
 	},
 	supported_blocks: [
-		{ type: 'heading', data_schema: { level: 'Integer 2-4 (H2-H4)', text: 'String (markdown: **bold**, *italic*, [text](url))' } },
-		{ type: 'paragraph', data_schema: { text: 'String (markdown)' } },
-		{ type: 'list', data_schema: { ordered: 'Boolean', items: 'Array of String (markdown)' } },
-		{ type: 'quote', data_schema: { text: 'String (markdown)', author: 'String (опционально)' } },
-		{ type: 'alert', data_schema: { style: 'info|success|warning|danger', text: 'String (markdown)' } },
-		{ type: 'tabs', data_schema: { tabs: 'Array of { title: String, content: String (markdown) }' } },
+		/* 0.10.3: у КАЖДОГО блока опциональная универсальная кнопка (btn_label
+		 * пусто = нет): url (ссылка/form:ID) + bg primary|dark|ghost|link +
+		 * size md|sm|lg|full + icon (FA-имя) — рендер vccButton(). */
+		{ type: 'heading', data_schema: { level: 'Integer 2-4 (H2-H4)', text: 'String (markdown: **bold**, *italic*, [text](url))', btn_label: 'String — текст кнопки под заголовком (пусто = нет)', btn_url: 'String', btn_bg: 'primary|dark|ghost|link', btn_size: 'md|sm|lg|full', btn_icon: 'String FA-имя' } },
+		{ type: 'paragraph', data_schema: { text: 'String (markdown)', btn_label: 'String — кнопка (см. heading)' } },
+		{ type: 'list', data_schema: { ordered: 'Boolean', items: 'Array of String (markdown)', btn_label: 'String — кнопка (см. heading)' } },
+		{ type: 'quote', data_schema: { text: 'String (markdown)', author: 'String (опционально)', btn_label: 'String — кнопка (см. heading)' } },
+		{ type: 'alert', data_schema: { style: 'info|success|warning|danger', text: 'String (markdown)', btn1_label: 'String', btn1_url: 'String', btn2_label: 'String', btn2_url: 'String — кнопки под текстом (опционально)' } },
+		{ type: 'tabs', data_schema: { tabs: 'Array of { title: String, content: String (markdown) }', btn_label: 'String — кнопка под табами' } },
 		{ type: 'table', data_schema: { headers: 'Array of String', rows: 'Array of Array of String' } },
-		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)' } },
-		{ type: 'toc', data_schema: { title: 'String (опционально)' } },
+		{ type: 'image', data_schema: { path: 'String (URL или путь вида image/catalog/...)', caption: 'String (опционально)', btn_label: 'String — кнопка под картинкой' } },
+		{ type: 'toc', data_schema: { title: 'String (опционально)', btn_label: 'String — кнопка (только style header)' } },
 		/* 0.7.0: лендинг-секции. Общие поля секции — вложенный объект data.sec:
 		 * { eyebrow, title, text, align, bg: none|light|surface|primary|image|video,
 		 *   image, video, overlay, padding: s|m|l|xl, width: narrow|default|full,
 		 *   anchor } — каркас .vcc-section > __inner > .vcc-container. */
-		{ type: 'hero', data_schema: { kicker: 'String — кикер над H1 (uppercase, без плашки)', title: 'String (markdown, H1)', title_size: 'default|md|lg|xl — 42/56/64/76px', sub: 'String (markdown)', btn1_label: 'String', btn1_url: 'String (или form:ID)', btn1_style: 'primary|dark', btn2_label: 'String', btn2_url: 'String', note: 'String — строка доверия', note_lined: 'Boolean — линия над строкой', align: 'left|center', visual: 'none|metrics — панель-визуал справа (референс hero-visual)', visual_kicker: 'String', visual_path: 'String', visual_metrics: 'Array of { value, label }', sec: 'Object — общие поля секции' } },
+		{ type: 'hero', data_schema: { kicker: 'String — кикер над H1 (uppercase, без плашки)', title: 'String (markdown, H1)', title_size: 'default|md|lg|xl — 42/56/64/76px', sub: 'String (markdown)', btn1_label: 'String', btn1_url: 'String (или form:ID)', btn1_style: 'primary|dark', btn2_label: 'String', btn2_url: 'String', note: 'String — строка доверия', note_lined: 'Boolean — линия над строкой', align: 'left|center', visual: 'none|metrics|keycard — панель-визуал справа (metrics = референс hero-visual, keycard = карточка ключа + сетка плиток 2x3)', visual_kicker: 'String', visual_path: 'String', visual_metrics: 'Array of { value, label }', visual_card: 'Object — keycard-панель: { meta_left, meta_right, label, value, value_dim, chips: Array of { icon, text }, tiles: Array of { label, value, style: boxed|strips } }', sec: 'Object — общие поля секции' } },
 		{ type: 'logos', data_schema: { items: 'Array of { src, alt, url? }', sec: 'Object' } },
 		{ type: 'features', data_schema: { cols: '2|3|4', items: 'Array of { icon: fa-имя, title, text (markdown) }', sec: 'Object' } },
 		{ type: 'media_text', data_schema: { img: 'String — путь или URL', img_alt: 'String', caption: 'String', flip: 'Boolean — картинка справа', text: 'String (markdown)', btn_label: 'String', btn_url: 'String (или form:ID)', sec: 'Object' } },
 		{ type: 'before_after', data_schema: { cols: '2|3|4', items: 'Array of { image, img_alt, title (плашка «До»/«После»), text (markdown) }', sec: 'Object' } },
 		{ type: 'steps', data_schema: { style: 'numbers|timeline', items: 'Array of { icon?, title, text (markdown) }', sec: 'Object' } },
-		{ type: 'stats', data_schema: { style: 'plain|boxed|strips — обычный / рамочные карточки / полоска+лейбл+значение', items: 'Array of { value, suffix?, label }', sec: 'Object' } },
+		{ type: 'stats', data_schema: { style: 'plain|boxed|strips|lined — обычный / рамочные карточки / полоска+лейбл+значение / полоса с линиями-разделителями', items: 'Array of { value, suffix?, label }', sec: 'Object' } },
 		{ type: 'reviews', data_schema: { cols: '2|3', items: 'Array of { text, name, role?, stars: 0-5, avatar? }', sec: 'Object' } },
 		{ type: 'team', data_schema: { items: 'Array of { photo?, name, role?, text? }', sec: 'Object' } },
 		{ type: 'documents', data_schema: { items: 'Array of { image?, title, url? }', sec: 'Object' } },

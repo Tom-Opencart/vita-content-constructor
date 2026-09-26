@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.10.2 · контракт: vcc-v1
+Версия конструктора: 0.10.3 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -62,19 +62,32 @@ anchor — якорь латиницей для ссылок #anchor
 - `kicker` — строка
 - `title` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `title_size` — одно из значений: default | md | lg | xl
+- `title_upper` — булево (true/false)
 - `sub` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
 - `btn1_url` — строка
-- `btn1_style` — одно из значений: primary | dark
+- `btn1_style` — одно из значений: primary | dark | ghost | link
+- `btn1_size` — одно из значений: md | sm | lg | full
+- `btn1_icon` — строка
+- `btn1_icon_after` — булево (true/false)
 - `btn2_label` — строка
 - `btn2_url` — строка
+- `btn2_size` — одно из значений: md | sm | lg | full
+- `btn2_icon` — строка
+- `btn2_icon_after` — булево (true/false)
 - `note` — строка
 - `note_lined` — булево (true/false)
 - `align` — одно из значений: center | left
-- `visual` — одно из значений: none | metrics
+- `visual` — одно из значений: none | metrics | keycard
 - `visual_kicker` — строка
 - `visual_path` — строка
 - `visual_metrics` — массив объектов { value, label }
+- `vc_meta_left` — строка
+- `vc_meta_right` — строка
+- `vc_label` — строка
+- `vc_segs` — массив объектов { value, dim }
+- `vc_chips` — текст (многострочный
+- `vc_tiles` — массив объектов { label, value, tstyle }
 Пример:
 ```json
 {"id":"b1","type":"hero","data":{"title":"Заголовок, который ==продаёт== сам","sub":"Подзаголовок с главным обещанием страницы: что получит покупатель и почему это стоит десяти секунд его внимания.","btn1_label":"Выбрать товар","btn1_url":"#tarify","btn2_label":"Как мы работаем","btn2_url":"#shagi","note":"Гарантия возврата · Доставка по всей стране","align":"center","kicker":"","title_size":"default","note_lined":false,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"image","image":"","video":"","overlay":true,"padding":"xl","width":"default","anchor":""}}}
@@ -143,7 +156,7 @@ anchor — якорь латиницей для ссылок #anchor
 Полоса цифр-показателей: { value, suffix, label }.
 Поля data:
 - `sec` — общие поля секции (см. «Общие поля секции» выше)
-- `style` — одно из значений: plain | boxed | strips
+- `style` — одно из значений: plain | boxed | strips | lined
 - `items` — массив объектов { value, suffix, label }
 Пример:
 ```json
@@ -189,8 +202,15 @@ anchor — якорь латиницей для ссылок #anchor
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
 - `btn1_url` — строка
+- `btn1_bg` — одно из значений: primary | dark | ghost | link
+- `btn1_size` — одно из значений: md | sm | lg | full
+- `btn1_icon` — строка
+- `btn1_icon_after` — булево (true/false)
 - `btn2_label` — строка
 - `btn2_url` — строка
+- `btn2_size` — одно из значений: md | sm | lg | full
+- `btn2_icon` — строка
+- `btn2_icon_after` — булево (true/false)
 - `_hint` — hint
 Пример:
 ```json
@@ -295,7 +315,10 @@ anchor — якорь латиницей для ссылок #anchor
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_style` — одно из значений: dark | primary | ghost
+- `btn_style` — одно из значений: dark | primary | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 - `_gc` — group-label
 - `copy` — булево (true/false)
 - `copy_label` — строка
@@ -317,7 +340,10 @@ anchor — якорь латиницей для ссылок #anchor
 - `left_text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `left_btn1_label` — строка
 - `left_btn1_url` — строка
-- `left_btn1_style` — одно из значений: dark | primary | ghost
+- `left_btn1_style` — одно из значений: dark | primary | ghost | link
+- `left_btn1_size` — одно из значений: md | sm | lg | full
+- `left_btn1_icon` — строка
+- `left_btn1_icon_after` — булево (true/false)
 - `left_btn2_label` — строка
 - `left_btn2_url` — строка
 - `left_note` — строка
@@ -328,6 +354,9 @@ anchor — якорь латиницей для ссылок #anchor
 - `left_promo_text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `left_promo_btn_label` — строка
 - `left_promo_btn_url` — строка
+- `left_promo_btn_size` — одно из значений: md | sm | lg | full
+- `left_promo_btn_icon` — строка
+- `left_promo_btn_icon_after` — булево (true/false)
 - `_hr` — group-label
 - `right_card` — одно из значений: key_card | code | metrics | none
 - `ratio` — одно из значений: wide | equal
@@ -440,6 +469,12 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `level` — одно из значений: 2 | 3 | 4
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"heading","data":{"level":2,"text":"Новый заголовок"}}
@@ -449,6 +484,12 @@ anchor — якорь латиницей для ссылок #anchor
 Абзац текста с инлайн-разметкой.
 Поля data:
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"paragraph","data":{"text":"Текст абзаца. Поддерживается **жирный**, *курсив*, `код`, [ссылки](https://example.com) и [соглашения](agree:3)."}}
@@ -459,6 +500,12 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `ordered` — булево (true/false)
 - `items` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"list","data":{"ordered":false,"items":"Первый пункт\nВторой пункт\nТретий пункт"}}
@@ -469,6 +516,12 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `author` — строка
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"quote","data":{"text":"Текст цитаты","author":""}}
@@ -479,6 +532,10 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `style` — одно из значений: info | success | warning | danger
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn1_label` — строка
+- `btn1_url` — строка
+- `btn2_label` — строка
+- `btn2_url` — строка
 Пример:
 ```json
 {"id":"b1","type":"alert","data":{"style":"info","text":"Важная информация для покупателя."}}
@@ -488,6 +545,12 @@ anchor — якорь латиницей для ссылок #anchor
 Вкладки: массив { title, content }.
 Поля data:
 - `tabs` — массив { title, content }
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"tabs","data":{"tabs":[{"title":"Вкладка 1","content":"Содержимое первой вкладки."},{"title":"Вкладка 2","content":"Содержимое второй вкладки."}]}}
@@ -502,6 +565,12 @@ anchor — якорь латиницей для ссылок #anchor
 - `h1` — строка
 - `rows` — массив объектов { c0, c1 }
 - `_hint` — hint
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"table","data":{"cols":"2","headers":["Параметр","Значение"],"rows":[["Гарантия","12 месяцев"],["Доставка","[Рассчитать](form:0)"]]}}
@@ -512,6 +581,12 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `path` — строка
 - `caption` — строка
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"image","data":{"path":"","caption":""}}
@@ -522,6 +597,12 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `title` — строка
 - `style` — одно из значений: header | column
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_size` — одно из значений: md | sm | lg | full
+- `btn_icon` — строка
+- `btn_icon_after` — булево (true/false)
 Пример:
 ```json
 {"id":"b1","type":"toc","data":{"title":"Содержание","style":"header"}}

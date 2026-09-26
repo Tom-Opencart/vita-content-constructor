@@ -117,6 +117,14 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
  * тёмный фон, иначе светлый текст исчезает на светлом (контраст 1.18:1) */
 [data-theme="dark"] .vcc-compare__row--us { background: var(--mp-bg-hover, #38343E); }
 .vcc-alert p:last-child { margin-bottom: 0; }
+.vcc-alert__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.vcc-alert__actions:empty { display: none; }
+
+/* --- stats: стиль lined — полоса с линиями-разделителями (том-модерн stats-strip) --- */
+.vcc-stats--lined { background: var(--mp-bg-surface, #ffffff); border-bottom: 1px solid var(--mp-border-color, #E2E8F0); border-top: 1px solid var(--mp-border-color, #E2E8F0); gap: 0; }
+.vcc-stats--lined .vcc-stat { border-right: 1px solid var(--mp-border-color, #E2E8F0); padding: 34px 20px; }
+.vcc-stats--lined .vcc-stat:last-child { border-right: 0; }
+@media (max-width: 767px) { .vcc-stats--lined { grid-template-columns: repeat(2, minmax(0, 1fr)); } .vcc-stats--lined .vcc-stat { border-bottom: 1px solid var(--mp-border-color, #E2E8F0); border-right: 0; padding: 20px 12px; } }
 
 /* --- Спойлер --- */
 .vcc-spoiler {
@@ -473,6 +481,40 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-hero .vcc-btn--ghost,
 .vcc-section--bg-primary .vcc-btn--ghost { border-color: currentColor; }
 
+/* --- Универсальная кнопка (0.10.3): фон dark/link у ЛЮБОГО блока + размеры --- */
+/* Тёмная нейтральная референса — теперь глобальный модификатор (раньше только
+ * внутри promocard/hero; фабрика 0.10.3 даёт её каждому блоку) */
+.vcc-btn--dark { background: var(--vita-btn-dark, #27272A); }
+.vcc-btn--dark,
+.vcc-btn--dark:hover,
+.vcc-btn--dark:focus,
+.vcc-btn--dark:active { color: var(--mp-text-inverse, #ffffff); }
+.vcc-btn--dark:hover,
+.vcc-btn--dark:focus { background: var(--vita-btn-dark-hover, #3F3F46); }
+[data-theme="dark"] .vcc-btn--dark { background: var(--mp-text-inverse, #ffffff); }
+[data-theme="dark"] .vcc-btn--dark:hover,
+[data-theme="dark"] .vcc-btn--dark:focus { background: var(--mp-bg-hover, #38343E); }
+[data-theme="dark"] .vcc-btn--dark,
+[data-theme="dark"] .vcc-btn--dark:hover,
+[data-theme="dark"] .vcc-btn--dark:focus,
+[data-theme="dark"] .vcc-btn--dark:active { color: var(--mp-text-main, #2D3748); }
+/* Текстовая кнопка-ссылка: без фона/рамки, цвет — акцент */
+.vcc-btn--link { background: transparent; border-color: transparent; color: var(--mp-primary, #8C9D93); min-height: auto; padding: 4px 0; }
+.vcc-btn--link:hover,
+.vcc-btn--link:focus { color: var(--mp-primary-hover, #7A8B81); text-decoration: underline; }
+/* Размеры */
+.vcc-btn--sm { min-height: 36px; padding: 6px 16px; font-size: 12px; }
+.vcc-btn--lg { min-height: 54px; padding: 14px 36px; font-size: 16px; }
+.vcc-btn--full { display: flex; width: 100%; }
+/* Ряд кнопок после контентных блоков (heading/paragraph/list/quote/tabs/table/image) */
+.vcc-btnrow { margin-top: 16px; }
+.vcc-btnrow .vcc-btn--full + .vcc-btn--full { margin-top: 10px; }
+/* Иконка внутри кнопки: не бейдж 40×40, а знак цвета текста кнопки.
+ * Селектор на vcc-icon (не на модификатор): рантайм темы заменяет span
+ * на <i class="fa … vcc-icon"> — модификатор --inline при этом теряется. */
+.vcc-btn .vcc-icon--inline,
+.vcc-btn .vcc-icon { background: transparent; border-radius: 0; color: inherit; height: 16px; width: 16px; font-size: 14px; }
+
 /* --- Иконка (span -> i рантаймом темы): квадратный бейдж палитры --- */
 .vcc-icon {
 	align-items: center;
@@ -549,6 +591,23 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-section--bg-primary .vcc-hero__visual { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.4); box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.12); }
 .vcc-section--bg-primary .vcc-hero__visual-metrics span { color: inherit; opacity: 0.85; }
 @media (max-width: 991px) { .vcc-hero--split .vcc-hero__visual { flex-basis: 100%; } }
+
+/* --- hero: панель «карточка ключа + плитки» (visual=keycard) ---
+ * Обёртка колонки панели; сама разметка карточек и плиток — штатные
+ * vcc-keycard/vcc-stats, никаких параллельных классов. */
+.vcc-hero__panel { display: flex; flex: 1 1 320px; flex-direction: column; gap: 18px; min-width: 0; }
+.vcc-hero__panel .vcc-keycard > * { max-width: none; }
+/* Специфичность выше базового .vcc-stats (объявлен позже) — сетка панели фиксированная */
+.vcc-hero .vcc-hero__tiles { gap: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; }
+.vcc-hero .vcc-hero__tiles.vcc-stats--boxed .vcc-stat__value { font-size: 26px; }
+.vcc-hero .vcc-hero__tiles .vcc-stat__label { font-size: 10px; }
+@media (max-width: 991px) { .vcc-hero--split .vcc-hero__panel { flex-basis: 100%; } }
+@media (max-width: 767px) { .vcc-hero .vcc-hero__tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); } }
+/* strips-плитки в панели hero: лейбл над значением (референс донора — readout-tile) */
+.vcc-hero .vcc-hero__tiles.vcc-stats--strips .vcc-stat { display: flex; flex-direction: column; }
+.vcc-hero .vcc-hero__tiles.vcc-stats--strips .vcc-stat__label { order: -1; margin-bottom: 6px; }
+/* опция заголовка H1 в верхнем регистре (референс донора) */
+.vcc-hero__title--upper { text-transform: uppercase; line-height: 0.98; letter-spacing: -0.02em; }
 .vcc-section--bg-primary .vcc-hero__note,
 .vcc-section--bg-image .vcc-hero__note,
 .vcc-section--bg-video .vcc-hero__note { color: inherit; opacity: 0.75; }
@@ -1254,15 +1313,9 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 .vcc-promocard__text p { margin: 0 0 10px; }
 .vcc-promocard__text p:last-child { margin-bottom: 0; }
 .vcc-promocard__actions { margin-top: 20px; }
-/* Тёмная нейтральная кнопка референса: ТЕНЬ темы её не
- * поставляет — включаем как фолбэк var(--vita-btn-dark); палитра владельца
- * может переопределить через кастом-CSS. */
-.vcc-promocard .vcc-btn--dark, .vcc-hero .vcc-btn--dark { background: var(--vita-btn-dark, #27272A); }
-.vcc-promocard .vcc-btn--dark, .vcc-hero .vcc-btn--dark,
-.vcc-promocard .vcc-btn--dark:hover, .vcc-hero .vcc-btn--dark:hover,
-.vcc-promocard .vcc-btn--dark:focus, .vcc-hero .vcc-btn--dark:focus,
-.vcc-promocard .vcc-btn--dark:active, .vcc-hero .vcc-btn--dark:active { color: var(--mp-text-inverse, #ffffff); }
-.vcc-promocard .vcc-btn--dark:hover, .vcc-hero .vcc-btn--dark:hover { background: var(--vita-btn-dark-hover, #3F3F46); }
+/* Тёмная нейтральная кнопка референса: с 0.10.3 — глобальный модификатор
+ * .vcc-btn--dark (секция кнопок); прежние scoped-правила promocard/hero
+ * удалены — значения те же, а дубль ломал dark-тему равной специфичностью. */
 
 /* --- key_card: вид тела «тёмное окно» (сине-тёмный градиент референса;
  * фиксированные цвета окна — часть артефакта, как у code_window) --- */

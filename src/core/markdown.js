@@ -113,3 +113,64 @@ function vccBlock(text) {
 	flushList();
 	return out.join('\n');
 }
+
+/* ============================================================
+ * Универсальная кнопка (0.10.3): единая фабрика для ВСЕХ блоков.
+ * Владелец: «в каждый блок — возможность добавить кнопку; потом эту кнопку
+ * отдельно изменить: 1. выбор фона, 2. выбор размера, 3. выбор функции при
+ * клике, итд». Действие при клике — существующие механизмы: ссылка
+ * (http/якорь/внутренняя) или form:ID (модалка формы магазина — санитайзер
+ * темы кладёт data-vcc-form, рантайм common.js открывает #vita-form-modal-N).
+ * Класс-контракт прежний (vcc-btn), доп. состояние — на модификаторах и
+ * data-vcc-*: скин-философия (JS темы не зависит от разметки блоков).
+ * cfg: { label, url, bg: primary|dark|ghost|link, size: md|sm|lg|full,
+ *        icon: 'имя FA без fa-', icon_after: Boolean }
+ * ============================================================ */
+function vccButton(cfg) {
+	cfg = cfg || {};
+	var label = String(cfg.label || '').trim();
+	if (!label) return ''; /* пустой текст = кнопки нет — прежний рендер не меняется */
+	var rawUrl = String(cfg.url || '').trim();
+	var href = /^form:\d+$/i.test(rawUrl) ? rawUrl : vccSafeHref(rawUrl);
+	var bg = ['primary', 'dark', 'ghost', 'link'].indexOf(cfg.bg) !== -1 ? cfg.bg : 'primary';
+	var size = ['md', 'sm', 'lg', 'full'].indexOf(cfg.size) !== -1 && cfg.size !== 'md' ? ' vcc-btn--' + cfg.size : '';
+	var iconBefore = '';
+	var iconAfter = '';
+	var ic = String(cfg.icon || '').trim().replace(/^fa-/, '');
+	if (ic) {
+		var iconTag = '<span class="vcc-icon vcc-icon--inline" data-vcc-icon="fa-' + vccEscapeHtml(ic) + '"></span>';
+		if (cfg.icon_after) iconAfter = iconTag;
+		else iconBefore = iconTag + ' ';
+	}
+	return '<a class="vcc-btn vcc-btn--' + bg + size + '" href="' + vccEscapeHtml(href) + '">' + iconBefore + vccInline(label) + iconAfter + '</a>';
+}
+
+/* Поля редактора универсальной кнопки (одинаковый набор у всех блоков).
+ * opts: { prefix: 'btn', labelPrefix: 'Кнопка', urlPlaceholder } */
+function vccButtonFields(opts) {
+	opts = opts || {};
+	var p = opts.prefix || 'btn';
+	var L = opts.labelPrefix || 'Кнопка';
+	return [
+		{ key: p + '_label', label: L + ' — текст (пусто = без кнопки)', type: 'text' },
+		{ key: p + '_url', label: L + ' — ссылка или действие (https://…, #якорь, form:ID)', type: 'text', placeholder: opts.urlPlaceholder || 'form:0' },
+		{ key: p + '_bg', label: L + ' — фон', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+		{ key: p + '_size', label: L + ' — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+		{ key: p + '_icon', label: L + ' — иконка (FA-имя без fa-, опционально)', type: 'text', placeholder: 'arrow-right' },
+		{ key: p + '_icon_after', label: L + ' — иконка после текста', type: 'checkbox' }
+	];
+}
+
+/* Данные по умолчанию универсальной кнопки для defaults блока */
+function vccButtonDefaults(opts) {
+	opts = opts || {};
+	var p = opts.prefix || 'btn';
+	var d = {};
+		d[p + '_label'] = '';
+		d[p + '_url'] = '';
+		d[p + '_bg'] = opts.bg || 'primary';
+		d[p + '_size'] = 'md';
+		d[p + '_icon'] = '';
+		d[p + '_icon_after'] = false;
+	return d;
+}

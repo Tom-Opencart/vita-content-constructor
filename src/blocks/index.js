@@ -7,6 +7,16 @@
 'use strict';
 
 (function () {
+	/* Кнопка-хелпер (как btnHtml в landing.js — файлы изолированы IIFE,
+	 * поэтому здесь своя копия; класс и поведение те же). */
+	function alertBtnHtml(label, url, kind) {
+		label = String(label || '').trim();
+		if (!label) return '';
+		var href = String(url || '').trim();
+		href = /^form:\d+$/i.test(href) ? href : vccSafeHref(href);
+		return '<a class="vcc-btn vcc-btn--' + (kind || 'ghost') + '" href="' + vccEscapeHtml(href) + '">' + vccInline(label) + '</a>';
+	}
+
 	/* --- Заголовок --- */
 	BlockRegistry.register({
 		type: 'heading',
@@ -17,10 +27,12 @@
 		fields: [
 			{ key: 'level', label: 'Уровень', type: 'select', options: [['2', 'H2'], ['3', 'H3'], ['4', 'H4']] },
 			{ key: 'text', label: 'Текст', type: 'textarea', rows: 2, markdown: true }
-		],
+		].concat(vccButtonFields()),
 		toHTML: function (data) {
 			var level = [2, 3, 4].indexOf(parseInt(data.level, 10)) !== -1 ? parseInt(data.level, 10) : 2;
-			return '<h' + level + ' class="vcc-heading vcc-heading--h' + level + '">' + vccInline(data.text || '') + '</h' + level + '>';
+			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+			var row = btn ? '<div class="vcc-btnrow">' + btn + '</div>' : '';
+			return '<h' + level + ' class="vcc-heading vcc-heading--h' + level + '">' + vccInline(data.text || '') + '</h' + level + '>' + row;
 		}
 	});
 
@@ -33,9 +45,11 @@
 		defaults: { text: 'Текст абзаца. Поддерживается **жирный**, *курсив*, `код`, [ссылки](https://example.com) и [соглашения](agree:3).' },
 		fields: [
 			{ key: 'text', label: 'Текст', type: 'textarea', rows: 5, markdown: true }
-		],
+		].concat(vccButtonFields()),
 		toHTML: function (data) {
-			return '<div class="vcc-paragraph">' + vccBlock(data.text || '') + '</div>';
+			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+			var row = btn ? '<div class="vcc-btnrow">' + btn + '</div>' : '';
+			return '<div class="vcc-paragraph">' + vccBlock(data.text || '') + '</div>' + row;
 		}
 	});
 
@@ -49,7 +63,7 @@
 		fields: [
 			{ key: 'ordered', label: 'Нумерованный', type: 'checkbox' },
 			{ key: 'items', label: 'Пункты (каждый с новой строки)', type: 'textarea', rows: 5, markdown: true }
-		],
+		].concat(vccButtonFields()),
 		toHTML: function (data) {
 			var tag = data.ordered ? 'ol' : 'ul';
 			var lines = String(data.items || '').split(/\r?\n/).filter(function (l) { return l.trim() !== ''; });
@@ -58,7 +72,10 @@
 			for (var i = 0; i < lines.length; i++) {
 				html += '<li>' + vccInline(lines[i]) + '</li>';
 			}
-			return html + '</' + tag + '>';
+			html += '</' + tag + '>';
+			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+			if (btn) html += '<div class="vcc-btnrow">' + btn + '</div>';
+			return html;
 		}
 	});
 
@@ -72,13 +89,16 @@
 		fields: [
 			{ key: 'text', label: 'Текст', type: 'textarea', rows: 3, markdown: true },
 			{ key: 'author', label: 'Автор (опционально)', type: 'text', markdown: false }
-		],
+		].concat(vccButtonFields()),
 		toHTML: function (data) {
 			var html = '<blockquote class="vcc-quote">' + vccBlock(data.text || '');
 			if (data.author && String(data.author).trim() !== '') {
 				html += '<footer class="vcc-quote__author">— ' + vccInline(data.author) + '</footer>';
 			}
-			return html + '</blockquote>';
+			html += '</blockquote>';
+			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+			if (btn) html += '<div class="vcc-btnrow">' + btn + '</div>';
+			return html;
 		}
 	});
 
@@ -94,11 +114,21 @@
 				key: 'style', label: 'Стиль', type: 'select',
 				options: [['info', 'Информация'], ['success', 'Успех'], ['warning', 'Внимание'], ['danger', 'Важно']]
 			},
-			{ key: 'text', label: 'Текст', type: 'textarea', rows: 3, markdown: true }
+			{ key: 'text', label: 'Текст', type: 'textarea', rows: 3, markdown: true },
+			{ key: 'btn1_label', label: 'Кнопка 1 — текст (необязательно)', type: 'text' },
+			{ key: 'btn1_url', label: 'Кнопка 1 — ссылка', type: 'text' },
+			{ key: 'btn2_label', label: 'Кнопка 2 — текст (необязательно)', type: 'text' },
+			{ key: 'btn2_url', label: 'Кнопка 2 — ссылка', type: 'text' }
 		],
 		toHTML: function (data) {
 			var style = ['info', 'success', 'warning', 'danger'].indexOf(data.style) !== -1 ? data.style : 'info';
-			return '<div class="vcc-alert vcc-alert--' + style + '">' + vccBlock(data.text || '') + '</div>';
+			var btns = '';
+			var b1 = alertBtnHtml(data.btn1_label, data.btn1_url, 'ghost');
+			var b2 = alertBtnHtml(data.btn2_label, data.btn2_url, 'ghost');
+			if (b1 || b2) btns = '<div class="vcc-alert__actions">' + b1 + b2 + '</div>';
+			var main = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+			if (main) btns = '<div class="vcc-alert__actions">' + main + '</div>' + btns;
+			return '<div class="vcc-alert vcc-alert--' + style + '">' + vccBlock(data.text || '') + btns + '</div>';
 		}
 	});
 
@@ -111,7 +141,7 @@
 		defaults: { tabs: [{ title: 'Вкладка 1', content: 'Содержимое первой вкладки.' }, { title: 'Вкладка 2', content: 'Содержимое второй вкладки.' }] },
 		fields: [
 			{ key: 'tabs', label: 'Вкладки', type: 'tabs-editor' }
-		],
+		].concat(vccButtonFields()),
 		toHTML: function (data) {
 			var list = Array.isArray(data.tabs) ? data.tabs : [];
 			if (!list.length) return '';
@@ -120,11 +150,13 @@
 			for (var i = 0; i < list.length; i++) {
 				html += '<button type="button" class="vcc-tabs__btn' + (i === 0 ? ' is-active' : '') + '" data-vcc-tab="' + i + '">' + vccInline(list[i].title || '') + '</button>';
 			}
-			html += '</div><div class="vcc-tabs__panels">';
-			for (var j = 0; j < list.length; j++) {
-				html += '<div class="vcc-tabs__panel' + (j === 0 ? ' is-active' : '') + '" data-vcc-panel="' + j + '">' + vccBlock(list[j].content || '') + '</div>';
-			}
-			return html + '</div></div>';
+			html += '</div><div class="vcc-tabs__panels">';					for (var j = 0; j < list.length; j++) {
+					html += '<div class="vcc-tabs__panel' + (j === 0 ? ' is-active' : '') + '" data-vcc-panel="' + j + '">' + vccBlock(list[j].content || '') + '</div>';
+				}
+				html += '</div>';
+				var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+				if (btn) html += '<div class="vcc-btnrow">' + btn + '</div>';
+				return html + '</div>';
 		}
 	});
 
@@ -162,9 +194,8 @@
 					key: 'rows', label: 'Строки', type: 'rows-editor', addLabel: 'Добавить строку', max: 30,
 					itemFields: colFields,
 					itemTitle: function (item, i) { return 'Строка ' + (i + 1) + (item && item.c0 ? ' — ' + String(item.c0).slice(0, 24) : ''); }
-				},
-				{ key: '_hint', label: 'В каждой ячейке работает markdown: [ссылка](https://…), [кнопка формы](form:ID), ==акцент==, **жирный**. Для характеристик товара есть отдельный блок «Спецификация», для «мы vs альтернативы» — «Сравнение».', type: 'hint' }
-			]);
+				},								{ key: '_hint', label: 'В каждой ячейке работает markdown: [ссылка](https://…), [кнопка формы](form:ID), ==акцент==, **жирный**. Для характеристик товара есть отдельный блок «Спецификация», для «мы vs альтернативы» — «Сравнение».', type: 'hint' }
+						].concat(vccButtonFields()));
 		},
 		toHTML: function (data) {
 			var cols = Math.max(1, Math.min(4, parseInt(data.cols, 10) || 2));
@@ -194,7 +225,10 @@
 				for (var cc = 0; cc < cols; cc++) html += '<td>' + vccInline(String(cells[cc] || '')) + '</td>';
 				html += '</tr>';
 			}
-			return html + '</tbody></table></div>';
+			html += '</tbody></table></div>';
+			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+			if (btn) html += '<div class="vcc-btnrow">' + btn + '</div>';
+			return html;
 		}
 	});
 
@@ -208,7 +242,7 @@
 		fields: [
 			{ key: 'path', label: 'Путь или URL (image/catalog/... или https://)', type: 'text' },
 			{ key: 'caption', label: 'Подпись (опционально)', type: 'text' }
-		],
+		].concat(vccButtonFields()),
 		toHTML: function (data) {
 			var src = vccSafeHref(data.path || '');
 			if (src === '#') return '';
@@ -216,7 +250,10 @@
 			if (data.caption && String(data.caption).trim() !== '') {
 				html += '<figcaption class="vcc-figure__caption">' + vccInline(data.caption) + '</figcaption>';
 			}
-			return html + '</figure>';
+			html += '</figure>';
+			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+			if (btn) html += '<div class="vcc-btnrow">' + btn + '</div>';
+			return html;
 		}
 	});
 
@@ -230,7 +267,7 @@
 		fields: [
 			{ key: 'title', label: 'Заголовок (опционально)', type: 'text' },
 			{ key: 'style', label: 'Отображение', type: 'select', options: [['header', 'Сверху (в контенте)'], ['column', 'Фиксированная левая колонка']] }
-		],
+		].concat(vccButtonFields()),
 		/* Список ссылок заполняется на магазине после рендера статьи (см. README: шаг после импорта не нужен — якоря создаёт сама тема).
 		 * style: header — бокс в потоке контента; column — sticky-колонка слева
 		 * (обёртку .vcc-toc-wrap строит рантайм темы, см. common.js initVccTocColumn). */
@@ -241,7 +278,13 @@
 			if (data.title && String(data.title).trim() !== '') {
 				html += '<div class="vcc-toc__title">' + vccInline(data.title) + '</div>';
 			}
-			return html + '<ol class="vcc-toc__list"></ol></nav>';
+			html += '<ol class="vcc-toc__list"></ol></nav>';
+			/* Кнопка у toc — только в стиле header (в колонке неуместна) */
+			if (style === 'header') {
+				var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+				if (btn) html += '<div class="vcc-btnrow">' + btn + '</div>';
+			}
+			return html;
 		}
 	});
 })();

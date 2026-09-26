@@ -163,12 +163,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 
 	/* Кнопка: kind = primary | secondary | ghost.
 	 * href вида form:N проходит как есть (рантайм темы открывает модалку формы). */
+	/* Кнопка: единая фабрика vccButton() (core/markdown.js, 0.10.3) —
+	 * локальный алиас для читаемости существующего кода лендинг-блоков. */
 	function btnHtml(label, url, kind) {
-		label = String(label || '').trim();
-		if (!label) return '';
-		var href = String(url || '').trim();
-		href = /^form:\d+$/i.test(href) ? href : vccSafeHref(href);
-		return '<a class="vcc-btn vcc-btn--' + (kind || 'primary') + '" href="' + vccEscapeHtml(href) + '">' + vccInline(label) + '</a>';
+		return vccButton({ label: label, url: url, bg: kind || 'primary' });
 	}
 
 	/* Иконка: span c data-vcc-icon — рантайм темы подменяет на <i class="fa …">.
@@ -211,16 +209,23 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'kicker', label: 'Кикер над заголовком (аннотация мелким шрифтом, uppercase)', type: 'text', placeholder: 'Сообщество с 2020 года' },
 				{ key: 'title', label: 'Заголовок H1 (на странице он должен быть один)', type: 'textarea', rows: 2, markdown: true },
 				{ key: 'title_size', label: 'Размер заголовка', type: 'select', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
+				{ key: 'title_upper', label: 'Заголовок в верхнем регистре', type: 'checkbox' },
 				{ key: 'sub', label: 'Подзаголовок', type: 'textarea', rows: 3, markdown: true },
 				{ key: 'btn1_label', label: 'Кнопка 1 — текст', type: 'text' },
 				{ key: 'btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text' },
-				{ key: 'btn1_style', label: 'Кнопка 1 — стиль', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)']] },
+				{ key: 'btn1_style', label: 'Кнопка 1 — фон', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+				{ key: 'btn1_size', label: 'Кнопка 1 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox' },
 				{ key: 'btn2_label', label: 'Кнопка 2 — текст (необязательно)', type: 'text' },
 				{ key: 'btn2_url', label: 'Кнопка 2 — ссылка (или form:ID)', type: 'text' },
+				{ key: 'btn2_size', label: 'Кнопка 2 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+				{ key: 'btn2_icon', label: 'Кнопка 2 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn2_icon_after', label: 'Кнопка 2 — иконка после текста', type: 'checkbox' },
 			{ key: 'note', label: 'Строка доверия под кнопками', type: 'text' },
 			{ key: 'note_lined', label: 'Линия-разделитель над строкой доверия', type: 'checkbox' },
 			{ key: 'align', label: 'Выравнивание', type: 'select', options: [['center', 'По центру'], ['left', 'По левому краю']] },
-				{ key: 'visual', label: 'Панель-визуал справа', type: 'select', options: [['none', 'Без панели'], ['metrics', 'Метрики (kickер + путь + цифры)']] },
+				{ key: 'visual', label: 'Панель-визуал справа', type: 'select', options: [['none', 'Без панели'], ['metrics', 'Метрики (kickер + путь + цифры)'], ['keycard', 'Карточка ключа + плитки (2×3)']] },
 				{ key: 'visual_kicker', label: 'Панель: статус-лейбл (например «Live»)', type: 'text', depends: 'visual:metrics' },
 				{ key: 'visual_path', label: 'Панель: строка пути/страницы', type: 'text', depends: 'visual:metrics' },
 				{
@@ -230,6 +235,27 @@ Tilda-модель — каждый «широкий» блок экспорти
 						{ key: 'label', label: 'Подпись', type: 'text' }
 					],
 					itemTitle: function (item, i) { return (item && item.value) ? item.value : ('Метрика ' + (i + 1)); }
+				},
+				{ key: 'vc_meta_left', label: 'Панель-карточка: шапка слева', type: 'text', depends: 'visual:keycard' },
+				{ key: 'vc_meta_right', label: 'Панель-карточка: шапка справа', type: 'text', depends: 'visual:keycard' },
+				{ key: 'vc_label', label: 'Панель-карточка: метка', type: 'text', depends: 'visual:keycard' },
+				{
+					key: 'vc_segs', label: 'Панель-карточка: сегменты значения (моно)', type: 'rows-editor', addLabel: 'Добавить сегмент', max: 8, depends: 'visual:keycard',
+					itemFields: [
+						{ key: 'value', label: 'Сегмент', type: 'text' },
+						{ key: 'dim', label: 'Приглушить', type: 'checkbox' }
+					],
+					itemTitle: function (item, i) { return (item && item.value) ? item.value : ('Сегмент ' + (i + 1)); }
+				},
+				{ key: 'vc_chips', label: 'Панель-карточка: пилюли (по строке: иконка | текст)', type: 'textarea', rows: 3, depends: 'visual:keycard' },
+				{
+					key: 'vc_tiles', label: 'Панель: плитки под карточкой (лейбл + значение)', type: 'rows-editor', addLabel: 'Добавить плитку', max: 6, depends: 'visual:keycard',
+					itemFields: [
+						{ key: 'label', label: 'Лейбл', type: 'text' },
+						{ key: 'value', label: 'Значение', type: 'text' },
+						{ key: 'tstyle', label: 'Вид', type: 'select', options: [['boxed', 'Рамочная (крупное число)'], ['strips', 'Полоска-акцент сверху']] }
+					],
+					itemTitle: function (item, i) { return (item && item.label) ? item.label : ('Плитка ' + (i + 1)); }
 				}
 			]);
 		},
@@ -238,9 +264,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var title = String(v.title || '').trim();
 			var sub = String(v.sub || '').trim();
 			if (!title && !sub) return '';
-			var b1 = btnHtml(v.btn1_label, v.btn1_url, v.btn1_style === 'dark' ? 'dark' : 'primary');
-			var b2 = btnHtml(v.btn2_label, v.btn2_url, 'ghost');
-			var actions = b1 + b2;
+			var b1 = vccButton({ label: v.btn1_label, url: v.btn1_url, bg: ['dark', 'ghost', 'link'].indexOf(v.btn1_style) !== -1 ? v.btn1_style : 'primary', size: v.btn1_size, icon: v.btn1_icon, icon_after: v.btn1_icon_after });
+			var b2 = vccButton({ label: v.btn2_label, url: v.btn2_url, bg: 'ghost', size: v.btn2_size, icon: v.btn2_icon, icon_after: v.btn2_icon_after });
+			var extraBtn = vccButton({ label: v.btn_label, url: v.btn_url, bg: v.btn_bg, size: v.btn_size, icon: v.btn_icon, icon_after: v.btn_icon_after });
+			var actions = b1 + b2 + extraBtn;
 			/* Панель-визуал (референс hero-visual): рамочный блок справа с
 			 * topline (статус + путь) и метриками. Пустые части не выводятся. */
 			var visualHtml = '';
@@ -260,9 +287,60 @@ Tilda-модель — каждый «широкий» блок экспорти
 					}
 					visualHtml += '</div></div>';
 				}
+			} else if (v.visual === 'keycard') {
+				/* Панель «карточка ключа + плитки»: key_card-разметка (sheen,
+				 * перфорация, чипы) + сетка плиток boxed/strips. Аддитивно к
+				 * metrics: реальные классы vcc-keycard/vcc-stats, обёртка одна. */					var chipLines = String(v.vc_chips || '').split(/\r?\n/).filter(function (l) { return l.trim(); });
+					var tiles = arr(v.vc_tiles).filter(function (t) { return t && (String(t.label || '').trim() || String(t.value || '').trim()); });
+					var segs2 = arr(v.vc_segs).filter(function (s2) { return s2 && String(s2.value || '').trim(); });
+					if (segs2.length || chipLines.length || tiles.length) {
+						/* Разбивка плиток: boxed — ряд цифр, strips — readout-плитки */
+						var valueHtml2 = '';
+						for (var si = 0; si < segs2.length; si++) {
+							if (si) valueHtml2 += '<span class="vcc-keycard__sep">' + vccEscapeHtml('-') + '</span>';
+							valueHtml2 += '<span' + (segs2[si].dim ? ' class="vcc-keycard__seg--dim"' : '') + '>' + vccEscapeHtml(String(segs2[si].value).trim()) + '</span>';
+						}
+					var chipsHtml2 = '';
+					for (var cj = 0; cj < chipLines.length; cj++) {
+						var cp = chipLines[cj].split('|');
+						var cIcon = String(cp[0] || '').trim().replace(/^fa-/, '');
+						var cText = String(cp[1] !== undefined ? cp[1] : cp[0]).trim();
+						chipsHtml2 += '<span class="vcc-chip">' + (cIcon && cp.length > 1 ? '<span class="vcc-icon" data-vcc-icon="fa-' + vccEscapeHtml(cIcon) + '"></span> ' : '') + vccInline(cText) + '</span>';
+					}
+					var grp = function (list) {
+						var out = '';
+						for (var gi = 0; gi < list.length; gi++) {
+							var t2 = list[gi];
+							out += '<div class="vcc-stat">' +
+								'<span class="vcc-stat__value">' + vccInline(t2.value || '') + '</span>' +
+								'<span class="vcc-stat__label">' + vccInline(t2.label || '') + '</span>' +
+								'</div>';
+						}
+						return out;
+					};
+					var boxedTiles = tiles.filter(function (t) { return t.tstyle !== 'strips'; });
+					var stripTiles = tiles.filter(function (t) { return t.tstyle === 'strips'; });
+					visualHtml = '<div class="vcc-hero__panel">';						if (valueHtml2 || chipsHtml2) {
+						visualHtml += '<div class="vcc-keycard">';
+						var mL2 = String(v.vc_meta_left || '').trim(), mR2 = String(v.vc_meta_right || '').trim();
+						if (mL2 || mR2) visualHtml += '<div class="vcc-keycard__meta"><span>' + vccInline(mL2) + '</span><span>' + vccInline(mR2) + '</span></div>';
+						visualHtml += '<div class="vcc-keycard__card vcc-keycard__card--window">' +
+							'<div class="vcc-keycard__sheen"></div>' +
+							(String(v.vc_label || '').trim() ? '<div class="vcc-keycard__label">' + vccInline(String(v.vc_label).trim()) + '</div>' : '') +
+							(valueHtml2 ? '<div class="vcc-keycard__value">' + valueHtml2 + '</div>' : '') +
+							'<div class="vcc-keycard__window"></div>' +
+							(chipsHtml2 ? '<div class="vcc-keycard__perforation"><div class="vcc-keycard__footer">' + chipsHtml2 + '</div></div>' : '') +
+							'</div>';
+						visualHtml += '</div>';
+					}
+					if (boxedTiles.length) visualHtml += '<div class="vcc-hero__tiles vcc-stats vcc-stats--boxed">' + grp(boxedTiles) + '</div>';
+					if (stripTiles.length) visualHtml += '<div class="vcc-hero__tiles vcc-stats vcc-stats--strips">' + grp(stripTiles) + '</div>';
+					visualHtml += '</div>';
+				}
 			}
 			var titleCls = 'vcc-hero__title';
 			if (v.title_size === 'md' || v.title_size === 'lg' || v.title_size === 'xl') titleCls += ' vcc-hero__title--' + v.title_size;
+			if (v.title_upper) titleCls += ' vcc-hero__title--upper';
 			var html = sectionOpen(secData(v)) +
 				'<div class="vcc-hero' + (v.align === 'left' ? '' : ' vcc-hero--center') + (visualHtml ? ' vcc-hero--split' : '') + '">' +
 				'<div class="vcc-hero__main">';
@@ -403,7 +481,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				'<img src="' + vccEscapeHtml(vccSafeHref(img)) + '" alt="' + vccEscapeHtml(v.img_alt || '') + '" loading="lazy">';
 			if (String(v.caption || '').trim()) media += '<figcaption class="vcc-figure__caption">' + vccInline(v.caption) + '</figcaption>';
 			media += '</figure>';
-			var btn = btnHtml(v.btn_label, v.btn_url, 'primary');
+			var btn = vccButton({ label: v.btn_label, url: v.btn_url, bg: v.btn_bg, size: v.btn_size, icon: v.btn_icon, icon_after: v.btn_icon_after });
 			var body = '<div class="vcc-media-text__body">' + (text ? vccBlock(text) : '');
 			if (btn) body += '<div class="vcc-media-text__actions">' + btn + '</div>';
 			body += '</div>';
@@ -544,7 +622,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		},
 		fields: function () {
 			return sectionFields().concat([
-				{ key: 'style', label: 'Вид', type: 'select', options: [['plain', 'Обычный (число + подпись)'], ['boxed', 'Рамочные карточки'], ['strips', 'Полоска + лейбл + значение']] },
+				{ key: 'style', label: 'Вид', type: 'select', options: [['plain', 'Обычный (число + подпись)'], ['boxed', 'Рамочные карточки'], ['strips', 'Полоска + лейбл + значение'], ['lined', 'Полоса с линиями-разделителями']] },
 				{
 					key: 'items', label: 'Показатели', type: 'rows-editor', addLabel: 'Добавить показатель', max: 6,
 					itemFields: [
@@ -560,7 +638,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var v = data || {};
 			var items = arr(v.items).filter(function (it) { return it && String(it.value || '').trim(); });
 			if (!items.length) return '';
-			var styleCls = v.style === 'boxed' ? ' vcc-stats--boxed' : (v.style === 'strips' ? ' vcc-stats--strips' : '');
+			var styleCls = v.style === 'boxed' ? ' vcc-stats--boxed' : (v.style === 'strips' ? ' vcc-stats--strips' : (v.style === 'lined' ? ' vcc-stats--lined' : ''));
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
 			html += '<div class="vcc-stats' + styleCls + '">';
 			for (var i = 0; i < items.length; i++) {
@@ -738,16 +816,23 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'text', label: 'Текст призыва', type: 'textarea', rows: 3, markdown: true },
 				{ key: 'btn1_label', label: 'Кнопка 1 — текст', type: 'text' },
 				{ key: 'btn1_url', label: 'Кнопка 1 — ссылка (или form:ID для формы)', type: 'text' },
+				{ key: 'btn1_bg', label: 'Кнопка 1 — фон', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+				{ key: 'btn1_size', label: 'Кнопка 1 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox' },
 				{ key: 'btn2_label', label: 'Кнопка 2 — текст (необязательно)', type: 'text' },
 				{ key: 'btn2_url', label: 'Кнопка 2 — ссылка (или form:ID)', type: 'text' },
+				{ key: 'btn2_size', label: 'Кнопка 2 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+				{ key: 'btn2_icon', label: 'Кнопка 2 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn2_icon_after', label: 'Кнопка 2 — иконка после текста', type: 'checkbox' },
 				{ key: '_hint', label: 'Чтобы кнопка открыла форму магазина, укажите ссылку вида form:ID (ID формы — из модуля «Вита — Формы»), а на странице добавьте блок «Форма (спец-метка)».', type: 'hint' }
 			]);
 		},
 		toHTML: function (data) {
 			var v = data || {};
 			var text = String(v.text || '').trim();
-			var b1 = btnHtml(v.btn1_label, v.btn1_url, 'primary');
-			var b2 = btnHtml(v.btn2_label, v.btn2_url, 'ghost');
+			var b1 = vccButton({ label: v.btn1_label, url: v.btn1_url, bg: v.btn1_bg, size: v.btn1_size, icon: v.btn1_icon, icon_after: v.btn1_icon_after });
+			var b2 = vccButton({ label: v.btn2_label, url: v.btn2_url, bg: v.btn2_bg, size: v.btn2_size, icon: v.btn2_icon, icon_after: v.btn2_icon_after });
 			var actions = b1 + b2;
 			if (!text && !actions && !String(v.sec && v.sec.title || '').trim()) return '';
 			var html = sectionOpen(secData(v));
@@ -1139,7 +1224,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'text', label: 'Текст промо (markdown, абзацы через пустую строку)', type: 'textarea', rows: 5, markdown: true },
 				{ key: 'btn_label', label: 'Кнопка — текст (пусто — без кнопки)', type: 'text' },
 				{ key: 'btn_url', label: 'Кнопка — ссылка (или form:ID)', type: 'text' },
-				{ key: 'btn_style', label: 'Кнопка — стиль', type: 'select', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная']] },
+				{ key: 'btn_style', label: 'Кнопка — фон', type: 'select', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+				{ key: 'btn_size', label: 'Кнопка — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+				{ key: 'btn_icon', label: 'Кнопка — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn_icon_after', label: 'Кнопка — иконка после текста', type: 'checkbox' },
 				{ key: '_gc', label: 'Кнопка копирования', type: 'group-label' },
 				{ key: 'copy', label: 'Добавить кнопку копирования', type: 'checkbox' },
 				{ key: 'copy_label', label: 'Текст кнопки', type: 'text', depends: 'copy:true' },
@@ -1161,8 +1249,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			html += '<div class="vcc-promocard__body">';
 			if (badge) html += '<span class="vcc-promocard__badge">' + vccInline(badge) + '</span>';
 			if (title) html += '<h3 class="vcc-promocard__title">' + vccInline(title) + '</h3>';
-			if (text) html += '<div class="vcc-promocard__text">' + vccBlock(text) + '</div>';
-			if (String(v.btn_label || '').trim()) html += '<div class="vcc-promocard__actions">' + btnHtml(v.btn_label, v.btn_url, style) + '</div>';
+			if (text) html += '<div class="vcc-promocard__text">' + vccBlock(text) + '</div>';				if (String(v.btn_label || '').trim()) html += '<div class="vcc-promocard__actions">' + vccButton({ label: v.btn_label, url: v.btn_url, bg: style, size: v.btn_size, icon: v.btn_icon, icon_after: v.btn_icon_after }) + '</div>';
 			html += '</div></div>';
 			if (v.copy && String(v.copy_text || '').trim()) {
 				html += '<div class="vcc-row__sidebtn"><button type="button" class="vcc-copybtn' + (v.copy_layout === 'inline' ? ' vcc-copybtn--inline' : '') + '" data-vcc-copy="' + vccEscapeHtml(v.copy_text.trim()) + '">' +
@@ -1208,8 +1295,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'left_title_size', label: 'Размер заголовка', type: 'select', depends: 'left_mode:text', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
 				{ key: 'left_text', label: 'Текст (markdown, абзацы через пустую строку)', type: 'textarea', rows: 4, markdown: true, depends: 'left_mode:text' },
 				{ key: 'left_btn1_label', label: 'Кнопка 1 — текст', type: 'text', depends: 'left_mode:text' },
-				{ key: 'left_btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text', depends: 'left_mode:text' },
-				{ key: 'left_btn1_style', label: 'Кнопка 1 — стиль', type: 'select', depends: 'left_mode:text', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная']] },
+				{ key: 'left_btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text', depends: 'left_mode:text' },					{ key: 'left_btn1_style', label: 'Кнопка 1 — фон', type: 'select', depends: 'left_mode:text', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+					{ key: 'left_btn1_size', label: 'Кнопка 1 — размер', type: 'select', depends: 'left_mode:text', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+					{ key: 'left_btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', depends: 'left_mode:text', placeholder: 'arrow-right' },
+					{ key: 'left_btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox', depends: 'left_mode:text' },
 				{ key: 'left_btn2_label', label: 'Кнопка 2 — текст', type: 'text', depends: 'left_mode:text' },
 				{ key: 'left_btn2_url', label: 'Кнопка 2 — ссылка', type: 'text', depends: 'left_mode:text' },
 				{ key: 'left_note', label: 'Строка доверия под кнопками', type: 'text', depends: 'left_mode:text' },
@@ -1220,6 +1309,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'left_promo_text', label: 'Текст промо (markdown)', type: 'textarea', rows: 5, markdown: true, depends: 'left_mode:promo' },
 				{ key: 'left_promo_btn_label', label: 'Кнопка — текст', type: 'text', depends: 'left_mode:promo' },
 				{ key: 'left_promo_btn_url', label: 'Кнопка — ссылка (или form:ID)', type: 'text', depends: 'left_mode:promo' },
+				{ key: 'left_promo_btn_size', label: 'Кнопка — размер', type: 'select', depends: 'left_mode:promo', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
+				{ key: 'left_promo_btn_icon', label: 'Кнопка — иконка (FA-имя без fa-)', type: 'text', depends: 'left_mode:promo', placeholder: 'arrow-right' },
+				{ key: 'left_promo_btn_icon_after', label: 'Кнопка — иконка после текста', type: 'checkbox', depends: 'left_mode:promo' },
 				{ key: '_hr', label: 'Правая колонка', type: 'group-label' },
 				{ key: 'right_card', label: 'Карточка справа', type: 'select', options: [['key_card', 'Карточка ключа / купон'], ['code', 'Код-окно'], ['metrics', 'Метрики (значение + подпись)'], ['none', 'Без карточки']] },
 				{ key: 'ratio', label: 'Пропорция колонок', type: 'select', options: [['wide', 'Текст шире (2:1)'], ['equal', 'Поровну']] },
@@ -1255,8 +1347,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 					if (String(v.left_kicker || '').trim()) mainHtml += '<p class="vcc-hero__kicker">' + vccInline(v.left_kicker) + '</p>';
 					if (lt) mainHtml += '<h2 class="' + titleCls + '">' + vccInline(lt) + '</h2>';
 					if (ltxt) mainHtml += '<div class="vcc-paragraph">' + vccBlock(ltxt) + '</div>';
-					var b1 = btnHtml(v.left_btn1_label, v.left_btn1_url, ['dark', 'primary', 'ghost'].indexOf(v.left_btn1_style) !== -1 ? v.left_btn1_style : 'dark');
-					var b2 = btnHtml(v.left_btn2_label, v.left_btn2_url, 'ghost');
+				var b1 = vccButton({ label: v.left_btn1_label, url: v.left_btn1_url, bg: ['dark', 'primary', 'ghost', 'link'].indexOf(v.left_btn1_style) !== -1 ? v.left_btn1_style : 'dark', size: v.left_btn1_size, icon: v.left_btn1_icon, icon_after: v.left_btn1_icon_after });
+				var b2 = vccButton({ label: v.left_btn2_label, url: v.left_btn2_url, bg: 'ghost', size: v.left_btn2_size, icon: v.left_btn2_icon, icon_after: v.left_btn2_icon_after });
 					if (b1 || b2) mainHtml += '<div class="vcc-hero__actions">' + b1 + b2 + '</div>';
 					if (String(v.left_note || '').trim()) mainHtml += '<p class="vcc-hero__note">' + vccInline(v.left_note) + '</p>';
 					mainHtml += '</div>';
@@ -1272,7 +1364,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 					if (String(v.left_badge || '').trim()) mainHtml += '<span class="vcc-promocard__badge">' + vccInline(v.left_badge) + '</span>';
 					if (pt) mainHtml += '<h3 class="vcc-promocard__title">' + vccInline(pt) + '</h3>';
 					if (ptxt) mainHtml += '<div class="vcc-promocard__text">' + vccBlock(ptxt) + '</div>';
-					if (String(v.left_promo_btn_label || '').trim()) mainHtml += '<div class="vcc-promocard__actions">' + btnHtml(v.left_promo_btn_label, v.left_promo_btn_url, 'dark') + '</div>';
+					if (String(v.left_promo_btn_label || '').trim()) mainHtml += '<div class="vcc-promocard__actions">' + vccButton({ label: v.left_promo_btn_label, url: v.left_promo_btn_url, bg: 'dark', size: v.left_promo_btn_size, icon: v.left_promo_btn_icon, icon_after: v.left_promo_btn_icon_after }) + '</div>';
 					mainHtml += '</div></div>';
 				}
 			}
