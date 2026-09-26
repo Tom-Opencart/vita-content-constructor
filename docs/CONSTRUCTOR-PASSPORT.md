@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.10.4 · контракт: vcc-v1
+Версия конструктора: 0.10.5 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -67,7 +67,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `sub` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
 - `btn1_url` — строка
-- `btn1_style` — одно из значений: primary | dark | ghost | link
+- `btn1_style` — одно из значений: dark | primary | secondary | ghost | link
 - `btn1_size` — одно из значений: md | sm | lg | full
 - `btn1_icon` — строка
 - `btn1_icon_after` — булево (true/false)
@@ -203,7 +203,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
 - `btn1_url` — строка
-- `btn1_bg` — одно из значений: primary | dark | ghost | link
+- `btn1_bg` — одно из значений: dark | primary | secondary | ghost | link
 - `btn1_size` — одно из значений: md | sm | lg | full
 - `btn1_icon` — строка
 - `btn1_icon_after` — булево (true/false)
@@ -474,7 +474,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `seo_tag` — одно из значений: div | h1 | h2 | h3 | h4
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)
@@ -489,7 +489,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)
@@ -505,7 +505,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `items` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)
@@ -521,7 +521,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `author` — строка
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)
@@ -534,6 +534,7 @@ anchor — якорь латиницей для ссылок #anchor
 Цветная врезка-акцент: info/success/warning/danger.
 Поля data:
 - `style` — одно из значений: info | success | warning | danger
+- `look` — одно из значений: fill | leftbar | topline
 - `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
 - `btn1_url` — строка
@@ -541,7 +542,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn2_url` — строка
 Пример:
 ```json
-{"id":"b1","type":"alert","data":{"style":"info","text":"Важная информация для покупателя."}}
+{"id":"b1","type":"alert","data":{"style":"info","look":"fill","text":"Важная информация для покупателя."}}
 ```
 
 #### tabs — Табы
@@ -550,7 +551,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `tabs` — массив { title, content }
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)
@@ -570,7 +571,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `_hint` — hint
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)
@@ -586,7 +587,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `caption` — строка
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)
@@ -602,7 +603,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `style` — одно из значений: header | column
 - `btn_label` — строка
 - `btn_url` — строка
-- `btn_bg` — одно из значений: primary | dark | ghost | link
+- `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
 - `btn_icon` — строка
 - `btn_icon_after` — булево (true/false)

@@ -117,7 +117,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		if (!eyebrow && !title && !text) return '';
 		var center = sec.align !== 'left';
 		var html = '<div class="vcc-section__head' + (center ? ' vcc-section__head--center' : '') + '">';
-		if (eyebrow) html += '<span class="vcc-eyebrow">' + vccInline(eyebrow) + '</span>';
+		if (eyebrow) html += '<span class="vcc-eyebrow' + (sec.eyebrow_badge ? ' vcc-eyebrow--badge' : '') + '">' + vccInline(eyebrow) + '</span>';
 		if (title) html += vccHeadingHtml(sec.seo_tag, 'vcc-heading vcc-section__title', vccInline(title));
 		if (text) html += '<p class="vcc-section__sub">' + vccInline(text) + '</p>';
 		return html + '</div>';
@@ -128,6 +128,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		secDefaults = secDefaults || {};
 		return [
 			{ key: 'sec.eyebrow', label: 'Надзаголовок (бровь, опционально)', type: 'text', mark: 'sec' },
+			{ key: 'sec.eyebrow_badge', label: 'Бровь плашкой (рамка + маркер, старый вид)', type: 'checkbox', mark: 'sec' },
 			{ key: 'sec.title', label: 'Заголовок секции', type: 'text', mark: 'sec' },
 			{ key: 'sec.seo_tag', label: 'SEO-тег заголовка секции (по умолчанию div — H1 на странице один)', type: 'select', mark: 'sec',
 				options: [['div', 'div — нейтральный (рекомендуется)'], ['h1', 'h1 — главный (ОДИН на страницу!)'], ['h2', 'h2 — раздел'], ['h3', 'h3 — подраздел']] },
@@ -216,7 +217,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'sub', label: 'Подзаголовок', type: 'textarea', rows: 3, markdown: true },
 				{ key: 'btn1_label', label: 'Кнопка 1 — текст', type: 'text' },
 				{ key: 'btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text' },
-				{ key: 'btn1_style', label: 'Кнопка 1 — фон', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+				{ key: 'btn1_style', label: 'Кнопка 1 — фон', type: 'select', options: [['dark', 'Тёмная (как референс)'], ['primary', 'Фирменная (палитра)'], ['secondary', 'Вторичная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
 				{ key: 'btn1_size', label: 'Кнопка 1 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
 				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
 				{ key: 'btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox' },
@@ -819,7 +820,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'text', label: 'Текст призыва', type: 'textarea', rows: 3, markdown: true },
 				{ key: 'btn1_label', label: 'Кнопка 1 — текст', type: 'text' },
 				{ key: 'btn1_url', label: 'Кнопка 1 — ссылка (или form:ID для формы)', type: 'text' },
-				{ key: 'btn1_bg', label: 'Кнопка 1 — фон', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+				{ key: 'btn1_bg', label: 'Кнопка 1 — фон', type: 'select', options: [['dark', 'Тёмная (как референс)'], ['primary', 'Фирменная (палитра)'], ['secondary', 'Вторичная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
 				{ key: 'btn1_size', label: 'Кнопка 1 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
 				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
 				{ key: 'btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox' },

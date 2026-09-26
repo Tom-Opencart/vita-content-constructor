@@ -123,8 +123,8 @@ function vccBlock(text) {
  * темы кладёт data-vcc-form, рантайм common.js открывает #vita-form-modal-N).
  * Класс-контракт прежний (vcc-btn), доп. состояние — на модификаторах и
  * data-vcc-*: скин-философия (JS темы не зависит от разметки блоков).
- * cfg: { label, url, bg: primary|dark|ghost|link, size: md|sm|lg|full,
- *        icon: 'имя FA без fa-', icon_after: Boolean }
+ * cfg: { label, url, bg: primary|accent|secondary|dark|ghost|link,
+ *        size: md|sm|lg|full, icon: 'имя FA без fa-', icon_after: Boolean }
  * ============================================================ */
 function vccButton(cfg) {
 	cfg = cfg || {};
@@ -132,7 +132,10 @@ function vccButton(cfg) {
 	if (!label) return ''; /* пустой текст = кнопки нет — прежний рендер не меняется */
 	var rawUrl = String(cfg.url || '').trim();
 	var href = /^form:\d+$/i.test(rawUrl) ? rawUrl : vccSafeHref(rawUrl);
-	var bg = ['primary', 'dark', 'ghost', 'link'].indexOf(cfg.bg) !== -1 ? cfg.bg : 'primary';
+	var bg = ['primary', 'accent', 'secondary', 'dark', 'ghost', 'link'].indexOf(cfg.bg) !== -1 ? cfg.bg : 'primary';
+	/* Совместимость 0.10.5: 'primary' сохраняет старое значение (палитра) —
+	 * собранные статьи не меняют вид. Референсная тёмная кнопка — 'dark'
+	 * (дефолт НОВЫХ блоков переключён на dark в vccButtonDefaults). */
 	var size = ['md', 'sm', 'lg', 'full'].indexOf(cfg.size) !== -1 && cfg.size !== 'md' ? ' vcc-btn--' + cfg.size : '';
 	var iconBefore = '';
 	var iconAfter = '';
@@ -175,7 +178,7 @@ function vccButtonFields(opts) {
 	return [
 		{ key: p + '_label', label: L + ' — текст (пусто = без кнопки)', type: 'text' },
 		{ key: p + '_url', label: L + ' — ссылка или действие (https://…, #якорь, form:ID)', type: 'text', placeholder: opts.urlPlaceholder || 'form:0' },
-		{ key: p + '_bg', label: L + ' — фон', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
+		{ key: p + '_bg', label: L + ' — фон', type: 'select', options: [['primary', 'Тёмная (референс)'], ['accent', 'Фирменная (палитра)'], ['secondary', 'Вторичная (палитра)'], ['ghost', 'Контурная'], ['dark', 'Тёмная нейтральная (#27272A)'], ['link', 'Текстовая ссылка']] },
 		{ key: p + '_size', label: L + ' — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
 		{ key: p + '_icon', label: L + ' — иконка (FA-имя без fa-, опционально)', type: 'text', placeholder: 'arrow-right' },
 		{ key: p + '_icon_after', label: L + ' — иконка после текста', type: 'checkbox' }
@@ -189,7 +192,7 @@ function vccButtonDefaults(opts) {
 	var d = {};
 		d[p + '_label'] = '';
 		d[p + '_url'] = '';
-		d[p + '_bg'] = opts.bg || 'primary';
+		d[p + '_bg'] = opts.bg || 'dark';
 		d[p + '_size'] = 'md';
 		d[p + '_icon'] = '';
 		d[p + '_icon_after'] = false;

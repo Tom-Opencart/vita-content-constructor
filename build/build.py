@@ -14,7 +14,7 @@ import glob
 import json
 import os
 
-APP_VERSION = "0.10.4"
+APP_VERSION = "0.10.5"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 FILES_ORDER = [

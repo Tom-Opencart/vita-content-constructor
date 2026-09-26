@@ -110,11 +110,15 @@
 		label: 'Врезка',
 		icon: 'fa-exclamation-circle',
 		group: 'text',
-		defaults: { style: 'info', text: 'Важная информация для покупателя.' },
+		defaults: { style: 'info', look: 'fill', text: 'Важная информация для покупателя.' },
 		fields: [
 			{
 				key: 'style', label: 'Стиль', type: 'select',
 				options: [['info', 'Информация'], ['success', 'Успех'], ['warning', 'Внимание'], ['danger', 'Важно']]
+			},
+			{
+				key: 'look', label: 'Исполнение', type: 'select',
+				options: [['fill', 'Заливка (как референс)'], ['leftbar', 'Левая кромка 4px'], ['topline', 'Линия сверху']]
 			},
 			{ key: 'text', label: 'Текст', type: 'textarea', rows: 3, markdown: true },
 			{ key: 'btn1_label', label: 'Кнопка 1 — текст (необязательно)', type: 'text' },
@@ -124,13 +128,15 @@
 		],
 		toHTML: function (data) {
 			var style = ['info', 'success', 'warning', 'danger'].indexOf(data.style) !== -1 ? data.style : 'info';
+			var look = ['fill', 'leftbar', 'topline'].indexOf(data.look) !== -1 ? data.look : 'fill';
+			var lookCls = look === 'fill' ? ' vcc-alert--fill' : (look === 'leftbar' ? ' vcc-alert--leftbar' : ' vcc-alert--topline');
 			var btns = '';
 			var b1 = alertBtnHtml(data.btn1_label, data.btn1_url, 'ghost');
 			var b2 = alertBtnHtml(data.btn2_label, data.btn2_url, 'ghost');
 			if (b1 || b2) btns = '<div class="vcc-alert__actions">' + b1 + b2 + '</div>';
 			var main = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
 			if (main) btns = '<div class="vcc-alert__actions">' + main + '</div>' + btns;
-			return '<div class="vcc-alert vcc-alert--' + style + '">' + vccBlock(data.text || '') + btns + '</div>';
+			return '<div class="vcc-alert vcc-alert--' + style + lookCls + '">' + vccBlock(data.text || '') + btns + '</div>';
 		}
 	});
 
