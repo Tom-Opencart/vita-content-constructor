@@ -86,17 +86,17 @@
 		type: 'quote',
 		label: 'Цитата',
 		icon: 'fa-quote-left',
-		group: 'text',
-		defaults: { text: 'Текст цитаты', author: '' },
+		group: 'text',		defaults: { text: 'Текст цитаты', author: '', style: 'leftbar' },
 		fields: [
+			{ key: 'style', label: 'Стиль', type: 'select', options: [['leftbar', 'Левая кромка — полоса + курсив'], ['frame', 'Рамка — карточка с тенью (референс)']] },
 			{ key: 'text', label: 'Текст', type: 'textarea', rows: 3, markdown: true },
 			{ key: 'author', label: 'Автор (опционально)', type: 'text', markdown: false }
 		].concat(vccButtonFields()),
 		toHTML: function (data) {
-			var html = '<blockquote class="vcc-quote">' + vccBlock(data.text || '');
+			var html = '<blockquote class="vcc-quote' + (data.style === 'frame' ? ' vcc-quote--frame' : '') + '">' + vccBlock(data.text || '');
 			if (data.author && String(data.author).trim() !== '') {
 				html += '<footer class="vcc-quote__author">— ' + vccInline(data.author) + '</footer>';
-			}
+				}
 			html += '</blockquote>';
 			var btn = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
 			if (btn) html += '<div class="vcc-btnrow">' + btn + '</div>';

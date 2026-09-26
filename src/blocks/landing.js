@@ -212,7 +212,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			{ key: 'kicker', label: 'Кикер над заголовком (аннотация мелким шрифтом, uppercase)', type: 'text', placeholder: 'Сообщество с 2020 года' },
 			{ key: 'title', label: 'Заголовок (визуальный)', type: 'textarea', rows: 2, markdown: true },
 			{ key: 'seo_tag', label: 'SEO-тег заголовка (по умолчанию div — H1 на странице один, его ставит сама страница)', type: 'select', options: [['div', 'div — нейтральный (рекомендуется)'], ['h1', 'h1 — главный (ОДИН на страницу!)'], ['h2', 'h2 — раздел']] },
-				{ key: 'title_size', label: 'Размер заголовка', type: 'select', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
+				{ key: 'title_size', label: 'Размер заголовка', type: 'select', options: [['sm', 'Компактный (34px)'], ['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
 				{ key: 'title_upper', label: 'Заголовок в верхнем регистре', type: 'checkbox' },
 				{ key: 'sub', label: 'Подзаголовок', type: 'textarea', rows: 3, markdown: true },
 				{ key: 'btn1_label', label: 'Кнопка 1 — текст', type: 'text' },
@@ -228,6 +228,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'btn2_icon_after', label: 'Кнопка 2 — иконка после текста', type: 'checkbox' },
 			{ key: 'note', label: 'Строка доверия под кнопками', type: 'text' },
 			{ key: 'note_lined', label: 'Линия-разделитель над строкой доверия', type: 'checkbox' },
+			{ key: 'note_mono', label: 'Строка доверия моно-шрифтом (референс hero-notes)', type: 'checkbox' },
 			{ key: 'align', label: 'Выравнивание', type: 'select', options: [['center', 'По центру'], ['left', 'По левому краю']] },
 				{ key: 'visual', label: 'Панель-визуал справа', type: 'select', options: [['none', 'Без панели'], ['metrics', 'Метрики (kickер + путь + цифры)'], ['keycard', 'Карточка ключа + плитки (2×3)']] },
 				{ key: 'visual_kicker', label: 'Панель: статус-лейбл (например «Live»)', type: 'text', depends: 'visual:metrics' },
@@ -343,7 +344,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				}
 			}
 			var titleCls = 'vcc-hero__title';
-			if (v.title_size === 'md' || v.title_size === 'lg' || v.title_size === 'xl') titleCls += ' vcc-hero__title--' + v.title_size;
+			if (['sm', 'md', 'lg', 'xl'].indexOf(v.title_size) !== -1) titleCls += ' vcc-hero__title--' + v.title_size;
 			if (v.title_upper) titleCls += ' vcc-hero__title--upper';
 			var html = sectionOpen(secData(v)) +
 				'<div class="vcc-hero' + (v.align === 'left' ? '' : ' vcc-hero--center') + (visualHtml ? ' vcc-hero--split' : '') + '">' +
@@ -352,7 +353,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			if (title) html += vccHeadingHtml(v.seo_tag, titleCls, vccInline(title));
 			if (sub) html += '<p class="vcc-hero__sub">' + vccInline(sub) + '</p>';
 			if (actions) html += '<div class="vcc-hero__actions">' + actions + '</div>';
-			if (String(v.note || '').trim()) html += '<p class="vcc-hero__note' + (v.note_lined ? ' vcc-hero__note--lined' : '') + '">' + vccInline(v.note) + '</p>';
+			if (String(v.note || '').trim()) html += '<p class="vcc-hero__note' + (v.note_lined ? ' vcc-hero__note--lined' : '') + (v.note_mono ? ' vcc-hero__note--mono' : '') + '">' + vccInline(v.note) + '</p>';
 			html += '</div>';
 			if (visualHtml) html += visualHtml;
 			return html + '</div>' + sectionClose();
@@ -569,7 +570,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		},
 		fields: function () {
 			return sectionFields().concat([
-				{ key: 'style', label: 'Стиль', type: 'select', options: [['timeline', 'Таймлайн — карточки на линии'], ['numbers', 'Простые номера (без линии)']] },
+				{ key: 'style', label: 'Стиль', type: 'select', options: [['timeline', 'Таймлайн — карточки на линии'], ['numbers', 'Простые номера (без линии)'], ['card', 'Карточка — шапка с номером + тело']] },
 				{
 					key: 'items', label: 'Шаги', type: 'rows-editor', addLabel: 'Добавить шаг', max: 8,
 					itemFields: [
@@ -586,7 +587,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var v = data || {};
 			var items = arr(v.items).filter(function (it) { return it && (String(it.title || '').trim() || String(it.text || '').trim()); });
 			if (!items.length) return '';
-			var style = v.style === 'numbers' ? 'numbers' : 'timeline';
+			var style = ['numbers', 'card'].indexOf(v.style) !== -1 ? v.style : 'timeline';
 			/* «Номера» — горизонтальная сетка: класс колонок по числу шагов */
 			var colsClass = '';
 			if (style === 'numbers') {
@@ -597,13 +598,26 @@ Tilda-модель — каждый «широкий» блок экспорти
 			html += '<div class="vcc-steps vcc-steps--' + style + colsClass + '">';
 			for (var i = 0; i < items.length; i++) {
 				var label = String(items[i].label || '').trim();
-				html += '<div class="vcc-step">' +
-					'<span class="vcc-step__num">' + (i + 1) + '</span>' +
-					'<div class="vcc-step__body">' +
-					(label ? '<div class="vcc-step__label">' + vccInline(label) + '</div>' : '') +
-					'<p class="vcc-step__title">' + vccInline(items[i].title || '') + '</p>' +
-					'<div class="vcc-step__text">' + vccBlock(items[i].text || '') + '</div>' +
-					'</div></div>';
+				if (style === 'card') {
+					/* Референс step-card: шапка (номер-квадрат mono + название) + тело */
+					html += '<div class="vcc-step">' +
+						'<div class="vcc-step__head">' +
+						'<span class="vcc-step__num">' + (i + 1) + '</span>' +
+						'<div class="vcc-step__body">' +
+						'<p class="vcc-step__title">' + vccInline(items[i].title || '') + '</p>' +
+						(label ? '<div class="vcc-step__label">' + vccInline(label) + '</div>' : '') +
+						'</div></div>' +
+						'<div class="vcc-step__text">' + vccBlock(items[i].text || '') + '</div>' +
+						'</div>';
+				} else {
+					html += '<div class="vcc-step">' +
+						'<span class="vcc-step__num">' + (i + 1) + '</span>' +
+						'<div class="vcc-step__body">' +
+						(label ? '<div class="vcc-step__label">' + vccInline(label) + '</div>' : '') +
+						'<p class="vcc-step__title">' + vccInline(items[i].title || '') + '</p>' +
+						'<div class="vcc-step__text">' + vccBlock(items[i].text || '') + '</div>' +
+						'</div></div>';
+				}
 			}
 			return html + '</div>' + sectionClose();
 		}
