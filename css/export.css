@@ -1335,23 +1335,35 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 	background: linear-gradient(135deg, var(--vita-window-1, #1A2837) 0%, var(--vita-window-2, #182437) 55%, var(--vita-window-3, #14302F) 100%);
 }
 .vcc-keycard__card--window .vcc-keycard__label { color: var(--mp-keycard-amber, #E8B872); }
+/* В режиме окна пунктир уже рисует __window (линия с выемками) — перфорация
+ * над чипами свою линию не дублирует */
+.vcc-keycard__card--window .vcc-keycard__perforation { border-top: 0; }
+/* Тёмная тема: выемки заливаются фоном карточки страницы, чтобы читаться
+ * выемкой (круг на краю окна сливается с окружением). */
+[data-theme="dark"] .vcc-keycard__window::before,
+[data-theme="dark"] .vcc-keycard__window::after { background: var(--mp-bg-hover, #38343E); }
+/* Выемки купона (0.10.4, замер донора: диаметр ~16px, глубина 9px, центр на
+ * пунктире). Механика донора: тёмное тело тянется до КРАЯ карточки, белые
+ * круги стоят центроном на краю, внешняя половина срезается overflow:hidden
+ * карточки — остаётся полукруглая выемка. Для этого окно растягивается на
+ * ширину карточки отрицательными полями (padding карточки 24px 22px 18px). */
 .vcc-keycard__window {
 	border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
-	margin: 0 0 16px;
+	margin: 0 -22px 16px;
 	position: relative;
 }
 .vcc-keycard__window::before,
 .vcc-keycard__window::after {
-	background: var(--mp-text-inverse, #ffffff);
+	background: var(--mp-bg-surface, #ffffff);
 	border-radius: 50%;
 	content: '';
-	height: 8px;
+	height: 16px;
 	position: absolute;
-	top: -4px;
-	width: 8px;
+	top: -8px;
+	width: 16px;
 }
-.vcc-keycard__window::before { left: -2px; }
-.vcc-keycard__window::after { right: -2px; }
+.vcc-keycard__window::before { left: -8px; }
+.vcc-keycard__window::after { right: -8px; }
 
 /* --- Универсальная копи-кнопка (любой блок; source — data-vcc-copy) --- */
 .vcc-copybtn {
