@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.10.1 · контракт: vcc-v1
+Версия конструктора: 0.10.2 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -59,13 +59,17 @@ anchor — якорь латиницей для ссылок #anchor
 Поля data:
 - `_hint` — hint
 - `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `kicker` — строка
 - `title` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `title_size` — одно из значений: default | md | lg | xl
 - `sub` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
 - `btn1_label` — строка
 - `btn1_url` — строка
+- `btn1_style` — одно из значений: primary | dark
 - `btn2_label` — строка
 - `btn2_url` — строка
 - `note` — строка
+- `note_lined` — булево (true/false)
 - `align` — одно из значений: center | left
 - `visual` — одно из значений: none | metrics
 - `visual_kicker` — строка
@@ -73,7 +77,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `visual_metrics` — массив объектов { value, label }
 Пример:
 ```json
-{"id":"b1","type":"hero","data":{"title":"Заголовок, который ==продаёт== сам","sub":"Подзаголовок с главным обещанием страницы: что получит покупатель и почему это стоит десяти секунд его внимания.","btn1_label":"Выбрать товар","btn1_url":"#tarify","btn2_label":"Как мы работаем","btn2_url":"#shagi","note":"Гарантия возврата · Доставка по всей стране","align":"center","sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"image","image":"","video":"","overlay":true,"padding":"xl","width":"default","anchor":""}}}
+{"id":"b1","type":"hero","data":{"title":"Заголовок, который ==продаёт== сам","sub":"Подзаголовок с главным обещанием страницы: что получит покупатель и почему это стоит десяти секунд его внимания.","btn1_label":"Выбрать товар","btn1_url":"#tarify","btn2_label":"Как мы работаем","btn2_url":"#shagi","note":"Гарантия возврата · Доставка по всей стране","align":"center","kicker":"","title_size":"default","note_lined":false,"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"image","image":"","video":"","overlay":true,"padding":"xl","width":"default","anchor":""}}}
 ```
 
 #### logos — Логотипы партнёров
@@ -139,10 +143,11 @@ anchor — якорь латиницей для ссылок #anchor
 Полоса цифр-показателей: { value, suffix, label }.
 Поля data:
 - `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `style` — одно из значений: plain | boxed | strips
 - `items` — массив объектов { value, suffix, label }
 Пример:
 ```json
-{"id":"b1","type":"stats","data":{"sec":{"eyebrow":"","title":"Немного цифр","text":"","align":"left","bg":"primary","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""},"items":[{"value":"10","suffix":" лет","label":"на рынке"},{"value":"25","suffix":" 000+","label":"довольных клиентов"},{"value":"98","suffix":"%","label":"заказов точно в срок"}]}}
+{"id":"b1","type":"stats","data":{"sec":{"eyebrow":"","title":"Немного цифр","text":"","align":"left","bg":"primary","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""},"style":"plain","items":[{"value":"10","suffix":" лет","label":"на рынке"},{"value":"25","suffix":" 000+","label":"довольных клиентов"},{"value":"98","suffix":"%","label":"заказов точно в срок"}]}}
 ```
 
 #### reviews — Отзывы (текстовые)
@@ -281,6 +286,69 @@ anchor — якорь латиницей для ссылок #anchor
 {"id":"b1","type":"columns","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""},"cols":"3","items":[{"md":"Первая колонка. Здесь может быть описание, список или ссылка [пример](https://example.com)."},{"md":"Вторая колонка. Поддерживается всё, что умеет текстовый блок."},{"md":"Третья колонка. ==Акцент== выделяется фирменным цветом."}]}}
 ```
 
+#### promo_card — Промо-карточка
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `top_logo` — строка
+- `badge` — строка
+- `title` — строка
+- `text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `btn_label` — строка
+- `btn_url` — строка
+- `btn_style` — одно из значений: dark | primary | ghost
+- `_gc` — group-label
+- `copy` — булево (true/false)
+- `copy_label` — строка
+- `copy_text` — текст (многострочный
+- `copy_layout` — одно из значений: full | inline
+Пример:
+```json
+{"id":"b1","type":"promo_card","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""},"top_logo":"","badge":"Самый продаваемый","title":"UNISHOP2 — универсальный шаблон","text":"Сравнение товаров, быстрый просмотр, мини-корзина — всё из коробки.\n\nПодходит для любого каталога.","btn_label":"Купить шаблон →","btn_url":"#","btn_style":"dark","copy":false,"copy_label":"Скопировать","copy_text":"","copy_layout":"full"}}
+```
+
+#### row — Ряд (2 колонки)
+Поля data:
+- `sec` — общие поля секции (см. «Общие поля секции» выше)
+- `_hl` — group-label
+- `left_mode` — одно из значений: text | promo | none
+- `left_kicker` — строка
+- `left_title` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `left_title_size` — одно из значений: default | md | lg | xl
+- `left_text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `left_btn1_label` — строка
+- `left_btn1_url` — строка
+- `left_btn1_style` — одно из значений: dark | primary | ghost
+- `left_btn2_label` — строка
+- `left_btn2_url` — строка
+- `left_note` — строка
+- `_hint_promo` — hint
+- `left_badge` — строка
+- `left_promo_title` — строка
+- `left_promo_logo` — строка
+- `left_promo_text` — многострочный текст с инлайн-разметкой (**жирный**, *курсив*, [текст](url), [кнопка](form:N), [соглашение](agree:N), ==акцент==, `код`)
+- `left_promo_btn_label` — строка
+- `left_promo_btn_url` — строка
+- `_hr` — group-label
+- `right_card` — одно из значений: key_card | code | metrics | none
+- `ratio` — одно из значений: wide | equal
+- `right_meta_left` — строка
+- `right_meta_right` — строка
+- `right_label` — строка
+- `right_value` — строка
+- `right_value_dim` — строка
+- `right_chips` — текст (многострочный
+- `right_window` — булево (true/false)
+- `right_code_text` — текст (многострочный
+- `right_metrics_rows` — текст (многострочный
+- `_gc` — group-label
+- `right_copy` — булево (true/false)
+- `right_copy_label` — строка
+- `right_copy_text` — текст (многострочный
+Пример:
+```json
+{"id":"b1","type":"row","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"default","anchor":""},"left_mode":"text","left_kicker":"Рекомендуем","left_title":"ПРОВЕРЕННЫЕ РЕШЕНИЯ для ==быстрого старта==","left_title_size":"default","left_text":"","left_btn1_label":"","left_btn1_url":"","left_btn1_style":"dark","left_btn2_label":"","left_btn2_url":"","left_note":"","right_card":"key_card","right_key":null,"right_code":"","right_metrics":"","ratio":"wide"}}
+```
+
 #### key_card — Карточка ключа
 Поля data:
 - `sec` — общие поля секции (см. «Общие поля секции» выше)
@@ -288,12 +356,19 @@ anchor — якорь латиницей для ссылок #anchor
 - `meta_left` — строка
 - `meta_right` — строка
 - `card_label` — строка
+- `body` — одно из значений: classic | window
+- `window_line` — булево (true/false)
 - `segs` — массив объектов { value, dim }
 - `sep` — строка
 - `chips` — массив объектов { icon, text }
+- `_gc` — group-label
+- `copy` — булево (true/false)
+- `copy_label` — строка
+- `copy_text` — текст (многострочный
+- `copy_layout` — одно из значений: full | inline
 Пример:
 ```json
-{"id":"b1","type":"key_card","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"narrow","anchor":""},"meta_left":"Лицензия","meta_right":"VITA-3.0","card_label":"Ключ продукта","segs":[{"value":"VITA","dim":false},{"value":"8F2C-ZQ91","dim":true},{"value":"K4D7-TX5E","dim":false}],"sep":"-","chips":[{"icon":"fa-check-circle-o","text":"Активирован"},{"icon":"fa-calendar-check-o","text":"До 2027-01-15"}]}}
+{"id":"b1","type":"key_card","data":{"sec":{"eyebrow":"","title":"","text":"","align":"left","bg":"none","image":"","video":"","overlay":false,"padding":"m","width":"narrow","anchor":""},"meta_left":"Лицензия","meta_right":"VITA-3.0","card_label":"Ключ продукта","segs":[{"value":"VITA","dim":false},{"value":"8F2C-ZQ91","dim":true},{"value":"K4D7-TX5E","dim":false}],"sep":"-","chips":[{"icon":"fa-check-circle-o","text":"Активирован"},{"icon":"fa-calendar-check-o","text":"До 2027-01-15"}],"body":"classic","window_line":true,"copy":false,"copy_label":"Скопировать","copy_text":"","copy_layout":"full"}}
 ```
 
 #### spec_list — Спецификация

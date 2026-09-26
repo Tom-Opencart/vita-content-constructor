@@ -199,20 +199,27 @@ Tilda-модель — каждый «широкий» блок экспорти
 			btn2_label: 'Как мы работаем', btn2_url: '#shagi',
 			note: 'Гарантия возврата · Доставка по всей стране',
 			align: 'center',
+			kicker: '',
+			title_size: 'default',
+			note_lined: false,
 			sec: { bg: 'image', image: '', overlay: true, padding: 'xl', width: 'default', anchor: '' }
 		},
 		fields: function () {
 			return [
 				{ key: '_hint', label: 'H1 на странице должен быть один — не дублируйте его с заголовком статьи (спека §6.1).', type: 'hint' }
 			].concat(sectionFields()).concat([
+				{ key: 'kicker', label: 'Кикер над заголовком (аннотация мелким шрифтом, uppercase)', type: 'text', placeholder: 'Сообщество с 2020 года' },
 				{ key: 'title', label: 'Заголовок H1 (на странице он должен быть один)', type: 'textarea', rows: 2, markdown: true },
+				{ key: 'title_size', label: 'Размер заголовка', type: 'select', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
 				{ key: 'sub', label: 'Подзаголовок', type: 'textarea', rows: 3, markdown: true },
 				{ key: 'btn1_label', label: 'Кнопка 1 — текст', type: 'text' },
 				{ key: 'btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text' },
+				{ key: 'btn1_style', label: 'Кнопка 1 — стиль', type: 'select', options: [['primary', 'Фирменная (палитра)'], ['dark', 'Тёмная нейтральная (#27272A)']] },
 				{ key: 'btn2_label', label: 'Кнопка 2 — текст (необязательно)', type: 'text' },
 				{ key: 'btn2_url', label: 'Кнопка 2 — ссылка (или form:ID)', type: 'text' },
-				{ key: 'note', label: 'Строка доверия под кнопками', type: 'text' },
-				{ key: 'align', label: 'Выравнивание', type: 'select', options: [['center', 'По центру'], ['left', 'По левому краю']] },
+			{ key: 'note', label: 'Строка доверия под кнопками', type: 'text' },
+			{ key: 'note_lined', label: 'Линия-разделитель над строкой доверия', type: 'checkbox' },
+			{ key: 'align', label: 'Выравнивание', type: 'select', options: [['center', 'По центру'], ['left', 'По левому краю']] },
 				{ key: 'visual', label: 'Панель-визуал справа', type: 'select', options: [['none', 'Без панели'], ['metrics', 'Метрики (kickер + путь + цифры)']] },
 				{ key: 'visual_kicker', label: 'Панель: статус-лейбл (например «Live»)', type: 'text', depends: 'visual:metrics' },
 				{ key: 'visual_path', label: 'Панель: строка пути/страницы', type: 'text', depends: 'visual:metrics' },
@@ -231,7 +238,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var title = String(v.title || '').trim();
 			var sub = String(v.sub || '').trim();
 			if (!title && !sub) return '';
-			var b1 = btnHtml(v.btn1_label, v.btn1_url, 'primary');
+			var b1 = btnHtml(v.btn1_label, v.btn1_url, v.btn1_style === 'dark' ? 'dark' : 'primary');
 			var b2 = btnHtml(v.btn2_label, v.btn2_url, 'ghost');
 			var actions = b1 + b2;
 			/* Панель-визуал (референс hero-visual): рамочный блок справа с
@@ -254,13 +261,16 @@ Tilda-модель — каждый «широкий» блок экспорти
 					visualHtml += '</div></div>';
 				}
 			}
+			var titleCls = 'vcc-hero__title';
+			if (v.title_size === 'md' || v.title_size === 'lg' || v.title_size === 'xl') titleCls += ' vcc-hero__title--' + v.title_size;
 			var html = sectionOpen(secData(v)) +
 				'<div class="vcc-hero' + (v.align === 'left' ? '' : ' vcc-hero--center') + (visualHtml ? ' vcc-hero--split' : '') + '">' +
 				'<div class="vcc-hero__main">';
-			if (title) html += '<h1 class="vcc-hero__title">' + vccInline(title) + '</h1>';
+			if (String(v.kicker || '').trim()) html += '<p class="vcc-hero__kicker">' + vccInline(v.kicker) + '</p>';
+			if (title) html += '<h1 class="' + titleCls + '">' + vccInline(title) + '</h1>';
 			if (sub) html += '<p class="vcc-hero__sub">' + vccInline(sub) + '</p>';
 			if (actions) html += '<div class="vcc-hero__actions">' + actions + '</div>';
-			if (String(v.note || '').trim()) html += '<p class="vcc-hero__note">' + vccInline(v.note) + '</p>';
+			if (String(v.note || '').trim()) html += '<p class="vcc-hero__note' + (v.note_lined ? ' vcc-hero__note--lined' : '') + '">' + vccInline(v.note) + '</p>';
 			html += '</div>';
 			if (visualHtml) html += visualHtml;
 			return html + '</div>' + sectionClose();
@@ -525,6 +535,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		group: 'landing',
 		defaults: {
 			sec: { eyebrow: '', title: 'Немного цифр', bg: 'primary', padding: 'm', width: 'default' },
+			style: 'plain',
 			items: [
 				{ value: '10', suffix: ' лет', label: 'на рынке' },
 				{ value: '25', suffix: ' 000+', label: 'довольных клиентов' },
@@ -533,6 +544,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		},
 		fields: function () {
 			return sectionFields().concat([
+				{ key: 'style', label: 'Вид', type: 'select', options: [['plain', 'Обычный (число + подпись)'], ['boxed', 'Рамочные карточки'], ['strips', 'Полоска + лейбл + значение']] },
 				{
 					key: 'items', label: 'Показатели', type: 'rows-editor', addLabel: 'Добавить показатель', max: 6,
 					itemFields: [
@@ -548,8 +560,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var v = data || {};
 			var items = arr(v.items).filter(function (it) { return it && String(it.value || '').trim(); });
 			if (!items.length) return '';
+			var styleCls = v.style === 'boxed' ? ' vcc-stats--boxed' : (v.style === 'strips' ? ' vcc-stats--strips' : '');
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
-			html += '<div class="vcc-stats">';
+			html += '<div class="vcc-stats' + styleCls + '">';
 			for (var i = 0; i < items.length; i++) {
 				html += '<div class="vcc-stat">' +
 					'<span class="vcc-stat__value">' + vccInline(items[i].value || '') +
@@ -1097,6 +1110,273 @@ Tilda-модель — каждый «широкий» блок экспорти
 		}
 	});
 
+	/* --- promo_card: Промо-карточка (референс «UNISHOP2» — шапка-полоса с
+	 * логотипом, бейдж-стикер, выделенный заголовок, промо-текст, кнопка) --- */
+	BlockRegistry.register({
+		type: 'promo_card',
+		label: 'Промо-карточка',
+		icon: 'fa-ticket',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: '', title: '', bg: 'none', padding: 'm', width: 'default' },
+			top_logo: '',
+			badge: 'Самый продаваемый',
+			title: 'UNISHOP2 — универсальный шаблон',
+			text: 'Сравнение товаров, быстрый просмотр, мини-корзина — всё из коробки.\n\nПодходит для любого каталога.',
+			btn_label: 'Купить шаблон →',
+			btn_url: '#',
+			btn_style: 'dark',
+			copy: false,
+			copy_label: 'Скопировать',
+			copy_text: '',
+			copy_layout: 'full'
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{ key: 'top_logo', label: 'Картинка в шапке-полосе (пусто — без шапки)', type: 'text', placeholder: 'image/catalog/logo.png' },
+				{ key: 'badge', label: 'Бейдж-стикер (пусто — без бейджа)', type: 'text' },
+				{ key: 'title', label: 'Заголовок карточки', type: 'text' },
+				{ key: 'text', label: 'Текст промо (markdown, абзацы через пустую строку)', type: 'textarea', rows: 5, markdown: true },
+				{ key: 'btn_label', label: 'Кнопка — текст (пусто — без кнопки)', type: 'text' },
+				{ key: 'btn_url', label: 'Кнопка — ссылка (или form:ID)', type: 'text' },
+				{ key: 'btn_style', label: 'Кнопка — стиль', type: 'select', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная']] },
+				{ key: '_gc', label: 'Кнопка копирования', type: 'group-label' },
+				{ key: 'copy', label: 'Добавить кнопку копирования', type: 'checkbox' },
+				{ key: 'copy_label', label: 'Текст кнопки', type: 'text', depends: 'copy:true' },
+				{ key: 'copy_text', label: 'Что копировать', type: 'textarea', rows: 2, depends: 'copy:true' },
+				{ key: 'copy_layout', label: 'Размещение кнопки', type: 'select', depends: 'copy:true', options: [['full', 'Полноширинная под карточкой'], ['inline', 'В строку']] }
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var title = String(v.title || '').trim();
+			var text = String(v.text || '').trim();
+			if (!title && !text) return '';
+			var logo = String(v.top_logo || '').trim();
+			var badge = String(v.badge || '').trim();
+			var style = ['dark', 'primary', 'ghost'].indexOf(v.btn_style) !== -1 ? v.btn_style : 'dark';
+			var html = sectionOpen(secData(v));
+			html += '<div class="vcc-promocard">';
+			if (logo) html += '<div class="vcc-promocard__top"><img class="vcc-promocard__logo" src="' + vccEscapeHtml(vccSafeHref(logo)) + '" alt="" loading="lazy"></div>';
+			html += '<div class="vcc-promocard__body">';
+			if (badge) html += '<span class="vcc-promocard__badge">' + vccInline(badge) + '</span>';
+			if (title) html += '<h3 class="vcc-promocard__title">' + vccInline(title) + '</h3>';
+			if (text) html += '<div class="vcc-promocard__text">' + vccBlock(text) + '</div>';
+			if (String(v.btn_label || '').trim()) html += '<div class="vcc-promocard__actions">' + btnHtml(v.btn_label, v.btn_url, style) + '</div>';
+			html += '</div></div>';
+			if (v.copy && String(v.copy_text || '').trim()) {
+				html += '<div class="vcc-row__sidebtn"><button type="button" class="vcc-copybtn' + (v.copy_layout === 'inline' ? ' vcc-copybtn--inline' : '') + '" data-vcc-copy="' + vccEscapeHtml(v.copy_text.trim()) + '">' +
+					'<span class="vcc-icon" data-vcc-icon="fa-clone"></span>' + vccInline(String(v.copy_label || 'Скопировать').trim()) + '</button></div>';
+			}
+			return html + sectionClose();
+		}
+	});
+
+	/* --- row: Ряд — двухколоночная композиция (текст/promo_card слева,
+	 * выбираемая карточка справа). Референсы: «OpenCart Клуб» и «Быстрый
+	 * старт» opencartforum.com.ru. Обе стороны опциональны. --- */
+	BlockRegistry.register({
+		type: 'row',
+		label: 'Ряд (2 колонки)',
+		icon: 'fa-columns',
+		group: 'landing',
+		defaults: {
+			sec: { eyebrow: '', title: '', bg: 'none', padding: 'm', width: 'default' },
+			left_mode: 'text',
+			left_kicker: 'Рекомендуем',
+			left_title: 'ПРОВЕРЕННЫЕ РЕШЕНИЯ для ==быстрого старта==',
+			left_title_size: 'default',
+			left_text: '',
+			left_btn1_label: '',
+			left_btn1_url: '',
+			left_btn1_style: 'dark',
+			left_btn2_label: '',
+			left_btn2_url: '',
+			left_note: '',
+			right_card: 'key_card',
+			right_key: null,
+			right_code: '',
+			right_metrics: '',
+			ratio: 'wide'
+		},
+		fields: function () {
+			return sectionFields().concat([
+				{ key: '_hl', label: 'Левая колонка', type: 'group-label' },
+				{ key: 'left_mode', label: 'Наполнение слева', type: 'select', options: [['text', 'Текстовый стек (заголовок, текст, кнопки)'], ['promo', 'Промо-карточка (promo_card)'], ['none', 'Пусто (только правая карточка)']] },
+				{ key: 'left_kicker', label: 'Кикер (аннотация мелким шрифтом)', type: 'text', depends: 'left_mode:text' },
+				{ key: 'left_title', label: 'Заголовок (markdown, ==акцент==)', type: 'textarea', rows: 2, markdown: true, depends: 'left_mode:text' },
+				{ key: 'left_title_size', label: 'Размер заголовка', type: 'select', depends: 'left_mode:text', options: [['default', 'Обычный (42px)'], ['md', 'Средний (56px)'], ['lg', 'Крупный (64px)'], ['xl', 'Максимальный (76px)']] },
+				{ key: 'left_text', label: 'Текст (markdown, абзацы через пустую строку)', type: 'textarea', rows: 4, markdown: true, depends: 'left_mode:text' },
+				{ key: 'left_btn1_label', label: 'Кнопка 1 — текст', type: 'text', depends: 'left_mode:text' },
+				{ key: 'left_btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text', depends: 'left_mode:text' },
+				{ key: 'left_btn1_style', label: 'Кнопка 1 — стиль', type: 'select', depends: 'left_mode:text', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная']] },
+				{ key: 'left_btn2_label', label: 'Кнопка 2 — текст', type: 'text', depends: 'left_mode:text' },
+				{ key: 'left_btn2_url', label: 'Кнопка 2 — ссылка', type: 'text', depends: 'left_mode:text' },
+				{ key: 'left_note', label: 'Строка доверия под кнопками', type: 'text', depends: 'left_mode:text' },
+				{ key: '_hint_promo', label: 'Промо-карточка слева настраивается в самом блоке «Ряд»: бейдж, заголовок, текст и кнопка — ниже.', type: 'hint', depends: 'left_mode:promo' },
+				{ key: 'left_badge', label: 'Бейдж-стикер', type: 'text', depends: 'left_mode:promo' },
+				{ key: 'left_promo_title', label: 'Заголовок карточки', type: 'text', depends: 'left_mode:promo' },
+				{ key: 'left_promo_logo', label: 'Картинка в шапке-полосе (пусто — без шапки)', type: 'text', depends: 'left_mode:promo' },
+				{ key: 'left_promo_text', label: 'Текст промо (markdown)', type: 'textarea', rows: 5, markdown: true, depends: 'left_mode:promo' },
+				{ key: 'left_promo_btn_label', label: 'Кнопка — текст', type: 'text', depends: 'left_mode:promo' },
+				{ key: 'left_promo_btn_url', label: 'Кнопка — ссылка (или form:ID)', type: 'text', depends: 'left_mode:promo' },
+				{ key: '_hr', label: 'Правая колонка', type: 'group-label' },
+				{ key: 'right_card', label: 'Карточка справа', type: 'select', options: [['key_card', 'Карточка ключа / купон'], ['code', 'Код-окно'], ['metrics', 'Метрики (значение + подпись)'], ['none', 'Без карточки']] },
+				{ key: 'ratio', label: 'Пропорция колонок', type: 'select', options: [['wide', 'Текст шире (2:1)'], ['equal', 'Поровну']] },
+				/* Поля правой карточки — общие для всех видов (упрощение против
+				 * ветвления по видам: пустые поля не выводятся) */
+				{ key: 'right_meta_left', label: 'Карточка: метаданные слева (шапка)', type: 'text' },
+				{ key: 'right_meta_right', label: 'Карточка: метаданные справа (шапка)', type: 'text' },
+				{ key: 'right_label', label: 'Карточка: метка/бейдж внутри', type: 'text' },
+				{ key: 'right_value', label: 'Карточка: главное значение (моно)', type: 'text', depends: 'right_card:key_card' },
+				{ key: 'right_value_dim', label: 'Приглушаемая часть значения (середина)', type: 'text', depends: 'right_card:key_card' },
+				{ key: 'right_chips', label: 'Карточка: пилюли (по строке: иконка | текст)', type: 'textarea', rows: 3, depends: 'right_card:key_card' },
+				{ key: 'right_window', label: 'Тёмное окно (сине-тёмный градиент) + пунктир с узлами', type: 'checkbox', depends: 'right_card:key_card' },
+				{ key: 'right_code_text', label: 'Текст кода (переносы строк сохраняются)', type: 'textarea', rows: 5, depends: 'right_card:code' },
+				{ key: 'right_metrics_rows', label: 'Метрики (по строке: значение | подпись)', type: 'textarea', rows: 4, depends: 'right_card:metrics' },
+				{ key: '_gc', label: 'Кнопка копирования (под правой карточкой)', type: 'group-label' },
+				{ key: 'right_copy', label: 'Добавить кнопку копирования', type: 'checkbox' },
+				{ key: 'right_copy_label', label: 'Текст кнопки', type: 'text', depends: 'right_copy:true' },
+				{ key: 'right_copy_text', label: 'Что копировать (пусто — значение/код карточки)', type: 'textarea', rows: 2, depends: 'right_copy:true' }
+			]);
+		},
+		toHTML: function (data) {
+			var v = data || {};
+			var mode = ['text', 'promo', 'none'].indexOf(v.left_mode) !== -1 ? v.left_mode : 'text';
+			var card = ['key_card', 'code', 'metrics', 'none'].indexOf(v.right_card) !== -1 ? v.right_card : 'key_card';
+			var mainHtml = '';
+			if (mode === 'text') {
+				var lt = String(v.left_title || '').trim();
+				var ltxt = String(v.left_text || '').trim();
+				if (lt || ltxt) {
+					var titleCls = 'vcc-hero__title';
+					if (v.left_title_size === 'md' || v.left_title_size === 'lg' || v.left_title_size === 'xl') titleCls += ' vcc-hero__title--' + v.left_title_size;
+					mainHtml += '<div class="vcc-hero__main">';
+					if (String(v.left_kicker || '').trim()) mainHtml += '<p class="vcc-hero__kicker">' + vccInline(v.left_kicker) + '</p>';
+					if (lt) mainHtml += '<h2 class="' + titleCls + '">' + vccInline(lt) + '</h2>';
+					if (ltxt) mainHtml += '<div class="vcc-paragraph">' + vccBlock(ltxt) + '</div>';
+					var b1 = btnHtml(v.left_btn1_label, v.left_btn1_url, ['dark', 'primary', 'ghost'].indexOf(v.left_btn1_style) !== -1 ? v.left_btn1_style : 'dark');
+					var b2 = btnHtml(v.left_btn2_label, v.left_btn2_url, 'ghost');
+					if (b1 || b2) mainHtml += '<div class="vcc-hero__actions">' + b1 + b2 + '</div>';
+					if (String(v.left_note || '').trim()) mainHtml += '<p class="vcc-hero__note">' + vccInline(v.left_note) + '</p>';
+					mainHtml += '</div>';
+				}
+			} else if (mode === 'promo') {
+				var pt = String(v.left_promo_title || '').trim();
+				var ptxt = String(v.left_promo_text || '').trim();
+				var plogo = String(v.left_promo_logo || '').trim();
+				if (pt || ptxt) {
+					mainHtml += '<div class="vcc-promocard">';
+					if (plogo) mainHtml += '<div class="vcc-promocard__top"><img class="vcc-promocard__logo" src="' + vccEscapeHtml(vccSafeHref(plogo)) + '" alt="" loading="lazy"></div>';
+					mainHtml += '<div class="vcc-promocard__body">';
+					if (String(v.left_badge || '').trim()) mainHtml += '<span class="vcc-promocard__badge">' + vccInline(v.left_badge) + '</span>';
+					if (pt) mainHtml += '<h3 class="vcc-promocard__title">' + vccInline(pt) + '</h3>';
+					if (ptxt) mainHtml += '<div class="vcc-promocard__text">' + vccBlock(ptxt) + '</div>';
+					if (String(v.left_promo_btn_label || '').trim()) mainHtml += '<div class="vcc-promocard__actions">' + btnHtml(v.left_promo_btn_label, v.left_promo_btn_url, 'dark') + '</div>';
+					mainHtml += '</div></div>';
+				}
+			}
+			/* Правая карточка */
+			var sideHtml = '';
+			var copySrc = String(v.right_copy_text || '').trim();
+			if (card === 'key_card') {
+				var val = String(v.right_value || '').trim();
+				var dim = String(v.right_value_dim || '').trim();
+				var chips = String(v.right_chips || '').split(/\r?\n/).filter(function (l) { return l.trim(); });
+				if (val || chips.length) {
+					var isWin = !!v.right_window;
+					var valueHtml = '';
+					if (val && dim) {
+						/* Три части: до dim / dim / после dim. Edge-дефисы всех частей
+						 * обрезаются, разделитель рисует segSep (моно-дефис) — так
+						 * «3834-uni-opencartclub» с dim=«uni» даёт ровно один дефис
+						 * между частями, как в референсе, при любом вводе. */
+						var at = val.indexOf(dim);
+						if (at > 0) {
+							var head = val.slice(0, at).replace(/-+$/, '');
+							var tail = val.slice(at + dim.length).replace(/^-+/, '');
+							var dimCore = dim.replace(/^-+|-+$/g, '');
+							var segSep = '-';
+							valueHtml = '<span>' + vccEscapeHtml(head) + '</span>' +
+								'<span class="vcc-keycard__sep">' + vccEscapeHtml(segSep) + '</span>' +
+								'<span class="vcc-keycard__seg--dim">' + vccEscapeHtml(dimCore) + '</span>' +
+								'<span class="vcc-keycard__sep">' + vccEscapeHtml(segSep) + '</span>' +
+								'<span>' + vccEscapeHtml(tail) + '</span>';
+						} else {
+							valueHtml = '<span>' + vccEscapeHtml(val) + '</span>';
+						}
+					} else {
+						valueHtml = '<span>' + vccEscapeHtml(val) + '</span>';
+					}
+					/* Авто-источник копии: код без приглушённой середины */
+					if (!copySrc && val) {
+						copySrc = dim && val.indexOf(dim) > 0
+							? val.slice(0, val.indexOf(dim)) + val.slice(val.indexOf(dim) + dim.length)
+							: val;
+					}
+					sideHtml += '<div class="vcc-keycard">';
+					var mL = String(v.right_meta_left || '').trim(), mR = String(v.right_meta_right || '').trim();
+					if (mL || mR) sideHtml += '<div class="vcc-keycard__meta"><span>' + vccInline(mL) + '</span><span>' + vccInline(mR) + '</span></div>';
+					sideHtml += '<div class="vcc-keycard__card' + (isWin ? ' vcc-keycard__card--window' : '') + '">' +
+						'<div class="vcc-keycard__sheen"></div>' +
+						(String(v.right_label || '').trim() ? '<div class="vcc-keycard__label">' + vccInline(v.right_label) + '</div>' : '') +
+						(valueHtml ? '<div class="vcc-keycard__value">' + valueHtml + '</div>' : '') +
+						(isWin ? '<div class="vcc-keycard__window"></div>' : '');
+					if (chips.length) {
+						var chipsHtml = '';
+						for (var ci = 0; ci < chips.length; ci++) {
+							var cp = chips[ci].split('|');
+							var cIcon = String(cp[0] || '').trim().replace(/^fa-/, '');
+							var cText = String(cp[1] !== undefined ? cp[1] : cp[0]).trim();
+							chipsHtml += '<span class="vcc-chip">' + (cIcon && cp.length > 1 ? '<span class="vcc-icon" data-vcc-icon="fa-' + vccEscapeHtml(cIcon) + '"></span> ' : '') + vccInline(cText) + '</span>';
+						}
+						sideHtml += '<div class="vcc-keycard__perforation"><div class="vcc-keycard__footer">' + chipsHtml + '</div></div>';
+					}
+					sideHtml += '</div>';
+					if (v.right_copy && copySrc) {
+						sideHtml += '<div class="vcc-row__sidebtn"><button type="button" class="vcc-copybtn" data-vcc-copy="' + vccEscapeHtml(copySrc) + '">' +
+							'<span class="vcc-icon" data-vcc-icon="fa-clone"></span>' + vccInline(String(v.right_copy_label || 'Скопировать').trim()) + '</button></div>';
+					}
+					sideHtml += '</div>';
+				}
+			} else if (card === 'code') {
+				var codeText = String(v.right_code_text || '').trim();
+				if (codeText) {
+					if (!copySrc) copySrc = codeText;
+					var codeHtml = vccEscapeHtml(codeText).replace(/\r?\n/g, '<br>');
+					sideHtml += '<div class="vcc-codewin">' +
+						'<div class="vcc-codewin__header"><span class="vcc-codewin__dots"><span></span><span></span><span></span></span>' +
+						'<span class="vcc-codewin__title">' + vccEscapeHtml(String(v.right_meta_left || 'window').trim()) + '</span></div>' +
+						'<div class="vcc-codewin__body"><pre><code>' + codeHtml + '</code></pre></div>' +
+						'</div>';
+					if (v.right_copy) {
+						sideHtml += '<div class="vcc-row__sidebtn"><button type="button" class="vcc-copybtn" data-vcc-copy="' + vccEscapeHtml(copySrc) + '">' +
+							'<span class="vcc-icon" data-vcc-icon="fa-clone"></span>' + vccInline(String(v.right_copy_label || 'Скопировать').trim()) + '</button></div>';
+					}
+				}
+			} else if (card === 'metrics') {
+				var mrows = String(v.right_metrics_rows || '').split(/\r?\n/).filter(function (l) { return l.trim(); });
+				if (mrows.length) {
+					sideHtml += '<div class="vcc-hero__visual">';
+					var tmL = String(v.right_meta_left || '').trim(), tmR = String(v.right_meta_right || '').trim();
+					if (tmL || tmR) sideHtml += '<div class="vcc-hero__visual-top">' + (tmL ? '<span class="vcc-hero__visual-kicker">' + vccInline(tmL) + '</span>' : '') + (tmR ? '<span>' + vccEscapeHtml(tmR) + '</span>' : '') + '</div>';
+					sideHtml += '<div class="vcc-hero__visual-metrics">';
+					for (var mi = 0; mi < mrows.length; mi++) {
+						var mp = mrows[mi].split('|');
+						sideHtml += '<article><strong>' + vccInline(String(mp[0] || '').trim()) + '</strong><span>' + vccInline(String(mp[1] !== undefined ? mp[1] : '').trim()) + '</span></article>';
+					}
+					sideHtml += '</div></div>';
+				}
+			}
+			if (!mainHtml && !sideHtml) return '';
+			var rowCls = 'vcc-row' + (v.ratio !== 'equal' ? ' vcc-row--ratio-wide' : '');
+			var html = sectionOpen(secData(v)) + '<div class="' + rowCls + '">';
+			if (mainHtml) html += '<div class="vcc-row__main">' + mainHtml + '</div>';
+			if (sideHtml) html += '<div class="vcc-row__side">' + sideHtml + '</div>';
+			return html + '</div>' + sectionClose();
+		}
+	});
+
 	/* --- key_card: Премиум-карточка ключа (Tom Modern key-card) ---
 	 * Сегменты ключа перечисляются по строкам; флаг dim — приглушённый сегмент.
 	 * Чипы: «текст» + опциональная иконка fa-*. */
@@ -1119,7 +1399,13 @@ Tilda-модель — каждый «широкий» блок экспорти
 			chips: [
 				{ icon: 'fa-check-circle-o', text: 'Активирован' },
 				{ icon: 'fa-calendar-check-o', text: 'До 2027-01-15' }
-			]
+			],
+			body: 'classic',
+			window_line: true,
+			copy: false,
+			copy_label: 'Скопировать',
+			copy_text: '',
+			copy_layout: 'full'
 		},
 		fields: function () {
 			return sectionFields().concat([
@@ -1127,6 +1413,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'meta_left', label: 'Метаданные слева', type: 'text' },
 				{ key: 'meta_right', label: 'Метаданные справа', type: 'text' },
 				{ key: 'card_label', label: 'Метка карточки', type: 'text' },
+				{ key: 'body', label: 'Тело карточки', type: 'select', options: [['classic', 'Классика (инверсия токенов)'], ['window', 'Тёмное окно (сине-тёмный градиент)']] },
+				{ key: 'window_line', label: 'Пунктирная линия с узлами', type: 'checkbox', depends: 'body:window' },
 				{
 					key: 'segs', label: 'Сегменты ключа', type: 'rows-editor', addLabel: 'Добавить сегмент', max: 8,
 					itemFields: [
@@ -1143,7 +1431,12 @@ Tilda-модель — каждый «широкий» блок экспорти
 						{ key: 'text', label: 'Текст', type: 'text' }
 					],
 					itemTitle: function (item) { return item.text || 'чип'; }
-				}
+				},
+				{ key: '_gc', label: 'Кнопка копирования', type: 'group-label' },
+				{ key: 'copy', label: 'Добавить кнопку копирования', type: 'checkbox' },
+				{ key: 'copy_label', label: 'Текст кнопки', type: 'text', depends: 'copy:true' },
+				{ key: 'copy_text', label: 'Что копировать (пусто — код из сегментов)', type: 'textarea', rows: 2, depends: 'copy:true' },
+				{ key: 'copy_layout', label: 'Размещение кнопки', type: 'select', depends: 'copy:true', options: [['full', 'Полноширинная под карточкой'], ['inline', 'В строку под карточкой']] }
 			]);
 		},
 		toHTML: function (data) {
@@ -1162,16 +1455,31 @@ Tilda-модель — каждый «широкий» блок экспорти
 				chipsHtml += '<span class="vcc-chip">' + (cIcon ? '<span class="vcc-icon" data-vcc-icon="fa-' + vccEscapeHtml(cIcon) + '"></span> ' : '') + vccInline(chips[j].text) + '</span>';
 			}
 			if (!valueHtml && !chipsHtml) return '';
+			var isWindow = v.body === 'window';
 			var html = sectionOpen(secData(v)) + '<div class="vcc-keycard">';
 			var mL = String(v.meta_left || '').trim(), mR = String(v.meta_right || '').trim();
 			if (mL || mR) html += '<div class="vcc-keycard__meta"><span>' + vccInline(mL) + '</span><span>' + vccInline(mR) + '</span></div>';
-			html += '<div class="vcc-keycard__card">' +
+			html += '<div class="vcc-keycard__card' + (isWindow ? ' vcc-keycard__card--window' : '') + '">' +
 				'<div class="vcc-keycard__sheen"></div>' +
 				'<div class="vcc-keycard__label">' + vccInline(String(v.card_label || '').trim()) + '</div>' +
 				'<div class="vcc-keycard__value">' + valueHtml + '</div>' +
+				(isWindow && v.window_line !== false ? '<div class="vcc-keycard__window"></div>' : '') +
 				(chipsHtml ? '<div class="vcc-keycard__perforation"><div class="vcc-keycard__footer">' + chipsHtml + '</div></div>' : '') +
-				'</div></div>' + sectionClose();
-			return html;
+				'</div>';
+			if (v.copy) {
+				var copySrc = String(v.copy_text || '').trim();
+				if (!copySrc) {
+					/* Авто-источник: неприглушённые сегменты через разделитель */
+					var parts = [];
+					for (var s = 0; s < segs.length; s++) { if (!segs[s].dim) parts.push(String(segs[s].value).trim()); }
+					copySrc = parts.join(sep);
+				}
+				if (copySrc) {
+					html += '<div class="vcc-row__sidebtn"><button type="button" class="vcc-copybtn' + (v.copy_layout === 'inline' ? ' vcc-copybtn--inline' : '') + '" data-vcc-copy="' + vccEscapeHtml(copySrc) + '">' +
+						'<span class="vcc-icon" data-vcc-icon="fa-clone"></span>' + vccInline(String(v.copy_label || 'Скопировать').trim()) + '</button></div>';
+				}
+			}
+			return html + '</div>' + sectionClose();
 		}
 	});
 

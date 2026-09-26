@@ -331,6 +331,17 @@
 	function blockForm(block) {
 		var def = BlockRegistry.get(block.type);
 		var body = el('div', 'vcc-block__body');
+		/* Живой пример (0.10.2): рендер текущего блока под формой. Селекторы
+		 * (размер, вид, число колонок) перерисовывают его мгновенно; текстовые
+		 * поля — по смене (input не перехватываем — DOM формы не трогаем). */
+		var liveBody = null;
+		var renderLive = function () {
+			if (!liveBody) return;
+			try {
+				liveBody.innerHTML = blockPreviewHtml(block);
+			} catch (e) { liveBody.innerHTML = ''; }
+			if (window.VccSection && typeof window.VccSection.applyTokensToDom === 'function') window.VccSection.applyTokensToDom();
+		};
 		/* Правки полей — тихие (без перестройки DOM, фокус сохраняется);
 		   чекпойнт undo ставится один раз при входе в редактирование. */
 		var onChange = function (key, value) {
@@ -339,6 +350,7 @@
 				var sec = JSON.parse(JSON.stringify(block.data.sec || {}));
 				sec[key.slice(4)] = value;
 				VccStore.updateBlockSilent(block.id, { sec: sec });
+				renderLive();
 				return;
 			}
 			/* Таблица: заголовок-колонка — элемент массива data.headers */
@@ -352,8 +364,11 @@
 			patch[key] = value;
 			VccStore.updateBlockSilent(block.id, patch);
 			/* Смена числа колонок таблицы перестраивает набор полей-ячеек;
-			 * смена вида (style) показывает/прячет зависимые поля (depends: 'style:vs') */
+			 * смена вида (style) показывает/прячет зависимые поля (depends: 'key:value') */
 			if (block.type === 'table' && (key === 'cols' || key === 'style')) setTimeout(refreshEditor, 0);
+			/* Зависимые поля (виды карточек/панелей) — перестроить форму */
+			if (key === 'visual' || key === 'left_mode' || key === 'right_card' || key === 'copy' || key === 'right_copy' || key === 'body') setTimeout(refreshEditor, 0);
+			renderLive();
 		};
 		/* Поля могут быть функцией (пикеры шорткодов зависят от каталога
 		   пресета — он может появиться/обновиться в любой момент; таблица
@@ -367,6 +382,13 @@
 			}
 			body.appendChild(makeField(fieldDef, block, onChange));
 		});
+		/* Живой пример — в конец формы (контракт: .vcc-live) */
+		var live = el('div', 'vcc-live');
+		live.appendChild(el('div', 'vcc-live__bar', 'Живой пример'));
+		liveBody = el('div', 'vcc-live__body vcc-content');
+		live.appendChild(liveBody);
+		body.appendChild(live);
+		renderLive();
 		return body;
 	}
 
