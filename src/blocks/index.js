@@ -54,7 +54,7 @@
 			var tag = data.ordered ? 'ol' : 'ul';
 			var lines = String(data.items || '').split(/\r?\n/).filter(function (l) { return l.trim() !== ''; });
 			if (!lines.length) return '';
-			var html = '<' + tag + ' class="vcc-list">';
+			var html = '<' + tag + ' class="vcc-list' + (data.ordered ? ' vcc-list--ordered' : '') + '">';
 			for (var i = 0; i < lines.length; i++) {
 				html += '<li>' + vccInline(lines[i]) + '</li>';
 			}
