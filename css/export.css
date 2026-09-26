@@ -516,14 +516,17 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-btn .vcc-icon--inline,
 .vcc-btn .vcc-icon { background: transparent; border-radius: 0; color: inherit; height: 16px; width: 16px; font-size: 14px; }
 
-/* --- Иконка (span -> i рантаймом темы): квадратный бейдж палитры --- */
+/* --- Иконка (span -> i рантаймом темы): тихий квадрат донора (0.10.4).
+ * Референс features: бокс 40×40, фон --mp-bg-subtle, глиф --mp-text-muted,
+ * прижата влево вместе с текстом карточки. Бывшая заливка палитрой
+ * выглядела «огромной цветной плашкой» — убрана. */
 .vcc-icon {
 	align-items: center;
-	background: var(--mp-primary, #8C9D93);
+	background: var(--mp-bg-subtle, #f8fafc);
 	border-radius: 0;
-	color: var(--mp-text-inverse, #ffffff);
+	color: var(--mp-text-muted, #64748B);
 	display: inline-flex;
-	font-size: 17px;
+	font-size: 16px;
 	height: 40px;
 	justify-content: center;
 	width: 40px;
@@ -639,8 +642,12 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 	padding: 24px;
 	text-align: left;
 }
-.vcc-section__head--center + .vcc-features .vcc-feature { text-align: center; }
-.vcc-section__head--center + .vcc-features .vcc-feature .vcc-icon { margin-bottom: 14px; }
+/* Карточки фич ВСЕГДА прижаты влево — как у донора: иконка и текст слева,
+ * даже когда заголовок секции по центру (центрированный ряд карточек с
+ * центрированной иконкой — не референс). */
+.vcc-feature { text-align: left; }
+.vcc-section__head--center + .vcc-features .vcc-feature { text-align: left; }
+.vcc-feature .vcc-icon { margin-bottom: 16px; }
 .vcc-feature__icon { margin-bottom: 0; }
 .vcc-feature__title { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; margin: 16px 0 8px; text-transform: uppercase; }
 .vcc-feature__text { color: var(--mp-text-muted, #64748B); font-size: 14px; }
@@ -920,6 +927,8 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 	padding: 14px 16px;
 }
 .vcc-badge .vcc-icon { flex: 0 0 auto; height: 40px; width: 40px; font-size: 17px; }
+/* Тёмная тема: тихий квадрат донора переворачивается токенами */
+[data-theme="dark"] .vcc-icon { background: var(--mp-bg-hover, #38343E); color: var(--mp-text-muted, #64748B); }
 .vcc-badge__title { color: var(--mp-text-main, #2D3748); display: block; font-weight: 600; }
 .vcc-badge__text { color: var(--mp-text-light, #94A3B8); display: block; font-size: 13px; }
 
