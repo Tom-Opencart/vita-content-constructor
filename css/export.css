@@ -1378,15 +1378,23 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
  * фиксированные цвета окна — часть артефакта, как у code_window) --- */
 .vcc-keycard__card--window {
 	background: linear-gradient(135deg, var(--vita-window-1, #1A2837) 0%, var(--vita-window-2, #182437) 55%, var(--vita-window-3, #14302F) 100%);
+	/* Окно — артефакт с фиксированным градиентом в ОБЕИХ темах, поэтому и текст
+	 * фиксированный белый: --mp-text-inverse в тёмной теме переворачивается в
+	 * тёмный и делает код купона невидимым на синем градиенте. */
+	color: var(--vita-window-text, #FFFFFF);
 }
 .vcc-keycard__card--window .vcc-keycard__label { color: var(--mp-keycard-amber, #E8B872); }
 /* В режиме окна пунктир уже рисует __window (линия с выемками) — перфорация
  * над чипами свою линию не дублирует */
 .vcc-keycard__card--window .vcc-keycard__perforation { border-top: 0; }
-/* Тёмная тема: выемки заливаются фоном карточки страницы, чтобы читаться
- * выемкой (круг на краю окна сливается с окружением). */
+/* Тёмная тема: выемки заливаются фоном СТРАНИЦЫ под карточкой (--mp-bg-body),
+ * чтобы читаться вырезом (круг на краю окна сливается с окружением).
+ * --mp-bg-hover здесь давал серые кляксы: он светлее фона страницы. */
 [data-theme="dark"] .vcc-keycard__window::before,
-[data-theme="dark"] .vcc-keycard__window::after { background: var(--mp-bg-hover, #38343E); }
+[data-theme="dark"] .vcc-keycard__window::after { background: var(--mp-bg-body, #221F24); }
+/* Чипы на фиксированно-тёмном окне: тёмное правило даёт чёрные бордеры —
+ * на синем градиенте они невидимы; внутри окна бордер всегда светлый. */
+[data-theme="dark"] .vcc-keycard__card--window .vcc-chip { border-color: rgba(255, 255, 255, 0.22); }
 /* Выемки купона (0.10.4, замер донора: диаметр ~16px, глубина 9px, центр на
  * пунктире). Механика донора: тёмное тело тянется до КРАЯ карточки, белые
  * круги стоят центроном на краю, внешняя половина срезается overflow:hidden
