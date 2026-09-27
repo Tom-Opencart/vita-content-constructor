@@ -2,7 +2,9 @@
 Вита — Конструктор контента · core/markdown.js
 Мини-markdown для экспортного HTML: жирный, курсив, `код`,
 ссылки, спойлеры-соглашения [text](agree:ID), кнопки-формы
-[text](form:ID) и акцент ==текст== (0.7.0), списки в поле.
+[text](form:ID) и акцент ==текст== (0.7.0), списки в поле,
+заголовки ##/###/#### (0.10.10): vccHeadingHtml с нейтральным тегом
+ * и классами vcc-heading--h2/h3/h4 блока «Заголовок».
 Безопасность: HTML во входе экранируется всегда, разметка
 добавляется только сгенерированная. URL-схемы http/https/agree/form.
 ============================================================ */
@@ -58,10 +60,20 @@ function vccInline(text) {
 }
 
 /*
- * Многострочный текст: абзацы, маркированные/нумерованные списки.
+ * Многострочный текст: абзацы, маркированные/нумерованные списки,
+ * заголовки (0.10.10): строки "## ..." / "### ..." / "#### ..." (до трёх
+ * пробелов отступа, как в классическом markdown) превращаются в
+ * <div class="vcc-heading vcc-heading--hN"> — существующие классы-контракты
+ * блока «Заголовок», CSS уже несёт размеры 26/21/18px. НЕЙТРАЛЬНЫЙ тег,
+ * не h2/h3/h4: правило 0.10.4 (SEO) — в колонках и текстовых полях
+ * H-теги не плодятся; настоящий тег даёт блок «Заголовок» с полем
+ * «SEO-тег». Одиночный "#" и "#####"+ не поддерживаются сознательно:
+ * один H1 на страницу ставит hero, а h5/h6 в контенте не используются.
  * Строки, начинающиеся с "- " или "* ", склеиваются в <ul>,
  * "1. " и т.п. — в <ol>, пустая строка разделяет абзацы.
  */
+var VCC_MD_HEADING_RE = /^(#{2,4})\s+(\S.*)$/;
+
 function vccBlock(text) {
 	var lines = String(text == null ? '' : text).split(/\r?\n/);
 	var out = [];
@@ -91,9 +103,16 @@ function vccBlock(text) {
 	for (var i = 0; i < lines.length; i++) {
 		var line = lines[i];
 		var trimmed = line.trim();
+		var headingMatch = trimmed.match(VCC_MD_HEADING_RE);
 		var ulMatch = trimmed.match(/^[-*]\s+(.*)$/);
 		var olMatch = trimmed.match(/^\d+[.)]\s+(.*)$/);
-		if (ulMatch) {
+		if (headingMatch) {
+			flushPara();
+			flushList();
+			/* Закрывающие решётки («## Текст ##») срезаются — классический markdown. */
+			var headText = headingMatch[2].replace(/\s+#+\s*$/, '');
+			out.push(vccHeadingHtml('div', 'vcc-heading vcc-heading--h' + headingMatch[1].length, vccInline(headText)));
+		} else if (ulMatch) {
 			flushPara();
 			if (listType !== 'ul') { flushList(); listType = 'ul'; listItems = []; }
 			listItems.push(ulMatch[1]);

@@ -151,6 +151,24 @@ ok(!bad.url && !!bad.warn, 'video: script-код → warning, url пуст');
 const foreign = VccVideo.resolve('https://player.jwplatform.com/xyz');
 ok(!foreign.url, 'video: чужой хост → без embed');
 
+/* --- 6) Markdown-заголовки ##/###/#### (0.10.10) --- */
+const block = global.__T.block;
+const mdHtml = block('## Второй уровень\n\nТекст после заголовка.\n\n### Третий\n#### Четвёртый\nЕщё абзац.');
+ok(mdHtml.indexOf('<div class="vcc-heading vcc-heading--h2">Второй уровень</div>') !== -1, 'md-заголовок: ## → vcc-heading--h2');
+ok(mdHtml.indexOf('<div class="vcc-heading vcc-heading--h3">Третий</div>') !== -1, 'md-заголовок: ### → vcc-heading--h3');
+ok(mdHtml.indexOf('<div class="vcc-heading vcc-heading--h4">Четвёртый</div>') !== -1, 'md-заголовок: #### → vcc-heading--h4');
+ok(mdHtml.indexOf('<h2>') === -1 && mdHtml.indexOf('<h3>') === -1 && mdHtml.indexOf('<h4>') === -1, 'md-заголовок: нейтральный тег (SEO-правило 0.10.4)');
+ok(mdHtml.indexOf('Ещё абзац') !== -1 && mdHtml.indexOf('<p>Текст после заголовка.</p>') !== -1, 'md-заголовок: абзацы после заголовков не теряются');
+ok(block('# Не заголовок').indexOf('Не заголовок') !== -1 && block('# Не заголовок').indexOf('vcc-heading') === -1, 'md-заголовок: одиночный # не поддерживается (H1 только у hero)');
+ok(block('##### Пять').indexOf('vcc-heading') === -1 && block('##### Пять').indexOf('Пять') !== -1, 'md-заголовок: #####+ остаётся абзацем');
+ok(block('  ### Отступ три пробела').indexOf('vcc-heading--h3') !== -1, 'md-заголовок: до 3 пробелов отступа допустимо');
+ok(block('### Трейлинг ###').indexOf('Трейлинг') !== -1 && block('### Трейлинг ###').indexOf('#') === -1, 'md-заголовок: закрывающие ### срезаны');
+ok(block('## ==Акцент== и **жирный**').indexOf('vcc-accent') !== -1 && block('## ==Акцент== и **жирный**').indexOf('<strong>') !== -1, 'md-заголовок: внутри заголовка работает инлайн-разметка');
+ok(block('## <script>alert(1)</script>').indexOf('<script>') === -1 && block('## <script>alert(1)</script>').indexOf('&lt;script&gt;') !== -1, 'md-заголовок: HTML в тексте экранирован');
+ok(block('## № 1: Раз — два').indexOf('№ 1: Раз — два') !== -1, 'md-заголовок: текст с цифрами и тире сохранён');
+ok(block('- список\n## Заголовок\n- ещё').indexOf('vcc-heading') !== -1 && block('- список\n## Заголовок\n- ещё').indexOf('<li>ещё</li>') !== -1, 'md-заголовок: списки вокруг заголовка корректно разбиваются');
+ok(block('no # hash here').indexOf('vcc-heading') === -1, 'md-заголовок: # внутри строки не заголовок');
+
 console.log('');
 if (fails) { console.log('SMOKE FAILED: ' + fails); process.exit(1); }
 console.log('SMOKE PASSED');

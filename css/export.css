@@ -1157,6 +1157,10 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 .vcc-columns--c4 { grid-template-columns: repeat(4, 1fr); }
 .vcc-column p { margin: 0 0 12px; }
 .vcc-column p:last-child { margin-bottom: 0; }
+/* Заголовки markdown (##/###/####) внутри колонок: обнуляем верхний
+ * отступ vcc-heading (32px) — в колонке заголовок стоит первым и должен
+ * совпадать по базовой линии с первым абзацем соседней колонки. */
+.vcc-column > .vcc-heading:first-child { margin-top: 0; }
 
 /* --- Адаптив: один паттерн, сетки схлопываются в колонку --- */
 @media (max-width: 767px) {
