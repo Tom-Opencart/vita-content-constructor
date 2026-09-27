@@ -5060,6 +5060,9 @@ var VccImport = (function () {
 			if (btn) btn.disabled = !VccStore.canUndo();
 		});
 		renderPresetButton();
+		/* Начальное состояние undo-кнопки: subscribe срабатывает только на
+		 * emit (мутации), при загрузке страницы историю нужно оценить сразу. */
+		$('#vcc-undo').disabled = !VccStore.canUndo();
 		render(VccStore.currentProject());
 	}
 
