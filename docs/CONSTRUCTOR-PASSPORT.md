@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.10.10 · контракт: vcc-v1
+Версия конструктора: 0.10.11 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -69,12 +69,12 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn1_url` — строка
 - `btn1_style` — одно из значений: dark | primary | secondary | ghost | link
 - `btn1_size` — одно из значений: md | sm | lg | full
-- `btn1_icon` — строка
+- `btn1_icon` — icon-picker
 - `btn1_icon_after` — булево (true/false)
 - `btn2_label` — строка
 - `btn2_url` — строка
 - `btn2_size` — одно из значений: md | sm | lg | full
-- `btn2_icon` — строка
+- `btn2_icon` — icon-picker
 - `btn2_icon_after` — булево (true/false)
 - `note` — строка
 - `note_lined` — булево (true/false)
@@ -206,12 +206,12 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn1_url` — строка
 - `btn1_bg` — одно из значений: dark | primary | secondary | ghost | link
 - `btn1_size` — одно из значений: md | sm | lg | full
-- `btn1_icon` — строка
+- `btn1_icon` — icon-picker
 - `btn1_icon_after` — булево (true/false)
 - `btn2_label` — строка
 - `btn2_url` — строка
 - `btn2_size` — одно из значений: md | sm | lg | full
-- `btn2_icon` — строка
+- `btn2_icon` — icon-picker
 - `btn2_icon_after` — булево (true/false)
 - `_hint` — hint
 Пример:
@@ -319,7 +319,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_style` — одно из значений: dark | primary | ghost | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 - `_gc` — group-label
 - `copy` — булево (true/false)
@@ -345,7 +345,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `left_btn1_url` — строка
 - `left_btn1_style` — одно из значений: dark | primary | ghost | link
 - `left_btn1_size` — одно из значений: md | sm | lg | full
-- `left_btn1_icon` — строка
+- `left_btn1_icon` — icon-picker
 - `left_btn1_icon_after` — булево (true/false)
 - `left_btn2_label` — строка
 - `left_btn2_url` — строка
@@ -358,7 +358,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `left_promo_btn_label` — строка
 - `left_promo_btn_url` — строка
 - `left_promo_btn_size` — одно из значений: md | sm | lg | full
-- `left_promo_btn_icon` — строка
+- `left_promo_btn_icon` — icon-picker
 - `left_promo_btn_icon_after` — булево (true/false)
 - `_hr` — group-label
 - `right_card` — одно из значений: key_card | code | metrics | none

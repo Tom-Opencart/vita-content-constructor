@@ -219,12 +219,12 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text' },
 				{ key: 'btn1_style', label: 'Кнопка 1 — фон', type: 'select', options: [['dark', 'Тёмная (как референс)'], ['primary', 'Фирменная (палитра)'], ['secondary', 'Вторичная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
 				{ key: 'btn1_size', label: 'Кнопка 1 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка', type: 'icon-picker' },
 				{ key: 'btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox' },
 				{ key: 'btn2_label', label: 'Кнопка 2 — текст (необязательно)', type: 'text' },
 				{ key: 'btn2_url', label: 'Кнопка 2 — ссылка (или form:ID)', type: 'text' },
 				{ key: 'btn2_size', label: 'Кнопка 2 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-				{ key: 'btn2_icon', label: 'Кнопка 2 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn2_icon', label: 'Кнопка 2 — иконка', type: 'icon-picker' },
 				{ key: 'btn2_icon_after', label: 'Кнопка 2 — иконка после текста', type: 'checkbox' },
 			{ key: 'note', label: 'Строка доверия под кнопками', type: 'text' },
 			{ key: 'note_lined', label: 'Линия-разделитель над строкой доверия', type: 'checkbox' },
@@ -425,7 +425,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{
 					key: 'items', label: 'Карточки', type: 'rows-editor', addLabel: 'Добавить преимущество', max: 8,
 					itemFields: [
-						{ key: 'icon', label: 'Иконка FontAwesome 4 (fa-truck, fa-shield…)', type: 'text', placeholder: 'truck' },
+						{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
 						{ key: 'title', label: 'Заголовок', type: 'text' },
 						{ key: 'text', label: 'Описание', type: 'textarea', rows: 3, markdown: true }
 					],
@@ -575,7 +575,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 					key: 'items', label: 'Шаги', type: 'rows-editor', addLabel: 'Добавить шаг', max: 8,
 					itemFields: [
 						{ key: 'label', label: 'Подпись над названием (например, год)', type: 'text', placeholder: '2024' },
-						{ key: 'icon', label: 'Иконка (необязательно)', type: 'text', placeholder: 'check' },
+						{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
 						{ key: 'title', label: 'Название шага', type: 'text' },
 						{ key: 'text', label: 'Описание', type: 'textarea', rows: 2, markdown: true }
 					],
@@ -836,12 +836,12 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'btn1_url', label: 'Кнопка 1 — ссылка (или form:ID для формы)', type: 'text' },
 				{ key: 'btn1_bg', label: 'Кнопка 1 — фон', type: 'select', options: [['dark', 'Тёмная (как референс)'], ['primary', 'Фирменная (палитра)'], ['secondary', 'Вторичная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
 				{ key: 'btn1_size', label: 'Кнопка 1 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn1_icon', label: 'Кнопка 1 — иконка', type: 'icon-picker' },
 				{ key: 'btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox' },
 				{ key: 'btn2_label', label: 'Кнопка 2 — текст (необязательно)', type: 'text' },
 				{ key: 'btn2_url', label: 'Кнопка 2 — ссылка (или form:ID)', type: 'text' },
 				{ key: 'btn2_size', label: 'Кнопка 2 — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-				{ key: 'btn2_icon', label: 'Кнопка 2 — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn2_icon', label: 'Кнопка 2 — иконка', type: 'icon-picker' },
 				{ key: 'btn2_icon_after', label: 'Кнопка 2 — иконка после текста', type: 'checkbox' },
 				{ key: '_hint', label: 'Чтобы кнопка открыла форму магазина, укажите ссылку вида form:ID (ID формы — из модуля «Вита — Формы»), а на странице добавьте блок «Форма (спец-метка)».', type: 'hint' }
 			]);
@@ -882,7 +882,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{
 					key: 'items', label: 'Способы связи', type: 'rows-editor', addLabel: 'Добавить контакт', max: 8,
 					itemFields: [
-						{ key: 'icon', label: 'Иконка (fa-phone, fa-envelope-o…)', type: 'text' },
+						{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
 						{ key: 'label', label: 'Подпись', type: 'text' },
 						{ key: 'value', label: 'Значение', type: 'text' },
 						{ key: 'url', label: 'Ссылка (tel:, mailto:, https://)', type: 'text' }
@@ -931,7 +931,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{
 					key: 'items', label: 'Ссылки', type: 'rows-editor', addLabel: 'Добавить соцсеть', max: 10,
 					itemFields: [
-						{ key: 'icon', label: 'Иконка (fa-telegram, fa-vk, fa-instagram…)', type: 'text' },
+						{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
 						{ key: 'url', label: 'Ссылка', type: 'text' },
 						{ key: 'label', label: 'Название', type: 'text' }
 					],
@@ -981,7 +981,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{
 					key: 'items', label: 'Бейджи', type: 'rows-editor', addLabel: 'Добавить бейдж', max: 8,
 					itemFields: [
-						{ key: 'icon', label: 'Иконка', type: 'text' },
+						{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
 						{ key: 'title', label: 'Заголовок', type: 'text' },
 						{ key: 'text', label: 'Пояснение (необязательно)', type: 'text' }
 					],
@@ -1244,7 +1244,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'btn_url', label: 'Кнопка — ссылка (или form:ID)', type: 'text' },
 				{ key: 'btn_style', label: 'Кнопка — фон', type: 'select', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
 				{ key: 'btn_size', label: 'Кнопка — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-				{ key: 'btn_icon', label: 'Кнопка — иконка (FA-имя без fa-)', type: 'text', placeholder: 'arrow-right' },
+				{ key: 'btn_icon', label: 'Кнопка — иконка', type: 'icon-picker' },
 				{ key: 'btn_icon_after', label: 'Кнопка — иконка после текста', type: 'checkbox' },
 				{ key: '_gc', label: 'Кнопка копирования', type: 'group-label' },
 				{ key: 'copy', label: 'Добавить кнопку копирования', type: 'checkbox' },
@@ -1315,7 +1315,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'left_btn1_label', label: 'Кнопка 1 — текст', type: 'text', depends: 'left_mode:text' },
 				{ key: 'left_btn1_url', label: 'Кнопка 1 — ссылка (или form:ID)', type: 'text', depends: 'left_mode:text' },					{ key: 'left_btn1_style', label: 'Кнопка 1 — фон', type: 'select', depends: 'left_mode:text', options: [['dark', 'Тёмная нейтральная'], ['primary', 'Фирменная (палитра)'], ['ghost', 'Контурная'], ['link', 'Текстовая ссылка']] },
 					{ key: 'left_btn1_size', label: 'Кнопка 1 — размер', type: 'select', depends: 'left_mode:text', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-					{ key: 'left_btn1_icon', label: 'Кнопка 1 — иконка (FA-имя без fa-)', type: 'text', depends: 'left_mode:text', placeholder: 'arrow-right' },
+					{ key: 'left_btn1_icon', label: 'Кнопка 1 — иконка', type: 'icon-picker' },
 					{ key: 'left_btn1_icon_after', label: 'Кнопка 1 — иконка после текста', type: 'checkbox', depends: 'left_mode:text' },
 				{ key: 'left_btn2_label', label: 'Кнопка 2 — текст', type: 'text', depends: 'left_mode:text' },
 				{ key: 'left_btn2_url', label: 'Кнопка 2 — ссылка', type: 'text', depends: 'left_mode:text' },
@@ -1328,7 +1328,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{ key: 'left_promo_btn_label', label: 'Кнопка — текст', type: 'text', depends: 'left_mode:promo' },
 				{ key: 'left_promo_btn_url', label: 'Кнопка — ссылка (или form:ID)', type: 'text', depends: 'left_mode:promo' },
 				{ key: 'left_promo_btn_size', label: 'Кнопка — размер', type: 'select', depends: 'left_mode:promo', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-				{ key: 'left_promo_btn_icon', label: 'Кнопка — иконка (FA-имя без fa-)', type: 'text', depends: 'left_mode:promo', placeholder: 'arrow-right' },
+				{ key: 'left_promo_btn_icon', label: 'Кнопка — иконка', type: 'icon-picker' },
 				{ key: 'left_promo_btn_icon_after', label: 'Кнопка — иконка после текста', type: 'checkbox', depends: 'left_mode:promo' },
 				{ key: '_hr', label: 'Правая колонка', type: 'group-label' },
 				{ key: 'right_card', label: 'Карточка справа', type: 'select', options: [['key_card', 'Карточка ключа / купон'], ['code', 'Код-окно'], ['metrics', 'Метрики (значение + подпись)'], ['none', 'Без карточки']] },
@@ -1545,7 +1545,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 				{
 					key: 'chips', label: 'Чипы', type: 'rows-editor', addLabel: 'Добавить чип', max: 4,
 					itemFields: [
-						{ key: 'icon', label: 'Иконка FontAwesome (опц.)', type: 'text', placeholder: 'fa-check-circle-o' },
+						{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
 						{ key: 'text', label: 'Текст', type: 'text' }
 					],
 					itemTitle: function (item) { return item.text || 'чип'; }

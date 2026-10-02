@@ -564,6 +564,155 @@ button { font-family: inherit; }
 }
 .vcc-checkbox-row { align-items: center; display: flex; gap: 8px; }
 .vcc-hint { color: var(--mp-text-light, #94A3B8); font-size: 12px; margin-top: 4px; }
+.vcc-hint--warn { color: #B45309; }
+[data-vcc-mode="dark"] .vcc-hint--warn { color: #F0B27A; }
+
+/* ---------- Пикер иконок Font Awesome 4.7 (0.10.11) ---------- */
+.vcc-iconfield { align-items: stretch; display: flex; gap: 6px; }
+.vcc-iconfield__btn {
+	align-items: center;
+	background: var(--mp-bg-surface, #fff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-sm, 2px);
+	color: var(--mp-text-main, #2D3748);
+	cursor: pointer;
+	display: flex;
+	flex: 1;
+	font-family: inherit;
+	font-size: 14px;
+	gap: 9px;
+	min-height: 36px;
+	padding: 7px 10px;
+	text-align: left;
+}
+.vcc-iconfield__btn:hover { border-color: var(--mp-primary, #8C9D93); }
+.vcc-iconfield__btn > i { color: var(--mp-primary, #8C9D93); font-size: 15px; width: 16px; }
+.vcc-iconfield__btn--empty { color: var(--mp-text-light, #94A3B8); }
+.vcc-iconfield__btn--unknown { border-color: #E0A33E; }
+.vcc-iconfield__btn--unknown > i { color: #E0A33E; }
+.vcc-iconfield__name { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; }
+.vcc-iconfield__clear {
+	background: var(--mp-bg-surface, #fff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-sm, 2px);
+	color: var(--mp-text-light, #94A3B8);
+	cursor: pointer;
+	padding: 0 11px;
+}
+.vcc-iconfield__clear:hover:not(:disabled) { border-color: var(--mp-primary, #8C9D93); color: var(--mp-text-main, #2D3748); }
+.vcc-iconfield__clear:disabled { cursor: default; opacity: 0.45; }
+
+.vcc-iconpick { display: none; inset: 0; position: fixed; z-index: 80; }
+.vcc-iconpick.is-open { display: block; }
+.vcc-iconpick__backdrop { background: rgba(15, 23, 42, 0.45); inset: 0; position: absolute; }
+.vcc-iconpick__modal {
+	background: var(--mp-bg-body, #f8fafc);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-lg, 6px);
+	box-shadow: var(--mp-shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.1));
+	display: flex;
+	flex-direction: column;
+	left: 50%;
+	margin: 5vh auto;
+	max-height: 90vh;
+	max-width: 720px;
+	padding: 20px 22px 16px;
+	position: absolute;
+	top: 0;
+	transform: translateX(-50%);
+	width: calc(100% - 32px);
+}
+.vcc-iconpick__head { align-items: center; display: flex; justify-content: space-between; margin-bottom: 12px; }
+.vcc-iconpick__title { font-size: 17px; font-weight: 700; margin: 0; }
+.vcc-iconpick__close {
+	background: none;
+	border: none;
+	color: var(--mp-text-light, #94A3B8);
+	cursor: pointer;
+	font-size: 16px;
+	padding: 6px;
+}
+.vcc-iconpick__close:hover { color: var(--mp-text-main, #2D3748); }
+.vcc-iconpick__search { align-items: center; display: flex; gap: 8px; margin-bottom: 10px; position: relative; }
+.vcc-iconpick__search > i { color: var(--mp-text-light, #94A3B8); left: 10px; position: absolute; }
+.vcc-iconpick__search input {
+	background: var(--mp-bg-surface, #fff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-sm, 2px);
+	color: var(--mp-text-main, #2D3748);
+	flex: 1;
+	font-family: inherit;
+	font-size: 14px;
+	padding: 9px 34px 9px 32px;
+}
+.vcc-iconpick__search input:focus { border-color: var(--mp-primary, #8C9D93); outline: none; }
+.vcc-iconpick__reset {
+	background: none;
+	border: none;
+	color: var(--mp-text-light, #94A3B8);
+	cursor: pointer;
+	padding: 4px;
+	position: absolute;
+	right: 6px;
+}
+.vcc-iconpick__reset:hover { color: var(--mp-text-main, #2D3748); }
+.vcc-iconpick__cats { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.vcc-iconpick__cat {
+	background: var(--mp-bg-surface, #fff);
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: 999px;
+	color: var(--mp-text-muted, #64748B);
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 12px;
+	padding: 4px 11px;
+}
+.vcc-iconpick__cat:hover { border-color: var(--mp-border-hover, #CBD5E1); }
+.vcc-iconpick__cat.is-active {
+	background: var(--mp-primary, #8C9D93);
+	border-color: var(--mp-primary, #8C9D93);
+	color: #fff;
+}
+.vcc-iconpick__grid {
+	border: 1px solid var(--mp-border-color, #E2E8F0);
+	border-radius: var(--mp-radius-sm, 2px);
+	display: grid;
+	flex: 1;
+	gap: 2px;
+	grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+	min-height: 220px;
+	overflow-y: auto;
+	padding: 8px;
+}
+.vcc-iconpick__tile {
+	background: none;
+	border: 1px solid transparent;
+	border-radius: var(--mp-radius-sm, 2px);
+	color: var(--mp-text-muted, #64748B);
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	font-family: inherit;
+	gap: 5px;
+	padding: 9px 4px;
+}
+.vcc-iconpick__tile:hover { background: var(--mp-bg-hover, #F1F5F9); border-color: var(--mp-border-color, #E2E8F0); color: var(--mp-primary, #8C9D93); }
+.vcc-iconpick__tile.is-current { background: var(--mp-bg-hover, #F1F5F9); border-color: var(--mp-primary, #8C9D93); color: var(--mp-primary, #8C9D93); }
+.vcc-iconpick__tile > i { font-size: 17px; }
+.vcc-iconpick__tile > span {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.vcc-iconpick__empty { color: var(--mp-text-light, #94A3B8); font-size: 13px; grid-column: 1 / -1; padding: 26px 10px; text-align: center; }
+.vcc-iconpick__foot { align-items: center; display: flex; justify-content: space-between; margin-top: 12px; }
+.vcc-iconpick__status { color: var(--mp-text-light, #94A3B8); font-size: 12px; }
+@media (max-width: 720px) {
+	.vcc-iconpick__grid { grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); }
+	.vcc-iconpick__modal { padding: 16px; }
+}
 
 /* ---------- Smart-подсказка шорткодов (0.7.2): появляется под textarea,
  * когда пользователь вводит [vita_…] руками; кнопка раскрывает справку ---------- */

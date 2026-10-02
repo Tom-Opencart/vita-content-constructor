@@ -6,7 +6,7 @@
 <title>Вита — Конструктор контента</title>
 <meta name="description" content="Визуальный конструктор контента для темы Вита (OpenCart 3): блоки, экспорт в модуль «Универсальные HTML блоки контента».">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/app.css?v=0.10.10">
+<link rel="stylesheet" href="css/app.css?v=0.10.11">
 <style>
 /* Токены vcc-v1: дефолтная палитра Виты; пресет магазина переопределяет через JS */
 :root {
@@ -293,6 +293,28 @@
 
 <div class="vcc-toasts" id="vcc-toasts"></div>
 
-<script src="js/app.js?v=0.10.10"></script>
+<!-- ============ Пикер иконок Font Awesome 4.7 ============ -->
+<div class="vcc-iconpick" id="vcc-iconpick">
+	<div class="vcc-iconpick__backdrop" id="vcc-iconpick-backdrop"></div>
+	<div class="vcc-iconpick__modal" role="dialog" aria-modal="true" aria-labelledby="vcc-iconpick-title">
+		<div class="vcc-iconpick__head">
+			<h2 class="vcc-iconpick__title" id="vcc-iconpick-title">Выбор иконки</h2>
+			<button type="button" class="vcc-iconpick__close" id="vcc-iconpick-close" title="Закрыть (Esc)"><i class="fa fa-times"></i></button>
+		</div>
+		<div class="vcc-iconpick__search">
+			<i class="fa fa-search"></i>
+			<input type="text" id="vcc-iconpick-search" placeholder="Поиск по имени: shield, truck, vk…" autocomplete="off" spellcheck="false">
+			<button type="button" class="vcc-iconpick__reset" id="vcc-iconpick-reset" title="Сбросить поиск"><i class="fa fa-times-circle-o"></i></button>
+		</div>
+		<div class="vcc-iconpick__cats" id="vcc-iconpick-cats"></div>
+		<div class="vcc-iconpick__grid" id="vcc-iconpick-grid"></div>
+		<div class="vcc-iconpick__foot">
+			<span class="vcc-iconpick__status" id="vcc-iconpick-status"></span>
+			<button type="button" class="vcc-btn vcc-btn--ghost vcc-btn--sm" id="vcc-iconpick-clear"><i class="fa fa-ban"></i> Без иконки</button>
+		</div>
+	</div>
+</div>
+
+<script src="js/app.js?v=0.10.11"></script>
 </body>
 </html>

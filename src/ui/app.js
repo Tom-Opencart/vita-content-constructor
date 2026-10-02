@@ -249,6 +249,9 @@
 	if (def.type === 'tabs-editor') {
 		return makeTabsEditor(def, block, onChange, wrap);
 	}
+	if (def.type === 'icon-picker') {
+		return makeIconPicker(def, block, onChange, wrap);
+	}
 	var input = def.type === 'textarea' ? el('textarea', 'vcc-textarea') : el('input', 'vcc-input');
 		if (def.type === 'textarea') input.rows = def.rows || 4;
 		if (def.type === 'number') { input.type = 'number'; input.min = 0; input.step = 1; }
@@ -263,6 +266,241 @@
 		 * [vita_…] руками — показываем мини-справку по синтаксису. */
 		if (def.markdown || def.type === 'textarea') {
 			attachShortcodeHint(wrap, input);
+		}
+		return wrap;
+	}
+
+/* ---------- Пикер иконок Font Awesome 4.7 (0.10.11) ----------
+	 * Поле icon-picker закрывает 22 текстовых поля «Иконка (FA-имя)», где
+	 * пользователь был обязан знать имя глифа наизусть, а опечатка давала
+	 * молчаливую пустоту. Список — window.VCC_FA_GROUPS, собранный из CSS
+	 * темы (build/gen_fa_icons.py): пикер не может предложить иконку,
+	 * которой на витрине нет. Значение остаётся ГОЛЫМ именем ('truck') —
+	 * ровно то, что принимает iconHtml(), поэтому контракт vcc-v1, экспорт
+	 * и санитайзер не затрагиваются. */
+	var ICON_KEEP = /[^a-z0-9-]/g;
+
+	function normalizeIcon(name) {
+		return String(name == null ? '' : name).trim().toLowerCase()
+			.replace(/^fa-/, '').replace(ICON_KEEP, '');
+	}
+	/* Хук для смоук-теста: normalizeIcon живёт во внутреннем IIFE, а тест
+	 * цепляется к бандлу снаружи (как window.vccToast выше). */
+	window.vccNormalizeIcon = normalizeIcon;
+
+	/* Индекс имён: плоский список + карта «иконка есть в FA 4.7?» */
+	var iconIndex = null;
+	function getIconIndex() {
+		if (iconIndex) return iconIndex;
+		iconIndex = { groups: [], flat: [], names: {} };
+		(window.VCC_FA_GROUPS || []).forEach(function (g, gi) {
+			var icons = (g.icons || []).map(normalizeIcon).filter(Boolean);
+			iconIndex.groups.push({ title: g.title || ('Группа ' + (gi + 1)), icons: icons });
+			icons.forEach(function (n) {
+				if (!(n in iconIndex.names)) { iconIndex.names[n] = true; iconIndex.flat.push(n); }
+			});
+		});
+		return iconIndex;
+	}
+
+	function iconTile(name, current) {
+		var tile = el('button', 'vcc-iconpick__tile');
+		tile.type = 'button';
+		tile.title = name;
+		tile.setAttribute('data-icon', name);
+		tile.innerHTML = '<i class="fa fa-' + name + '"></i><span>' + name + '</span>';
+		if (name === current) tile.classList.add('is-current');
+		return tile;
+	}
+
+	var iconState = { query: '', cat: '', current: '', target: null };
+
+	/* Единственный рендер сетки: и поиск, и категория ведут в него */
+	function paintIconGrid() {
+		var grid = $('#vcc-iconpick-grid');
+		var status = $('#vcc-iconpick-status');
+		if (!grid || !status) return;
+		var idx = getIconIndex();
+		var q = iconState.query;
+		var names;
+		if (q) {
+			names = idx.flat.filter(function (n) { return n.indexOf(q) !== -1; });
+		} else if (iconState.cat) {
+			var g = idx.groups.filter(function (x) { return x.title === iconState.cat; })[0];
+			names = g ? g.icons.slice() : [];
+		} else {
+			names = idx.flat.slice();
+		}
+
+		grid.innerHTML = '';
+		if (!names.length) {
+			grid.appendChild(el('div', 'vcc-iconpick__empty',
+				'Ничего не найдено — проверьте имя или сбросьте поиск.'));
+		} else {
+			var frag = document.createDocumentFragment();
+			names.forEach(function (n) { frag.appendChild(iconTile(n, iconState.current)); });
+			grid.appendChild(frag);
+		}
+		status.textContent = q
+			? ('Найдено ' + names.length + ' из ' + idx.flat.length)
+			: ('Иконок в Font Awesome 4.7: ' + idx.flat.length);
+	}
+
+	function openIconPicker(onPick, current) {
+		var root = $('#vcc-iconpick');
+		if (!root) return;
+		var cats = $('#vcc-iconpick-cats');
+		var search = $('#vcc-iconpick-search');
+		var idx = getIconIndex();
+
+		iconState.target = onPick;
+		iconState.query = '';
+		iconState.cat = '';
+		iconState.current = normalizeIcon(current);
+
+		/* Категории строятся один раз — список статичный (собран при сборке) */
+		if (cats && !cats.childNodes.length) {
+			var all = el('button', 'vcc-iconpick__cat is-active', 'Все');
+			all.type = 'button';
+			all.setAttribute('data-cat', '');
+			cats.appendChild(all);
+			idx.groups.forEach(function (g) {
+				var chip = el('button', 'vcc-iconpick__cat', g.title);
+				chip.type = 'button';
+				chip.setAttribute('data-cat', g.title);
+				cats.appendChild(chip);
+			});
+		}
+		if (cats) {
+			cats.querySelectorAll('.vcc-iconpick__cat').forEach(function (c) {
+				c.classList.toggle('is-active', (c.getAttribute('data-cat') || '') === '');
+			});
+		}
+		if (search) search.value = '';
+
+		paintIconGrid();
+		root.classList.add('is-open');
+		setTimeout(function () { if (search) search.focus(); }, 30);
+	}
+
+	function closeIconPicker() {
+		var root = $('#vcc-iconpick');
+		if (root) root.classList.remove('is-open');
+		iconState.target = null;
+	}
+
+	function commitIcon(value) {
+		if (!iconState.target) return;
+		iconState.target(normalizeIcon(value));
+		closeIconPicker();
+	}
+
+	/* Одноразовая обвязка модалки: делегаты, Esc, кнопки */
+	function initIconPickerShell() {
+		var root = $('#vcc-iconpick');
+		if (!root || root._vccIconShell) return;
+		root._vccIconShell = 1;
+		var grid = $('#vcc-iconpick-grid');
+		var cats = $('#vcc-iconpick-cats');
+		var search = $('#vcc-iconpick-search');
+
+		if (grid) {
+			grid.addEventListener('click', function (e) {
+				var tile = e.target.closest('.vcc-iconpick__tile');
+				if (tile) commitIcon(tile.getAttribute('data-icon'));
+			});
+		}
+		if (cats) {
+			cats.addEventListener('click', function (e) {
+				var chip = e.target.closest('.vcc-iconpick__cat');
+				if (!chip) return;
+				iconState.cat = chip.getAttribute('data-cat') || '';
+				/* Поиск и категория несовместимы: имена ищутся по всему списку,
+				 * иначе «truck» не находился бы в другой группе */
+				if (iconState.cat) iconState.query = '';
+				if (search) search.value = '';
+				cats.querySelectorAll('.vcc-iconpick__cat').forEach(function (c) {
+					c.classList.toggle('is-active', c === chip);
+				});
+				paintIconGrid();
+			});
+		}
+		if (search) {
+			search.addEventListener('input', function () {
+				iconState.query = normalizeIcon(search.value);
+				if (iconState.query) {
+					iconState.cat = '';
+					if (cats) {
+						cats.querySelectorAll('.vcc-iconpick__cat').forEach(function (c) {
+							c.classList.toggle('is-active', (c.getAttribute('data-cat') || '') === '');
+						});
+					}
+				}
+				paintIconGrid();
+			});
+		}
+		var map = {
+			'#vcc-iconpick-backdrop': closeIconPicker,
+			'#vcc-iconpick-close': closeIconPicker,
+			'#vcc-iconpick-reset': function () { if (search) search.value = ''; iconState.query = ''; paintIconGrid(); },
+			'#vcc-iconpick-clear': function () { commitIcon(''); }
+		};
+		Object.keys(map).forEach(function (sel) {
+			var node = $(sel);
+			if (node) node.addEventListener('click', map[sel]);
+		});
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && root.classList.contains('is-open')) closeIconPicker();
+		});
+	}
+
+	function makeIconPicker(def, block, onChange, wrap) {
+		var idx = getIconIndex();
+		var raw = valOf(block, def);
+		var current = normalizeIcon(raw);
+		var known = !current || !!idx.names[current];
+
+		var row = el('div', 'vcc-iconfield');
+		var btn = el('button', 'vcc-iconfield__btn');
+		btn.type = 'button';
+		if (current && known) {
+			btn.innerHTML = '<i class="fa fa-' + current + '"></i><span class="vcc-iconfield__name">' + current + '</span>';
+		} else if (current) {
+			btn.classList.add('vcc-iconfield__btn--unknown');
+			btn.innerHTML = '<i class="fa fa-question-circle-o"></i><span class="vcc-iconfield__name">' + current + '</span>';
+		} else {
+			btn.classList.add('vcc-iconfield__btn--empty');
+			btn.innerHTML = '<i class="fa fa-icons"></i><span class="vcc-iconfield__name">Выбрать иконку</span>';
+		}
+		btn.title = (current && !known)
+			? ('Иконки «' + current + '» нет в Font Awesome 4.7 — выберите другую')
+			: 'Изменить иконку';
+		btn.addEventListener('click', function () {
+			openIconPicker(function (value) {
+				onChange(def.key, value);
+				refreshEditor();
+			}, current);
+		});
+		row.appendChild(btn);
+
+		var clear = el('button', 'vcc-iconfield__clear', '<i class="fa fa-times"></i>');
+		clear.type = 'button';
+		clear.title = 'Убрать иконку';
+		clear.disabled = !current;
+		clear.addEventListener('click', function () {
+			onChange(def.key, '');
+			refreshEditor();
+		});
+		row.appendChild(clear);
+		wrap.appendChild(row);
+
+		/* Иконка из старого проекта может отсутствовать в FA 4.7 — говорим
+		 * прямо, иначе на витрине просто пусто и непонятно почему. */
+		if (current && !known) {
+			wrap.appendChild(el('div', 'vcc-hint vcc-hint--warn',
+				'Иконки «' + current + '» нет в Font Awesome 4.7 — на витрине она не нарисуется. Выберите другую.'));
+		} else if (def.hint) {
+			wrap.appendChild(el('div', 'vcc-hint', def.hint));
 		}
 		return wrap;
 	}
@@ -806,6 +1044,7 @@
 		VccStore.load();
 		renderPalette();
 		ensureExportCss();
+		initIconPickerShell();
 
 		/* Онбординг: редактор уже открыт, модалка поверх */
 		$('#vcc-start-empty').addEventListener('click', closeOnboard);
