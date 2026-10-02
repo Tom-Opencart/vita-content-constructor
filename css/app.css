@@ -674,11 +674,13 @@ button { font-family: inherit; }
 	color: #fff;
 }
 .vcc-iconpick__grid {
+	align-content: start;
 	border: 1px solid var(--mp-border-color, #E2E8F0);
 	border-radius: var(--mp-radius-sm, 2px);
 	display: grid;
 	flex: 1;
 	gap: 2px;
+	grid-auto-rows: min-content;
 	grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
 	min-height: 220px;
 	overflow-y: auto;
