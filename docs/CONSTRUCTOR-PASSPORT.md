@@ -1,6 +1,6 @@
 # Паспорт возможностей — Вита · Конструктор контента
 
-Версия конструктора: 0.10.12 · контракт: vcc-v1
+Версия конструктора: 0.10.13 · контракт: vcc-v1
 Документ сгенерирован из реестра блоков при сборке — ручные правки будут затёрты (tools/dump_passport.js).
 
 Этот документ — полное описание того, что умеет конструктор. Он же входит в промт
@@ -477,7 +477,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json
@@ -492,7 +492,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json
@@ -508,7 +508,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json
@@ -525,7 +525,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json
@@ -555,7 +555,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json
@@ -575,7 +575,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json
@@ -591,7 +591,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json
@@ -607,7 +607,7 @@ anchor — якорь латиницей для ссылок #anchor
 - `btn_url` — строка
 - `btn_bg` — одно из значений: primary | accent | secondary | ghost | dark | link
 - `btn_size` — одно из значений: md | sm | lg | full
-- `btn_icon` — строка
+- `btn_icon` — icon-picker
 - `btn_icon_after` — булево (true/false)
 Пример:
 ```json

@@ -199,7 +199,7 @@ function vccButtonFields(opts) {
 		{ key: p + '_url', label: L + ' — ссылка или действие (https://…, #якорь, form:ID)', type: 'text', placeholder: opts.urlPlaceholder || 'form:0' },
 		{ key: p + '_bg', label: L + ' — фон', type: 'select', options: [['primary', 'Тёмная (референс)'], ['accent', 'Фирменная (палитра)'], ['secondary', 'Вторичная (палитра)'], ['ghost', 'Контурная'], ['dark', 'Тёмная нейтральная (#27272A)'], ['link', 'Текстовая ссылка']] },
 		{ key: p + '_size', label: L + ' — размер', type: 'select', options: [['md', 'Обычная'], ['sm', 'Компактная'], ['lg', 'Крупная'], ['full', 'На всю ширину']] },
-		{ key: p + '_icon', label: L + ' — иконка (FA-имя без fa-, опционально)', type: 'text', placeholder: 'arrow-right' },
+		{ key: p + '_icon', label: L + ' — иконка', type: 'icon-picker' },
 		{ key: p + '_icon_after', label: L + ' — иконка после текста', type: 'checkbox' }
 	];
 }
