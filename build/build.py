@@ -17,6 +17,18 @@ import os
 APP_VERSION = "0.10.13"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Плейсхолдер локального фолбэка версии в исходниках. Ручная копия номера
+# там протухает молча: фолбэк остался на 0.8.1, пока бандл версиился до 0.10.13.
+# Сборка подставляет сюда APP_VERSION, поэтому разойтись с билдером он не может.
+VERSION_PLACEHOLDER = "__VCC_APP_VERSION__"
+
+def subst_version(text):
+	"""Подставляет APP_VERSION вместо плейсхолдера в локальном фолбэке версии.
+	Фолбэк нужен только для запуска модулей вне бандла (смоуки, дампер паспорта);
+	номер в нём берётся от билдера, поэтому разойтись с APP_VERSION не может."""
+	return text.replace("'" + VERSION_PLACEHOLDER + "'", "'%s'" % APP_VERSION)
+
+
 FILES_ORDER = [
 	"src/core/tokens.js",
 	"src/core/schema.js",
@@ -75,11 +87,15 @@ def build():
 	parts.append("window.VCC_LAYOUT_PRESETS = %s;" % json.dumps(load_layout_presets(), ensure_ascii=False))
 	for path in FILES_ORDER:
 		print("Reading: %s" % path)
-		parts.append(read(path))
+		parts.append(subst_version(read(path)))
 	parts.append("})();")
 	out_path = os.path.join(ROOT, "js", "app.js")
+	bundle = "\n\n".join(parts) + "\n"
+	if VERSION_PLACEHOLDER in bundle:
+		raise SystemExit("Build FAILED: плейсхолдер версии попал в бандл — "
+						 "фолбэк версии обязан быть записан строкой в кавычках")
 	with open(out_path, "w", encoding="utf-8", newline="\n") as f:
-		f.write("\n\n".join(parts) + "\n")
+		f.write(bundle)
 	print("Successfully compiled js/app.js (%d chars)" % os.path.getsize(out_path))
 	sync_index_version()
 	check_passport()

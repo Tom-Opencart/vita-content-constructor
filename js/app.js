@@ -19,8 +19,9 @@ window.VCC_LAYOUT_PRESETS = [{"type": "vita-constructor-project", "contract": "v
 var VCC_CONTRACT = 'vcc-v1';
 /* Единственный источник версии — билдер (build/build.py, APP_VERSION):
  * он вшивает window.VCC_APP_VERSION до подключения модулей. Локальный
- * фолбэк — только для запуска модулей вне бандла (смоуки, дампер паспорта). */
-var VCC_APP_VERSION = (typeof window !== 'undefined' && window.VCC_APP_VERSION) || '0.8.1';
+ * фолбэк — только для запуска модулей вне бандла (смоуки, дампер паспорта);
+ * номер в нём подставляет сборка, вручную здесь не пишется. */
+var VCC_APP_VERSION = (typeof window !== 'undefined' && window.VCC_APP_VERSION) || '0.10.13';
 
 /* Дефолтная светлая палитра Виты (vita.css :root) */
 var VCC_DEFAULT_TOKENS = {
