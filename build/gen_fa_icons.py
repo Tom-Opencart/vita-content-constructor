@@ -19,9 +19,15 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Шрифт FontAwesome берём из темы: конструктор и тема лежат рядом, в общей
+# папке проекта. Путь к конкретной копии темы переопределяется переменной
+# VITA_THEME_DIR — жёсткие пути ломаются при каждом переносе папки.
+_FA_REL = os.path.join("upload", "catalog", "view", "theme", "vita",
+                       "stylesheet", "vendor", "font-awesome.min.css")
 DEFAULT_CSS_CANDIDATES = [
-    r"C:/Users/tomop/Downloads/vita-main/upload/catalog/view/theme/vita/stylesheet/vendor/font-awesome.min.css",
-    r"C:/Users/tomop/Downloads/vita-theme/upload/catalog/view/theme/vita/stylesheet/vendor/font-awesome.min.css",
+    os.path.join(os.environ.get("VITA_THEME_DIR")
+                 or os.path.join(os.path.dirname(ROOT), "vita-theme"), _FA_REL),
+    os.path.join(os.path.dirname(ROOT), "archive", "vita-main", _FA_REL),
 ]
 
 # Категории в порядке показа. Первое совпадение по ключу забирает иконку,
