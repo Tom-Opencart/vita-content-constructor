@@ -25,8 +25,9 @@ sync_to_theme.py — синхронизация export.css конструкто�
 Дополнительно (информационно, без влияния на код выхода) печатается
 последний коммит каждого файла — для eyeball-сверки пары.
 
-Путь темы ищется автоматически: соседняя папка vita-main рядом с этим
-репозиторием; можно переопределить переменной окружения VITA_THEME_DIR.
+Путь темы ищется автоматически: соседняя папка vita-theme рядом с этим
+репозиторием (общая папка проекта Vita/); можно переопределить переменной
+окружения VITA_THEME_DIR.
 """
 
 import hashlib
@@ -40,7 +41,7 @@ CONSTRUCTOR_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCE_CSS = os.path.join(CONSTRUCTOR_ROOT, "css", "export.css")
 
 THEME_DIR = os.environ.get("VITA_THEME_DIR") or os.path.join(
-    os.path.dirname(CONSTRUCTOR_ROOT), "vita-main"
+    os.path.dirname(CONSTRUCTOR_ROOT), "vita-theme"
 )
 THEME_CSS_REL = os.path.join(
     "upload", "catalog", "view", "theme", "vita", "stylesheet",

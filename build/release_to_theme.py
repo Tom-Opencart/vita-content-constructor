@@ -25,7 +25,7 @@ release_to_theme.py — оркестратор цепочки «Конструк
 Скрипт НЕ коммитит и НЕ пушит — коммиты остаются ручным шагом
 (двойной коммит: оба репозитория в одной сессии, правило AGENTS.md).
 
-Путь темы: соседняя папка vita-main или VITA_THEME_DIR (как в sync_to_theme.py).
+Путь темы: соседняя папка vita-theme или VITA_THEME_DIR (как в sync_to_theme.py).
 """
 
 import argparse
