@@ -4,10 +4,13 @@ name: sync-check
 # обязана быть идентична css/export.css, а оба репозитория — закоммичены
 # и запушены. Расхождение = красный билд.
 #
-# Тема (Tom-Opencart/main_vita) приватная: клонируется токеном из секрета
-# GH_THEME_TOKEN (fine-grained PAT с правом чтения main_vita). Без секрета
+# Тема (Tom-Opencart/vita-theme) приватная: клонируется токеном из секрета
+# GH_THEME_TOKEN (fine-grained PAT с правом чтения vita-theme). Без секрета
 # шаг помечается ::warning:: и проверка пропускается — добавьте секрет,
 # чтобы гейт стал жёстким.
+#
+# Ветка main — рабочая линия 1.x. Архивный Tom-Opencart/main_vita (beta,
+# read-only) не проверяется: сверять с ним бессмысленно, файл в нём заморожен.
 
 on:
   push:
@@ -32,12 +35,12 @@ jobs:
           GH_THEME_TOKEN: ${{ secrets.GH_THEME_TOKEN }}
         run: |
           if [ -z "$GH_THEME_TOKEN" ]; then
-            echo "::warning::Секрет GH_THEME_TOKEN не задан (fine-grained PAT с чтением Tom-Opencart/main_vita). Sync-check пропущен."
+            echo "::warning::Секрет GH_THEME_TOKEN не задан (fine-grained PAT с чтением Tom-Opencart/vita-theme). Sync-check пропущен."
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git clone --depth 1 --branch unify-1.7.0 \
-            "https://x-access-token:${GH_THEME_TOKEN}@github.com/Tom-Opencart/main_vita.git" \
+          git clone --depth 1 --branch main \
+            "https://x-access-token:${GH_THEME_TOKEN}@github.com/Tom-Opencart/vita-theme.git" \
             "${{ github.workspace }}/../vita-theme"
           echo "skip=false" >> "$GITHUB_OUTPUT"
 
