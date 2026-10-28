@@ -146,17 +146,117 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-alert--topline.vcc-alert--success { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-express-bg, #059669); }
 .vcc-alert--topline.vcc-alert--warning { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-hit-bg, #d97706); }
 .vcc-alert--topline.vcc-alert--danger  { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-badge-discount-bg, #dc2626); }
-/* Совместимость: старый экспорт без look-класса = topline */
-.vcc-alert--info:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]) { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }
-.vcc-alert--success:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]),
-.vcc-alert--warning:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]),
-.vcc-alert--danger:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]) { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-border-color, #E2E8F0); }
+/* Совместимость: старый экспорт без look-класса = topline.
+ * notice исключён явно: у плашки свой фон и свои кромки. */
+.vcc-alert--info:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]):not([class*="vcc-alert--notice"]) { background: var(--mp-primary-light, #F2F6F4); border-top: 2px solid var(--mp-primary, #8C9D93); }
+.vcc-alert--success:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]):not([class*="vcc-alert--notice"]),
+.vcc-alert--warning:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]):not([class*="vcc-alert--notice"]),
+.vcc-alert--danger:not([class*="vcc-alert--fill"]):not([class*="vcc-alert--leftbar"]):not([class*="vcc-alert--topline"]):not([class*="vcc-alert--notice"]) { background: var(--mp-bg-subtle, #f8fafc); border-top: 2px solid var(--mp-border-color, #E2E8F0); }
+/* Плашка с иконкой (notice): точная копия warning-alert-box донора —
+ * иконка 52×52 слева, заголовок+текст в центре, действия справа.
+ * Размеры/цвета — те же, что у статического блока темы (#warning-alert):
+ * оранжевая кромка, серая линия и тёмно-серый текст.
+ * Переменные --vita-warning-* может переопределить тема; hex живёт только
+ * фолбэком внутри var(), поэтому гекс-линт экспортного CSS проходит. */
+.vcc-alert--notice {
+	--vcc-notice-accent: var(--vita-warning-accent, #FF5A00);
+	--vcc-notice-line: var(--vita-warning-line, #969696);
+	--vcc-notice-text: var(--vita-warning-text, #52525B);
+	align-items: center;
+	background: var(--mp-bg-surface, #ffffff);
+	border: 1px solid var(--vcc-notice-line);
+	border-left: 4px solid var(--vcc-notice-accent);
+	box-sizing: border-box;
+	color: var(--mp-text-main, #1e293b);
+	display: flex;
+	gap: 24px;
+	padding: 28px;
+}
+.vcc-alert--notice .vcc-alert__icon {
+	align-items: center;
+	background: color-mix(in srgb, var(--vcc-notice-accent) 8%, var(--mp-bg-surface, #ffffff));
+	border: 1px solid var(--vcc-notice-line);
+	box-sizing: border-box;
+	color: var(--vcc-notice-accent);
+	display: flex;
+	flex: 0 0 52px;
+	height: 52px;
+	justify-content: center;
+	width: 52px;
+}
+.vcc-alert--notice .vcc-alert__icon .vcc-icon {
+	background: transparent;
+	color: inherit;
+	font-size: 28px;
+	height: 28px;
+	line-height: 28px;
+	width: 28px;
+}
+.vcc-alert--notice .vcc-alert__body { flex: 1 1 0%; min-width: 0; }
+.vcc-alert--notice .vcc-alert__title {
+	color: var(--mp-text-main, #1e293b);
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.33;
+	margin: 0 0 6px;
+	text-transform: uppercase;
+}
+.vcc-alert--notice p {
+	color: var(--vcc-notice-text);
+	font-size: 14px;
+	line-height: 1.6;
+	margin: 0 0 8px;
+}
+.vcc-alert--notice p:last-child { margin-bottom: 0; }
+.vcc-alert--notice p a { color: var(--vcc-notice-accent); font-weight: 600; text-decoration: none; }
+.vcc-alert--notice p a:hover,
+.vcc-alert--notice p a:focus { text-decoration: underline; }
+.vcc-alert--notice .vcc-alert__actions {
+	align-items: center;
+	flex: 0 0 auto;
+	flex-wrap: nowrap;
+	gap: 10px;
+	justify-content: flex-end;
+	margin-top: 0;
+}
+.vcc-alert--notice .vcc-btn {
+	font-size: 13px;
+	gap: 10px;
+	line-height: 1.32;
+	padding: 16px 22px;
+	text-align: center;
+}
+.vcc-alert--notice .vcc-btn--ghost { border-color: var(--vcc-notice-line); }
+.vcc-alert--notice .vcc-btn--ghost:hover,
+.vcc-alert--notice .vcc-btn--ghost:focus { background: transparent; border-color: var(--vcc-notice-line); }
+.vcc-alert--notice .vcc-btn--dark { border-color: var(--vcc-notice-line); box-shadow: 4px 4px 0 rgba(150, 150, 150, 0.1); }
+.vcc-alert--notice .vcc-btn--dark:hover,
+.vcc-alert--notice .vcc-btn--dark:focus { border-color: var(--vcc-notice-line); }
+@media (max-width: 768px) {
+	.vcc-alert--notice { flex-direction: column; text-align: center; }
+	.vcc-alert--notice .vcc-alert__body,
+	.vcc-alert--notice .vcc-alert__actions { width: 100%; }
+	.vcc-alert--notice .vcc-alert__actions { justify-content: center; }
+}
+@media (max-width: 359px) {
+	.vcc-alert--notice .vcc-alert__actions { flex-wrap: wrap; }
+	.vcc-alert--notice .vcc-btn { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.vcc-alert--notice .vcc-btn { transition: none; }
+	.vcc-alert--notice .vcc-btn:hover,
+	.vcc-alert--notice .vcc-btn:focus { transform: none; }
+}
 /* Тёмная тема магазина: заливки color-mix на белом не читаются — тихие тёмные фоны, кромки цветные (аддитивное правило) */
 [data-theme="dark"] .vcc-alert--fill.vcc-alert--info    { background: var(--mp-bg-hover, #38343E); color: var(--mp-text-main, #2D3748); }
 [data-theme="dark"] .vcc-alert--fill.vcc-alert--success,
 [data-theme="dark"] .vcc-alert--fill.vcc-alert--warning,
 [data-theme="dark"] .vcc-alert--fill.vcc-alert--danger  { background: var(--mp-bg-hover, #38343E); color: var(--mp-text-main, #2D3748); }
 [data-theme="dark"] .vcc-alert--topline.vcc-alert--info { background: var(--mp-bg-hover, #38343E); }
+[data-theme="dark"] .vcc-alert--notice {
+	--vcc-notice-line: var(--mp-border-hover, #CBD5E1);
+	--vcc-notice-text: var(--mp-text-muted, #64748B);
+}
 /* Сравнение: та же история — выделенная строка на светлом токене получает
  * тёмный фон, иначе светлый текст исчезает на светлом (контраст 1.18:1) */
 [data-theme="dark"] .vcc-compare__row--us { background: var(--mp-bg-hover, #38343E); }

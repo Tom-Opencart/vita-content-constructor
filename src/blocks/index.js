@@ -17,6 +17,25 @@
 		return '<a class="vcc-btn vcc-btn--' + (kind || 'ghost') + '" href="' + vccEscapeHtml(href) + '">' + vccInline(label) + '</a>';
 	}
 
+	/* Плашка с иконкой: один рендер для отдельного блока «Осторожно»
+	 * и исполнения notice у врезки. Разметка и классы — контракт vcc-v1. */
+	function alertNoticeHtml(data, style) {
+		var code = ['info', 'success', 'warning', 'danger'].indexOf(style) !== -1 ? style : 'warning';
+		var iconName = String(data.icon || '').trim().replace(/^fa-/, '');
+		var icon = iconName ? '<div class="vcc-alert__icon"><span class="vcc-icon" data-vcc-icon="fa-' + vccEscapeHtml(iconName) + '"></span></div>' : '';
+		var title = String(data.title || '').trim() !== '' ? '<div class="vcc-alert__title">' + vccInline(data.title) + '</div>' : '';
+		var acts = [];
+		var main = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
+		var first = alertBtnHtml(data.btn1_label, data.btn1_url, 'ghost');
+		var second = alertBtnHtml(data.btn2_label, data.btn2_url, 'dark');
+		if (main) acts.push(main);
+		if (first) acts.push(first);
+		if (second) acts.push(second);
+		return '<div class="vcc-alert vcc-alert--' + code + ' vcc-alert--notice">' + icon +
+			'<div class="vcc-alert__body">' + title + vccBlock(data.text || '') + '</div>' +
+			(acts.length ? '<div class="vcc-alert__actions">' + acts.join('') + '</div>' : '') + '</div>';
+	}
+
 	/* --- Заголовок --- */
 	BlockRegistry.register({
 		type: 'heading',
@@ -110,7 +129,7 @@
 		label: 'Врезка',
 		icon: 'fa-exclamation-circle',
 		group: 'text',
-		defaults: { style: 'info', look: 'fill', text: 'Важная информация для покупателя.' },
+		defaults: { style: 'info', look: 'fill', title: '', icon: 'fa-exclamation-triangle', text: 'Важная информация для покупателя.' },
 		fields: [
 			{
 				key: 'style', label: 'Стиль', type: 'select',
@@ -118,8 +137,10 @@
 			},
 			{
 				key: 'look', label: 'Исполнение', type: 'select',
-				options: [['fill', 'Заливка (как референс)'], ['leftbar', 'Левая кромка 4px'], ['topline', 'Линия сверху']]
+				options: [['fill', 'Заливка (как референс)'], ['leftbar', 'Левая кромка 4px'], ['topline', 'Линия сверху'], ['notice', 'Плашка «Осторожно» (донорские цвета)']]
 			},
+			{ key: 'title', label: 'Заголовок (только для плашки)', type: 'text' },
+			{ key: 'icon', label: 'Иконка (только для плашки)', type: 'icon-picker' },
 			{ key: 'text', label: 'Текст', type: 'textarea', rows: 3, markdown: true },
 			{ key: 'btn1_label', label: 'Кнопка 1 — текст (необязательно)', type: 'text' },
 			{ key: 'btn1_url', label: 'Кнопка 1 — ссылка', type: 'text' },
@@ -128,15 +149,46 @@
 		],
 		toHTML: function (data) {
 			var style = ['info', 'success', 'warning', 'danger'].indexOf(data.style) !== -1 ? data.style : 'info';
-			var look = ['fill', 'leftbar', 'topline'].indexOf(data.look) !== -1 ? data.look : 'fill';
+			var look = ['fill', 'leftbar', 'topline', 'notice'].indexOf(data.look) !== -1 ? data.look : 'fill';
+			if (look === 'notice') return alertNoticeHtml(data, style);
+			var main = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
 			var lookCls = look === 'fill' ? ' vcc-alert--fill' : (look === 'leftbar' ? ' vcc-alert--leftbar' : ' vcc-alert--topline');
 			var btns = '';
 			var b1 = alertBtnHtml(data.btn1_label, data.btn1_url, 'ghost');
 			var b2 = alertBtnHtml(data.btn2_label, data.btn2_url, 'ghost');
 			if (b1 || b2) btns = '<div class="vcc-alert__actions">' + b1 + b2 + '</div>';
-			var main = vccButton({ label: data.btn_label, url: data.btn_url, bg: data.btn_bg, size: data.btn_size, icon: data.btn_icon, icon_after: data.btn_icon_after });
 			if (main) btns = '<div class="vcc-alert__actions">' + main + '</div>' + btns;
 			return '<div class="vcc-alert vcc-alert--' + style + lookCls + '">' + vccBlock(data.text || '') + btns + '</div>';
+		}
+	});
+
+	/* --- Осторожно: мошеннические сайты (0.12.0) --- */
+	BlockRegistry.register({
+		type: 'warning_alert',
+		label: 'Осторожно',
+		icon: 'fa-exclamation-triangle',
+		group: 'text',
+		defaults: {
+			title: 'Осторожно: мошеннические сайты',
+			icon: 'fa-exclamation-triangle',
+			text: 'Проверяйте источник перед скачиванием — используйте [инструмент проверки](https://example.com).',
+			btn1_label: 'Подробнее',
+			btn1_url: 'https://example.com',
+			btn2_label: 'Проверить сайт',
+			btn2_url: 'https://example.com'
+		},
+		fields: [
+			{ key: 'title', label: 'Заголовок', type: 'text' },
+			{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
+			{ key: 'text', label: 'Текст', type: 'textarea', rows: 3, markdown: true },
+			{ key: '_btns', label: 'Кнопки', type: 'group-label' },
+			{ key: 'btn1_label', label: 'Кнопка 1 — текст (контурная)', type: 'text' },
+			{ key: 'btn1_url', label: 'Кнопка 1 — ссылка', type: 'text' },
+			{ key: 'btn2_label', label: 'Кнопка 2 — текст (тёмная)', type: 'text' },
+			{ key: 'btn2_url', label: 'Кнопка 2 — ссылка', type: 'text' }
+		],
+		toHTML: function (data) {
+			return alertNoticeHtml(data, 'warning');
 		}
 	});
 
