@@ -658,13 +658,15 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-btn--dark:active { color: var(--mp-text-inverse, #ffffff); }
 .vcc-btn--dark:hover,
 .vcc-btn--dark:focus { background: var(--vita-btn-dark-hover, #3F3F46); }
-[data-theme="dark"] .vcc-btn--dark { background: var(--mp-text-inverse, #ffffff); }
+/* Тёмная тема инвертирует тёмную нейтральную кнопку в светлую: фон страницы
+ * (--mp-text-inverse в тёмной теме = цвет страницы) делал её невидимой. */
+[data-theme="dark"] .vcc-btn--dark { background: var(--mp-text-main, #2D3748); }
 [data-theme="dark"] .vcc-btn--dark:hover,
-[data-theme="dark"] .vcc-btn--dark:focus { background: var(--mp-bg-hover, #38343E); }
+[data-theme="dark"] .vcc-btn--dark:focus { background: var(--mp-text-body, #2D3748); }
 [data-theme="dark"] .vcc-btn--dark,
 [data-theme="dark"] .vcc-btn--dark:hover,
 [data-theme="dark"] .vcc-btn--dark:focus,
-[data-theme="dark"] .vcc-btn--dark:active { color: var(--mp-text-main, #2D3748); }
+[data-theme="dark"] .vcc-btn--dark:active { color: var(--mp-text-inverse, #ffffff); }
 /* Текстовая кнопка-ссылка: без фона/рамки, цвет — акцент */
 .vcc-btn--link { background: transparent; border-color: transparent; color: var(--mp-primary, #8C9D93); min-height: auto; padding: 4px 0; }
 .vcc-btn--link:hover,
@@ -1639,8 +1641,8 @@ a.vcc-contact__value:hover { color: var(--mp-primary, #8C9D93); text-decoration:
 .vcc-live__body { padding: 12px; }
 
 /* --- Копи-кнопка: адаптива не требует (inline-flex), тёмная тема — токен фона --- */
-[data-theme="dark"] .vcc-copybtn { background: var(--mp-text-inverse, #ffffff); border-color: var(--mp-text-inverse, #ffffff); color: var(--mp-text-main, #2D3748); }
-[data-theme="dark"] .vcc-copybtn:hover { background: var(--mp-bg-hover, #38343E); border-color: var(--mp-bg-hover, #38343E); color: var(--mp-text-inverse, #ffffff); }
+[data-theme="dark"] .vcc-copybtn { background: var(--mp-text-main, #2D3748); border-color: var(--mp-text-main, #2D3748); color: var(--mp-text-inverse, #ffffff); }
+[data-theme="dark"] .vcc-copybtn:hover { background: var(--mp-text-body, #2D3748); border-color: var(--mp-text-body, #2D3748); color: var(--mp-text-inverse, #ffffff); }
 [data-theme="dark"] .vcc-copybtn.is-copied { background: var(--mp-badge-express-bg, #059669); border-color: var(--mp-badge-express-bg, #059669); color: var(--mp-text-inverse, #ffffff); }
 [data-theme="dark"] .vcc-promocard { background: var(--mp-bg-surface, #ffffff); }
 [data-theme="dark"] .vcc-promocard__top { background: var(--mp-bg-subtle, #f8fafc); }

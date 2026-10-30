@@ -14,7 +14,7 @@ import glob
 import json
 import os
 
-APP_VERSION = "0.12.0"
+APP_VERSION = "0.12.1"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Плейсхолдер локального фолбэка версии в исходниках. Ручная копия номера
