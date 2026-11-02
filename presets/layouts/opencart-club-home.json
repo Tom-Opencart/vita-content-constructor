@@ -1,0 +1,458 @@
+{
+  "type": "vita-constructor-project",
+  "contract": "vcc-v1",
+  "layoutTitle": "Главная OpenCart Клуб",
+  "layoutDesc": "Повтор главной сообщества целиком: обложка с карточкой-панелью, полоса цифр, шесть преимуществ, инструменты и ресурсы карточками-ссылками, новости, предупреждение, FAQ, статьи, тёмный призыв и блок «Проверенные решения». Всё собирается полями — HTML и CSS писать не нужно.",
+  "layoutIcon": "fa-home",
+  "title": "Главная OpenCart Клуб",
+  "slug": "opencart-club-home",
+  "themeMode": "light",
+  "theme": {
+    "preset": null,
+    "tokens": null
+  },
+  "blocks": [
+    {
+      "id": "h1",
+      "type": "hero",
+      "data": {
+        "kicker": "Сообщество с 2020 года",
+        "title": "Opencart ==Клуб==: сообщество экспертов",
+        "seo_tag": "h1",
+        "title_size": "lg",
+        "title_upper": false,
+        "sub": "Обменивайтесь опытом, решайте технические проблемы, находите проверенные модули и развивайте свой интернет-магазин вместе с нами.",
+        "btn1_label": "Присоединиться в Telegram",
+        "btn1_url": "https://t.me/",
+        "btn1_style": "dark",
+        "btn1_icon": "telegram",
+        "btn2_label": "Проверить сайт",
+        "btn2_url": "/checker.html",
+        "btn2_icon": "search",
+        "note": "800+ участников · Бесплатно · Без спама",
+        "note_mono": true,
+        "align": "left",
+        "visual": "keycard",
+        "vc_meta_left": "Opencart Клуб",
+        "vc_meta_right": "Сообщество",
+        "vc_label": "Экосистема разработчика",
+        "vc_segs": [
+          {
+            "value": "OC",
+            "dim": true
+          },
+          {
+            "value": "3.x",
+            "dim": false
+          }
+        ],
+        "vc_chips": "check | OpenCart\ncode | OcStore\nheart | LiveStore",
+        "vc_tiles": [
+          {
+            "label": "Участников",
+            "value": "800+",
+            "tstyle": "boxed"
+          },
+          {
+            "label": "Основан",
+            "value": "2 020",
+            "tstyle": "boxed"
+          },
+          {
+            "label": "Инструментов",
+            "value": "6",
+            "tstyle": "boxed"
+          },
+          {
+            "label": "Платформы",
+            "value": "OC 3.x · OcStore · LiveStore",
+            "tstyle": "strips"
+          },
+          {
+            "label": "Площадки",
+            "value": "Telegram · Форум · Блоги",
+            "tstyle": "strips"
+          },
+          {
+            "label": "Стоимость",
+            "value": "Бесплатно · Без спама",
+            "tstyle": "strips"
+          }
+        ],
+        "sec": {
+          "bg": "surface",
+          "padding": "xl",
+          "width": "default",
+          "anchor": "hero",
+          "skin": "tech"
+        }
+      }
+    },
+    {
+      "id": "h2",
+      "type": "stats",
+      "data": {
+        "style": "lined",
+        "items": [
+          {
+            "value": "800",
+            "suffix": "+",
+            "label": "Участников"
+          },
+          {
+            "value": "2",
+            "suffix": " 020",
+            "label": "Основан"
+          },
+          {
+            "value": "6",
+            "suffix": "",
+            "label": "Инструментов"
+          },
+          {
+            "value": "24/7",
+            "suffix": "",
+            "label": "Чат"
+          }
+        ],
+        "sec": {
+          "bg": "none",
+          "padding": "m",
+          "width": "default",
+          "align": "center",
+          "skin": "tech"
+        }
+      }
+    },
+    {
+      "id": "h3",
+      "type": "features",
+      "data": {
+        "cols": "3",
+        "items": [
+          {
+            "icon": "life-ring",
+            "title": "Экспертная поддержка 24/7",
+            "text": "Экспертная поддержка 24/7 Получайте быстрые ответы на свои вопросы от опытных специалистов и пользователей Opencart."
+          },
+          {
+            "icon": "bell-o",
+            "title": "Актуальные новости и обновления",
+            "text": "Актуальные новости и обновления Будьте первыми, кто узнает о новых версиях, модулях, уязвимостях и лайфхаках."
+          },
+          {
+            "icon": "users",
+            "title": "Обмен опытом и кейсами",
+            "text": "Обмен опытом и кейсами Учитесь на реальных примерах, делитесь своими наработками и находите эффективные решения."
+          },
+          {
+            "icon": "graduation-cap",
+            "title": "Бесплатные уроки и гайды",
+            "text": "Бесплатные уроки и гайды Доступ к эксклюзивным материалам, пошаговым инструкциям и видеоурокам по Opencart."
+          },
+          {
+            "icon": "handshake-o",
+            "title": "Нетворкинг и новые знакомства",
+            "text": "Найдите партнёров, разработчиков или просто единомышленников в сфере e-commerce."
+          },
+          {
+            "icon": "puzzle-piece",
+            "title": "Модули и расширения",
+            "text": "Модули и расширения Обзоры, рекомендации и помощь в выборе лучших модулей для вашего интернет-магазина."
+          }
+        ],
+        "sec": {
+          "eyebrow": "Преимущества",
+          "title": "Почему Opencart Клуб — это то, что вам нужно?",
+          "seo_tag": "h2",
+          "bg": "light",
+          "padding": "l",
+          "width": "default",
+          "skin": "tech"
+        }
+      }
+    },
+    {
+      "id": "h4",
+      "type": "features",
+      "data": {
+        "cols": "3",
+        "items": [
+          {
+            "icon": "file-text-o",
+            "title": "Конструктор статей",
+            "text": "Конструктор статей Визуальный редактор блоков для сборки контента, описаний товаров и страниц.",
+            "url": "/content_constructor.html",
+            "link_label": "Открыть инструмент"
+          },
+          {
+            "icon": "balance-scale",
+            "title": "Конструктор документов",
+            "text": "Конструктор документов Оферта, политика конфиденциальности и согласия по 152-ФЗ и ГК РФ.",
+            "url": "/legal_constructor.html",
+            "link_label": "Открыть инструмент"
+          },
+          {
+            "icon": "cube",
+            "title": "Генератор модулей",
+            "text": "Генератор модулей Создайте каркас расширения OpenCart 3 за одну минуту.",
+            "url": "/module_generator.html",
+            "link_label": "Открыть инструмент"
+          },
+          {
+            "icon": "search",
+            "title": "SERP Snippet Optimizer",
+            "text": "Предпросмотр сниппетов Google и Яндекс с учётом типов страниц OpenCart.",
+            "url": "/serp-snippet-optimizer.html",
+            "link_label": "Открыть инструмент"
+          },
+          {
+            "icon": "exchange",
+            "title": "Конвертер TPL↔Twig",
+            "text": "Конвертер TPL↔Twig Автоматическое преобразование файлов разметки шаблонов.",
+            "url": "/tpl_to_twigconverter.html",
+            "link_label": "Открыть инструмент"
+          },
+          {
+            "icon": "shield",
+            "title": "Проверка на варез",
+            "text": "Проверьте сайт по базе warez.rip на наличие нелицензионных расширений.",
+            "url": "/checker.html",
+            "link_label": "Открыть инструмент"
+          }
+        ],
+        "sec": {
+          "eyebrow": "Инструменты",
+          "title": "Инструменты сообщества",
+          "seo_tag": "h2",
+          "bg": "none",
+          "padding": "l",
+          "width": "default",
+          "skin": "tech"
+        }
+      }
+    },
+    {
+      "id": "h5",
+      "type": "features",
+      "data": {
+        "cols": "3",
+        "items": [
+          {
+            "icon": "cubes",
+            "title": "Расширения Opencart Клуб",
+            "text": "Расширения Opencart Клуб Последние модули и обновления с площадки Opencart Клуб.",
+            "url": "/opencart_club.html"
+          },
+          {
+            "icon": "rss",
+            "title": "Новости Liveopencart",
+            "text": "Новости Liveopencart Свежие новости и технические статьи от Liveopencart.",
+            "url": "/liveopencart_news.html"
+          },
+          {
+            "icon": "comments-o",
+            "title": "Форум Opencart-Russia",
+            "text": "Форум Opencart-Russia Актуальные темы и поддержка на форуме Opencart-Russia.",
+            "url": "/opencart-russia.html"
+          },
+          {
+            "icon": "lock",
+            "title": "Руководство по SSL",
+            "text": "Руководство по SSL Пошаговая инструкция по переходу магазина на HTTPS протокол.",
+            "url": "/info.html"
+          },
+          {
+            "icon": "shield",
+            "title": "Проверка на варез",
+            "text": "Быстрый поиск сайтов в базе нелицензионных расширений.",
+            "url": "/checker.html"
+          },
+          {
+            "icon": "exclamation-triangle",
+            "title": "Осторожно: Мошенники",
+            "text": "Осторожно: Мошенники Информация о сайтах, торгующих краденым софтом для OpenCart.",
+            "url": "/warning.html"
+          }
+        ],
+        "sec": {
+          "eyebrow": "Ресурсы",
+          "title": "Полезные ресурсы",
+          "seo_tag": "h2",
+          "bg": "light",
+          "padding": "l",
+          "width": "default",
+          "skin": "tech"
+        }
+      }
+    },
+    {
+      "id": "h6",
+      "type": "updates_grid",
+      "data": {
+        "cols": "2",
+        "items": [
+          {
+            "tag": "Сообщество",
+            "tag_new": true,
+            "title": "Обновление каталога расширений",
+            "text": "Собрали свежие модули и проверили совместимость с OpenCart 3.x и OcStore."
+          },
+          {
+            "tag": "Инструменты",
+            "tag_new": false,
+            "title": "Конструктор документов: новые шаблоны",
+            "text": "Оферта, политика конфиденциальности и согласия по 152-ФЗ собираются за пару минут."
+          }
+        ],
+        "sec": {
+          "bg": "none",
+          "padding": "l",
+          "width": "default",
+          "skin": "tech",
+          "seo_tag": "h2",
+          "eyebrow": "Новости",
+          "title": "Последние ==новости=="
+        }
+      }
+    },
+    {
+      "id": "h7",
+      "type": "cta",
+      "data": {
+        "text": "",
+        "btn1_label": "Все новости",
+        "btn1_url": "/news.html",
+        "btn1_bg": "ghost",
+        "btn1_size": "md",
+        "btn1_icon": "arrow-right",
+        "btn1_icon_after": true,
+        "sec": {
+          "bg": "none",
+          "padding": "s",
+          "width": "default",
+          "align": "center",
+          "skin": "tech"
+        }
+      }
+    },
+    {
+      "id": "h8",
+      "type": "warning_alert",
+      "data": {
+        "title": "Осторожно: мошеннические сайты",
+        "icon": "exclamation-triangle",
+        "text": "Продают краденые модули и шаблоны. Проверяйте сайт по базе перед покупкой — это бесплатно и занимает минуту.",
+        "btn1_label": "Как проверить",
+        "btn1_url": "/warning.html",
+        "btn2_label": "Проверить сайт",
+        "btn2_url": "/checker.html"
+      }
+    },
+    {
+      "id": "h9",
+      "type": "vita_faq",
+      "data": {
+        "faqId": 0,
+        "title": "Частые вопросы",
+        "sec": {
+          "bg": "light",
+          "padding": "l",
+          "width": "default",
+          "skin": "tech"
+        }
+      }
+    },
+    {
+      "id": "h10",
+      "type": "features",
+      "data": {
+        "cols": "3",
+        "items": [
+          {
+            "icon": "file-text-o",
+            "title": "Как выбрать модуль под задачу",
+            "text": "Разбираем типовые задачи магазина и показываем, чем их закрыть без лишних затрат.",
+            "url": "/articles/choose-module.html",
+            "link_label": "Читать"
+          },
+          {
+            "icon": "code",
+            "title": "Правки шаблона без потери обновлений",
+            "text": "Оверрайды, дочерняя тема и модификаторы — что выбрать, чтобы обновления не ломали вёрстку.",
+            "url": "/articles/template-edits.html",
+            "link_label": "Читать"
+          },
+          {
+            "icon": "shield",
+            "title": "Безопасность магазина на OpenCart",
+            "text": "Права на файлы, бэкапы и базовая защита админки — чек-лист на вечер.",
+            "url": "/articles/security.html",
+            "link_label": "Читать"
+          }
+        ],
+        "sec": {
+          "bg": "none",
+          "padding": "l",
+          "width": "default",
+          "skin": "tech",
+          "seo_tag": "h2",
+          "eyebrow": "Статьи",
+          "title": "Полезные ==статьи=="
+        }
+      }
+    },
+    {
+      "id": "h11",
+      "type": "cta",
+      "data": {
+        "text": "Обмен опытом, разборы кейсов и помощь с задачами — в чате сообщества.",
+        "btn1_label": "Вступить в Telegram",
+        "btn1_url": "https://t.me/",
+        "btn1_bg": "dark",
+        "btn1_icon": "telegram",
+        "btn2_label": "Правила сообщества",
+        "btn2_url": "/rules.html",
+        "sec": {
+          "bg": "primary",
+          "padding": "l",
+          "width": "default",
+          "align": "center",
+          "skin": "tech",
+          "title": "Готовы присоединиться к ==профессиональному сообществу?=="
+        }
+      }
+    },
+    {
+      "id": "h12",
+      "type": "row",
+      "data": {
+        "left_mode": "promo",
+        "left_badge": "Проверенный модуль",
+        "left_promo_title": "iCloud — облако для OpenCart",
+        "left_promo_text": "Резервные копии, синхронизация картинок и безопасное хранение файлов магазина.",
+        "left_promo_btn_label": "Подробнее",
+        "left_promo_btn_url": "/icloud.html",
+        "left_promo_btn_size": "md",
+        "right_card": "key_card",
+        "right_meta_left": "Лицензия",
+        "right_meta_right": "OPEN-3X",
+        "right_label": "Ключ активации",
+        "right_value": "ICLOUD-OPEN-3X",
+        "right_value_dim": "OPEN",
+        "right_chips": "check | Активна\ncalendar | Обновления 12 месяцев",
+        "right_window": true,
+        "ratio": "equal",
+        "sec": {
+          "bg": "surface",
+          "padding": "l",
+          "width": "default",
+          "skin": "tech",
+          "seo_tag": "h2",
+          "eyebrow": "Рекомендуем",
+          "title": "Проверенные ==решения== для быстрого старта"
+        }
+      }
+    }
+  ]
+}

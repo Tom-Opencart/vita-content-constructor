@@ -84,6 +84,10 @@ Tilda-модель — каждый «широкий» блок экспорти
 		}
 		var w = safeWidth(sec.width);
 		if (w !== 'default') cls += ' vcc-section--w-' + w;
+		/* Опциональный скин секции (0.12.2): крупный uppercase-заголовок,
+		 * рамки 1px, mono-подписи. Без поля «Оформление» разметка и вид
+		 * прежние — контракт vcc-v1 аддитивен. */
+		if (sec.skin === 'tech') cls += ' vcc-section--tech';
 		if (sec.overlay && (bg === 'image' || bg === 'video')) cls += ' vcc-section--overlay';
 
 		var attrs = '';
@@ -135,6 +139,8 @@ Tilda-модель — каждый «широкий» блок экспорти
 			{ key: 'sec.text', label: 'Подзаголовок секции', type: 'textarea', rows: 2, markdown: true, mark: 'sec' },
 			{ key: 'sec.align', label: 'Выравнивание заголовка', type: 'select', mark: 'sec',
 				options: [['center', 'По центру'], ['left', 'По левому краю']] },
+			{ key: 'sec.skin', label: 'Оформление секции', type: 'select', mark: 'sec',
+				options: [['default', 'Как в теме'], ['tech', 'Техническое (крупный uppercase, рамки 1px, mono-подписи)']] },
 			{ key: 'sec.bg', label: 'Фон секции', type: 'select', mark: 'sec',
 				options: [['none', 'Как у страницы'], ['light', 'Приглушённый'], ['surface', 'Карточка'], ['primary', 'Фирменный'], ['image', 'Картинка'], ['video', 'Видео (.mp4)']] },
 			{ key: 'sec.image', label: 'Картинка фона (image/catalog/... или URL)', type: 'text', mark: 'sec',
@@ -157,7 +163,7 @@ Tilda-модель — каждый «широкий» блок экспорти
 		 * Приоритет: плоский ключ перекрывает вложенный (форма редактора). */
 		var nested = (values && typeof values.sec === 'object' && values.sec) ? values.sec : {};
 		var sec = {};
-		var keys = ['eyebrow', 'title', 'text', 'seo_tag', 'align', 'bg', 'image', 'video', 'overlay', 'padding', 'width', 'anchor'];
+		var keys = ['eyebrow', 'title', 'text', 'seo_tag', 'align', 'bg', 'image', 'video', 'overlay', 'padding', 'width', 'anchor', 'skin'];
 		for (var i = 0; i < keys.length; i++) {
 			sec[keys[i]] = values['sec.' + keys[i]] !== undefined ? values['sec.' + keys[i]] : nested[keys[i]];
 		}
@@ -427,7 +433,9 @@ Tilda-модель — каждый «широкий» блок экспорти
 					itemFields: [
 						{ key: 'icon', label: 'Иконка', type: 'icon-picker' },
 						{ key: 'title', label: 'Заголовок', type: 'text' },
-						{ key: 'text', label: 'Описание', type: 'textarea', rows: 3, markdown: true }
+						{ key: 'text', label: 'Описание', type: 'textarea', rows: 3, markdown: true },
+						{ key: 'url', label: 'Ссылка карточки (необязательно — карточка целиком станет ссылкой)', type: 'text' },
+						{ key: 'link_label', label: 'Подпись ссылки под текстом (пусто — без подписи)', type: 'text', depends: 'url' }
 					],
 					itemTitle: function (item, i) { return item.title || ('Преимущество ' + (i + 1)); }
 				}
@@ -441,11 +449,20 @@ Tilda-модель — каждый «широкий» блок экспорти
 			var html = sectionOpen(secData(v)) + sectionHead(v.sec);
 			html += '<div class="vcc-features vcc-features--c' + cols + '">';
 			for (var i = 0; i < items.length; i++) {
-				html += '<div class="vcc-feature">' +
-					iconHtml(items[i].icon) +
-					'<p class="vcc-feature__title">' + vccInline(items[i].title || '') + '</p>' +
-					'<div class="vcc-feature__text">' + vccBlock(items[i].text || '') + '</div>' +
-					'</div>';
+				/* Карточка-ссылка (0.12.2): заданный url превращает всю карточку в
+				 * ссылку (a.vcc-feature--link). Без url разметка прежняя (div) —
+				 * контракт vcc-v1 аддитивен, старый контент не меняется. */
+				var ci = items[i];
+				var cUrl = String(ci.url || '').trim();
+				var cCta = String(ci.link_label || '').trim();
+				var cTag = cUrl ? 'a' : 'div';
+				html += '<' + cTag + ' class="vcc-feature' + (cUrl ? ' vcc-feature--link' : '') + '"' +
+					(cUrl ? ' href="' + vccEscapeHtml(vccSafeHref(cUrl)) + '"' : '') + '>' +
+					iconHtml(ci.icon) +
+					'<p class="vcc-feature__title">' + vccInline(ci.title || '') + '</p>' +
+					'<div class="vcc-feature__text">' + vccBlock(ci.text || '') + '</div>' +
+					(cCta ? '<span class="vcc-feature__cta">' + vccInline(cCta) + '<span class="vcc-feature__cta-arrow">→</span></span>' : '') +
+					'</' + cTag + '>';
 			}
 			return html + '</div>' + sectionClose();
 		}

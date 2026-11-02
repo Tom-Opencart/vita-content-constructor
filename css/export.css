@@ -531,6 +531,77 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-section--w-narrow .vcc-container { max-width: 720px; }
 .vcc-section--w-full .vcc-container { max-width: none; }
 
+/* --- Техническое оформление секции (0.12.2) ---
+   Опциональный скин лендинга-документации: крупный uppercase-заголовок с
+   плотным трекингом, рамки 1px, mono-подписи, жёсткая тень только по
+   наведению. Включается полем «Оформление секции → Техническое»; секции
+   без этого поля выглядят как раньше, поэтому контракт vcc-v1 остаётся
+   аддитивным. */
+.vcc-section--tech .vcc-container { max-width: 1240px; padding: 0 20px; }
+.vcc-section--tech.vcc-section--pad-l { padding: 96px 0; }
+.vcc-section--tech.vcc-section--pad-xl { padding: 60px 0 40px; }
+.vcc-section--tech .vcc-section__head { margin: 0 auto 48px; max-width: 760px; }
+.vcc-section--tech .vcc-eyebrow {
+	color: var(--mp-text-muted, #71717A);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	margin-bottom: 16px;
+}
+.vcc-section--tech .vcc-eyebrow::before { display: none; }
+.vcc-section--tech .vcc-section__title,
+.vcc-section--tech .vcc-hero__title { font-size: clamp(36.8px, 5vw, 76.8px); letter-spacing: -0.04em; line-height: 0.96; text-transform: uppercase; }
+.vcc-section--tech .vcc-section__head p,
+.vcc-section--tech .vcc-hero__sub { color: var(--mp-text-muted, #71717A); font-size: 18px; line-height: 1.65; margin-left: auto; margin-right: auto; max-width: 560px; }
+.vcc-section--tech .vcc-hero__note {
+	border-top: 1px solid var(--mp-border-divider, #D4D4D8);
+	color: var(--mp-text-muted, #71717A);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 13px;
+	letter-spacing: 0.06em;
+	padding-top: 20px;
+}
+.vcc-section--tech .vcc-feature { border-color: var(--mp-border-color, #969696); box-shadow: none; min-height: 100%; padding: 18px; transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.vcc-section--tech .vcc-feature:hover { box-shadow: var(--vita-shadow-hard, 8px 8px 0 rgba(0, 0, 0, 0.12)); transform: translate(-3px, -3px); }
+.vcc-section--tech .vcc-feature .vcc-icon {
+	align-items: center;
+	background: var(--mp-primary, #8C9D93);
+	border: 1px solid var(--mp-border-color, #969696);
+	color: var(--mp-text-inverse, #ffffff);
+	display: flex;
+	height: 40px;
+	justify-content: center;
+	margin-bottom: 14px;
+	width: 40px;
+}
+.vcc-section--tech .vcc-feature__title { line-height: 1.38; margin: 0 0 8px; }
+.vcc-section--tech .vcc-feature__text { color: var(--mp-text-muted, #71717A); font-size: 14px; }
+.vcc-section--tech .vcc-feature--link { box-shadow: var(--vita-shadow-soft, 4px 4px 0 rgba(150, 150, 150, 0.1)); padding: 24px; }
+.vcc-section--tech .vcc-feature--link .vcc-icon { background: var(--mp-bg-subtle, #F4F4F5); color: var(--mp-text-main, #27272A); height: 36px; margin-bottom: 12px; width: 36px; }
+.vcc-section--tech .vcc-feature--link .vcc-feature__text { font-size: 13px; line-height: 1.5; }
+.vcc-section--tech .vcc-feature__cta {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 11px;
+	letter-spacing: 0.08em;
+	margin-top: 16px;
+}
+.vcc-section--tech .vcc-hero__title { margin-bottom: 0; max-width: 740px; }
+.vcc-section--tech .vcc-hero__sub { margin-bottom: 0; margin-top: 20px; }
+.vcc-section--tech .vcc-hero--split { gap: 42px; grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr); }
+.vcc-section--tech .vcc-section__title { margin: 0; padding: 0; }
+.vcc-section--tech .vcc-section__title::before { display: none; }
+.vcc-section--tech .vcc-section__head p { margin-top: 16px; padding: 0; }
+.vcc-section--tech .vcc-feature__title { letter-spacing: 0; }
+.vcc-section--tech .vcc-feature .vcc-icon { box-sizing: border-box; }
+/* Полоса цифр: значения как в эталоне (36px 20px, mono-подписи 11px,
+   разделители только между колонками) */
+.vcc-section--tech .vcc-stats--lined { background: var(--mp-bg-surface, #ffffff); border-bottom: 1px solid var(--mp-border-divider, #D4D4D8); border-top: 1px solid var(--mp-border-divider, #D4D4D8); gap: 0; }
+.vcc-section--tech .vcc-stats--lined .vcc-stat { background: transparent; border: 0; border-right: 1px solid var(--mp-border-divider, #D4D4D8); padding: 36px 20px; }
+.vcc-section--tech .vcc-stats--lined .vcc-stat:last-child { border-right: 0; }
+.vcc-section--tech .vcc-stats--lined .vcc-stat__value { font-size: 32px; letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px; }
+.vcc-section--tech .vcc-stats--lined .vcc-stat__label { color: var(--mp-text-muted, #71717A); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+
 /* --- Заголовок секции (рестайл Tom Modern, этап 1) ---
  * 0.10.5: бровь — как у донора: ГОЛЫЙ текст (mono-стиль иным шрифтом темы),
  * без плашки и маркера; плашка — опция --badge (старое поведение).
@@ -827,6 +898,21 @@ catalog/view/theme/vita/stylesheet/vita-content-constructor.css.
 .vcc-feature__text p:last-child { margin-bottom: 0; }
 /* Карточка на зелёной секции остаётся поверхностной: текст — токены, не inherit */
 .vcc-section--bg-primary .vcc-feature__text { color: var(--mp-text-muted, #64748B); }
+/* --- Карточка-ссылка (0.12.2) ---
+   Преимущество с заполненным url выводится тегом a.vcc-feature--link: вся
+   карточка кликабельна, под текстом — подпись-призыв. Аддитивно: карточки
+   без url остаются прежними div.vcc-feature. */
+.vcc-feature--link {
+	color: inherit;
+	display: block;
+	text-decoration: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.vcc-feature--link:hover,
+.vcc-feature--link:focus { border-color: var(--mp-primary, #8C9D93); box-shadow: 6px 6px 0 rgba(150, 150, 150, 0.16); text-decoration: none; }
+.vcc-feature__cta { color: var(--mp-primary, #8C9D93); display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; margin-top: 14px; text-transform: uppercase; }
+.vcc-feature__cta-arrow { margin-left: 6px; }
+.vcc-feature--link:hover .vcc-feature__cta { color: var(--mp-primary-hover, #7A8B81); }
 
 /* --- media_text --- */
 .vcc-media-text { align-items: center; display: grid; gap: 40px; grid-template-columns: 1fr 1fr; }
